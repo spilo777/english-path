@@ -7,6 +7,10 @@
   let sb = null, app = null, user = null;
   let pushTimer = null, pushing = false, lastSync = null, lastError = null, pulling = false;
   const listeners = new Set();
+  // что пришло по ссылке из письма (Supabase кладёт это в #hash)
+  const initialHash = location.hash || '';
+  let authEvent = /type=recovery/.test(initialHash) ? 'recovery' : /type=(signup|email|magiclink)/.test(initialHash) ? 'confirmed' : /error_description=/.test(initialHash) ? 'link-error:' + decodeURIComponent((initialHash.match(/error_description=([^&]+)/) || [])[1] || '').replace(/\+/g, ' ') : null;
+  const redirectUrl = () => (/^https?:/.test(location.protocol) ? location.origin + location.pathname : undefined);
   const emit = () => listeners.forEach((f) => { try { f(); } catch (e) {} });
 
   if (enabled) {
@@ -169,7 +173,7 @@
 
   // ───── аккаунт ─────
   async function signUp(email, password) {
-    const { data, error } = await sb.auth.signUp({ email, password });
+    const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: redirectUrl() } });
     if (error) throw error;
     return { needsConfirm: !data.session };
   }
@@ -179,7 +183,15 @@
   }
   async function signOut() { await push(true); await sb.auth.signOut(); }
   async function resetPassword(email) {
-    const { error } = await sb.auth.resetPasswordForEmail(email);
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl() });
+    if (error) throw error;
+  }
+  async function resendConfirm(email) {
+    const { error } = await sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: redirectUrl() } });
+    if (error) throw error;
+  }
+  async function updatePassword(password) {
+    const { error } = await sb.auth.updateUser({ password });
     if (error) throw error;
   }
 
@@ -192,6 +204,7 @@
       if (user) { pull(); loadRarity(); }
     });
     sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') authEvent = 'recovery';
       const was = user && user.id;
       user = session ? session.user : null;
       if (user && user.id !== was) { pull(); loadRarity(); }
@@ -202,7 +215,9 @@
   }
 
   window.Cloud = {
-    enabled, init, merge, pull, push, queuePush, signIn, signUp, signOut, resetPassword, loadRarity, realPct,
+    enabled, init, merge, pull, push, queuePush, signIn, signUp, signOut, resetPassword, resendConfirm, updatePassword, loadRarity, realPct,
+    takeAuthEvent: () => { const e = authEvent; authEvent = null; return e; },
+    peekAuthEvent: () => authEvent,
     user: () => user,
     status: () => ({ enabled, user, lastSync, lastError, pushing, pulling }),
     onChange: (f) => listeners.add(f)

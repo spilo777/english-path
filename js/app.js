@@ -216,7 +216,7 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', cards: 'cards', review: 'cards', deck: 'cards', achievements: 'achievements', stats: 'stats', settings: 'settings' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', cards: 'cards', review: 'cards', deck: 'cards', achievements: 'achievements', account: 'account', stats: 'stats', settings: 'settings' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     window.scrollTo(0, 0);
     if (!r) return renderToday();
@@ -228,6 +228,7 @@
     if (r === 'review') return renderReview();
     if (r === 'deck') return renderDeck(a);
     if (r === 'achievements') return renderAch();
+    if (r === 'account') return renderAuth();
     if (r === 'stats') return renderStats();
     if (r === 'settings') return renderSettings();
     renderToday();
@@ -279,6 +280,9 @@
         <div class="stat"><div class="chip-ico">✅</div><b>${learned}</b><span>выучено надолго</span></div>
         <div class="stat"><div class="chip-ico">🎖️</div><b>${Object.keys(S.ach).length}</b><span>достижений</span></div>
       </div>
+      ${cloudOn() && !Cloud.status().user && !(() => { try { return localStorage.getItem('ep.hideAuthBanner'); } catch (e) { return false; } })() ? `
+      <div class="auth-banner"><div class="auth-banner-ico">☁︎</div><div style="flex:1;min-width:0"><b>Сохраните прогресс в облаке</b><div class="small muted">Бесплатный аккаунт — и занятия будут одинаковыми на Mac и iPhone.</div></div>
+        <a class="btn small primary" href="#/account">Создать аккаунт</a><button class="icon-btn" id="hide-banner" title="Скрыть">✕</button></div>` : ''}
       <div class="row" style="margin-bottom:12px"><h2 style="margin:0">План на сегодня</h2></div>
       <div class="stack">
         <div class="task ${reviewsDone ? 'done' : ''}">
@@ -305,6 +309,7 @@
       ${(() => { const near = nearAch(); const e = engagement(); return `
       <div class="row" style="margin:28px 0 10px"><h2 style="margin:0">Ближайшие достижения</h2><span class="spacer"></span><a class="small" href="#/achievements">Уровень ${e.lvl} · ${Object.keys(S.ach).length}/${ACH.list.length} →</a></div>
       <div class="ach-list">${near.length ? near.map(({ a }) => achCard(a, achCtx())).join('') : ACH.list.filter((a) => !S.ach[a.id] && !a.hidden).slice(0, 3).map((a) => achCard(a, achCtx())).join('')}</div>`; })()}`;
+    const hb = $('#hide-banner'); if (hb) hb.addEventListener('click', () => { try { localStorage.setItem('ep.hideAuthBanner', '1'); } catch (e) {} hb.closest('.auth-banner').remove(); });
   }
   function tipOfDay() {
     const tips = [
@@ -1194,35 +1199,179 @@
       .sort((x, y) => y.p - x.p).slice(0, n);
   }
 
-  // ───────────── Аккаунт и синхронизация ─────────────
-  function renderAccount() {
-    const box = $('#acc-card'); if (!box) return;
-    if (!window.Cloud || !Cloud.enabled) {
-      box.innerHTML = `<h3 style="margin:0">Аккаунт и синхронизация</h3><p class="muted small" style="margin:0">${window.EP_CONFIG && window.EP_CONFIG.supabaseKey ? 'Не удалось загрузить модуль синхронизации — проверьте интернет и обновите страницу.' : 'Синхронизация ещё не настроена (нет ключа Supabase в js/config.js). Прогресс хранится только в этом браузере.'}</p>`;
+  // ───────────── Аккаунт: вход, регистрация, восстановление ─────────────
+  let authMode = 'up';      // up | in | sent | forgot | forgot-sent | reset
+  let authEmail = '';
+  const cloudOn = () => !!(window.Cloud && Cloud.enabled);
+  const authErr = (e) => {
+    const m = String((e && e.message) || e);
+    if (/Invalid login/i.test(m)) return 'Неверный email или пароль.';
+    if (/not confirmed/i.test(m)) return 'Почта ещё не подтверждена. Откройте письмо и нажмите ссылку — или отправьте письмо ещё раз.';
+    if (/already registered|already exists/i.test(m)) return 'Аккаунт с этой почтой уже есть. Перейдите на вкладку «Вход».';
+    if (/Password should|at least 6/i.test(m)) return 'Пароль слишком короткий — нужно минимум 6 символов.';
+    if (/valid email|invalid.*email|email.*invalid/i.test(m)) return 'Похоже, в адресе почты опечатка.';
+    if (/rate limit|too many|security purposes/i.test(m)) return 'Слишком много попыток. Подождите минуту и попробуйте снова.';
+    if (/same.*password|different from the old/i.test(m)) return 'Новый пароль должен отличаться от старого.';
+    if (/fetch|network/i.test(m)) return 'Нет связи с сервером. Проверьте интернет.';
+    return m;
+  };
+  const eye = (id) => `<button type="button" class="pw-eye" data-eye="${id}" aria-label="Показать пароль">👁</button>`;
+  function renderAuth() {
+    const ev = window.Cloud && Cloud.takeAuthEvent ? Cloud.takeAuthEvent() : null;
+    if (ev === 'recovery') authMode = 'reset';
+    if (ev === 'confirmed') setTimeout(() => toast('Почта подтверждена — вы вошли'), 300);
+    const linkErr = ev && ev.startsWith('link-error:') ? ev.slice(11) : '';
+    if (!cloudOn()) {
+      view().innerHTML = `<div class="auth-wrap"><div class="card auth-card"><div class="auth-ico">☁︎</div><h1>Аккаунт</h1><p class="muted">Облако сейчас недоступно — проверьте интернет и обновите страницу. Всё, что вы делаете, продолжает сохраняться в этом браузере.</p></div></div>`;
       return;
     }
     const st = Cloud.status();
-    if (st.user) {
-      box.innerHTML = `<div class="row"><h3 style="margin:0">Аккаунт</h3><span class="spacer"></span><span class="pill ${st.lastError ? 'warn' : 'ok'}">${st.lastError ? 'ошибка синхронизации' : st.pushing || st.pulling ? 'синхронизация…' : '☁︎ синхронизировано'}</span></div>
-        <div class="small">${esc(st.user.email || '')}</div>
-        <div class="muted small">${st.lastSync ? 'Последняя синхронизация: ' + st.lastSync.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : 'Синхронизация при каждом изменении и при открытии сайта'}${st.lastError ? `<br><span style="color:var(--bad)">${esc(st.lastError)}</span>` : ''}</div>
-        <div class="row"><button class="btn small" id="acc-sync">Синхронизировать сейчас</button><button class="btn small ghost" id="acc-out">Выйти</button></div>`;
-      $('#acc-sync').addEventListener('click', () => Cloud.pull());
-      $('#acc-out').addEventListener('click', async () => { await Cloud.signOut(); toast('Вы вышли. Прогресс остался в этом браузере'); });
-      return;
+    if (st.user && authMode !== 'reset') return renderAccountPage(st);
+
+    const tabs = (authMode === 'in' || authMode === 'up') ? `
+      <div class="seg auth-seg"><button data-mode="up" class="${authMode === 'up' ? 'on' : ''}">Регистрация</button><button data-mode="in" class="${authMode === 'in' ? 'on' : ''}">Вход</button></div>` : '';
+    let body = '';
+    if (authMode === 'up' || authMode === 'in') {
+      const up = authMode === 'up';
+      body = `
+        <form class="auth-form" id="auth-form" novalidate>
+          <label class="fld"><span>Почта</span><input class="input" id="a-email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" value="${esc(authEmail)}" required></label>
+          <label class="fld"><span>Пароль ${up ? '<i class="muted">минимум 6 символов</i>' : '<a href="javascript:void 0" id="a-forgot" class="fld-link">Забыли пароль?</a>'}</span>
+            <div class="pw"><input class="input" id="a-pass" type="password" autocomplete="${up ? 'new-password' : 'current-password'}" placeholder="${up ? 'Придумайте пароль' : 'Ваш пароль'}" required>${eye('a-pass')}</div></label>
+          <div class="auth-err" id="a-err" role="alert"></div>
+          <button class="btn primary auth-cta" id="a-go" type="submit">${up ? 'Создать аккаунт' : 'Войти'}</button>
+          <p class="tiny muted auth-foot">${up ? 'Уже есть аккаунт? <a href="javascript:void 0" data-mode="in">Войти</a>' : 'Ещё нет аккаунта? <a href="javascript:void 0" data-mode="up">Зарегистрироваться</a>'}</p>
+        </form>`;
+    } else if (authMode === 'sent') {
+      body = `<div class="auth-state"><div class="auth-big">📬</div><h2>Проверьте почту</h2>
+        <p class="muted">Мы отправили письмо на <b>${esc(authEmail)}</b>. Нажмите в нём ссылку «Confirm your mail» — сайт откроется, и вы сразу окажетесь в аккаунте.</p>
+        <p class="tiny muted">Письма нет пару минут? Загляните в «Спам» или «Промоакции».</p>
+        <div class="auth-err" id="a-err"></div>
+        <button class="btn primary auth-cta" id="a-resend">Отправить письмо ещё раз</button>
+        <p class="tiny muted auth-foot">Уже подтвердили на другом устройстве? <a href="javascript:void 0" data-mode="in">Войти</a> · <a href="javascript:void 0" data-mode="up">Другая почта</a></p></div>`;
+    } else if (authMode === 'forgot') {
+      body = `<form class="auth-form" id="auth-form" novalidate>
+        <p class="muted small" style="margin:0 0 4px">Пришлём письмо со ссылкой — по ней можно задать новый пароль. Прогресс не пострадает.</p>
+        <label class="fld"><span>Почта аккаунта</span><input class="input" id="a-email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" value="${esc(authEmail)}" required></label>
+        <div class="auth-err" id="a-err"></div>
+        <button class="btn primary auth-cta" id="a-go" type="submit">Отправить ссылку</button>
+        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in">← Назад ко входу</a></p></form>`;
+    } else if (authMode === 'forgot-sent') {
+      body = `<div class="auth-state"><div class="auth-big">🔑</div><h2>Письмо отправлено</h2>
+        <p class="muted">Ссылка для нового пароля ушла на <b>${esc(authEmail)}</b>. Откройте её на этом устройстве.</p>
+        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in">← Назад ко входу</a></p></div>`;
+    } else if (authMode === 'reset') {
+      body = `<form class="auth-form" id="auth-form" novalidate>
+        <p class="muted small" style="margin:0 0 4px">${st.user ? 'Придумайте новый пароль для ' + esc(st.user.email || '') + '.' : 'Ссылка устарела. Запросите новую.'}</p>
+        <label class="fld"><span>Новый пароль <i class="muted">минимум 6 символов</i></span><div class="pw"><input class="input" id="a-pass" type="password" autocomplete="new-password" placeholder="Новый пароль" required>${eye('a-pass')}</div></label>
+        <div class="auth-err" id="a-err"></div>
+        <button class="btn primary auth-cta" id="a-go" type="submit">Сохранить пароль</button></form>`;
     }
-    box.innerHTML = `<h3 style="margin:0">Аккаунт и синхронизация</h3>
-      <p class="muted small" style="margin:0">Войдите, чтобы прогресс сохранялся в облаке и был одинаковым на Mac, iPhone и любом другом устройстве. Текущий прогресс из этого браузера объединится с аккаунтом.</p>
-      <input class="input" id="acc-email" type="email" autocomplete="email" placeholder="Email" style="font-size:16px">
-      <input class="input" id="acc-pass" type="password" autocomplete="current-password" placeholder="Пароль (от 6 символов)" style="font-size:16px">
-      <div class="row"><button class="btn primary" id="acc-in">Войти</button><button class="btn" id="acc-up">Создать аккаунт</button><span class="spacer"></span><button class="btn small ghost" id="acc-forgot">Забыли пароль?</button></div>
-      <div class="small" id="acc-msg"></div>`;
-    const msg = (t, bad) => { $('#acc-msg').innerHTML = `<span style="color:${bad ? 'var(--bad)' : 'var(--ok)'}">${esc(t)}</span>`; };
-    const creds = () => ({ e: $('#acc-email').value.trim(), p: $('#acc-pass').value });
-    const ruErr = (e) => { const m = String(e.message || e); if (/Invalid login/i.test(m)) return 'Неверный email или пароль'; if (/not confirmed/i.test(m)) return 'Email не подтверждён — откройте письмо от Supabase и нажмите ссылку'; if (/already registered/i.test(m)) return 'Такой аккаунт уже есть — нажмите «Войти»'; if (/Password should be/i.test(m)) return 'Пароль слишком короткий (нужно от 6 символов)'; if (/rate limit/i.test(m)) return 'Слишком много попыток, подождите минуту'; if (/fetch/i.test(m)) return 'Нет связи с сервером'; return m; };
-    $('#acc-in').addEventListener('click', async () => { const { e, p } = creds(); if (!e || !p) return msg('Введите email и пароль', true); try { await Cloud.signIn(e, p); toast('Вы вошли — синхронизирую прогресс'); } catch (err) { msg(ruErr(err), true); } });
-    $('#acc-up').addEventListener('click', async () => { const { e, p } = creds(); if (!e || p.length < 6) return msg('Введите email и пароль от 6 символов', true); try { const r = await Cloud.signUp(e, p); if (r.needsConfirm) msg('Аккаунт создан. Подтвердите email по ссылке из письма, затем нажмите «Войти».'); else toast('Аккаунт создан'); } catch (err) { msg(ruErr(err), true); } });
-    $('#acc-forgot').addEventListener('click', async () => { const { e } = creds(); if (!e) return msg('Введите email', true); try { await Cloud.resetPassword(e); msg('Письмо для сброса пароля отправлено'); } catch (err) { msg(ruErr(err), true); } });
+    const titles = { up: ['Создайте аккаунт', 'Прогресс будет сохраняться в облаке и совпадать на Mac и iPhone.'], in: ['С возвращением', 'Войдите, чтобы продолжить с того же места.'], sent: ['', ''], forgot: ['Восстановление пароля', ''], 'forgot-sent': ['', ''], reset: ['Новый пароль', ''] }[authMode];
+    view().innerHTML = `
+      <div class="auth-wrap">
+        <div class="card auth-card">
+          ${titles[0] ? `<div class="auth-ico">☁︎</div><h1>${titles[0]}</h1>${titles[1] ? `<p class="muted auth-sub">${titles[1]}</p>` : ''}` : ''}
+          ${linkErr ? `<div class="auth-err show" style="margin-bottom:12px">Ссылка из письма не сработала: ${esc(linkErr)}. Запросите новую.</div>` : ''}
+          ${tabs}${body}
+        </div>
+        ${authMode === 'up' || authMode === 'in' ? `
+        <div class="auth-perks">
+          <div><span>🔄</span><b>Одно обучение на всех устройствах</b><small>Начали на Mac — продолжили в метро с iPhone</small></div>
+          <div><span>🛟</span><b>Прогресс не потеряется</b><small>Даже если очистить браузер или сменить телефон</small></div>
+          <div><span>🏆</span><b>Настоящая редкость достижений</b><small>Сравнение с другими учениками</small></div>
+        </div>
+        <p class="tiny muted" style="text-align:center;margin-top:14px">Без аккаунта всё тоже работает — прогресс хранится в этом браузере.</p>` : ''}
+      </div>`;
+
+    $$('[data-mode]').forEach((b) => b.addEventListener('click', () => { const e = $('#a-email'); if (e) authEmail = e.value.trim(); authMode = b.dataset.mode; renderAuth(); }));
+    $$('[data-eye]').forEach((b) => b.addEventListener('click', () => { const i = $('#' + b.dataset.eye); i.type = i.type === 'password' ? 'text' : 'password'; b.classList.toggle('on', i.type === 'text'); i.focus(); }));
+    const f = $('#a-forgot'); if (f) f.addEventListener('click', () => { authEmail = $('#a-email').value.trim(); authMode = 'forgot'; renderAuth(); });
+    const errBox = $('#a-err');
+    const showErr = (t) => { if (errBox) { errBox.textContent = t; errBox.classList.toggle('show', !!t); } };
+    const busy = (btn, on, label) => { if (!btn) return; btn.disabled = on; if (on) { btn.dataset.l = btn.textContent; btn.innerHTML = '<span class="spin"></span>' + (label || 'Секунду…'); } else btn.textContent = btn.dataset.l || btn.textContent; };
+    const validEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+    const first = $('#a-email') && !$('#a-email').value ? $('#a-email') : $('#a-pass'); if (first && window.innerWidth > 760) first.focus();
+
+    const form = $('#auth-form');
+    if (form) form.addEventListener('submit', async (ev) => {
+      ev.preventDefault(); showErr('');
+      const btn = $('#a-go');
+      const email = $('#a-email') ? $('#a-email').value.trim() : '';
+      const pass = $('#a-pass') ? $('#a-pass').value : '';
+      if ($('#a-email') && !validEmail(email)) { showErr('Введите почту в формате name@example.com.'); $('#a-email').focus(); return; }
+      if ($('#a-pass') && pass.length < 6) { showErr('Пароль — минимум 6 символов.'); $('#a-pass').focus(); return; }
+      authEmail = email || authEmail;
+      try {
+        if (authMode === 'up') {
+          busy(btn, true, 'Создаю аккаунт…');
+          const r = await Cloud.signUp(email, pass);
+          if (r.needsConfirm) { authMode = 'sent'; renderAuth(); } else { toast('Аккаунт создан'); authMode = 'in'; }
+        } else if (authMode === 'in') {
+          busy(btn, true, 'Вхожу…');
+          await Cloud.signIn(email, pass);
+          toast('Вы вошли — прогресс синхронизируется');
+        } else if (authMode === 'forgot') {
+          busy(btn, true, 'Отправляю…');
+          await Cloud.resetPassword(email);
+          authMode = 'forgot-sent'; renderAuth();
+        } else if (authMode === 'reset') {
+          busy(btn, true, 'Сохраняю…');
+          await Cloud.updatePassword(pass);
+          authMode = 'in'; toast('Пароль изменён'); renderAuth();
+        }
+      } catch (e) {
+        busy(btn, false);
+        const m = authErr(e);
+        showErr(m);
+        if (authMode === 'in' && /не подтверждена/.test(m)) { authMode = 'sent'; renderAuth(); }
+      }
+    });
+    const rs = $('#a-resend');
+    if (rs) rs.addEventListener('click', async () => {
+      showErr(''); busy(rs, true, 'Отправляю…');
+      try { await Cloud.resendConfirm(authEmail); busy(rs, false); rs.textContent = '✓ Письмо отправлено ещё раз'; rs.disabled = true; setTimeout(() => { rs.disabled = false; rs.textContent = 'Отправить письмо ещё раз'; }, 60000); }
+      catch (e) { busy(rs, false); showErr(authErr(e)); }
+    });
+  }
+  function renderAccountPage(st) {
+    const email = (st.user && st.user.email) || '';
+    const cards = Object.keys(S.cards).length, days = Object.keys(S.activity).length, ach = Object.keys(S.ach).length;
+    view().innerHTML = `
+      <div class="auth-wrap">
+        <div class="card auth-card">
+          <div class="acc-head"><div class="avatar">${esc((email[0] || '?').toUpperCase())}</div>
+            <div style="min-width:0"><b class="acc-mail">${esc(email)}</b>
+            <div class="small ${st.lastError ? '' : 'muted'}" style="${st.lastError ? 'color:var(--bad)' : ''}">${st.lastError ? '⚠︎ Не удалось синхронизировать' : st.pushing || st.pulling ? '⟳ Синхронизация…' : '☁︎ Всё сохранено в облаке' + (st.lastSync ? ' · ' + st.lastSync.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '')}</div></div></div>
+          ${st.lastError ? `<div class="auth-err show" style="margin-top:14px">${esc(authErr(st.lastError))} Прогресс в безопасности в этом браузере и отправится, когда связь вернётся.</div>` : ''}
+          <div class="grid-3 acc-stats"><div><b>${cards}</b><span>слов</span></div><div><b>${days}</b><span>${plural(days, 'день', 'дня', 'дней')}</span></div><div><b>${ach}</b><span>достижений</span></div></div>
+          <p class="small muted">Войдите с этой почтой на iPhone или другом компьютере — прогресс подтянется автоматически. Синхронизация идёт сама, кнопка ниже нужна только если хочется обновить прямо сейчас.</p>
+          <div class="acc-actions">
+            <button class="btn" id="acc-sync">⟳ Синхронизировать</button>
+            <button class="btn ghost" id="acc-pw">Сменить пароль</button>
+            <button class="btn ghost" id="acc-out" style="color:var(--bad)">Выйти</button>
+          </div>
+        </div>
+      </div>`;
+    $('#acc-sync').addEventListener('click', async () => { await Cloud.pull(); toast(Cloud.status().lastError ? 'Не получилось — проверьте интернет' : 'Синхронизировано'); });
+    $('#acc-pw').addEventListener('click', () => { authMode = 'reset'; renderAuth(); });
+    $('#acc-out').addEventListener('click', async () => { if (!confirm('Выйти из аккаунта? Прогресс останется и в облаке, и в этом браузере.')) return; await Cloud.signOut(); authMode = 'in'; toast('Вы вышли'); renderAuth(); });
+  }
+  // строка аккаунта в настройках
+  function renderAccount() {
+    const box = $('#acc-card'); if (box) {
+      const st = cloudOn() ? Cloud.status() : {};
+      box.innerHTML = st.user
+        ? `<a class="acc-row" href="#/account"><div class="avatar sm">${esc(((st.user.email || '?')[0]).toUpperCase())}</div><div style="flex:1;min-width:0"><b>${esc(st.user.email || '')}</b><div class="small muted">${st.lastError ? 'Ошибка синхронизации' : '☁︎ Синхронизировано'}</div></div><span class="muted">→</span></a>`
+        : `<a class="acc-row" href="#/account"><div class="avatar sm off">☁︎</div><div style="flex:1"><b>Войти или создать аккаунт</b><div class="small muted">Чтобы прогресс был на всех устройствах</div></div><span class="muted">→</span></a>`;
+    }
+    const nav = $('#nav-account'); if (nav) {
+      const st = cloudOn() ? Cloud.status() : {};
+      nav.innerHTML = st.user
+        ? `<span class="avatar xs">${esc(((st.user.email || '?')[0]).toUpperCase())}</span><span>${st.lastError ? 'Нет связи' : 'Аккаунт'}</span>`
+        : `<span class="ico">☁︎</span><span>Войти</span>`;
+    }
+    if (location.hash === '#/account' && cloudOn() && Cloud.status().user && authMode !== 'reset') renderAccountPage(Cloud.status());
   }
 
   // ───────────── Настройки ─────────────
@@ -1231,7 +1380,7 @@
     view().innerHTML = `
       <h1>Настройки</h1>
       <div class="stack" style="margin-top:20px">
-        <div class="card stack" id="acc-card"></div>
+        <div class="card" id="acc-card" style="padding:8px"></div>
         <div class="card stack">
           <h3 style="margin:0">Карточки</h3>
           <label class="field">Новых слов в день
@@ -1301,7 +1450,10 @@
         if (!/^#\/(review|unit\/[^/]+\/(practice|test)|read\/)/.test(location.hash)) route();
       }
     });
-    Cloud.onChange(() => { renderAccount(); if (location.hash === '#/achievements') renderAch(); });
+    Cloud.onChange(() => { renderAccount(); if (location.hash === '#/achievements') renderAch(); if (location.hash === '' || location.hash === '#/') { let hidden = false; try { hidden = !!localStorage.getItem('ep.hideAuthBanner'); } catch (e) {} if (!!$('.auth-banner') !== (!Cloud.status().user && !hidden)) renderToday(); } });
+    const ev0 = Cloud.peekAuthEvent && Cloud.peekAuthEvent();
+    if (ev0 === 'recovery' || (ev0 && ev0.startsWith('link-error'))) setTimeout(() => { location.hash = '#/account'; }, 50);
+    else if (ev0 === 'confirmed') setTimeout(() => { Cloud.takeAuthEvent(); toast('Почта подтверждена — вы вошли в аккаунт'); location.hash = '#/'; }, 800);
   }
   updateBadge();
   route();
