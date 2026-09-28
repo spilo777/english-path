@@ -1148,3 +1148,10 @@ a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
   .reader-bar .tap-seg button { flex: 1; justify-content: center; }
   .popover .ps-en { font-size: 18px; }
 }
+
+/* транскрипция и живой голос */
+.ipa { min-height: 0; display: flex; gap: 8px; align-items: center; justify-content: inherit; flex-wrap: wrap; font-size: 15px; color: var(--muted); margin-top: 2px; }
+.ipa span { font-family: 'Charis SIL', 'Doulos SIL', 'Lucida Sans Unicode', 'Arial Unicode MS', var(--font); }
+.ipa em { font-style: normal; font-size: 11.5px; font-weight: 700; color: var(--ok); background: var(--ok-soft); padding: 2px 8px; border-radius: 99px; display: inline-flex; gap: 4px; align-items: center; }
+.fc .ipa { justify-content: center; margin: 6px 0 4px; font-size: 16px; }
+.popover .ipa { margin: 2px 0 2px; }

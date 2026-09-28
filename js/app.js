@@ -78,7 +78,84 @@
       || voices.find((v) => /en-US/i.test(v.lang) && /Samantha|Google US|Aria|Jenny|Ava/i.test(v.name))
       || voices.find((v) => /en-US/i.test(v.lang)) || voices[0];
   }
+  // Живое произношение: записи носителей из Викисловаря (dictionaryapi.dev + Wikimedia Commons). Бесплатно, без ключа.
+  const AUDIO_KEY = 'ep.audio.v1';
+  let audioMap = {}; try { audioMap = JSON.parse(localStorage.getItem(AUDIO_KEY) || '{}'); } catch (e) {}
+  const audioPending = {};
+  let audioSaveT;
+  const audioSave = () => { clearTimeout(audioSaveT); audioSaveT = setTimeout(() => { try { localStorage.setItem(AUDIO_KEY, JSON.stringify(audioMap)); } catch (e) { audioMap = {}; } }, 400); };
+  const liveEligible = (w) => /^[a-z][a-z'’-]*$/i.test(w) || (!!DECK_BY_ID[w.toLowerCase()] && w.split(' ').length <= 3);
+  function liveAudio(word) {
+    const k = String(word).toLowerCase().trim().replace(/’/g, "'");
+    const pref = S.settings.accent === 'uk' ? 'uk' : 'us';
+    const pick = (x) => x && (x[pref] || x.us || x.uk || x.any) ? { u: x[pref] || x.us || x.uk || x.any, ipa: x.ipa || '' } : (x ? { u: '', ipa: x.ipa || '' } : null);
+    if (k in audioMap) return Promise.resolve(pick(audioMap[k]));
+    if (audioPending[k]) return audioPending[k].then(pick);
+    const rec = {};
+    const dict = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(k))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((j) => {
+        (Array.isArray(j) ? j : []).forEach((e) => (e.phonetics || []).forEach((ph) => {
+          if (ph.text && !rec.ipa) rec.ipa = ph.text;
+          const a = ph.audio; if (!a) return;
+          const tag = /-(us|uk|au|ca)\.mp3$/i.exec(a); const t = tag ? tag[1].toLowerCase() : 'any';
+          const slot = t === 'us' || t === 'ca' ? 'us' : t === 'uk' ? 'uk' : 'any';
+          if (!rec[slot]) rec[slot] = a;
+          if (ph.text && slot === pref) rec.ipa = ph.text;
+        }));
+        if (!rec.ipa && Array.isArray(j) && j[0] && j[0].phonetic) rec.ipa = j[0].phonetic;
+      });
+    const commons = () => {
+      if (rec.us || rec.uk || rec.any || /\s/.test(k)) return null;
+      const titles = ['En-us-' + k + '.ogg', 'En-uk-' + k + '.ogg', 'LL-Q1860 (eng)-Vealhurl-' + k + '.wav'].map((x) => 'File:' + x).join('|');
+      return fetch('https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=videoinfo&viprop=url|derivatives&titles=' + encodeURIComponent(titles))
+        .then((r) => r.json())
+        .then((j) => Object.values((j.query || {}).pages || {}).forEach((pg) => {
+          const vi = pg.videoinfo && pg.videoinfo[0]; if (!vi) return;
+          const mp3 = (vi.derivatives || []).find((d) => /mpeg|mp3/.test(d.type || d.src));
+          const src = mp3 ? mp3.src : vi.url;
+          const slot = /En-us-/i.test(pg.title) ? 'us' : /En-uk-/i.test(pg.title) ? 'uk' : 'any';
+          if (!rec[slot]) rec[slot] = src;
+        }));
+    };
+    audioPending[k] = dict.catch(() => {}).then(commons).catch(() => {})
+      .then(() => { audioMap[k] = rec; audioSave(); delete audioPending[k]; return rec; })
+      .catch(() => { delete audioPending[k]; return null; });
+    return audioPending[k].then(pick);
+  }
+  let curAudio = null, speakTok = 0;
+  function stopAudio() { speakTok++; if (curAudio) { try { curAudio.pause(); } catch (e) {} curAudio = null; } }
+  function fillIpa(root) {
+    $$('[data-ipa]', root || document).forEach((el) => {
+      if (el.dataset.done) return; el.dataset.done = 1;
+      if (S.settings.liveVoice === false || !liveEligible(el.dataset.ipa)) return;
+      liveAudio(el.dataset.ipa).then((a) => { if (!a) return; el.innerHTML = (a.ipa ? `<span>${esc(a.ipa)}</span>` : '') + (a.u ? '<em title="Запись живого человека из Викисловаря"><i class="ph-fill ph-waveform"></i> живой голос</em>' : ''); });
+    });
+  }
   function speak(text, opts = {}) {
+    const w = String(text || '').trim();
+    stopAudio();
+    if (!opts.tts && !opts.onend && !opts.queue && S.settings.liveVoice !== false && liveEligible(w)) {
+      const tok = speakTok;
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      let fell = false;
+      const fallback = () => { if (fell || tok !== speakTok) return; fell = true; speakTTS(text, opts); };
+      const timer = setTimeout(fallback, 2500);
+      liveAudio(w).then((a) => {
+        clearTimeout(timer);
+        if (fell || tok !== speakTok) return;
+        if (!a || !a.u) return fallback();
+        const au = new Audio(a.u); curAudio = au;
+        au.playbackRate = Math.max(0.7, Math.min(1, opts.rate || S.settings.rate || 1));
+        au.onerror = fallback;
+        const pr = au.play(); if (pr && pr.catch) pr.catch(fallback);
+        if (S && S.stats) { S.stats.speaks = (S.stats.speaks || 0) + 1; S.stats.live = (S.stats.live || 0) + 1; }
+      }).catch(fallback);
+      return null;
+    }
+    return speakTTS(text, opts);
+  }
+  function speakTTS(text, opts = {}) {
     if (!('speechSynthesis' in window)) { toast('Браузер не поддерживает озвучку'); return null; }
     if (!opts.queue) speechSynthesis.cancel();
     if (S && S.stats) S.stats.speaks = (S.stats.speaks || 0) + 1;
@@ -238,6 +315,7 @@
   // ───────────── Роутер ─────────────
   function route() {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
+    stopAudio();
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
@@ -1122,6 +1200,7 @@
     const inCards = !!S.cards[base];
     pop.innerHTML = `
       <div class="row" style="gap:10px"><div class="pw">${esc(raw)}</div><button class="icon-btn" id="pp-say"><i class="ph ph-speaker-high"></i></button><span class="spacer"></span><button class="icon-btn" id="pp-x"><i class="ph ph-x"></i></button></div>
+      <div class="ipa" data-ipa="${esc(res[0] ? res[0].word : EngLookup.clean(raw))}"></div>
       ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1, 3).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}<div class="ya-box" id="pp-ya" hidden></div>`
         : `<div class="alt" style="margin-top:4px">${maybeName ? 'Похоже на имя или название.' : 'Нет во встроенном словаре —'} <span id="pp-status">перевожу…</span></div>
            <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off"><div class="alt-row" id="pp-alts"></div>`}
@@ -1131,8 +1210,10 @@
         <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
       </div>`;
     placePop(pop, anchor.getBoundingClientRect());
-    speak(raw);
-    $('#pp-say').addEventListener('click', () => speak(raw));
+    fillIpa(pop);
+    const sayW = res[0] ? res[0].word : raw;
+    speak(sayW);
+    $('#pp-say').addEventListener('click', () => speak(sayW));
     $('#pp-x').addEventListener('click', hidePopover);
     const ps = $('#pp-sent'); if (ps) ps.addEventListener('click', () => showSentence(sid, t));
     if (res.length) yaBlock($('#pp-ya'), base);
@@ -1469,7 +1550,7 @@
       const wantImg = S.settings.autoImg !== false && !c.noImg && c.id.length > 2 && !c.id.includes(' ') && !(dw && abstractPos.test(dw.pos || ''));
       const imgSlot = (c.img || wantImg) ? `<div class="assoc loading" id="fc-img"></div>` : '';
       const front = m === 'en-ru'
-        ? `${imgSlot}<div class="front">${esc(c.en)}</div>${exHtml ? `<div class="ex">${exHtml}</div>` : ''}`
+        ? `${imgSlot}<div class="front">${esc(c.en)}</div><div class="ipa" data-ipa="${esc(c.en)}"></div>${exHtml ? `<div class="ex">${exHtml}</div>` : ''}`
         : `${imgSlot}<div class="front" style="font-size:32px">${esc(c.ru)}</div>${c.exRu ? `<div class="ex">${esc(c.exRu)}</div>` : ''}<div class="muted small" style="margin-top:14px">Вспомните английское слово и скажите вслух</div>`;
       const q = encodeURIComponent(c.en);
       const tools = `<div class="img-tools">
@@ -1481,11 +1562,13 @@
         <div class="img-form" id="img-form" hidden><input class="input" id="img-url" placeholder="Вставьте адрес картинки (ПКМ по картинке — «Копировать адрес»)" value="${esc(c.img || '')}"><button class="btn small primary" id="img-save">OK</button></div>`;
       const back = m === 'en-ru'
         ? `<div class="back">${esc(c.ru)}${c.exRu ? `<div class="exru">${esc(c.exRu)}</div>` : ''}${tools}</div>`
-        : `<div class="back">${esc(c.en)}${exHtml ? `<div class="exru">${exHtml}</div>` : ''}${tools}</div>`;
+        : `<div class="back">${esc(c.en)}<div class="ipa" data-ipa="${esc(c.en)}"></div>${exHtml ? `<div class="exru">${exHtml}</div>` : ''}${tools}</div>`;
       root.innerHTML = `<div class="card fc" id="fc">${front}<div id="fc-back" hidden>${back}</div>
         <div class="row" style="margin-top:18px"><button class="icon-btn" id="fc-say"><i class="ph ph-speaker-high"></i></button>${exPlain ? '<button class="btn small ghost" id="fc-ex"><i class="ph ph-speaker-high"></i> Пример</button>' : ''}</div></div>
         <div id="fc-actions" style="margin-top:16px"><button class="btn primary" style="width:100%" id="fc-show">Показать ответ <span class="kbd" style="color:#fff;border-color:rgba(255,255,255,.4)">пробел</span></button></div>`;
+      fillIpa(root);
       if (m === 'en-ru') speak(c.en);
+      if (queue[1] && S.cards[queue[1]] && S.settings.liveVoice !== false && liveEligible(S.cards[queue[1]].en)) liveAudio(S.cards[queue[1]].en);
       const fillImg = (url) => {
         const slot = $('#fc-img'); if (!slot) return;
         if (!url) { slot.remove(); return; }
@@ -1986,6 +2069,11 @@
         </div>
         <div class="card stack">
           <h3 style="margin:0">Озвучка</h3>
+          <label class="row small" style="gap:10px;cursor:pointer"><input type="checkbox" id="st-live" ${S.settings.liveVoice !== false ? 'checked' : ''}> Живое произношение слов — записи носителей из Викисловаря</label>
+          <label class="field">Акцент для живых записей
+            <select class="input" id="st-accent"><option value="us" ${S.settings.accent !== 'uk' ? 'selected' : ''}>Американский</option><option value="uk" ${S.settings.accent === 'uk' ? 'selected' : ''}>Британский</option></select></label>
+          <div><button class="btn small" id="st-live-test"><i class="ph ph-speaker-high"></i> Проверить: water</button></div>
+          <p class="muted small" style="margin:0">Отдельные слова звучат голосом реального человека, если запись есть (у большинства частых слов есть), и рядом показывается транскрипция. Предложения и слова без записи читает голос браузера, его можно выбрать ниже.</p>
           <label class="field">Голос
             <select class="input" id="st-voice"><option value="">Автоматически</option>${voices.map((v) => `<option value="${esc(v.name)}" ${v.name === S.settings.voice ? 'selected' : ''}>${esc(v.name)} (${v.lang})</option>`).join('')}</select></label>
           <label class="field">Скорость
@@ -2006,6 +2094,9 @@
     renderAccount();
     $('#st-img').addEventListener('change', (e) => { S.settings.autoImg = e.target.checked; save(); toast('Сохранено'); });
     $('#st-new').addEventListener('change', (e) => { S.settings.newPerDay = +e.target.value; save(); toast('Сохранено'); });
+    $('#st-live').addEventListener('change', (e) => { S.settings.liveVoice = e.target.checked; save(); toast('Сохранено'); });
+    $('#st-accent').addEventListener('change', (e) => { S.settings.accent = e.target.value; save(); speak('water'); });
+    $('#st-live-test').addEventListener('click', () => speak('water'));
     $('#st-voice').addEventListener('change', (e) => { S.settings.voice = e.target.value; S.stats.voice = 1; save(); speak('Hello! Nice to meet you.'); });
     $('#st-rate').addEventListener('change', (e) => { S.settings.rate = +e.target.value; save(); speak('Hello! Nice to meet you.'); });
     $('#st-test').addEventListener('click', () => speak('Hello! Nice to meet you.'));
