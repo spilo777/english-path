@@ -336,8 +336,11 @@
     // мини-проверки внутри грамматики
     $$('.mini', root).forEach((el) => {
       const opts = (el.dataset.o || '').split('|'); const right = +el.dataset.a;
-      el.innerHTML = `<div class="mini-h"><i class="ph ph-question"></i> Проверьте себя</div><div class="mini-q">${esc(el.dataset.q || '').replace(/_{2,}/g, '<span class="blank">&nbsp;</span>')}</div>
+      const mq = el.dataset.q || '';
+      const mTr = trSentence(mq, opts[right]);
+      el.innerHTML = `<div class="mini-h"><i class="ph ph-question"></i> Проверьте себя · <span class="mini-task">${/_{2,}/.test(mq) ? 'выберите слово для пропуска' : 'выберите правильный вариант'}</span></div><div class="mini-q">${esc(mq).replace(/_{2,}/g, '<span class="blank">&nbsp;</span>')}</div>${mTr ? trBox(mTr) : ''}
         <div class="mini-o">${opts.map((o, i) => `<button class="qz-btn" data-i="${i}">${esc(o)}</button>`).join('')}</div><div class="mini-why"></div>`;
+      wireTr(el);
       $$('.qz-btn', el).forEach((b) => b.addEventListener('click', () => {
         if (el.dataset.done) return; el.dataset.done = 1;
         const ok = +b.dataset.i === right;
@@ -655,6 +658,20 @@
     return e.a[0];
   }
 
+  // Перевод вопроса: предложение с правильным словом на месте пропуска → машинный перевод (смысл, не ответ)
+  function trSentence(q, fill) {
+    const base = String(q || '').replace(/\s*\([^)]*\)\s*/g, ' ');
+    if (/[А-Яа-яЁё]/.test(base) || !/[A-Za-z]{2}/.test(base)) return '';
+    return base.replace(/_{2,}/g, fill || '').replace(/\s+/g, ' ').replace(/\s+([?.!,])/g, '$1').trim();
+  }
+  const trBox = (sent) => `<div class="tr-box"><button type="button" class="tr-btn" data-tr="${esc(sent)}"><i class="ph ph-translate"></i> Перевод</button><span class="tr-out" hidden></span></div>`;
+  function wireTr(root) {
+    $$('.tr-btn', root).forEach((btn) => btn.addEventListener('click', () => {
+      const out = btn.nextElementSibling; if (!out.hidden) { out.hidden = true; return; }
+      out.hidden = false; out.textContent = 'перевожу…';
+      autoTranslate(btn.dataset.tr).then((t) => { out.textContent = t ? '«' + t + '»' : 'не получилось перевести'; });
+    }));
+  }
   function runExercises(root, list, { mode, onFinish }) {
     let queue = list.map((e) => ({ e, retry: false }));
     const total = list.length;
@@ -666,7 +683,10 @@
       if (idx >= queue.length) return finish();
       const { e, retry } = queue[idx];
       const pct = Math.round((Math.min(answered, total) / total) * 100);
-      const label = { gap: 'Вставьте пропущенное слово', choice: 'Выберите вариант', order: 'Соберите предложение', tr: 'Переведите на английский', listen: 'Напишите, что услышали' }[e.t];
+      const hasGap = /_{2,}/.test(e.q || '');
+      const label = { gap: 'Впишите пропущенное слово', choice: hasGap ? 'Выберите слово для пропуска' : 'Выберите правильный вариант', order: 'Соберите предложение из слов', tr: 'Переведите на английский', listen: 'Послушайте и напишите, что услышали' }[e.t];
+      const fill = e.t === 'choice' ? e.o[e.a] : e.t === 'gap' ? (e.a || [])[0] : '';
+      const trS = (e.t === 'choice' || e.t === 'gap') ? trSentence(e.q, fill) : '';
       root.innerHTML = `<div class="card ex-wrap">
         <div class="ex-head"><div class="progress"><i style="width:${pct}%"></i></div><span class="tiny muted">${Math.min(answered + 1, total)}/${total}${retry ? ' · повтор' : ''}</span></div>
         <div class="ex-label">${label}${e.hint ? ` · <span class="pill">${esc(e.hint)}</span>` : ''}</div>
@@ -674,10 +694,12 @@
         <div id="ex-fb"></div>
         <div class="ex-actions" id="ex-actions"></div></div>`;
       const b = $('#ex-body', root), acts = $('#ex-actions', root);
+      const addTr = () => { const q = $('.ex-q', b); if (trS && q) { q.insertAdjacentHTML('afterend', trBox(trS)); wireTr(b); } };
       let getValue = null;
 
       if (e.t === 'choice') {
         b.innerHTML = `<div class="ex-q">${fmtQ(e.q)}</div><div class="options">${e.o.map((o, i) => `<button class="option" data-i="${i}">${esc(o)}</button>`).join('')}</div>`;
+        addTr();
         $$('.option', b).forEach((btn) => btn.addEventListener('click', () => {
           if (btn.dataset.lock) return;
           $$('.option', b).forEach((x) => (x.dataset.lock = 1));
@@ -710,6 +732,7 @@
       } else {
         const q = e.t === 'tr' ? `<div class="ex-q">${esc(e.q)}</div>` : `<div class="ex-q">${fmtQ(e.q)}</div>`;
         b.innerHTML = `${q}<input class="input" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${e.t === 'tr' ? 'Перевод на английский' : 'Пропущенное слово'}">`;
+        addTr();
         getValue = () => $('#inp', b).value;
       }
       const inp = $('#inp', b); if (inp) { setTimeout(() => inp.focus(), 50); inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') check(); }); }
@@ -1199,9 +1222,12 @@
       root.innerHTML = `<div class="card">
         <div class="row small muted" style="margin-bottom:8px"><span>Вопрос ${n + 1} из ${qs.length}</span><span class="spacer"></span><span>верно ${right}</span></div>
         <div class="progress" style="margin-bottom:18px"><i style="width:${(n / qs.length) * 100}%"></i></div>
+        <div class="ex-label">Выберите правильную форму${q.v ? ' глагола <b>' + esc(q.v) + '</b>' : ''}</div>
         <div class="ex-q tq-q">${esc(q.q).replace('___', '<span class="tq-gap">___</span>')}${q.v ? ` <span class="muted tq-v">(${esc(q.v)})</span>` : ''}</div>
+        ${trSentence(q.q, q.o[q.a]) ? trBox(trSentence(q.q, q.o[q.a])) : ''}
         <div class="stack" style="gap:10px;margin-top:16px">${opts.map((x) => `<button class="option" data-i="${x.i}">${esc(x.o)}</button>`).join('')}</div>
         <div id="tq-fb"></div></div>`;
+      wireTr(root);
       $$('.option', root).forEach((btn) => btn.addEventListener('click', () => {
         if (root.dataset.lock === String(n)) return; root.dataset.lock = String(n);
         const ok = +btn.dataset.i === q.a;
