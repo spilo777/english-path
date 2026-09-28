@@ -359,7 +359,7 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', books: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', books: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', topic: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     const y = window.scrollY;
     if (keepScroll === true) requestAnimationFrame(() => window.scrollTo(0, y)); else window.scrollTo(0, 0);
@@ -379,7 +379,8 @@
     if (r === 'books') return renderBooksMap(a);
     if (r === 'tenses') return a === 'train' ? renderTenseTrain() : a ? renderTense(a, b) : renderTenses();
     if (r === 'cards') return renderCards();
-    if (r === 'review') return renderReview();
+    if (r === 'review') return renderReview(a === 'topic' ? b : null);
+    if (r === 'topic') return renderTopic(a);
     if (r === 'deck') return renderDeck(a);
     if (r === 'words') return renderWords(a);
     if (r === 'achievements') return withBack(renderAch);
@@ -1550,29 +1551,11 @@
         <div class="small" style="font-weight:650;margin-bottom:8px">Добавить слово вручную</div>
         <div class="row"><input class="input" id="nc-en" placeholder="english" style="flex:1;min-width:120px;font-size:15px;padding:10px"><input class="input" id="nc-ru" placeholder="перевод" style="flex:1;min-width:120px;font-size:15px;padding:10px"><button class="btn small primary" id="nc-add">Добавить</button></div>
       </div>
-      <div class="card words-all">
-        <div class="row" style="margin-bottom:10px"><h3 style="margin:0">Все слова · ${all.length}</h3><span class="spacer"></span>
-          <input class="input" id="cf" placeholder="Поиск" style="max-width:200px;padding:8px 12px;font-size:14px"></div>
-        <div class="word-list" id="clist"></div>
-      </div>`;
-    const listEl = $('#clist');
-    const drawList = (f = '') => {
-      const items = all.filter((c) => !f || c.en.toLowerCase().includes(f) || c.ru.toLowerCase().includes(f)).sort((a, b) => b.added - a.added);
-      listEl.innerHTML = items.length ? items.slice(0, 300).map((c) => `
-        <div class="word-item"><button class="icon-btn" data-speak="${esc(c.en)}"><i class="ph ph-speaker-high"></i></button>
-          ${c.img ? `<img src="${esc(c.img)}" alt="" referrerpolicy="no-referrer" style="width:40px;height:40px;border-radius:10px;object-fit:cover;flex-shrink:0" onerror="this.remove()">` : ''}
-          <div style="flex:1"><span class="w">${esc(c.en)}</span> — ${esc(c.ru)}<div class="ex">${c.state === 'new' ? 'новая' : c.state === 'learn' ? 'изучается' : 'следующее повторение через ' + fmtIvl(Math.max(0, c.due - Date.now()))}</div></div>
-          <span class="pill ${c.ivl >= 21 ? 'ok' : c.state === 'new' ? '' : 'accent'}">${c.ivl >= 21 ? 'выучено' : c.state === 'new' ? 'новая' : 'в процессе'}</span>
-          <button class="icon-btn" data-del="${esc(c.id)}" title="Удалить"><i class="ph ph-x"></i></button></div>`).join('')
-        : '<div class="empty"><div class="big">⧉</div>Слов пока нет. Добавьте их из урока или из текста.</div>';
-      wireSay(listEl);
-      $$('[data-del]', listEl).forEach((b) => b.addEventListener('click', () => { if (confirm('Удалить карточку?')) { delete S.cards[b.dataset.del]; tomb('card:' + b.dataset.del); save(); renderCards(); } }));
-    };
-    drawList();
+      <div class="dict-topics">${topicSections()}</div>
+      <a class="list-link words-all" href="#/words/all"><i class="ph ph-list-bullets"></i><span><b>Все мои слова · ${all.length}</b><span class="small muted">Поиск, статусы, удаление</span></span><i class="ph ph-caret-right muted"></i></a>`;
     $$('[data-deck]').forEach((cb) => cb.addEventListener('change', () => { S.settings.decks = S.settings.decks || {}; S.settings.decks[cb.dataset.deck] = cb.checked; save(); renderCards(); }));
-    $('#cf').addEventListener('input', (e) => drawList(e.target.value.toLowerCase().trim()));
     $('#d-add').addEventListener('click', () => { const b = $('#add-box'); b.hidden = !b.hidden; if (!b.hidden) { b.scrollIntoView({ block: 'center', behavior: 'smooth' }); $('#nc-en').focus(); } });
-    $('#d-find').addEventListener('click', () => { const f = $('#cf'); f.scrollIntoView({ block: 'center', behavior: 'smooth' }); f.focus(); });
+    $('#d-find').addEventListener('click', () => { location.hash = '#/words/all'; });
     $('#nc-en').addEventListener('blur', () => {
       const en = $('#nc-en').value.trim(); if (!en || $('#nc-ru').value.trim()) return;
       const hit = lookup(en)[0]; if (hit && !en.includes(' ')) { $('#nc-ru').value = hit.tr; return; }
@@ -1633,6 +1616,59 @@
       <div class="stack-bar"><i style="width:${pct(st.learned + st.known)}%"></i><i style="width:${pct(st.study)}%"></i></div>
     </div>`;
   }
+  // Тематические коллекции (как в Lingard)
+  const TOPIC_CATS = window.TOPIC_CATS || [];
+  const TOPIC_COLS = window.TOPIC_COLS || [];
+  const TOPIC_BY = {}; TOPIC_COLS.forEach((c) => { TOPIC_BY[c.id] = c; });
+  const catTone = (id) => (TOPIC_CATS.find((c) => c.id === id) || {}).tone || 'blue';
+  function topicStats(c) {
+    let learned = 0, study = 0;
+    c.words.forEach((w) => { const id = w[0].toLowerCase().trim(), k = S.cards[id]; if (S.known[id] || (k && k.state === 'review' && k.ivl >= 21)) learned++; else if (k) study++; });
+    return { learned, study, total: c.words.length };
+  }
+  function topicTile(c) {
+    const st = topicStats(c);
+    return `<a class="topic-tile tone-${catTone(c.cat)}" href="#/topic/${c.id}"><b>${esc(c.title)}</b>
+      <i class="ph-fill ph-${c.icon} topic-ill"></i>
+      <span class="topic-meta">${st.learned || st.study ? `<span class="topic-prog"><i style="width:${(st.learned / st.total) * 100}%"></i><i style="width:${(st.study / st.total) * 100}%"></i></span>${st.learned}/${st.total}` : `${c.level} · ${st.total} слов`}</span></a>`;
+  }
+  function topicSections() {
+    return TOPIC_CATS.map((cat) => { const cols = TOPIC_COLS.filter((c) => c.cat === cat.id); if (!cols.length) return '';
+      return `<section class="sec"><div class="sec-head"><h2>${esc(cat.title)}</h2><span class="see-all muted">${cols.length}</span></div><div class="carousel topic-row">${cols.map(topicTile).join('')}</div></section>`; }).join('');
+  }
+  function renderTopic(id) {
+    const c = TOPIC_BY[id]; if (!c) return renderCards();
+    const st = topicStats(c);
+    const same = TOPIC_COLS.filter((x) => x.cat === c.cat); const i = same.indexOf(c); const nxt = same[i + 1];
+    const cat = TOPIC_CATS.find((x) => x.id === c.cat) || {};
+    const toLearn = c.words.filter((w) => { const k = w[0].toLowerCase().trim(); return !S.known[k] && !(S.cards[k] && S.cards[k].state === 'review' && S.cards[k].ivl >= 21); }).length;
+    view().innerHTML = `
+      <a href="#/cards" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <div class="topic-hero tone-${catTone(c.cat)}"><i class="ph-fill ph-${c.icon} topic-ill"></i>
+        <div class="eyebrow" style="margin:0">${esc(cat.title || '')} · ${c.level}</div>
+        <h1>${esc(c.title)}</h1>
+        <div class="small">${st.total} слов · выучено ${st.learned}${st.study ? ' · учу ' + st.study : ''}</div>
+        <div class="topic-prog big"><i style="width:${(st.learned / st.total) * 100}%"></i><i style="width:${(st.study / st.total) * 100}%"></i></div>
+      </div>
+      <div class="row topic-actions">${toLearn ? `<a class="pill-btn" href="#/review/topic/${c.id}">${st.study || st.learned ? 'ПРОДОЛЖИТЬ' : 'УЧИТЬ'}</a>` : '<span class="pill ok"><i class="ph ph-check"></i> Коллекция выучена</span>'}
+        <span class="small muted">${toLearn ? 'Сессия: до 12 новых слов и повторение начатых. Потом слова будут приходить в обычные карточки по расписанию.' : ''}</span></div>
+      <div class="card"><div class="word-list" id="tw"></div></div>
+      ${nxt ? `<a class="list-link" href="#/topic/${nxt.id}"><i class="ph-fill ph-${nxt.icon}"></i><span><b>Дальше: ${esc(nxt.title)}</b><span class="small muted">${nxt.level} · ${nxt.words.length} слов</span></span><i class="ph ph-caret-right muted"></i></a>` : ''}`;
+    const draw = () => {
+      $('#tw').innerHTML = c.words.map((w) => { const id = w[0].toLowerCase().trim(), k = S.cards[id];
+        const pill = S.known[id] ? '<span class="pill ok">знаю</span>' : k ? `<span class="pill ${k.ivl >= 21 ? 'ok' : 'accent'}">${k.ivl >= 21 ? 'выучено' : k.state === 'new' ? 'в очереди' : 'учу'}</span>` : '';
+        return `<div class="word-item"><button class="icon-btn" data-speak="${esc(w[0])}"><i class="ph ph-speaker-high"></i></button>
+          <div style="flex:1;min-width:0"><span class="w">${esc(w[0])}</span> — ${esc(w[1])}<div class="ex"><span data-speak="${esc(w[2])}" style="cursor:pointer">${esc(w[2])}</span> · ${esc(w[3])}</div></div>
+          ${pill}${k && k.state !== 'new' ? '' : `<button class="btn small ghost" data-known="${esc(id)}">${S.known[id] ? 'Вернуть' : 'Знаю'}</button>`}</div>`; }).join('');
+      wireSay($('#tw'));
+      $$('[data-known]', $('#tw')).forEach((b) => b.addEventListener('click', () => {
+        const k = b.dataset.known;
+        if (S.known[k]) { delete S.known[k]; tomb('known:' + k); } else { S.known[k] = Date.now(); if (S.cards[k] && S.cards[k].state === 'new') { delete S.cards[k]; tomb('card:' + k); } }
+        save(); draw();
+      }));
+    };
+    draw();
+  }
   function deckTile(lvl) {
     const phr = lvl === 'phr';
     const ws = phr ? DECK.filter((w) => w.pos === 'phr') : DECK.filter((w) => w.lvl === lvl);
@@ -1652,7 +1688,8 @@
   const cardKind = (c) => c.state === 'new' ? 'new' : c.state === 'learn' || c.ivl < 7 ? 'learn' : c.ivl < 21 ? 'fam' : 'done';
   function wordsOf(kind) {
     const cs = Object.values(S.cards);
-    if (kind === 'mine') return cs.filter((c) => !DECK_BY_ID[c.id]);
+    if (kind === 'mine') return cs.filter((c) => !DECK_BY_ID[c.id] && !/^topic:/.test(c.src || ''));
+    if (kind === 'all') return cs;
     const list = cs.filter((c) => cardKind(c) === kind);
     if (kind === 'done') Object.keys(S.known).forEach((id) => { if (!S.cards[id]) { const w = DECK_BY_ID[id]; list.push({ id, en: w ? w.en : id, ru: w ? w.ru : '', known: true, added: S.known[id] }); } });
     return list;
@@ -1662,7 +1699,8 @@
     learn: ['Изучаю', 'Слова, которые вы только начали учить: повторяются часто — через минуты, часы и первые дни.'],
     fam: ['Знакомые', 'Вы их уже неплохо помните: следующее повторение через неделю-две.'],
     done: ['Выученные', 'Интервал больше 3 недель — слово в долгой памяти. Сюда же попадают слова, отмеченные «Знаю».'],
-    mine: ['Мои слова', 'Слова, добавленные вручную и из текстов (не из колод).']
+    mine: ['Мои слова', 'Слова, добавленные вручную и из текстов (не из колод).'],
+    all: ['Все', 'Все слова в ваших карточках. Удалить слово — крестик справа.']
   };
   function renderWords(kind) {
     if (!WL[kind]) return renderCards();
@@ -1678,9 +1716,10 @@
     const draw = (q = '') => {
       const f = items.filter((c) => !q || c.en.toLowerCase().includes(q) || (c.ru || '').toLowerCase().includes(q));
       $('#wl').innerHTML = f.slice(0, 400).map((c) => `<div class="word-item"><button class="icon-btn" data-speak="${esc(c.en)}"><i class="ph ph-speaker-high"></i></button>
-        <div style="flex:1;min-width:0"><span class="w">${esc(c.en)}</span> — ${esc(c.ru)}<div class="ex">${c.known ? 'отмечено «Знаю»' : c.state === 'new' ? 'ещё не повторялось' : 'следующее повторение ' + (c.due <= Date.now() ? 'сейчас' : 'через ' + fmtIvl(c.due - Date.now()))}</div></div></div>`).join('')
+        <div style="flex:1;min-width:0"><span class="w">${esc(c.en)}</span> — ${esc(c.ru)}<div class="ex">${c.known ? 'отмечено «Знаю»' : c.state === 'new' ? 'ещё не повторялось' : 'следующее повторение ' + (c.due <= Date.now() ? 'сейчас' : 'через ' + fmtIvl(c.due - Date.now()))}</div></div>${kind === 'all' && !c.known ? `<button class="icon-btn" data-del="${esc(c.id)}" title="Удалить"><i class="ph ph-x"></i></button>` : ''}</div>`).join('')
         || `<div class="empty"><div class="big"><i class="ph ph-cards"></i></div>${items.length ? 'Ничего не найдено' : 'Здесь пока пусто'}</div>`;
       wireSay($('#wl'));
+      $$('[data-del]', $('#wl')).forEach((b) => b.addEventListener('click', () => { if (!confirm('Удалить карточку?')) return; delete S.cards[b.dataset.del]; tomb('card:' + b.dataset.del); save(); renderWords(kind); }));
     };
     draw();
     const q = $('#wq'); if (q) q.addEventListener('input', () => draw(q.value.toLowerCase().trim()));
@@ -1726,9 +1765,17 @@
     draw();
   }
 
-  function renderReview() {
+  function renderReview(topicId) {
     // перемешиваем новые с повторениями: два старых, одно новое
-    const dueIds = dueCards().map((c) => c.id), newIds = takeNew(isNewAvailableToday());
+    const tc = topicId && TOPIC_BY[topicId];
+    let dueIds, newIds;
+    if (tc) { // сессия по одной коллекции: её повторения + до 12 новых слов из неё
+      const ids = tc.words.map((w) => w[0].toLowerCase().trim());
+      const now = Date.now();
+      dueIds = ids.filter((id) => S.cards[id] && S.cards[id].state !== 'new' && S.cards[id].due <= now);
+      newIds = [];
+      tc.words.forEach((w) => { const id = w[0].toLowerCase().trim(); if (newIds.length >= 12 || S.known[id]) return; if (!S.cards[id]) addCard(w[0], w[1], exMark(w[2], w[0]), w[3], 'topic:' + tc.id); if (S.cards[id].state === 'new') newIds.push(id); });
+    } else { dueIds = dueCards().map((c) => c.id); newIds = takeNew(isNewAvailableToday()); }
     save();
     let queue = [];
     while (dueIds.length || newIds.length) {
@@ -1742,7 +1789,7 @@
 
     const mode = S.settings.cardMode;
     view().innerHTML = `
-      <div class="row"><a href="#/cards" class="backlink" style="margin:0"><i class="ph ph-caret-left"></i></a><span class="spacer"></span>
+      <div class="row"><a href="${tc ? '#/topic/' + tc.id : '#/cards'}" class="backlink" style="margin:0"><i class="ph ph-caret-left"></i></a>${tc ? `<b class="rv-topic">${esc(tc.title)}</b>` : ''}<span class="spacer"></span>
         <select class="input" id="rv-mode"><option value="en-ru">англ <i class="ph ph-arrow-right"></i> рус</option><option value="ru-en">рус <i class="ph ph-arrow-right"></i> англ</option><option value="mix">вперемешку</option></select></div>
       <div class="ex-head" style="margin-top:16px"><div class="progress"><i id="rv-bar" style="width:0"></i></div><span class="tiny muted" id="rv-left"></span></div>
       <div id="rv"></div>`;
@@ -1756,8 +1803,8 @@
       if (!queue.length) {
         keyHandler = null;
         if (graded >= 20 && agains === 0) { S.stats.cleanSessions++; save(); }
-        root.innerHTML = `<div class="card result"><div class="big"><i class="ph ph-confetti"></i></div><h2>На сегодня всё!</h2><p class="muted">Повторено карточек: ${doneCount}. Возвращайтесь завтра — слова придут сами.</p>
-          <div class="row" style="justify-content:center"><a class="btn primary" href="#/">На главную</a></div></div>`;
+        root.innerHTML = `<div class="card result"><div class="big"><i class="ph ph-confetti"></i></div><h2>${tc ? 'Сессия закончена!' : 'На сегодня всё!'}</h2><p class="muted">${tc ? `«${esc(tc.title)}»: повторено ${doneCount}. Эти слова теперь будут приходить в обычные карточки по расписанию.` : `Повторено карточек: ${doneCount}. Возвращайтесь завтра — слова придут сами.`}</p>
+          <div class="row" style="justify-content:center">${tc ? `<a class="btn primary" href="#/topic/${tc.id}">К коллекции</a><a class="btn" href="#/cards">В словарь</a>` : '<a class="btn primary" href="#/">На главную</a>'}</div></div>`;
         updateBadge(); return;
       }
       const id = queue[0];

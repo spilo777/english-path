@@ -1280,3 +1280,43 @@ a.bm-row[href]:hover { background: var(--surface-2); }
 /* заголовок раздела прижат к своему содержимому */
 #view > .sec-h + * { margin-top: var(--s-3) !important; }
 /* низ страницы: запас под плавающее меню уже в .main */
+
+/* ── Тематические коллекции */
+.tone-blue { --tb: #DCEBFB; --tf: #2F7CF0; --tt: #1E3E6E; }
+.tone-violet { --tb: #E7E2FB; --tf: #7B5CF0; --tt: #3A2C74; }
+.tone-pink { --tb: #FBE3EC; --tf: #E8457A; --tt: #6E1F3A; }
+.tone-green { --tb: #DDF3E3; --tf: #2FB05A; --tt: #1D5230; }
+.tone-sand { --tb: #F1E6DC; --tf: #B07A4F; --tt: #5A3D25; }
+.tone-orange { --tb: #FDE7D6; --tf: #F07B2F; --tt: #6E3A14; }
+.tone-teal { --tb: #D7F1F1; --tf: #14A3A3; --tt: #135252; }
+.tone-yellow { --tb: #FCF0CC; --tf: #E6A817; --tt: #5E4608; }
+.tone-gray { --tb: #E9E7E4; --tf: #8A8680; --tt: #3E3B37; }
+@media (prefers-color-scheme: dark) {
+  .tone-blue, .tone-violet, .tone-pink, .tone-green, .tone-sand, .tone-orange, .tone-teal, .tone-yellow, .tone-gray { --tb: color-mix(in srgb, var(--tf) 18%, #1C1C21); --tt: #f0f0f4; }
+}
+.topic-row { grid-auto-columns: 168px; }
+.topic-tile { position: relative; overflow: hidden; display: flex; flex-direction: column; height: 150px; padding: 14px 14px 12px; border-radius: 20px; background: var(--tb); color: var(--tt); scroll-snap-align: start; transition: transform .15s; }
+.topic-tile:hover { transform: translateY(-2px); }
+.topic-tile b { font-family: var(--font-display); font-size: 17px; font-weight: 750; line-height: 1.2; letter-spacing: -0.015em; max-width: 100%; position: relative; z-index: 1; }
+.topic-ill { position: absolute; right: 10px; bottom: 10px; font-size: 64px; color: var(--tf); line-height: 1; filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--tf) 35%, transparent)); }
+.topic-meta { margin-top: auto; font-size: 12px; font-weight: 650; opacity: .75; display: flex; flex-direction: column; gap: 4px; max-width: 58%; position: relative; z-index: 1; }
+.topic-prog { display: flex; height: 5px; border-radius: 9px; background: color-mix(in srgb, var(--tt) 12%, transparent); overflow: hidden; width: 100%; }
+.topic-prog i:first-child { background: var(--ok); } .topic-prog i:last-child { background: var(--tf); }
+.topic-hero { position: relative; overflow: hidden; padding: 20px 22px; border-radius: 24px; background: var(--tb); color: var(--tt); }
+.topic-hero .eyebrow { color: var(--tt); opacity: .7; }
+.topic-hero h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.025em; margin: 6px 0 4px; max-width: 70%; }
+.topic-hero .topic-ill { font-size: 96px; right: 18px; bottom: 16px; }
+.topic-prog.big { height: 7px; margin-top: 12px; max-width: 60%; }
+.topic-actions { align-items: center; }
+.topic-actions .small { flex: 1; min-width: 200px; }
+.list-link > .ph-fill:first-child { font-size: 24px; color: var(--accent); }
+.rv-topic { font-family: var(--font-display); font-size: 16px; }
+.dict-topics { display: contents; }
+#view > .dict-topics > .sec { margin-top: var(--s-section); }
+@media (max-width: 760px) {
+  .topic-row { grid-auto-columns: 148px; }
+  .topic-tile { height: 140px; }
+  .topic-ill { font-size: 56px; }
+  .topic-hero .topic-ill { font-size: 80px; }
+  .topic-actions .pill-btn { width: 100%; }
+}
