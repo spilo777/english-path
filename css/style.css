@@ -1135,3 +1135,16 @@ a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
   .wl-seg a { flex: 0 0 auto; font-size: 13px; padding: 7px 12px; }
 }
 .wl-seg { margin-bottom: 14px; } .wl-seg + .input { margin-top: 0 !important; }
+
+/* перевод целого предложения */
+.reader-text .s.sel-sent { background: var(--accent-soft); box-shadow: 0 0 0 3px var(--accent-soft); border-radius: 6px; }
+.popover .ps-en { font-family: var(--font-display); font-size: 19px; font-weight: 650; line-height: 1.4; letter-spacing: -0.01em; }
+.popover .ps-ru { font-size: 16px; color: var(--text-2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); line-height: 1.45; }
+.popover .icon-btn:disabled { opacity: .35; cursor: default; transform: none; }
+.tap-seg button { display: inline-flex; align-items: center; gap: 5px; }
+@media (max-width: 760px) {
+  .reader-bar { flex-wrap: wrap; }
+  .reader-bar .tap-seg { order: 5; width: 100%; }
+  .reader-bar .tap-seg button { flex: 1; justify-content: center; }
+  .popover .ps-en { font-size: 18px; }
+}

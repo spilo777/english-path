@@ -976,13 +976,14 @@
       <div class="reader-bar">
         <button class="btn small primary" id="rd-play"><i class="ph-fill ph-play"></i> Слушать</button>
         <button class="btn small" id="rd-stop" hidden><i class="ph-fill ph-stop"></i> Стоп</button>
+        <div class="seg tap-seg" title="Что выделять по нажатию"><button data-tap="word" class="${tapMode() === 'word' ? 'on' : ''}"><i class="ph ph-cursor-click"></i> Слово</button><button data-tap="sent" class="${tapMode() === 'sent' ? 'on' : ''}"><i class="ph ph-text-align-left"></i> Предложение</button></div>
         <select class="input" id="rd-rate"><option value="0.7">0.7×</option><option value="0.85">0.85×</option><option value="1">1×</option></select>
         <span class="spacer"></span>
         <button class="btn small" id="rd-done">${S.textsRead[t.id] ? '<i class="ph ph-check"></i> Прочитано' : 'Отметить прочитанным'}</button>
       </div>
       <div class="card reader-text ${isDlg ? 'dialog' : ''}" id="rd-text">${html}</div>
       ${t.book ? `<div class="chap-nav">${t.chapter > 0 ? `<a class="btn" href="#/book/${t.book.id}/${t.chapter - 1}"><i class="ph ph-caret-left"></i> Назад</a>` : '<span></span>'}<a class="btn ghost" href="#/book/${t.book.id}">Все главы</a>${t.chapter < t.book.chapters.length - 1 ? `<a class="btn primary" href="#/book/${t.book.id}/${t.chapter + 1}" id="chap-next">Следующая глава <i class="ph ph-caret-right"></i></a>` : '<span></span>'}</div>` : ''}
-      <p class="muted small" style="margin-top:12px"><i class="ph ph-hand-tap"></i> Нажмите на слово — перевод и «+ В карточки». Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
+      <p class="muted small" style="margin-top:12px"><i class="ph ph-hand-tap"></i> Нажмите на слово — перевод и «+ В карточки». Кнопка «Всё предложение» в подсказке (или режим «Предложение» сверху) — перевод и озвучка целого предложения. Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
       ${t.questions && t.questions.length ? `<div class="card quiz" id="quiz"><h3>Проверьте понимание</h3>${t.questions.map((qq, qi) => `
         <div class="qz" data-q="${qi}"><div class="qz-q">${qi + 1}. ${esc(qq.q)}</div><div class="qz-o">${qq.o.map((o, oi) => `<button class="qz-btn" data-o="${oi}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
         <div id="qz-res" class="small"></div></div>` : ''}
@@ -1007,6 +1008,7 @@
       save(); $('#rd-done').innerHTML = '<i class="ph ph-check"></i> Прочитано';
     };
     $('#rd-done').addEventListener('click', () => { markRead(); toast('Отмечено'); });
+    $$('[data-tap]').forEach((b) => b.addEventListener('click', () => { lsSet('ep.tapMode', b.dataset.tap); $$('[data-tap]').forEach((x) => x.classList.toggle('on', x === b)); hidePopover(); toast(b.dataset.tap === 'sent' ? 'Нажмите на любое место предложения — перевод и озвучка' : 'Нажмите на слово — перевод и «+ В карточки»'); }));
     // вопросы на понимание
     const answers = {};
     $$('.qz-btn').forEach((b) => b.addEventListener('click', () => {
@@ -1025,10 +1027,12 @@
     // клик по слову
     $('#rd-text').addEventListener('click', (ev) => {
       if (String(window.getSelection && window.getSelection()).trim().includes(' ')) return; // выделена фраза
+      if (tapMode() === 'sent') { const se = ev.target.closest('.s'); if (se) showSentence(+se.dataset.sid, t); return; }
       const w = ev.target.closest('.w'); if (!w) return;
       $$('.w.sel').forEach((x) => x.classList.remove('sel'));
       w.classList.add('sel');
-      showWord(w, w.textContent, readerSentences[+w.dataset.s], t, !w.dataset.first && /^[A-Z]/.test(w.textContent));
+      if (tapMode() === 'sent') { showSentence(+w.dataset.s, t); return; }
+      showWord(w, w.textContent, readerSentences[+w.dataset.s], t, !w.dataset.first && /^[A-Z]/.test(w.textContent), +w.dataset.s);
     });
     // выделение фразы
     const onSel = () => setTimeout(() => {
@@ -1061,9 +1065,9 @@
       .then((r) => r.json())
       .then((j) => {
         const cyr = (x) => x && /[а-яё]/i.test(x) && !/MYMEMORY|QUERY LENGTH|INVALID/i.test(x);
-        const clean = (x) => x.replace(/\s+/g, ' ').replace(/^["«»“”'\s]+|["«»“”'\s.!?]+$/g, '').trim();
+        const clean = (x) => x.replace(/\s+/g, ' ').replace(/^["«»“”'\s]+|["«»“”'\s]+$/g, '').replace(/\s*[.!?]+$/, (m) => (/\s/.test(k) ? m.trim() : '')).trim();
         const cand = {};
-        const bump = (t, w) => { if (!cyr(t)) return; const c = clean(t); if (!c || c.length > 120) return; const key = c.toLowerCase(); cand[key] = cand[key] || { t: c, w: 0 }; cand[key].w += w; };
+        const bump = (t, w) => { if (!cyr(t)) return; const c = clean(t); if (!c || c.length > (/\s/.test(k) ? 700 : 120)) return; const key = c.toLowerCase(); cand[key] = cand[key] || { t: c, w: 0 }; cand[key].w += w; };
         const main = j && j.responseData && j.responseData.translatedText;
         ((j && j.matches) || []).forEach((m) => {
           const q = +m.match || 0; if (q < 0.7) return;
@@ -1110,7 +1114,7 @@
   const gtUrl = (q) => 'https://translate.google.com/?sl=en&tl=ru&op=translate&text=' + encodeURIComponent(q);
   function markKnownWords(base) { $$('.w').forEach((w) => { if (EngLookup.clean(w.textContent) === base || lookup(w.textContent).some((x) => x.word === base)) w.classList.add('known'); }); }
 
-  function showWord(anchor, raw, sentence, t, maybeName) {
+  function showWord(anchor, raw, sentence, t, maybeName, sid) {
     const pop = $('#popover');
     const res = lookup(raw);
     S.stats.lookups++; save();
@@ -1123,14 +1127,14 @@
            <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off"><div class="alt-row" id="pp-alts"></div>`}
       <div class="actions">
         ${inCards ? '<span class="pill ok"><i class="ph ph-check"></i> в карточках</span>' : '<button class="btn small primary" id="pp-add">+ В карточки</button>'}
-        <button class="btn small" id="pp-sent"><i class="ph ph-speaker-high"></i> Фраза</button>
+        ${sid != null ? '<button class="btn small" id="pp-sent"><i class="ph ph-text-align-left"></i> Всё предложение</button>' : ''}
         <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
       </div>`;
     placePop(pop, anchor.getBoundingClientRect());
     speak(raw);
     $('#pp-say').addEventListener('click', () => speak(raw));
     $('#pp-x').addEventListener('click', hidePopover);
-    $('#pp-sent').addEventListener('click', () => speak(sentence || raw));
+    const ps = $('#pp-sent'); if (ps) ps.addEventListener('click', () => showSentence(sid, t));
     if (res.length) yaBlock($('#pp-ya'), base);
     if (!res.length) autoTranslate(raw).then((tr) => {
       const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return;
@@ -1172,8 +1176,43 @@
       save(); toast('Фраза добавлена в карточки'); hidePopover(); window.getSelection().removeAllRanges();
     });
   }
-  function hidePopover() { const p = $('#popover'); if (p) p.hidden = true; $$('.w.sel').forEach((x) => x.classList.remove('sel')); }
-  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w')) hidePopover(); });
+  const tapMode = () => lsGet('ep.tapMode', 'word');
+  function showSentence(i, t) {
+    const text = readerSentences[i]; if (!text) return;
+    const el = $(`.s[data-sid="${i}"]`);
+    $$('.w.sel').forEach((x) => x.classList.remove('sel'));
+    $$('.s.sel-sent').forEach((x) => x.classList.remove('sel-sent'));
+    if (el) el.classList.add('sel-sent');
+    const pop = $('#popover');
+    const spk = readerSpeakers[i];
+    const rate = () => { const r = $('#rd-rate'); return r ? +r.value : S.settings.rate; };
+    pop.innerHTML = `
+      <div class="row" style="gap:8px;margin-bottom:6px"><span class="eyebrow" style="margin:0">Предложение ${i + 1} из ${readerSentences.length}</span><span class="spacer"></span>
+        <button class="icon-btn" id="ps-prev" title="Предыдущее" ${i ? '' : 'disabled'}><i class="ph ph-caret-left"></i></button>
+        <button class="icon-btn" id="ps-next" title="Следующее" ${i < readerSentences.length - 1 ? '' : 'disabled'}><i class="ph ph-caret-right"></i></button>
+        <button class="icon-btn" id="pp-x"><i class="ph ph-x"></i></button></div>
+      <div class="ps-en">${esc(text)}</div>
+      <div class="ps-ru" id="ps-ru"><span class="muted">перевожу…</span></div>
+      <div class="actions">
+        <button class="btn small primary" id="ps-say"><i class="ph-fill ph-play"></i> Слушать</button>
+        <button class="btn small" id="ps-slow"><i class="ph ph-timer"></i> Медленно</button>
+        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(text)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
+      </div>
+      <div class="tiny muted" style="margin-top:10px">Послушайте и повторите вслух 2–3 раза — это shadowing, лучший способ поставить произношение.</div>`;
+    placePop(pop, (el || view()).getBoundingClientRect());
+    if (el) requestAnimationFrame(() => { const pr = pop.getBoundingClientRect(), er = el.getBoundingClientRect(); if (pr.top > er.top - 20 && er.bottom > pr.top - 12) window.scrollBy({ top: er.bottom - pr.top + 24, behavior: 'smooth' }); else if (er.top < 70) window.scrollBy({ top: er.top - 90, behavior: 'smooth' }); });
+    S.stats.lookups++; save();
+    const say = (r) => { $$('.s.speaking').forEach((x) => x.classList.remove('speaking')); if (el) el.classList.add('speaking'); speak(text, { rate: r, speaker: spk, onend: () => el && el.classList.remove('speaking') }); };
+    say(rate());
+    $('#ps-say').addEventListener('click', () => say(rate()));
+    $('#ps-slow').addEventListener('click', () => say(0.6));
+    $('#ps-prev').addEventListener('click', () => showSentence(i - 1, t));
+    $('#ps-next').addEventListener('click', () => showSentence(i + 1, t));
+    $('#pp-x').addEventListener('click', hidePopover);
+    autoTranslate(text).then((tr) => { const b = $('#ps-ru'); if (!b || readerSentences[i] !== text || !pop.contains(b)) return; b.innerHTML = tr ? esc(tr) : '<span class="muted">Не удалось перевести автоматически — откройте «Переводчик».</span>'; });
+  }
+  function hidePopover() { const p = $('#popover'); if (p) p.hidden = true; $$('.w.sel').forEach((x) => x.classList.remove('sel')); $$('.s.sel-sent').forEach((x) => x.classList.remove('sel-sent')); }
+  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w') && !ev.target.closest('.s')) hidePopover(); });
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') hidePopover(); });
 
 
