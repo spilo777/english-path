@@ -278,7 +278,7 @@
         </div>
       </section>
       <div class="grid-4" style="margin-bottom:26px">
-        <div class="stat"><div class="chip-ico">🃏</div><b>${due + nw}</b><span>карточек на сегодня</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-cards"></i></div><b>${due + nw}</b><span>карточек на сегодня</span></div>
         <div class="stat"><div class="chip-ico"><i class="ph ph-brain"></i></div><b>${total}</b><span>слов в работе</span></div>
         <div class="stat"><div class="chip-ico"><i class="ph ph-seal-check"></i></div><b>${learned}</b><span>выучено надолго</span></div>
         <div class="stat"><div class="chip-ico"><i class="ph ph-medal"></i></div><b>${Object.keys(S.ach).length}</b><span>достижений</span></div>
@@ -289,7 +289,7 @@
       <div class="row" style="margin-bottom:12px"><h2 style="margin:0">План на сегодня</h2></div>
       <div class="stack">
         <div class="task ${reviewsDone ? 'done' : ''}">
-          <div class="num">${reviewsDone ? '<i class="ph ph-check"></i>' : '🃏'}</div>
+          <div class="num">${reviewsDone ? '<i class="ph ph-check"></i>' : '<i class="ph ph-cards"></i>'}</div>
           <div class="body"><b>Карточки</b><span class="muted small">${due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Пока пусто. Карточки появятся после шага «Слова» в уроке'}</span></div>
           ${due + nw ? '<a class="btn primary" href="#/review">Начать</a>' : ''}
         </div>
