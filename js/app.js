@@ -353,15 +353,16 @@
   const view = () => $('#view');
 
   // ───────────── Роутер ─────────────
-  function route() {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  function route(keepScroll) {
+    if (keepScroll !== true && window.speechSynthesis) window.speechSynthesis.cancel();
     stopAudio();
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
     const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', books: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
-    window.scrollTo(0, 0);
+    const y = window.scrollY;
+    if (keepScroll === true) requestAnimationFrame(() => window.scrollTo(0, y)); else window.scrollTo(0, 0);
     if (!r) return renderToday();
     if (r === 'course') return renderCourse();
     if (r === 'unit') return renderUnit(a, b || 'grammar');
@@ -2325,6 +2326,9 @@
     Cloud.init({
       get: () => S,
       replace: (x) => {
+        // при возврате в приложение облако присылает данные: если ничего не поменялось — ничего не трогаем
+        const strip = (o) => { const c = Object.assign({}, o); delete c.imgCache; return JSON.stringify(c); };
+        const changed = strip(Object.assign(defaults(), x)) !== strip(S);
         S = Object.assign(defaults(), x);
         S.settings = Object.assign(defaults().settings, S.settings);
         S.stats = Object.assign({ lookups: 0, listened: 0, exStreak: 0, exStreakBest: 0, perfect: {}, firstTryUnits: {}, attempts: {}, ruEn: 0, cleanSessions: 0, listenRight: 0 }, S.stats || {});
@@ -2332,8 +2336,9 @@
         settingsSnap = JSON.stringify(S.settings);
         try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
         updateBadge();
-        // не сбиваем повторение, упражнения и чтение на середине
-        if (!/^#\/(review|unit\/[^/]+\/(practice|test)|read\/)/.test(location.hash)) route();
+        // перерисовываем только обзорные экраны и только если данные правда изменились;
+        // уроки, упражнения, чтение, времена и книги никогда не сбрасываем
+        if (changed && /^(#\/?)?(course|cards|profile|achievements|stats|library)?\/?$/.test(location.hash)) route(true);
       }
     });
     Cloud.onChange(() => { renderAccount(); if (location.hash === '#/profile') renderProfile(); if (location.hash === '#/achievements') withBack(renderAch); if (location.hash === '' || location.hash === '#/') { let hidden = false; try { hidden = !!localStorage.getItem('ep.hideAuthBanner'); } catch (e) {} if (!!$('.auth-banner') !== (!Cloud.status().user && !hidden)) renderToday(); } });
