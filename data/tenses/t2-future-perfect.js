@@ -77,7 +77,7 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "I think Real Madrid ___ the match tomorrow.", v: "win", o: ["is winning", "wins", "will win"], a: 2, why: "I think — мнение о будущем → will. Present Continuous — для договорённостей, а не мнений." },
       { q: "Don't worry, I ___ anyone your secret.", v: "not tell", o: ["won't tell", "am not telling", "don't tell"], a: 0, why: "Обещание → won't (will not)." },
       { q: "___ help me with this boss fight, please? It's too hard.", v: "", o: ["Do you", "Will you", "Are you helping"], a: 1, why: "Просьба о будущем → Will you…? Do you — про привычки." },
-      { q: "Maybe the new season ___ better.", v: "be", o: ["is being", "will be", "is"], a: 1, why: "Maybe — предположение о будущем → will be." },
+      { q: "Maybe the next season ___ better.", v: "be", o: ["is being", "will be", "is"], a: 1, why: "Maybe — предположение о будущем → will be." },
       { q: "I promise I ___ the design by Friday.", v: "finish", o: ["finish", "am finishing", "will finish"], a: 2, why: "I promise — обещание → will." },
       { q: "In 2050 people probably ___ cars themselves.", v: "not drive", o: ["won't drive", "aren't driving", "don't drive"], a: 0, why: "probably + далёкое будущее, прогноз-мнение → won't." },
       { q: "Wow, this bag is heavy! — Give it to me, I ___ it.", v: "carry", o: ["am carrying", "carry", "will carry"], a: 2, why: "Предложение помощи, решил сейчас → will." },
@@ -167,14 +167,14 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "Why do you have all this paint? — I ___ my room.", v: "paint", o: ["will paint", "paint", "am going to paint"], a: 2, why: "Краску купил заранее — это план → going to." },
       { q: "Careful! That glass ___!", v: "fall", o: ["falls", "is going to fall", "will fall"], a: 1, why: "Видно, что сейчас упадёт → going to." },
       { q: "What ___ after work tonight? Do you have a plan?", v: "do", o: ["will you do", "are you going to do", "do you do"], a: 1, why: "Спрашиваем про план → going to. do you do — про привычки." },
-      { q: "I ___ that game. Everybody says it's boring.", v: "not buy", o: ["am not going to buy", "didn't buy", "don't buy"], a: 0, why: "Решение уже принято (все говорят, что скучная) → not going to." },
-      { q: "The score is 0:3 and there are two minutes left. We ___!", v: "lose", o: ["lose", "lost", "are going to lose"], a: 2, why: "Счёт и время — явные признаки → going to." },
-      { q: "Tom ___ his job. He told me yesterday.", v: "quit", o: ["is going to quit", "quits", "quit"], a: 0, why: "Решил раньше и рассказал — намерение → going to." },
+      { q: "I ___ that game when it comes out. Everybody says it's boring.", v: "not buy", o: ["am not going to buy", "didn't buy", "don't buy"], a: 0, why: "Решение уже принято (все говорят, что скучная) → not going to." },
+      { q: "The score is 0–3 and there are two minutes left. We ___!", v: "lose", o: ["lose", "lost", "are going to lose"], a: 2, why: "Счёт и время — явные признаки → going to." },
+      { q: "Tom ___ his job next month. He told me yesterday.", v: "quit", o: ["is going to quit", "quits", "quit"], a: 0, why: "Решил раньше и рассказал — намерение → going to." },
       { q: "Any plans for the weekend? ___ visit your parents?", v: "", o: ["Do you", "Are you going to", "Did you"], a: 1, why: "Спрашиваем про план на выходные → Are you going to…?" },
       { q: "She's very tired. She ___ asleep in a minute.", v: "fall", o: ["falls", "fell", "is going to fall"], a: 2, why: "Видно по признакам (очень устала) → going to." },
       { q: "My friends ___ a stream tonight — they wrote it in the chat.", v: "start", o: ["start", "are going to start", "started"], a: 1, why: "План, о котором уже объявили → going to." },
       { q: "My plan for Monday: I ___ all the icons in the UI kit.", v: "update", o: ["am going to update", "update", "updated"], a: 0, why: "My plan — план → going to." },
-      { q: "They ___ married! Anna showed me the ring.", v: "get", o: ["get", "got", "are going to get"], a: 2, why: "Кольцо — признак и решение уже принято → going to." }
+      { q: "They ___ married next summer! Anna showed me the engagement ring.", v: "get", o: ["get", "got", "are going to get"], a: 2, why: "Кольцо — признак и решение уже принято → going to." }
     ]
   },
   {
@@ -259,7 +259,7 @@ window.TENSES = (window.TENSES || []).concat([
 <ul class="g-list">
 <li><span class="say">You have found a hidden chest!</span> — Вы нашли тайник! <span class="muted">(сообщение в игре)</span></li>
 <li><span class="say">Achievement unlocked: you've completed 50 quests.</span> — Достижение: выполнено 50 квестов.</li>
-<li><span class="say">Have you seen my brother? He's been gone for days.</span> — Ты не видел моего брата? <span class="muted">(NPC)</span></li>
+<li><span class="say">Have you seen my brother? He's been gone for days.</span> — Ты не видел моего брата? Его нет уже несколько дней. <span class="muted">(NPC)</span></li>
 <li><span class="say">I've never seen anything like this.</span> — Никогда такого не видел. <span class="muted">(сериал)</span></li>
 <li><span class="say">Has anyone done this raid yet?</span> — Кто-нибудь уже проходил этот рейд? <span class="muted">(чат)</span></li>
 </ul>

@@ -103,7 +103,7 @@ COURSE.units.push(
 <div class="g-formula"><span class="g-part">am / is / are</span><span class="g-plus">+</span><span class="g-part g-v">always / constantly / forever</span><span class="g-plus">+</span><span class="g-part">-ing</span></div>
 <ul class="g-list">
 <li><span class="say">You're always looking at your phone!</span> — Ты вечно сидишь в телефоне!</li>
-<li><span class="say">My laptop is constantly crashing.</span> — Мой ноутбук постоянно виснет.</li>
+<li><span class="say">My laptop is constantly crashing.</span> — Мой ноутбук постоянно вылетает (падает).</li>
 <li><span class="say">He's forever complaining about the boss.</span> — Он вечно жалуется на начальника.</li>
 <li><span class="say">She's always buying me little presents.</span> — Она всё время дарит мне маленькие подарки. <span class="muted">(приятное удивление)</span></li>
 </ul>
@@ -289,18 +289,18 @@ Den: Of course it is.`,
       { t: 'choice', q: 'Oh, I ___ what you mean now.', o: ['see', 'am seeing', 'sees'], a: 0, why: 'see = понимаю — состояние, Simple.' },
       { t: 'choice', q: 'He ___ his headphones! Third time this week!', o: ['always loses', 'is always losing', 'always is losing'], a: 1, why: 'Раздражение «вечно он…» — is always + -ing.' },
       { t: 'choice', q: 'This file ___ all the icons for the app.', o: ['contains', 'is containing', 'contain'], a: 0, why: 'contain — глагол-состояние, только Simple.' },
-      { t: 'choice', q: 'I ___ tired after work.', o: ['usually feel', 'am usually feeling', 'usually am feeling'], a: 0, why: 'С usually feel стоит только в Simple — это привычное состояние.' },
+      { t: 'choice', q: 'I ___ tired after work.', o: ['usually feel', 'am usually feeling', 'usually am feeling'], a: 0, why: 'С usually глагол feel ставится только в Simple — это привычное состояние.' },
       { t: 'gap', q: 'What ___ this icon mean? (do)', a: ['does'], why: 'Вопрос в Simple: does + mean, а не «What means».' },
-      { t: 'gap', q: 'I ___ about changing jobs. (think)', a: ['am thinking', "'m thinking"], why: 'think about = обдумываю, процесс — Continuous.' },
-      { t: 'gap', q: 'The number of players ___ fast. (grow)', a: ['is growing'], why: 'Рост, который идёт сейчас, — Continuous.' },
+      { t: 'gap', q: 'I ___ about changing jobs, but I haven\'t decided yet. (think)', a: ['am thinking', "'m thinking"], why: 'think about = обдумываю, процесс — Continuous.' },
+      { t: 'gap', q: 'The number of players ___ fast this year. (grow)', a: ['is growing'], why: 'Рост, который идёт сейчас, — Continuous.' },
       { t: 'gap', q: 'Ice ___ at zero degrees. (melt)', a: ['melts'], why: 'Факт природы — Simple, it → -s.' },
       { t: 'gap', q: 'Why are you ___ so rude to him? He did nothing wrong. (be)', a: ['being'], why: 'Поведение прямо сейчас — are being + прилагательное.' },
       { t: 'gap', q: 'I ___ for being late. (apologise)', a: ['apologise', 'apologize'], why: 'Извинение совершается самими словами — Simple.' },
-      { t: 'order', a: 'My English is slowly getting better', ru: 'Мой английский постепенно становится лучше' },
+      { t: 'order', a: 'My English is getting much better', ru: 'Мой английский становится намного лучше' },
       { t: 'order', a: 'What do you think of this idea', ru: 'Что ты думаешь об этой идее?' },
       { t: 'tr', q: 'Я не понимаю, что ты имеешь в виду.', a: ["i don't understand what you mean", 'i do not understand what you mean'] },
-      { t: 'tr', q: 'Вечно ты теряешь ключи!', a: ["you're always losing your keys", 'you are always losing your keys', "you're always losing keys", 'you are always losing keys'] },
-      { t: 'tr', q: 'На этой неделе я работаю из дома.', a: ["i'm working from home this week", 'i am working from home this week', "this week i'm working from home", 'this week i am working from home'] },
+      { t: 'tr', q: 'Вечно ты теряешь ключи!', a: ["you're always losing your keys", 'you are always losing your keys', "you're always losing keys", 'you are always losing keys', "you're forever losing your keys", 'you are forever losing your keys', "you're constantly losing your keys", 'you are constantly losing your keys'] },
+      { t: 'tr', q: 'На этой неделе я работаю из дома.', a: ["i'm working from home this week", 'i am working from home this week', "this week i'm working from home", 'this week i am working from home', "i'm working at home this week", 'i am working at home this week'] },
       { t: 'listen', say: 'I promise I won\'t tell anyone', a: ["i promise i won't tell anyone", 'i promise i will not tell anyone'] }
     ],
     test: [
@@ -525,7 +525,7 @@ Den: Of course it is.`,
       ['childhood', 'детство', 'I used to play outside a lot in my childhood.', 'В детстве я много играл на улице.'],
       ['suddenly', 'вдруг, внезапно', 'Suddenly the screen went black.', 'Вдруг экран погас.'],
       ['notice', 'замечать', 'I noticed a bug while I was testing.', 'Я заметил баг, пока тестировал.'],
-      ['interrupt', 'перебивать, прерывать', 'Sorry, I was interrupting you.', 'Прости, я тебя перебивал.'],
+      ['interrupt', 'перебивать, прерывать', 'He interrupted me while I was speaking.', 'Он перебил меня, пока я говорил.'],
       ['gradually', 'постепенно', 'Gradually the game got easier.', 'Постепенно игра стала легче.'],
       ['decade', 'десятилетие', 'Games used to be simpler a decade ago.', 'Десять лет назад игры были проще.'],
       ['survive', 'выживать', 'Only two players survived the storm.', 'Бурю пережили только два игрока.'],
@@ -548,7 +548,7 @@ Den: Of course it is.`,
       ['beard', 'борода', 'My uncle used to have a long beard.', 'У моего дяди раньше была длинная борода.'],
       ['degree', 'диплом, учёная степень; градус', 'She’s got a degree in design.', 'У неё диплом дизайнера.'],
       ['afford', 'позволить себе (по деньгам)', 'I couldn’t afford a PC back then.', 'Тогда я не мог позволить себе ПК.'],
-      ['habit', 'привычка', 'Biting my nails used to be my bad habit.', 'Раньше у меня была дурная привычка грызть ногти.'],
+      ['habit', 'привычка', 'Biting my nails used to be a bad habit of mine.', 'Раньше у меня была дурная привычка грызть ногти.'],
       ['have a look (at)', 'взглянуть', 'Can you have a look at my layout?', 'Можешь взглянуть на мой макет?'],
       ['have a chat', 'поболтать', 'We had a chat after the meeting.', 'Мы поболтали после встречи.'],
       ['have trouble (doing)', 'с трудом что-то делать, иметь проблемы', 'Did you have trouble finding the office?', 'Трудно было найти офис?'],
@@ -567,7 +567,7 @@ I don't work at that studio any more, but I often remember that night. I used to
         questions: [
           { q: 'What was the weather like that night?', o: ['It was raining', 'It was snowing', 'It was hot'], a: 1 },
           { q: 'What happened while the team was celebrating?', o: ['The servers crashed', 'The boss went home', 'The pizza arrived'], a: 0 },
-          { q: 'What did the writer do that night?', o: ['He designed new icons', 'He slept in the office', 'He answered angry players online'], a: 2 }
+          { q: 'What did the writer do that night?', o: ['Designed new icons', 'Slept in the office', 'Answered angry players online'], a: 2 }
         ]
       },
       {
@@ -615,9 +615,9 @@ Kira: I don't think so, but let me have a look.`,
       { t: 'gap', q: 'I ___ tired, so I went to bed early. (be)', a: ['was'], why: 'С be прошлое — was/were, без did.' },
       { t: 'order', a: 'What were you doing at midnight', ru: 'Что ты делал в полночь?' },
       { t: 'order', a: 'Did you use to have a dog', ru: 'У тебя раньше была собака?' },
-      { t: 'tr', q: 'Мы отлично провели время.', a: ['we had a great time', 'we had a good time', 'we had a wonderful time', 'we had a lot of fun', 'we had great fun'] },
-      { t: 'tr', q: 'У меня болит голова.', a: ["i've got a headache", 'i have got a headache', 'i have a headache'] },
-      { t: 'tr', q: 'Раньше я не пил кофе.', a: ["i didn't use to drink coffee", 'i did not use to drink coffee', 'i never used to drink coffee', 'i used not to drink coffee'] },
+      { t: 'tr', q: 'Мы отлично провели время.', a: ['we had a great time', 'we had a good time', 'we had a wonderful time', 'we had a lot of fun', 'we had great fun', 'we had an amazing time', 'we had a fantastic time', 'we had an excellent time'] },
+      { t: 'tr', q: 'У меня болит голова.', a: ["i've got a headache", 'i have got a headache', 'i have a headache', 'my head hurts', 'my head aches'] },
+      { t: 'tr', q: 'Раньше я не пил кофе.', a: ["i didn't use to drink coffee", 'i did not use to drink coffee', 'i never used to drink coffee', 'i used not to drink coffee', "i didn't drink coffee before", 'i did not drink coffee before'] },
       { t: 'listen', say: 'I was sleeping when you called', a: ['i was sleeping when you called'] }
     ],
     test: [
@@ -630,7 +630,7 @@ Kira: I don't think so, but let me have a look.`,
       { t: 'choice', q: 'I ___ working at night. I\'ve done it for years.', o: ['used to', 'am used to', 'use to'], a: 1, why: 'Привык и мне нормально — am used to + -ing.' },
       { t: 'choice', q: 'I ___ to the gym three times last week.', o: ['used to go', 'went', 'was going'], a: 1, why: 'Точное число раз — законченный факт, Past Simple, не used to.' },
       { t: 'gap', q: 'This building ___ be a cinema. Now it\'s a gym. (use)', a: ['used to'], why: 'Что было правдой раньше, а теперь нет, — used to.' },
-      { t: 'gap', q: 'I ___ the party, but Max wanted to leave. (enjoy)', a: ['was enjoying'], why: 'enjoy — действие в процессе (Continuous), а want — состояние (Simple).' },
+      { t: 'gap', q: 'I ___ the party when Max said he wanted to leave. (enjoy)', a: ['was enjoying'], why: 'Процесс, который прервало событие, — Past Continuous; enjoy — действие, а want — состояние (Simple).' },
       { t: 'gap', q: 'Somebody stole my bike while I ___ in the café. (sit)', a: ['was sitting'], why: 'Фоновый процесс после while — Past Continuous.' },
       { t: 'gap', q: 'Can you have a ___ at my design? (взглянуть)', a: ['look'], why: 'have a look (at) — «взглянуть», устойчивое выражение с have.' }
     ]

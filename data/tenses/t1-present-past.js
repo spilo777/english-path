@@ -85,7 +85,7 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "Anna ___ Russian and English.", v: "know", o: ["is knowing", "knows", "knew"], a: 1, why: "know — глагол знания, в Continuous не ставится; факт → knows." },
       { q: "The shop ___ on Sundays.", v: "not open", o: ["isn't opening", "didn't open", "doesn't open"], a: 2, why: "on Sundays — регулярно → Present Simple; shop = it → doesn't." },
       { q: "She often ___ her homework late at night.", v: "do", o: ["does", "is doing", "do"], a: 0, why: "often → Present Simple; do для she → does." },
-      { q: "I ___ this song. It's great!", v: "love", o: ["am loving", "love", "loved"], a: 1, why: "Чувства и «нравится» — Present Simple: I love." }
+      { q: "I ___ this song. It's my favourite.", v: "love", o: ["am loving", "love", "loved"], a: 1, why: "Чувства и «нравится» — постоянное состояние (любимая песня) → Present Simple: I love. «I'm loving it» — разговорное «прямо сейчас кайфую», здесь не подходит." }
     ]
   },
   {
@@ -99,7 +99,7 @@ window.TENSES = (window.TENSES || []).concat([
     one: 'Прямо сейчас, в процессе',
     formula: {
       plus: "I <b>am working</b> · she <b>is working</b> · they <b>are working</b>",
-      minus: "I <b>'m not working</b> · she <b>isn't working</b>",
+      minus: "I<b>'m not working</b> · she <b>isn't working</b>",
       q: '<b>Are</b> you <b>working</b>? · <b>Is</b> she <b>working</b>?'
     },
     markers: ['now', 'right now', 'at the moment', 'Look!', 'Listen!', 'today', 'these days'],
@@ -244,7 +244,7 @@ window.TENSES = (window.TENSES || []).concat([
 <h3>6. Запомнить и проверить</h3>
 <div class="g-tip">Past Simple — это <b>фотография</b> из прошлого: щёлк — и готово, действие закончено. В вопросе и отрицании прошлое живёт только в <b>did</b>: одного «прошлого» в предложении достаточно.</div>
 <div class="mini" data-q="We ___ the boss two hours ago." data-o="beat|beated|were beating" data-a="0" data-why="ago → Past Simple; beat — неправильный глагол, форма не меняется."></div>
-<div class="mini" data-q="___ you like the ending?" data-o="Do|Did|Were" data-a="1" data-why="Концовку уже посмотрели → вопрос в прошлом: Did + like."></div>`,
+<div class="mini" data-q="We watched the film yesterday. ___ you like the ending?" data-o="Do|Did|Were" data-a="1" data-why="Концовку уже посмотрели → вопрос в прошлом: Did + like."></div>`,
     ex: [
       { q: "I ___ this game last year.", v: "buy", o: ["bought", "was buying", "buy"], a: 0, why: "last year → Past Simple; buy — неправильный: bought." },
       { q: "She ___ the project two days ago.", v: "finish", o: ["finishes", "finished", "was finishing"], a: 1, why: "two days ago → законченное действие → Past Simple." },
@@ -259,7 +259,7 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "The film ___ at 9 and ended at 11.", v: "start", o: ["starts", "started", "was starting"], a: 1, why: "Два законченных события в прошлом (ended) → started." },
       { q: "She ___ the answer, so she said nothing.", v: "not know", o: ["wasn't knowing", "doesn't know", "didn't know"], a: 2, why: "Рассказ о прошлом (said); know не ставится в -ing → didn't know." },
       { q: "I ___ a great idea in the shower an hour ago.", v: "have", o: ["had", "have", "was having"], a: 0, why: "an hour ago → Past Simple; have → had." },
-      { q: "___ Anna come to the party on Friday?", v: "", o: ["Does", "Did", "Was"], a: 1, why: "on Friday (прошлая пятница, вечеринка прошла) + come → Did." }
+      { q: "___ Anna come to the party last Friday?", v: "", o: ["Does", "Did", "Was"], a: 1, why: "last Friday — прошлая пятница, вечеринка прошла + come → Did." }
     ]
   },
   {
@@ -332,7 +332,7 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "While I ___ , my brother was cleaning the room.", v: "cook", o: ["was cooking", "cooked", "were cooking"], a: 0, why: "while + два процесса одновременно → was cooking (I → was)." },
       { q: "What ___ you doing at midnight?", v: "", o: ["did", "were", "was"], a: 1, why: "doing + конкретный момент прошлого → Past Continuous; you → were." },
       { q: "I was walking home when I ___ an old friend.", v: "meet", o: ["was meeting", "meet", "met"], a: 2, why: "Короткое событие прервало процесс → Past Simple: met." },
-      { q: "It ___ all day yesterday.", v: "rain", o: ["was raining", "rained", "is raining"], a: 0, why: "all day yesterday — процесс длился в прошлом → Past Continuous." },
+      { q: "When I looked out of the window, it ___ .", v: "rain", o: ["was raining", "rained", "is raining"], a: 0, why: "Когда я выглянул, дождь уже шёл — фон в момент прошлого → Past Continuous. rained значило бы «пошёл именно тогда»." },
       { q: "They ___ at that moment, they were eating.", v: "not work", o: ["didn't work", "weren't working", "wasn't working"], a: 1, why: "at that moment → процесс; they → weren't." },
       { q: "___ he driving when the accident happened?", v: "", o: ["Did", "Were", "Was"], a: 2, why: "driving + фон для события → Past Continuous; he → Was." },
       { q: "The kids ___ while we were talking.", v: "draw", o: ["were drawing", "drew", "was drawing"], a: 0, why: "while + параллельные процессы → were drawing (kids = they)." },

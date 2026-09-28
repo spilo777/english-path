@@ -18,7 +18,7 @@ COURSE.units.push(
 </div>
 <p>В русском время в пересказе «замирает» в моменте, когда человек говорил. В английском рассказчик смотрит из своего <b>сейчас</b>: слова были сказаны в прошлом — значит, и их содержание уезжает на шаг в прошлое.</p>
 <div class="g-tip">Представьте, что said — это машина времени: всё, что едет за ней, отъезжает на одну остановку назад. is → was, has done → had done, will → would.</div>
-<div class="mini" data-q="Kate: I'm working from home. → Kate said she ___ from home." data-o="is working|was working|has worked" data-a="1" data-why="После said Present Continuous сдвигается: am working → was working."></div>`
+<div class="mini" data-q="Kate: I'm working from home. (Кейт уже вернулась в офис) → Kate said she ___ from home." data-o="is working|was working|has worked" data-a="1" data-why="После said Present Continuous сдвигается: am working → was working."></div>`
       },
       {
         title: '2. Полная карта сдвигов',
@@ -86,7 +86,7 @@ COURSE.units.push(
 <li><span class="say">Olga tells me you've finished the prototype.</span> — Ольга говорит, ты закончил прототип.</li>
 </ul>
 <div class="mini" data-q="Anna told you Kate was ill. Now you see Kate at a party: Anna said you ___ ill!" data-o="are|were|have been" data-a="1" data-why="Сказанное оказалось неправдой (Кейт здорова) → только прошедшее: were."></div>
-<div class="mini" data-q="The notification ___ the update is ready." data-o="says|said|tells" data-a="0" data-why="Свежая информация перед глазами → says, и глагол после него не сдвигается."></div>`
+<div class="mini" data-q="The notification says the update ___ ready." data-o="is|was|had been" data-a="0" data-why="Глагол пересказа в настоящем (says) → сдвига нет: is."></div>`
       },
       {
         title: '4. Сдвигаются не только глаголы: tomorrow, here, this',
@@ -139,7 +139,7 @@ COURSE.units.push(
 </ul>
 <div class="g-bad">He explained me the rules. · She said me that she was busy.</div>
 <div class="g-good">He explained the rules <b>to me</b>. · She <b>told me</b> she was busy. / She said she was busy.</div>
-<div class="g-tip">«Объясни мне» = <b>explain to me</b>, а не explain me. Это самая частая ошибка русскоговорящих даже на высоких уровнях. Проверка: можно ли вставить человека сразу? Только после <b>tell, promise, remind, warn</b>.</div>
+<div class="g-tip">«Объясни мне» = <b>explain to me</b>, а не explain me. Это самая частая ошибка русскоговорящих даже на высоких уровнях. Проверка: можно ли вставить человека сразу? Только после <b>tell, ask, promise, remind, warn</b>.</div>
 <div class="mini" data-q="The lead ___ us that the deadline had moved." data-o="said|told|explained" data-a="1" data-why="Человек (us) стоит сразу после глагола → только told."></div>
 <div class="mini" data-q="Can you explain ___?" data-o="me the task|the task to me|the task me" data-a="1" data-why="explain + что + to + кому: explain the task to me."></div>`
       },
@@ -299,7 +299,7 @@ Liza: I'll tell him. But he'll probably say you told him you'd pay next week.`,
       }
     ],
     practice: [
-      { t: 'choice', q: 'Olga: "I\'m redesigning the app." → Olga said she ___ the app.', o: ['is redesigning', 'was redesigning', 'redesigns'], a: 1, why: 'После said am doing сдвигается в was doing.' },
+      { t: 'choice', q: 'Olga: "I\'m redesigning the app." (Ольга уже закончила) → Olga said she ___ the app.', o: ['is redesigning', 'was redesigning', 'redesigns'], a: 1, why: 'После said am doing сдвигается в was doing.' },
       { t: 'choice', q: '"I\'ve already sent the invoice." → He said he ___ the invoice.', o: ['has already sent', 'had already sent', 'already sends'], a: 1, why: 'Present Perfect → Past Perfect: had sent.' },
       { t: 'choice', q: '"I may be late." → She said she ___ late.', o: ['will be', 'might be', 'can be'], a: 1, why: 'may в пересказе становится might.' },
       { t: 'choice', q: 'The lead ___ us that the release was delayed.', o: ['said', 'told', 'spoke'], a: 1, why: 'Человек (us) сразу после глагола → told.' },
@@ -315,15 +315,15 @@ Liza: I'll tell him. But he'll probably say you told him you'd pay next week.`,
       { t: 'gap', q: '"Have you ever been to Japan?" → He asked if I ___ ever been to Japan.', a: ['had'], why: 'have been → had been при пересказе.' },
       { t: 'order', a: 'She asked me where I had bought it', ru: 'Она спросила меня, где я это купил.' },
       { t: 'order', a: 'He told us not to wait for him', ru: 'Он сказал нам его не ждать.' },
-      { t: 'tr', q: 'Он сказал, что устал.', a: ['he said he was tired', 'he said that he was tired', 'he told me he was tired', 'he told me that he was tired'] },
-      { t: 'tr', q: 'Она спросила, играю ли я в шахматы.', a: ['she asked if i played chess', 'she asked whether i played chess', 'she asked me if i played chess', 'she asked me whether i played chess'] },
+      { t: 'tr', q: 'Он сказал, что устал.', a: ['he said he was tired', 'he said that he was tired', 'he told me he was tired', 'he told me that he was tired', 'he said he\'s tired', 'he said that he\'s tired', 'he said he is tired', 'he said that he is tired'] },
+      { t: 'tr', q: 'Она спросила, играю ли я в шахматы.', a: ['she asked if i played chess', 'she asked whether i played chess', 'she asked me if i played chess', 'she asked me whether i played chess', 'she asked if i play chess', 'she asked whether i play chess', 'she asked me if i play chess', 'she asked me whether i play chess'] },
       { t: 'listen', say: 'She told me not to worry', a: ['she told me not to worry'] },
       { t: 'listen', say: 'He wanted to know where I was from', a: ['he wanted to know where i was from'] }
     ],
     test: [
-      { t: 'choice', q: '"I\'m going to buy a new graphics card." → Dan said he ___ a new graphics card.', o: ['was going to buy', 'is going to buy', 'would going to buy'], a: 0, why: 'am going to → was going to.' },
+      { t: 'choice', q: '"I\'m going to buy a new graphics card." (Дэн её уже купил) → Dan said he ___ a new graphics card.', o: ['was going to buy', 'is going to buy', 'would going to buy'], a: 0, why: 'am going to → was going to.' },
       { t: 'gap', q: 'A month ago Kate said, "I\'ll finish it tomorrow." → Kate said she would finish it ___.', a: ['the next day', 'the following day'], why: 'Пересказываем в другой день → tomorrow становится the next day.' },
-      { t: 'choice', q: 'The forecast ___ it will snow tonight.', o: ['says', 'said', 'tells'], a: 0, why: 'Свежая информация, глагол в настоящем → says, без сдвига.' },
+      { t: 'choice', q: 'The forecast says it ___ tonight.', o: ['will snow', 'would snow', 'snowed'], a: 0, why: 'Глагол пересказа в настоящем (says) → сдвига нет: will snow.' },
       { t: 'choice', q: 'Sergey said goodbye ___ and left.', o: ['me', 'to me', 'us'], a: 1, why: 'say + что + to + кому: said goodbye to me.' },
       { t: 'gap', q: '"Don\'t touch the red wire!" → The engineer warned us ___ the red wire. (not / touch)', a: ['not to touch'], why: 'Запрет → warned + кого + not to + глагол.' },
       { t: 'choice', q: '"Why did you leave your last job?" → The interviewer asked me why ___.', o: ['did I leave', 'I had left', 'had I left'], a: 1, why: 'Прямой порядок (I + глагол), did исчезает, время сдвигается.' },
@@ -586,7 +586,7 @@ Liza: I'll tell him. But he'll probably say you told him you'd pay next week.`,
     ],
     words: [
       ["suppose", "полагать, предполагать", "Is it free? — I suppose so.", "Это бесплатно? — Наверное."],
-      ["guess", "угадывать; полагать", "Who do you guess will win?", "Как думаешь, кто победит?"],
+      ["guess", "угадывать; полагать", "Guess who I met yesterday!", "Угадай, кого я вчера встретил!"],
       ["reckon", "считать, полагать (разг.)", "How much do you reckon it costs?", "Как думаешь, сколько это стоит?"],
       ["expect", "ожидать; полагать", "Will she call? — I expect so.", "Она позвонит? — Думаю, да."],
       ["hope", "надеяться; надежда", "Is it going to rain? — I hope not.", "Будет дождь? — Надеюсь, нет."],
@@ -663,7 +663,7 @@ The problem wasn't big words. It was the tiny ones. My colleague Sam would say, 
 
 Then there were my questions. I used to ask, "Where is the meeting room?" or "What time does the call start?" That was fine, but my manager, who is very polite, always asked, "Do you know where the meeting room is?" or "Could you tell me when the call starts?" So I started copying her. It felt strange at first, because the word order changes, but now it's automatic.
 
-The hardest part was answering negative questions. Once a colleague asked me, "Didn't you get my message?" I had got it, but I said "No," because in Russian that sounds like "No, you're right, sorry." She sent the message again. And again. After that I learned the rule: answer about the fact. If I got it, I say, "Yes, I did."
+The hardest part was answering negative questions. Once a colleague asked me, "Didn't you get my message?" I had got it, but I said "No," because in Russian "No" can mean "No, that's wrong, I got it." She sent the message again. And again. After that I learned the rule: answer about the fact. If I got it, I say, "Yes, I did."
 
 Now I collect small phrases like souvenirs: "I hope not." "I'm afraid so." "Neither do I." "Oh, are you?" "I don't think so." They cost nothing, but they make a conversation feel human.
 
@@ -693,7 +693,7 @@ Last week a new designer from Brazil joined us. At lunch she said, "I don't real
       { t: 'order', a: 'Do you know where Kate works', ru: 'Ты не знаешь, где работает Катя?' },
       { t: 'order', a: 'Why didn\'t you tell me', ru: 'Почему ты мне не сказал?' },
       { t: 'tr', q: 'Я так не думаю.', a: ['i don\'t think so', 'i do not think so'] },
-      { t: 'tr', q: '— Я не умею плавать. — Я тоже. (ответ на английском)', a: ['neither can i', 'nor can i', 'i can\'t either', 'i cannot either', 'me neither'] },
+      { t: 'tr', q: '— Я не умею плавать. — Я тоже. (ответ на английском)', a: ['neither can i', 'nor can i', 'i can\'t either', 'i cannot either', 'me neither', 'i can\'t swim either', 'i cannot swim either'] },
       { t: 'listen', say: 'You couldn\'t help me, could you?', a: ['you couldn\'t help me could you', 'you could not help me could you'] },
       { t: 'listen', say: 'I\'m afraid not', a: ['i\'m afraid not', 'i am afraid not'] }
     ],

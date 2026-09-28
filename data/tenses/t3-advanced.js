@@ -85,7 +85,7 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "She was sad because she ___ her phone.", v: 'lose', o: ['has lost', 'had lost', 'loses'], a: 1, why: "Причина грусти в прошлом случилась раньше → had lost." },
       { q: "___ you finished the level before the server went down?", v: '', o: ['Had', 'Have', 'Are'], a: 0, why: "before + went down (прошлое): закончил ли раньше этого момента → Had you finished." },
       { q: "When we got to the cinema, the film ___ already.", v: 'start', o: ['has started', 'starts', 'had started'], a: 2, why: "Фильм начался раньше, чем мы пришли (got — прошлое) → had started." },
-      { q: "I didn't recognise him. He ___ a lot.", v: 'change', o: ['has changed', 'changes', 'had changed'], a: 2, why: "Не узнал (в прошлом), потому что он изменился ещё раньше → had changed." },
+      { q: "When I saw him last year, I didn't recognise him. He ___ a lot.", v: 'change', o: ['has changed', 'changes', 'had changed'], a: 2, why: "Не узнал (в прошлом), потому что он изменился ещё раньше → had changed." },
       { q: "Anna ___ Figma before she got this job.", v: 'never use', o: ['had never used', 'has never used', 'never uses'], a: 0, why: "never … before + got (прошлое): до того момента не пользовалась → had never used." },
       { q: "By 2020, the studio ___ three games.", v: 'release', o: ['have released', 'had released', 'release'], a: 1, why: "By 2020 — к моменту в прошлом → had released." },
       { q: "I couldn't log in because I ___ my password.", v: 'forget', o: ['had forgotten', 'have forgotten', 'forget'], a: 0, why: "Сначала забыл, потом не смог войти (couldn't — прошлое) → had forgotten." },
@@ -196,7 +196,7 @@ window.TENSES = (window.TENSES || []).concat([
 <li><b>Вежливо спросить о планах.</b></li>
 <li><span class="say">Will you be using the laptop tonight?</span> — Ты будешь сегодня пользоваться ноутбуком? <span class="muted">(мягче, чем Will you use…)</span></li>
 </ul>
-<div class="mini" data-q="At 10 tomorrow I ___ a meeting." data-o="will be having|have|had" data-a="0" data-why="Точный момент в будущем (at 10 tomorrow), буду в процессе → will be having."></div>
+<div class="mini" data-q="At 10 tomorrow I ___ a shower, so I won't hear your call." data-o="will be having|have|had" data-a="0" data-why="Точный момент в будущем (at 10 tomorrow), буду в процессе → will be having."></div>
 
 <h3>2. Как строится</h3>
 <div class="g-formula"><span class="g-part">Кто</span><span class="g-plus">+</span><span class="g-part g-v">will be</span><span class="g-plus">+</span><span class="g-part g-v">глагол-ing</span></div>
@@ -245,9 +245,9 @@ window.TENSES = (window.TENSES || []).concat([
       { q: "This time tomorrow, we ___ on a beach.", v: 'lie', o: ['will be lying', 'will lie', 'are lying'], a: 0, why: "this time tomorrow → Future Continuous. are lying — это сейчас, will lie — просто факт без процесса." },
       { q: "At 3 pm tomorrow I ___ a presentation, so I can't talk.", v: 'give', o: ['will give', 'will be giving', 'give'], a: 1, why: "at 3 pm tomorrow — в этот момент буду занят процессом → will be giving." },
       { q: "___ you be using the laptop this evening? I need it.", v: '', o: ['Will', 'Are', 'Do'], a: 0, why: "Вежливый вопрос о планах: Will you be using…? После пропуска стоит be using — нужен will." },
-      { q: "The bag is heavy? Wait, I ___ you!", v: 'help', o: ['will be helping', 'am helping', "'ll help"], a: 2, why: "Решение прямо сейчас, в момент речи → Future Simple: I'll help. Процесса в момент будущего нет." },
+      { q: "The bag is heavy? Wait, I ___ you!", v: 'help', o: ['will be helping', 'am helping', 'will help'], a: 2, why: "Решение прямо сейчас, в момент речи → Future Simple: I'll help. Процесса в момент будущего нет." },
       { q: "When you arrive, we ___ dinner, so just come in.", v: 'have', o: ['will have', 'will be having', 'have'], a: 1, why: "Когда придёшь, ужин уже будет идти → will be having. will have — начнём ужинать после твоего прихода." },
-      { q: "Next week at this time, she ___ in our Paris office.", v: 'work', o: ['works', 'will be working', 'worked'], a: 1, why: "next week at this time → в процессе в момент будущего → will be working." },
+      { q: "This time next week, she ___ in our Paris office.", v: 'work', o: ['works', 'will be working', 'worked'], a: 1, why: "this time next week → в процессе в момент будущего → will be working." },
       { q: "I ___ all evening — ping me if you want to play.", v: 'stream', o: ['stream', 'streamed', 'will be streaming'], a: 2, why: "all evening — весь период в будущем → will be streaming." },
       { q: "At midnight I ___ games — I'll be sleeping.", v: 'not play', o: ["won't be playing", "don't play", "didn't play"], a: 0, why: "at midnight — момент в будущем; отрицание процесса → won't be playing." },
       { q: "Tomorrow from 10 to 12 the team ___ the servers, so the game will be offline.", v: 'update', o: ['updates', 'updated', 'will be updating'], a: 2, why: "from 10 to 12 tomorrow — период в будущем, всё это время идёт процесс → will be updating." },
@@ -313,8 +313,7 @@ window.TENSES = (window.TENSES || []).concat([
   <div><div class="g-h">Future Perfect</div><p>К этому моменту уже сделал.</p><p><span class="say">By 6 I'll have cooked.</span></p><p>К шести — ужин готов.</p></div>
 </div>
 <p><b>Future Simple</b> (will do) — просто «сделаю», без привязки «уже к моменту».</p>
-<div class="g-bad">By Friday I will finish the design. <span class="muted">— понятно, но by просит «уже к»</span></div>
-<div class="g-good">By Friday I will have finished the design.</div>
+<p><span class="say">By Friday I will finish the design.</span> — тоже правильно и так часто говорят. <span class="say">By Friday I will have finished the design.</span> — подчёркивает, что к пятнице всё <b>уже будет готово</b>.</p>
 <div class="g-bad">By the time you come, she will has left.</div>
 <div class="g-good">By the time you come, she will have left.</div>
 <div class="g-bad">By the time you will come, I'll have cooked. <span class="muted">— после by the time / when будущее не ставим</span></div>
@@ -324,7 +323,7 @@ window.TENSES = (window.TENSES || []).concat([
 <ul class="g-list">
 <li><span class="say">By the time they find us, we'll have escaped.</span> — Когда нас найдут, мы уже сбежим. <span class="muted">(кат-сцена)</span></li>
 <li><span class="say">By sunrise the army will have reached the city.</span> — К рассвету армия дойдёт до города. <span class="muted">(NPC)</span></li>
-<li><span class="say">Relax, I'll have fixed the bug by tomorrow.</span> — Спокойно, к завтра я починю баг. <span class="muted">(сериал про айтишников)</span></li>
+<li><span class="say">Relax, I'll have fixed the bug by tomorrow.</span> — Спокойно, к завтрашнему дню я починю баг. <span class="muted">(сериал про айтишников)</span></li>
 <li><span class="say">Hurry! By the time we get there, the shop will have closed.</span> — Быстрее! Пока доедем, магазин уже закроется.</li>
 </ul>
 

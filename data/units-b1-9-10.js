@@ -95,7 +95,7 @@ COURSE.units.push(
 <tr><td>Пример</td><td><span class="say">I must call Mum. It's been weeks.</span></td><td><span class="say">I have to be at the office at nine.</span></td></tr>
 <tr><td>Совет</td><td><span class="say">You must watch this series!</span></td><td><span class="say">You have to try this game!</span></td></tr>
 </table>
-<p>Для личного мнения и советов подходят оба. Для факта (расписание, работа, закон) — <b>have to</b>. А в <b>письменных правилах</b> и инструкциях — <b>must</b>: <span class="say">Files must be uploaded by Friday.</span> <span class="say">Passwords must contain eight characters.</span></p>
+<p>Для личного мнения и советов подходят оба. Для факта (расписание, работа, закон) — <b>have to</b>. А в <b>письменных правилах</b> и инструкциях — <b>must</b>: <span class="say">Files must be uploaded by Friday.</span> <span class="say">Passwords must contain at least eight characters.</span></p>
 <p><b>have to</b> — обычный глагол, поэтому у него есть все времена и нужен do/does/did:</p>
 <ul class="g-list">
 <li><span class="say">Do you have to work on Saturdays?</span> <span class="muted">(не Have you to work?)</span></li>
@@ -149,7 +149,7 @@ COURSE.units.push(
 <div class="g-tip">Частая пара: <b>needn't have</b> + <b>could have</b>: <span class="say">You needn't have taken a taxi. You could have walked.</span> — Не нужно было брать такси, мог бы дойти пешком.</div>
 <div class="g-bad">I needn't have gone, so I stayed at home.</div>
 <div class="g-good">I <b>didn't need to</b> go, so I stayed at home.</div>
-<div class="mini" data-q="I bought a new charger, but then found the old one. I ___ it." data-o="didn't need to buy|needn't have bought|mustn't have bought" data-a="1" data-why="Купил, а оказалось зря → needn't have + 3-я форма."></div>`
+<div class="mini" data-q="I bought a new charger, but then found the old one. I ___ it." data-o="needn't buy|needn't have bought|mustn't have bought" data-a="1" data-why="Купил, а оказалось зря → needn't have + 3-я форма."></div>`
       },
       {
         title: '8. Типичные ошибки — проверьте себя',
@@ -191,7 +191,7 @@ COURSE.units.push(
       ['otherwise', 'иначе, в противном случае', 'We have to leave now, otherwise we\'ll miss the train.', 'Надо выйти сейчас, иначе опоздаем на поезд.'],
       ['run out of', 'заканчиваться (о запасе)', 'We might run out of time.', 'У нас может закончиться время.'],
       ['stay up', 'не ложиться спать', 'You needn\'t have stayed up so late.', 'Зря ты так поздно не ложился.'],
-      ['avoid', 'избегать', 'You must avoid this mistake.', 'Эту ошибку надо избегать.'],
+      ['avoid', 'избегать', 'You must avoid this mistake.', 'Этой ошибки надо избегать.'],
       ['ignore', 'игнорировать', 'He might have ignored my message.', 'Может, он проигнорировал моё сообщение.'],
       ['waste', 'тратить впустую; трата', 'We needn\'t have waited. What a waste of time!', 'Зря мы ждали. Какая трата времени!'],
       ['due', 'ожидаемый по сроку, должный', 'The project is due on Friday, so I have to hurry.', 'Сдача проекта в пятницу, так что мне надо спешить.'],
@@ -229,7 +229,7 @@ Nika: And next time I'll send the invite two days before. Then nobody will have 
 The written rules are short and strict. Members must be online for at least two raids a week. Voice chat is required during raids. You mustn't sell guild items to other players, and you mustn't be rude in the chat. That's all.
 There are also things you don't have to do, which surprised me. You don't have to use a microphone outside raids. You don't have to donate gold. You needn't even play every day. Marek says the game should be fun, not a second job.
 Of course, in my first week I made mistakes. I thought I had to buy expensive armour before my first raid, so I spent all my gold on it. I needn't have bought it. The guild gives new players armour for free. I could have saved everything.
-Then one evening I didn't need to log in, because there was no raid, so I went to the cinema with friends. When I came back, I saw forty messages. Apparently, somebody had tried to steal items from the guild bank, and everyone was looking for the thief. For a moment people thought it might have been me, because I was new and I wasn't online. Luckily, Marek checked the logs. It couldn't have been me: the thief had logged in from another country.
+Then one evening I didn't need to log in, because there was no raid, so I went to the cinema with friends. When I came back, I saw forty messages. Apparently, somebody had tried to steal items from the guild bank, and everyone was looking for the thief. For a moment people thought it might have been me, because I was new and nobody could reach me. Luckily, Marek checked the logs. It couldn't have been me: the thief had logged in from another country.
 Now I've been in the guild for six months. I might become an officer next month. If so, I'll have to learn all the rules by heart.`,
         questions: [
           { q: 'What is required during raids?', o: ['Donating gold', 'Voice chat', 'Playing every day'], a: 1 },
@@ -241,9 +241,9 @@ Now I've been in the guild for six months. I might become an officer next month.
     practice: [
       { t: 'choice', q: 'Is that Olga\'s bag? — I\'m not sure. It ___ hers.', o: ['maybe', 'may be', 'may is'], a: 1, why: 'После модального нужен глагол: may + be. maybe — наречие без глагола.' },
       { t: 'choice', q: 'Don\'t call now. He ___ dinner.', o: ['might have', 'might be having', 'might had'], a: 1, why: 'Процесс прямо сейчас → might be + -ing.' },
-      { t: 'choice', q: 'She didn\'t answer. She ___ asleep.', o: ['might be', 'might have been', 'might was'], a: 1, why: 'Предположение о прошлом → might have + 3-я форма (been).' },
+      { t: 'choice', q: 'She didn\'t answer when I called last night. She ___ asleep.', o: ['might be', 'might have been', 'might was'], a: 1, why: 'Предположение о прошлом → might have + 3-я форма (been).' },
       { t: 'choice', q: 'He was with me all evening, so he ___ the car. It\'s impossible.', o: ['might not have taken', 'couldn\'t have taken', 'needn\'t have taken'], a: 1, why: '«Исключено» → couldn\'t have done. might not have — лишь «возможно, нет».' },
-      { t: 'choice', q: 'We\'ve missed the bus, and the next one is in an hour. We ___ walk.', o: ['might as well', 'must', 'might have'], a: 0, why: 'Лучшего варианта нет, «можно и…» → might as well + глагол.' },
+      { t: 'choice', q: 'We\'ve missed the bus, and the next one is in an hour. We ___ walk.', o: ['might as well', 'may be', 'might have'], a: 0, why: 'Лучшего варианта нет, «можно и…» → might as well + глагол.' },
       { t: 'choice', q: 'I ___ start work at 8:30 every day. That\'s the company rule.', o: ['must', 'have to', 'had to'], a: 1, why: 'Факт, правило компании, а не личное мнение → have to.' },
       { t: 'choice', q: 'It\'s a secret. You ___ tell anyone.', o: ['don\'t have to', 'needn\'t', 'mustn\'t'], a: 2, why: 'Запрет «нельзя» → mustn\'t.' },
       { t: 'choice', q: 'The file is small. You ___ compress it.', o: ['mustn\'t', 'don\'t need to', 'don\'t need'], a: 1, why: '«Нет нужды» → don\'t need to + глагол (с to).' },
@@ -257,7 +257,7 @@ Now I've been in the guild for six months. I might become an officer next month.
       { t: 'order', a: 'We might have to change the plan', ru: 'Возможно, нам придётся поменять план.' },
       { t: 'order', a: 'You don\'t have to come to the meeting', ru: 'Тебе не обязательно приходить на встречу.' },
       { t: 'tr', q: 'Зря ты волновался.', a: ['you needn\'t have worried', 'you need not have worried', 'you shouldn\'t have worried'] },
-      { t: 'tr', q: 'Мне пришлось перезапустить игру.', a: ['i had to restart the game', 'i had to reboot the game'] },
+      { t: 'tr', q: 'Мне пришлось перезапустить игру.', a: ['i had to restart the game', 'i had to reboot the game', 'i had to relaunch the game'] },
       { t: 'listen', say: 'We might as well order a pizza', a: ['we might as well order a pizza', 'we might as well order pizza'] }
     ],
     test: [
@@ -265,7 +265,7 @@ Now I've been in the guild for six months. I might become an officer next month.
       { t: 'choice', q: 'The streamer is quiet. He ___ reading the chat.', o: ['may be', 'maybe', 'may have'], a: 0, why: 'Процесс сейчас: may be + -ing.' },
       { t: 'choice', q: 'I can\'t find my keys. — You ___ them in the car.', o: ['might leave', 'might have left', 'might left'], a: 1, why: 'Возможное действие в прошлом → might have + 3-я форма.' },
       { t: 'choice', q: 'If they paid me better, I ___ work harder.', o: ['may', 'might', 'must'], a: 1, why: 'В нереальной ситуации с if — только might, не may.' },
-      { t: 'choice', q: 'Seat belts ___ be worn at all times. (табличка в автобусе)', o: ['must', 'have to', 'had to'], a: 0, why: 'Письменные правила и инструкции → must.' },
+      { t: 'choice', q: 'Seat belts ___ be worn at all times. (табличка в автобусе)', o: ['must', 'need', 'had to'], a: 0, why: 'Письменные правила и инструкции → must.' },
       { t: 'choice', q: 'I didn\'t ___ pay for the ticket. My friend had a spare one.', o: ['must', 'have to', 'needn\'t'], a: 1, why: 'Прошлое «не нужно было» → didn\'t have to + глагол.' },
       { t: 'choice', q: 'We didn\'t need to cook, so we ___.', o: ['didn\'t', 'needn\'t have', 'did'], a: 0, why: 'didn\'t need to — нужды не было; по контексту так и не сделали.' },
       { t: 'choice', q: 'Sophie likes weekends because she ___ get up early.', o: ['mustn\'t', 'doesn\'t have to', 'hasn\'t to'], a: 1, why: '«Не обязательно» → doesn\'t have to; форма hasn\'t to неверна.' },
@@ -528,16 +528,16 @@ Lena: Sure. And next time Dan had better take a taxi.`,
       { t: 'choice', q: 'It\'s midnight. It\'s time we ___ home.', o: ['go', 'went', 'will go'], a: 1, why: 'It\'s time + кто + прошедшая форма (смысл — сейчас).' },
       { t: 'choice', q: 'I tried to fix the printer, but it ___ work.', o: ['won\'t', 'wouldn\'t', 'didn\'t would'], a: 1, why: 'Никак не хотел работать в прошлом → wouldn\'t.' },
       { t: 'choice', q: '___ some cake? — Yes, please!', o: ['Do you like', 'Would you like', 'Are you like'], a: 1, why: 'Предлагаем → Would you like…? Do you like — «любишь ли вообще».' },
-      { t: 'gap', q: 'You missed a great stream. You ___ it. (should / watch)', a: ['should have watched', 'ought to have watched'], why: 'Не сделал, а стоило бы → should have + 3-я форма.' },
+      { t: 'gap', q: 'You missed a great stream. You ___ it. (should / watch)', a: ['should have watched', 'should\'ve watched', 'ought to have watched'], why: 'Не сделал, а стоило бы → should have + 3-я форма.' },
       { t: 'gap', q: 'The bus leaves in five minutes. We ___ hurry. (had better)', a: ['\'d better', 'had better'], why: 'Конкретная ситуация, есть риск опоздать → had better / \'d better.' },
       { t: 'gap', q: 'You ___ go out tonight. You look ill. (\'d better / not)', a: ['\'d better not', 'had better not'], why: 'Отрицание had better: \'d better not + глагол.' },
       { t: 'gap', q: 'Ivan promised he ___ tell anyone. (would / not)', a: ['wouldn\'t', 'would not'], why: 'Прошедшее от won\'t в пересказе → wouldn\'t.' },
       { t: 'gap', q: '___ you mind if I opened the window? (would)', a: ['Would', 'would'], why: 'Вежливое Would you mind if I…? (после would часто прошедшая форма).' },
       { t: 'order', a: 'Do you think you could help me', ru: 'Как думаешь, ты мог бы мне помочь?' },
       { t: 'order', a: 'It\'s time you updated your portfolio', ru: 'Пора бы тебе обновить портфолио.' },
-      { t: 'tr', q: 'Надо было сказать мне раньше.', a: ['you should have told me earlier', 'you should have told me before', 'you ought to have told me earlier'] },
-      { t: 'tr', q: 'Я бы не стал ему звонить.', a: ['i wouldn\'t call him', 'i would not call him'] },
-      { t: 'tr', q: 'Можно мне счёт, пожалуйста?', a: ['can i have the bill please', 'could i have the bill please', 'can i get the bill please', 'may i have the bill please', 'can i have the check please', 'could i have the check please'] },
+      { t: 'tr', q: 'Надо было сказать мне раньше.', a: ['you should have told me earlier', 'you should have told me before', 'you should have told me sooner', 'you should\'ve told me earlier', 'you should\'ve told me before', 'you should\'ve told me sooner', 'you ought to have told me earlier', 'you ought to have told me before', 'you ought to have told me sooner'] },
+      { t: 'tr', q: 'Я бы не стал ему звонить.', a: ['i wouldn\'t call him', 'i would not call him', 'i wouldn\'t phone him', 'i would not phone him', 'i wouldn\'t ring him', 'i would not ring him'] },
+      { t: 'tr', q: 'Можно мне счёт, пожалуйста?', a: ['can i have the bill please', 'could i have the bill please', 'can i get the bill please', 'may i have the bill please', 'can i have the check please', 'could i have the check please', 'could i get the bill please', 'may i have the check please', 'can i get the check please', 'could i get the check please'] },
       { t: 'listen', say: 'You\'d better save your game', a: ['you\'d better save your game', 'you had better save your game'] }
     ],
     test: [
@@ -549,7 +549,7 @@ Lena: Sure. And next time Dan had better take a taxi.`,
       { t: 'choice', q: 'When I was little, my grandpa ___ tell me stories every night.', o: ['would', 'will', 'should'], a: 0, why: 'Регулярное действие в прошлом → would (= used to).' },
       { t: 'choice', q: 'I ___ a car when I lived in Moscow.', o: ['would have', 'used to have', 'would had'], a: 1, why: 'have (владеть) — состояние, с ним would для привычки не ставят → used to.' },
       { t: 'choice', q: 'I\'d help you, but I ___ time right now.', o: ['don\'t have', 'wouldn\'t have', 'didn\'t have'], a: 0, why: 'Реальная причина сейчас: I\'d help, but I don\'t have time.' },
-      { t: 'gap', q: 'I don\'t know what we ___ without your help. (would / do)', a: ['would have done', '\'d have done'], why: 'Воображаемое прошлое → would have + 3-я форма.' },
+      { t: 'gap', q: 'I don\'t know what we ___ without your help. (would / do)', a: ['would have done', '\'d have done', 'would\'ve done'], why: 'Воображаемое прошлое → would have + 3-я форма.' },
       { t: 'gap', q: 'It\'s about time somebody ___ something about this bug. (do)', a: ['did'], why: 'It\'s (about) time + кто + прошедшая форма.' },
       { t: 'gap', q: 'You ___ to have told her the truth. (ought)', a: ['ought'], why: 'ought to have + 3-я форма = should have — «надо было».' },
       { t: 'gap', q: 'What do you suggest I ___? (do)', a: ['do', 'should do'], why: 'suggest (that) I do / I should do — без to.' }

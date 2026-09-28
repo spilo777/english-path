@@ -542,7 +542,7 @@ Den: Yes, please. A big one.`,
 <ul class="g-list">
 <li><span class="say">I was sick, so I spent most of the day in bed.</span> — Большую часть дня провалялся в кровати.</li>
 <li><span class="say">Have you played any of these games?</span> — Ты играл в какую-нибудь из этих игр?</li>
-<li><span class="say">None of this code is mine.</span> — Ни строчки этого кода не моё.</li>
+<li><span class="say">None of this code is mine.</span> — Ни одна строчка этого кода не моя.</li>
 </ul>
 <p><b>all и half</b> — of можно не ставить перед the / my / this: <span class="say">all my friends</span> = <span class="say">all of my friends</span>, <span class="say">half this pizza</span> = <span class="say">half of this pizza</span>.</p>
 <p>Но перед <b>it / us / you / them</b> of <b>обязателен</b>:</p>
@@ -763,12 +763,12 @@ Liza: The whole thing. Every single cable.`,
     test: [
       { t: 'choice', q: 'If you have ___ questions, write them in the chat.', o: ['any', 'some', 'no'], a: 0, why: 'После if — any: мы не знаем, будут ли вопросы.' },
       { t: 'choice', q: 'He left the room without saying ___.', o: ['anything', 'something', 'nothing'], a: 0, why: 'without уже отрицание → any-.' },
-      { t: 'choice', q: 'Our new colleague speaks ___ Russian, so we talk in English.', o: ['little', 'a little', 'few'], a: 0, why: 'little = почти не говорит (нехватка), поэтому переходим на английский.' },
+      { t: 'choice', q: 'Our new colleague speaks ___ Russian — almost none, so we always talk in English.', o: ['little', 'a little', 'few'], a: 0, why: 'little = почти не говорит (нехватка), поэтому переходим на английский.' },
       { t: 'choice', q: 'We spent ___ money on the trip. It was expensive.', o: ['a lot of', 'much', 'many'], a: 0, why: 'В утверждении much звучит неестественно → a lot of.' },
       { t: 'gap', q: 'I tried both keys, but ___ of them opened the door. (neither / none)', a: ['neither'], why: 'Ключей два → neither; none — когда больше двух.' },
       { t: 'choice', q: 'We called five hotels. ___ of them had a free room.', o: ['Neither', 'None', 'No'], a: 1, why: 'Больше двух → none of.' },
       { t: 'choice', q: '___ Max and Liza were late for the stream.', o: ['Both', 'Either', 'Neither'], a: 0, why: 'both … and — «и…, и…»; neither требовал бы nor.' },
-      { t: 'choice', q: 'I spend ___ in Figma these days.', o: ['most of the time', 'most of time', 'the most time'], a: 0, why: 'most of + the/my/…: most of the time.' },
+      { t: 'choice', q: 'I spend ___ in Figma these days.', o: ['most of the time', 'most of time', 'most the time'], a: 0, why: 'most of + the/my/…: most of the time.' },
       { t: 'choice', q: 'I spent ___ trying to beat this boss. I didn\'t even eat.', o: ['all day', 'all the day', 'every day'], a: 0, why: 'Весь день целиком → all day (без the).' },
       { t: 'choice', q: '___ time I start the game, it crashes.', o: ['All', 'Every', 'Whole'], a: 1, why: '«Каждый раз» → every time.' },
       { t: 'choice', q: 'Did you read ___ information in the email?', o: ['the whole', 'all the', 'every'], a: 1, why: 'information неисчисляемое → all the, а не the whole.' },

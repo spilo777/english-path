@@ -183,7 +183,7 @@ COURSE.units.push(
 <li><span class="say">The only thing I don't like is the price.</span> — Единственное, что мне не нравится, — цена.</li>
 <li><span class="say">Anyone who has played Dark Souls knows this feeling.</span> — Каждый, кто играл в Dark Souls, знает это чувство.</li>
 </ul>
-<div class="g-tip">Не знаете слово <i>«отвёртка»</i>? <span class="say">It's the thing you use to fix screws.</span> Собеседник сам подскажет: <i>A screwdriver?</i> — и вы запомните слово навсегда.</div>
+<div class="g-tip">Не знаете слово <i>«отвёртка»</i>? <span class="say">It's the thing you use to turn screws.</span> Собеседник сам подскажет: <i>A screwdriver?</i> — и вы запомните слово навсегда.</div>
 <div class="mini" data-q="Вы забыли слово «зарядка». Как описать?" data-o="It's a thing you use to charge your phone.|It's a thing you use it to charge your phone.|It's a thing what charges your phone." data-a="0" data-why="the thing (that) you use — «которой» можно убрать, it не повторяем, what после thing нельзя."></div>`
       },
       {
@@ -279,7 +279,7 @@ The tools we use are ordinary: Figma, a task board and a chat that never stops. 
 
 If you're looking for a job in game design, my advice is simple: ask about the team you'll work with. The salary they offer matters, but the people you spend eight hours a day with matter more.`,
         questions: [
-          { q: 'Who is the person the author goes to when she doesn\'t know what to do?', o: ['Oleg', 'Kate', 'Mira'], a: 1 },
+          { q: 'Who does the author go to when they don\'t know what to do?', o: ['Oleg', 'Kate', 'Mira'], a: 1 },
           { q: 'What does Oleg do when a button doesn\'t fit on a small screen?', o: ['He complains to Kate', 'He fixes it himself', 'He sends a screenshot with a sad smiley'], a: 2 },
           { q: 'What was the bug that Mira found?', o: ['It deleted saves of players who changed the language', 'It stopped the game on small screens', 'It changed the colours in the menu'], a: 0 }
         ]
@@ -302,7 +302,7 @@ If you're looking for a job in game design, my advice is simple: ask about the t
       { t: 'gap', q: 'She gave me all the money ___ had. (у неё было)', a: ['she', 'that she'], why: 'all the money (that) she had — у придаточного своё подлежащее she.' },
       { t: 'order', a: 'I didn\'t get the job I applied for', ru: 'Я не получил работу, на которую подавался' },
       { t: 'order', a: 'Is there anything I can do', ru: 'Я могу чем-нибудь помочь?' },
-      { t: 'tr', q: 'Это именно то, что мне нужно.', a: ['that\'s exactly what i need', 'that is exactly what i need', 'it\'s exactly what i need', 'it is exactly what i need', 'this is exactly what i need'] },
+      { t: 'tr', q: 'Это именно то, что мне нужно.', a: ['that\'s exactly what i need', 'that is exactly what i need', 'it\'s exactly what i need', 'it is exactly what i need', 'this is exactly what i need', 'that\'s just what i need', 'that is just what i need', 'it\'s just what i need', 'this is just what i need'] },
       { t: 'tr', q: 'Мне понравился сериал, который ты посоветовал.', a: ['i liked the series you recommended', 'i liked the series that you recommended', 'i liked the series which you recommended', 'i loved the series you recommended', 'i loved the series that you recommended', 'i enjoyed the series you recommended', 'i enjoyed the series that you recommended'] },
       { t: 'listen', say: 'The man I was sitting next to talked all the time', a: ['the man i was sitting next to talked all the time'] }
     ],
@@ -368,7 +368,7 @@ If you're looking for a job in game design, my advice is simple: ask about the t
         title: '2. Порядок прилагательных: a nice new wooden desk',
         html: `
 <div class="g-idea">В русском порядок свободный: «старый красивый дом» = «красивый старый дом». В английском, когда прилагательных два и больше, порядок <b>почти фиксированный</b>: сначала <b>мнение</b>, потом <b>факты</b>.</div>
-<div class="g-formula"><span class="g-part g-v">мнение</span><span class="g-plus">→</span><span class="g-part">размер</span><span class="g-plus">→</span><span class="g-part">возраст</span><span class="g-plus">→</span><span class="g-part">цвет</span><span class="g-plus">→</span><span class="g-part">откуда</span><span class="g-plus">→</span><span class="g-part">из чего</span><span class="g-plus">+</span><span class="g-part g-v">предмет</span></div>
+<div class="g-formula"><span class="g-part g-v">мнение</span><span class="g-plus">→</span><span class="g-part">размер</span><span class="g-plus">→</span><span class="g-part">возраст</span><span class="g-plus">→</span><span class="g-part">форма</span><span class="g-plus">→</span><span class="g-part">цвет</span><span class="g-plus">→</span><span class="g-part">откуда</span><span class="g-plus">→</span><span class="g-part">из чего</span><span class="g-plus">+</span><span class="g-part g-v">предмет</span></div>
 <ul class="g-list">
 <li><span class="say">a nice new flat</span> — мнение → возраст</li>
 <li><span class="say">a beautiful large round wooden table</span> — мнение → размер → форма → материал</li>
@@ -669,7 +669,7 @@ Max: Then I'm booking a seat at the café for the whole evening.`,
       { t: 'gap', q: 'We didn\'t go out because it was raining ___. (heavy)', a: ['heavily'], why: 'Как шёл дождь? — наречие heavily.' },
       { t: 'order', a: 'I was so tired I fell asleep', ru: 'Я так устал, что уснул' },
       { t: 'order', a: 'She isn\'t old enough to drive', ru: 'Она недостаточно взрослая, чтобы водить' },
-      { t: 'tr', q: 'Мне скучно.', a: ['i\'m bored', 'i am bored'] },
+      { t: 'tr', q: 'Мне скучно.', a: ['i\'m bored', 'i am bored', 'i feel bored'] },
       { t: 'tr', q: 'Это была такая интересная игра!', a: ['it was such an interesting game', 'that was such an interesting game', 'this was such an interesting game'] },
       { t: 'listen', say: 'I quite agree with you', a: ['i quite agree with you'] }
     ],
@@ -684,7 +684,7 @@ Max: Then I'm booking a seat at the café for the whole evening.`,
       { t: 'choice', q: 'You always expect the best. You\'re ___ optimist!', o: ['so', 'such an', 'such'], a: 1, why: 'Одно существительное optimist → such an.' },
       { t: 'gap', q: 'This chair isn\'t strong ___ to stand on. (достаточно)', a: ['enough'], why: 'enough ставится после прилагательного: strong enough.' },
       { t: 'choice', q: 'The weather is ___ today, so let\'s stay in.', o: ['rather cold', 'rather good', 'fairly amazing'], a: 0, why: 'rather чаще описывает неприятное, а «останемся дома» — из-за холода.' },
-      { t: 'choice', q: 'Are you sure? — Yes, ___ sure.', o: ['quite', 'fairly', 'rather'], a: 0, why: 'quite sure = совершенно уверен (quite = полностью).' },
+      { t: 'choice', q: 'Are you sure? — Yes, ___ sure. (совершенно)', o: ['quite', 'such', 'enough'], a: 0, why: 'quite sure = совершенно уверен (quite = полностью).' },
       { t: 'choice', q: 'My room is ___ big, but I\'d prefer a bigger one.', o: ['fairly', 'extremely', 'such'], a: 0, why: 'fairly — «нормально, но могло быть лучше».' }
     ]
   }

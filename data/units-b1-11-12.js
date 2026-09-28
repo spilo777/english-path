@@ -222,7 +222,7 @@ COURSE.units.push(
       {
         id: 't-b1-11-1', title: 'Chat questions: what would you do?', level: 'B1',
         text: `Dan: Welcome back, chat! While Liza's game is loading, let's answer some of your questions. First one: "If you didn't stream, what would you do?"
-Liza: Honestly? If I didn't stream, I'd probably work as a UI designer full-time. I still do some freelance work, but if I had more time, I'd take bigger projects.
+Liza: Honestly? If I didn't stream, I'd probably work as a UI designer full-time. I still do some freelance work, but if I had more time, I'd take on bigger projects.
 Dan: I'd be a chef. Well, I wish I could cook. If I cooked the way I play, the kitchen would be on fire.
 Liza: That's true. Next question: "Would you move abroad if you got a good offer?"
 Dan: Hmm. If a studio in Canada offered me a job, I might go. But I'd miss my friends. If they came with me, I'd go tomorrow.
@@ -282,7 +282,7 @@ What about you? If you wrote a list like this today, what would be first on it?`
       { t: 'order', a: 'I wish I had more free time', ru: 'Жаль, что у меня мало свободного времени' },
       { t: 'order', a: 'What would you do in my position', ru: 'Что бы ты сделал на моём месте?' },
       { t: 'tr', q: 'Жаль, что ты живёшь так далеко.', a: ['i wish you lived closer', 'i wish you didn\'t live so far away', 'i wish you did not live so far away', 'i wish you didn\'t live so far', 'i wish you did not live so far', 'i wish you lived nearer'] },
-      { t: 'tr', q: 'Если бы я не был таким уставшим, я бы пошёл на вечеринку.', a: ['if i wasn\'t so tired i would go to the party', 'if i weren\'t so tired i would go to the party', 'if i was not so tired i would go to the party', 'if i were not so tired i would go to the party', 'if i wasn\'t so tired i\'d go to the party', 'if i weren\'t so tired i\'d go to the party', 'if i was not so tired i\'d go to the party', 'if i were not so tired i\'d go to the party', 'i would go to the party if i wasn\'t so tired', 'i would go to the party if i weren\'t so tired', 'i\'d go to the party if i wasn\'t so tired', 'i\'d go to the party if i weren\'t so tired'] },
+      { t: 'tr', q: 'Если бы я не был таким уставшим, я бы пошёл на вечеринку.', a: ['if i wasn\'t so tired i would go to the party', 'if i weren\'t so tired i would go to the party', 'if i was not so tired i would go to the party', 'if i were not so tired i would go to the party', 'if i wasn\'t so tired i\'d go to the party', 'if i weren\'t so tired i\'d go to the party', 'if i was not so tired i\'d go to the party', 'if i were not so tired i\'d go to the party', 'i would go to the party if i wasn\'t so tired', 'i would go to the party if i weren\'t so tired', 'i\'d go to the party if i wasn\'t so tired', 'i\'d go to the party if i weren\'t so tired', 'i would go to the party if i was not so tired', 'i would go to the party if i were not so tired', 'i\'d go to the party if i was not so tired', 'i\'d go to the party if i were not so tired'] },
       { t: 'listen', say: 'I would if I could', a: ['i would if i could'] },
       { t: 'listen', say: 'If I were you, I would take the offer', a: ['if i were you i would take the offer', 'if i were you i\'d take the offer'] }
     ],
@@ -353,9 +353,9 @@ What about you? If you wrote a list like this today, what would be first on it?`
 <li><span class="say">While the server was being updated, nobody could log in.</span> — Пока обновляли сервер, никто не мог зайти.</li>
 <li><span class="say">I had a feeling that we were being followed.</span> — У меня было чувство, что за нами следят.</li>
 <li><span class="say">I didn't know that our conversation was being recorded.</span> — Я не знал, что наш разговор записывают.</li>
-<li><span class="say">The game was being developed for seven years.</span> — Игру разрабатывали семь лет.</li>
+<li><span class="say">The game was still being developed when the studio closed.</span> — Игру ещё разрабатывали, когда студия закрылась.</li>
 </ul>
-<p>Сравните — одна буква смысла:</p>
+<p>Сравните — одно слово being меняет смысл:</p>
 <table>
 <tr><th>was cleaned</th><th>was being cleaned</th></tr>
 <tr><td><span class="say">The room was cleaned yesterday.</span><br><span class="muted">убрали, готово</span></td><td><span class="say">When I came in, the room was being cleaned.</span><br><span class="muted">как раз убирали, в процессе</span></td></tr>
@@ -493,9 +493,9 @@ What about you? If you wrote a list like this today, what would be first on it?`
       ["update", "обновлять; обновление", "The app is updated every two weeks.", "Приложение обновляют раз в две недели."],
       ["fix", "исправлять, чинить", "The bug had been fixed before the release.", "Баг исправили ещё до релиза."],
       ["repair", "ремонтировать; ремонт", "This road should have been repaired long ago.", "Эту дорогу давно надо было отремонтировать."],
-      ["damage", "повреждать; урон", "The roof was damaged in a storm.", "Крышу повредило бурей."],
+      ["damage", "повреждать; урон", "The roof was damaged in a storm.", "Крыша пострадала во время бури."],
       ["injure", "ранить, травмировать", "Fortunately, nobody was injured.", "К счастью, никто не пострадал."],
-      ["rescue", "спасать; спасение", "Everybody was rescued from the boat.", "Всех спасли с лодки."],
+      ["rescue", "спасать; спасение", "Everybody was rescued from the boat.", "Всех, кто был на лодке, спасли."],
       ["arrest", "арестовывать", "The hacker was arrested last month.", "Хакера арестовали в прошлом месяце."],
       ["steal — stole — stolen", "красть — украл — украден", "When I came back, my bike had been stolen.", "Когда я вернулся, велосипед уже украли."],
       ["follow", "следовать, идти за", "I think we're being followed.", "Кажется, за нами следят."],
@@ -576,13 +576,13 @@ Kate: Thank goodness. Let's make our own backup. Today.`,
       { t: 'gap', q: 'The office ___ when we arrived, so we worked in a café. (renovate)', a: ['was being renovated'], why: 'Процесс в момент прошлого + passive → was being + V3.' },
       { t: 'gap', q: 'By the time the police came, the money ___. (already / take)', a: ['had already been taken'], why: 'Сделали раньше другого прошлого события → had already been + V3.' },
       { t: 'gap', q: 'The report should ___ yesterday. (send)', a: ['have been sent'], why: 'Упрёк о прошлом в passive → should have been + V3 (sent).' },
-      { t: 'gap', q: 'The new version is going ___ next month. (release)', a: ['to be released'], why: 'После going нужен to; игру выпускают → to be + V3.' },
-      { t: 'gap', q: 'Tom ___ from his job last week. He was always late. (fire)', a: ['was fired'], why: 'Его уволили (не сам ушёл) → passive was + V3.' },
+      { t: 'gap', q: 'The new version is going ___ next month. (release)', a: ['to be released'], why: 'После going нужен to; версию выпускают люди → to be + V3.' },
+      { t: 'gap', q: 'Tom ___ from his job last week. He was always late. (fire)', a: ['was fired', 'got fired'], why: 'Его уволили (не сам ушёл) → passive was + V3.' },
       { t: 'gap', q: 'Everything works now. The problem seems ___. (solve)', a: ['to have been solved'], why: 'seem + to have been + V3 — «похоже, уже решили».' },
       { t: 'order', a: 'The game was being tested at that time', ru: 'В то время игру тестировали' },
       { t: 'order', a: 'The files must have been deleted', ru: 'Файлы, должно быть, удалили' },
-      { t: 'tr', q: 'Когда я пришёл, баг уже исправили.', a: ['when i came the bug had already been fixed', 'when i arrived the bug had already been fixed', 'when i came in the bug had already been fixed', 'the bug had already been fixed when i came', 'the bug had already been fixed when i arrived', 'when i got there the bug had already been fixed'] },
-      { t: 'tr', q: 'Нас должны были предупредить.', a: ['we should have been warned', 'we should have been told', 'we should have been informed'] },
+      { t: 'tr', q: 'Когда я пришёл, баг уже исправили.', a: ['when i came the bug had already been fixed', 'when i arrived the bug had already been fixed', 'when i came in the bug had already been fixed', 'the bug had already been fixed when i came', 'the bug had already been fixed when i arrived', 'when i got there the bug had already been fixed', 'the bug had already been fixed when i came in', 'the bug had already been fixed when i got there', 'when i came the bug had been fixed', 'when i arrived the bug had been fixed', 'when i came they had already fixed the bug', 'when i arrived they had already fixed the bug'] },
+      { t: 'tr', q: 'Нас должны были предупредить.', a: ['we should have been warned', 'we should have been told', 'we should have been informed', 'they should have warned us', 'they should have told us'] },
       { t: 'listen', say: 'Our conversation was being recorded', a: ['our conversation was being recorded'] },
       { t: 'listen', say: 'It can\'t be explained', a: ['it can\'t be explained', 'it cannot be explained', 'it can not be explained'] }
     ],

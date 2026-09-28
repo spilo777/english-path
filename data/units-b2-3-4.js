@@ -316,7 +316,7 @@ Max: Without anyone accusing us of anything, hopefully.`,
       { t: "gap", q: "The noise prevented me ___. (sleep)", a: ["from sleeping"], why: "prevent sb from + -ing." },
       { t: "order", a: "I don't feel like going out tonight", ru: "Мне не хочется никуда идти сегодня вечером." },
       { t: "order", a: "It took me a month to get used to it", ru: "Мне понадобился месяц, чтобы к этому привыкнуть." },
-      { t: "tr", q: "Я привык работать по ночам.", a: ["i'm used to working at night", "i am used to working at night", "i'm used to working at nights", "i am used to working at nights", "i've got used to working at night", "i have got used to working at night"] },
+      { t: "tr", q: "Я привык работать по ночам.", a: ["i'm used to working at night", "i am used to working at night", "i'm used to working at nights", "i am used to working at nights", "i've got used to working at night", "i have got used to working at night", "i'm used to working nights", "i am used to working nights"] },
       { t: "tr", q: "Спасибо, что пришли.", a: ["thank you for coming", "thanks for coming"] },
       { t: "listen", say: "I look forward to hearing from you", a: ["i look forward to hearing from you"] }
     ],
@@ -358,7 +358,7 @@ Max: Without anyone accusing us of anything, hopefully.`,
 <tr><td>цель с подлежащим: so that</td><td><b>целое предложение</b></td></tr>
 </table>
 <div class="g-tip">Учите рамку целиком, как одно слово: <b>no-point-in-doing</b>, <b>worth-doing</b>, <b>so-that-I-can</b>.</div>
-<div class="mini" data-q="Нет смысла спорить." data-o="There's no point to argue.|There's no point in arguing.|No sense arguing." data-a="1" data-why="there's no point in + -ing."></div>`
+<div class="mini" data-q="Нет смысла спорить." data-o="There's no point to argue.|There's no point in arguing.|There's no point of arguing." data-a="1" data-why="there's no point in + -ing."></div>`
       },
       {
         title: '2. no point in, no use, worth: «нет смысла» и «стоит того»',
@@ -370,8 +370,8 @@ Max: Without anyone accusing us of anything, hopefully.`,
 <tr><td>it's no good -ing</td><td>без толку</td><td><span class="say">It's no good shouting at the printer.</span></td></tr>
 <tr><td>what's the point <b>of</b> -ing?</td><td>какой смысл?</td><td><span class="say">What's the point of having a gym card if you never go?</span></td></tr>
 </table>
-<div class="g-bad">What's the point in… · There's no point of…</div>
-<div class="g-good"><b>no</b> point <b>in</b> · <b>the</b> point <b>of</b> <span class="muted">— «no» дружит с in, «the» — с of</span></div>
+<div class="g-bad">There's no point of waiting. · There's no point to wait.</div>
+<div class="g-good">There's <b>no</b> point <b>in</b> waiting. · What's <b>the</b> point <b>of</b> waiting? <span class="muted">— после no point ставим in; в вопросе What's the point… чаще of (in тоже возможно)</span></div>
 <p><b>worth</b> — «стоит (того)». Три варианта:</p>
 <ul class="g-list">
 <li><span class="say">It's worth spending a few days in Kyoto.</span> — Стоит провести в Киото пару дней.</li>
@@ -385,7 +385,7 @@ Max: Without anyone accusing us of anything, hopefully.`,
 <div class="g-good">This book is worth <b>reading</b>. · This game is worth <b>playing</b>.</div>
 <div class="g-tip">worth ведёт себя как предлог — значит, после него -ing. А «стоит + деньги» — тоже worth: <span class="say">This card is worth fifty dollars.</span></div>
 <div class="mini" data-q="The new season isn't worth ___. It's boring." data-o="to watch|watching|watching it" data-a="1" data-why="предмет + is worth + -ing, без it в конце."></div>
-<div class="mini" data-q="What's the point ___ a plan if nobody follows it?" data-o="in making|of making|to make" data-a="1" data-why="the point of + -ing; no point in."></div>`
+<div class="mini" data-q="What's the point ___ a plan if nobody follows it?" data-o="for making|of making|to make" data-a="1" data-why="What's the point of + -ing (реже in); for и to здесь не используются."></div>`
       },
       {
         title: '3. have trouble, spend time, waste time, busy + -ing',
@@ -602,7 +602,7 @@ Max: Without anyone accusing us of anything, hopefully.`,
 
 I started drawing on paper at school, mostly to avoid listening to my maths teacher. Later, when I got my first design job, I thought there was no point in carrying a sketchbook. Everything happened on the screen anyway. For two years I spent hours moving rectangles around without drawing a single line by hand.
 
-Then I had trouble with a big project. The client wanted a new onboarding for a fitness app, and every idea I made looked the same. My art director watched me for a while and said, "It's no use moving the same boxes again. Close the laptop and take a pen." I was afraid to show her my sketches, because my drawing was terrible. But in thirty minutes I had twenty rough ideas, and three of them were actually good.
+Then I had trouble with a big project. The client wanted a new onboarding flow for a fitness app, and every idea I came up with looked the same. My art director watched me for a while and said, "It's no use moving the same boxes again. Close the laptop and take a pen." I was afraid to show her my sketches, because my drawing was terrible. But in thirty minutes I had twenty rough ideas, and three of them were actually good.
 
 That's the real reason it's worth drawing by hand. Paper is fast and cheap, so you're not afraid of making mistakes. On a screen, every idea looks finished too early, and you waste time making it pretty instead of making it right.
 
@@ -668,12 +668,12 @@ Oleg: Not always. But take an umbrella anyway, just to be safe.`,
       { t: "order", a: "I spent the whole evening choosing a font", ru: "Я весь вечер выбирал шрифт." },
       { t: "order", a: "Is it worth buying the full version", ru: "Стоит ли покупать полную версию?" },
       { t: "order", a: "He was the only one to notice", ru: "Он единственный заметил." },
-      { t: "tr", q: "Нет смысла ждать.", a: ["there's no point in waiting", "there is no point in waiting", "it's no use waiting", "it is no use waiting", "it's no good waiting", "it is no good waiting"] },
+      { t: "tr", q: "Нет смысла ждать.", a: ["there's no point in waiting", "there is no point in waiting", "it's no use waiting", "it is no use waiting", "it's no good waiting", "it is no good waiting", "there's no point waiting", "there is no point waiting", "it's pointless to wait", "it is pointless to wait", "it's pointless waiting", "it is pointless waiting", "there's no sense in waiting", "there is no sense in waiting"] },
       { t: "tr", q: "Эту игру стоит пройти.", a: ["this game is worth playing", "this game is worth finishing", "this game is worth completing", "this game is worth beating", "it's worth playing this game", "it is worth playing this game", "it's worth finishing this game", "it is worth finishing this game"] },
       { t: "listen", say: "Sorry to bother you, but the printer isn't working", a: ["sorry to bother you but the printer isn't working", "sorry to bother you, but the printer isn't working", "sorry to bother you but the printer is not working", "sorry to bother you, but the printer is not working"] }
     ],
     test: [
-      { t: "choice", q: "What's the point ___ a meeting if nobody reads the notes?", o: ["in having", "of having", "to have"], a: 1, why: "the point of + -ing; no point in." },
+      { t: "choice", q: "What's the point ___ a meeting if nobody reads the notes?", o: ["for having", "of having", "to have"], a: 1, why: "What's the point of + -ing (реже in); for и to здесь не используются." },
       { t: "gap", q: "The flight was at 5 a.m., so it wasn't worth ___ to bed. (go)", a: ["going"], why: "it's (not) worth + -ing." },
       { t: "choice", q: "Is the new update worth ___? — Yes, it's definitely worth ___.", o: ["installing / it", "to install / it", "installing / to"], a: 0, why: "worth + -ing; «стоит того» = worth it." },
       { t: "gap", q: "Sorry, I can't talk now. I'm busy ___ dinner. (cook)", a: ["cooking"], why: "be busy + -ing." },
@@ -682,7 +682,7 @@ Oleg: Not always. But take an umbrella anyway, just to be safe.`,
       { t: "gap", q: "We left early in order ___ the traffic. (not / get stuck in)", a: ["not to get stuck in"], why: "Цель «чтобы не» → in order not to + глагол." },
       { t: "choice", q: "I didn't have the courage ___ him the truth.", o: ["telling", "to tell", "for telling"], a: 1, why: "courage / time / chance + to + глагол." },
       { t: "choice", q: "Lena was the last ___ the office.", o: ["leaving", "to leave", "who leave"], a: 1, why: "the first / last / only + to + глагол." },
-      { t: "choice", q: "I'd be interested ___ what the client thinks.", o: ["in knowing", "to know", "knowing"], a: 1, why: "Мне будет интересно узнать → interested to know." },
+      { t: "choice", q: "I'd be interested ___ what the client thinks.", o: ["for knowing", "to know", "knowing"], a: 1, why: "Мне будет интересно узнать → interested to know." },
       { t: "gap", q: "I was afraid ___ him because he'd be angry. (tell)", a: ["to tell"], why: "Боялся и поэтому не сделал → afraid to + глагол." },
       { t: "gap", q: "I'm sorry ___ at you yesterday. (shout)", a: ["for shouting", "about shouting"], why: "Извинение за прошлое → sorry for + -ing." }
     ]

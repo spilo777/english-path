@@ -60,7 +60,7 @@ COURSE.units.push(
 </table>
 <div class="g-tip">В американских сериалах вы постоянно услышите <span class="say">I just saw him.</span>, <span class="say">Did you eat yet?</span>, <span class="say">I already told you!</span> — для just, already, yet это нормальный американский вариант. Но с датой и ago Present Perfect неправилен и в Америке.</div>
 <div class="mini" data-q="— Don't forget to buy the tickets. — I ___ them!" data-o="have already bought|am already buying|already buy" data-a="0" data-why="Сделано раньше, чем напомнили, результат есть → have already bought."></div>
-<div class="mini" data-q="I talked to the boss ___." data-o="just now|yet|already" data-a="0" data-why="just now = минуту назад, это точка → подходит к Past Simple talked."></div>`
+<div class="mini" data-q="I talked to the boss ___." data-o="just now|yet|so far" data-a="0" data-why="just now = минуту назад, это точка → подходит к Past Simple talked."></div>`
       },
       {
         title: '3. Период, который ещё идёт: recently, so far, today',
@@ -180,7 +180,7 @@ COURSE.units.push(
 <div class="g-bad">I didn't have any problems so far.</div><div class="g-good">I <b>haven't had</b> any problems so far.</div>
 <div class="g-bad">It hasn't been me! I haven't touched it yesterday.</div><div class="g-good">It <b>wasn't</b> me! I <b>didn't touch</b> it yesterday.</div>
 <div class="g-bad">I have worked there from 2018 to 2022.</div><div class="g-good">I <b>worked</b> there from 2018 to 2022.</div>
-<div class="g-bad">The server has crashed for an hour, but it's OK now.</div><div class="g-good">The server <b>crashed</b> for an hour, but it's OK now.</div>
+<div class="g-bad">The server has been down for an hour, but it's OK now.</div><div class="g-good">The server <b>was</b> down for an hour, but it's OK now.</div>
 </div>
 <div class="g-sum"><div class="g-h">Итог юнита в одной строке</div>Present Perfect — о <b>сейчас</b>: новость, результат, открытый период (so far, lately, today), «впервые» и «самый… ever». Всё <b>закрытое</b> — история, детство, from… to…, результат, который уже отменился, — <b>Past Simple</b>.</div>`
       }
@@ -211,7 +211,7 @@ COURSE.units.push(
       ['grow up — grew up — grown up', 'расти, взрослеть', 'I grew up in a small town.', 'Я вырос в маленьком городе.'],
       ['be born — was born', 'родиться', 'Where were you born?', 'Где ты родился?'],
       ['recently', 'недавно, в последнее время', 'Have you seen any good films recently?', 'Ты видел хорошие фильмы в последнее время?'],
-      ['lately', 'в последнее время', 'I\'ve been very busy lately.', 'Я был очень занят в последнее время.'],
+      ['lately', 'в последнее время', 'I\'ve been very busy lately.', 'В последнее время я очень занят.'],
       ['so far', 'пока что, до сих пор', 'So far everything has gone well.', 'Пока всё идёт хорошо.'],
       ['in the last few days', 'за последние несколько дней', 'I\'ve slept badly in the last few days.', 'Последние несколько дней я плохо сплю.'],
       ['the first time', 'первый раз, впервые', 'It\'s the first time I\'ve been here.', 'Я здесь впервые.'],
@@ -260,7 +260,7 @@ Right now I'm doing my tenth "first": this is the first time I've written a blog
 Have you ever tried something like this? What's the best new thing you've done this year?`,
         questions: [
           { q: 'What happened at the design meetup?', o: ['The author didn\'t go', 'The author gave a talk', 'The author met a friend from Texas'], a: 1 },
-          { q: 'Why didn\'t the author eat sushi as a student?', o: ['It was too expensive', 'She didn\'t like fish', 'There were no sushi bars'], a: 0 },
+          { q: 'Why didn\'t the author eat sushi as a student?', o: ['It was too expensive', 'The author didn\'t like fish', 'There were no sushi bars'], a: 0 },
           { q: 'What is the author\'s tenth new experience?', o: ['Cooking dinner', 'Snowboarding', 'Writing a blog post in English'], a: 2 }
         ]
       }
@@ -274,17 +274,17 @@ Have you ever tried something like this? What's the best new thing you've done t
       { t: 'choice', q: '— Can I talk to Lena? — Sorry, she ___ out. She\'ll be back in an hour.', o: ['has gone', 'has been', 'goes'], a: 0, why: 'Её нет сейчас, она ещё не вернулась → has gone.' },
       { t: 'choice', q: 'We ___ any serious problems so far.', o: ['didn\'t have', 'haven\'t had', 'don\'t have'], a: 1, why: 'so far — период до сих пор открыт → Present Perfect.' },
       { t: 'choice', q: 'My dad ___ a car when he was young.', o: ['has never had', 'never had', 'never has'], a: 1, why: 'Молодость отца закончилась — закрытый период → Past Simple.' },
-      { t: 'gap', q: 'The police ___ two hackers. (arrest)', a: ['have arrested'], why: 'Новость без даты, результат сейчас → have + 3-я форма.' },
-      { t: 'gap', q: 'It\'s the second time this week the game ___. (crash)', a: ['has crashed'], why: 'It\'s the second time + Present Perfect.' },
+      { t: 'gap', q: 'Breaking news! The police ___ two hackers. (arrest)', a: ['have arrested', '\'ve arrested'], why: 'Новость без даты, результат сейчас → have + 3-я форма.' },
+      { t: 'gap', q: 'It\'s the second time this week the game ___. (crash)', a: ['has crashed', '\'s crashed'], why: 'It\'s the second time + Present Perfect.' },
       { t: 'gap', q: '— I\'ve broken my glasses. — Oh no! How ___ that happen?', a: ['did'], why: 'Подробности («как это случилось?») после новости → Past Simple: did … happen.' },
       { t: 'gap', q: 'My grandmother ___ up in a small village. (grow)', a: ['grew'], why: 'Детство — закрытый этап жизни → Past Simple: grew.' },
-      { t: 'gap', q: 'I ___ a lot of new people in the last few days. (meet)', a: ['have met'], why: 'in the last few days — период до сейчас → Present Perfect.' },
+      { t: 'gap', q: 'I ___ a lot of new people in the last few days. (meet)', a: ['have met', '\'ve met'], why: 'in the last few days — период до сейчас → Present Perfect.' },
       { t: 'gap', q: 'I sent you the file just ___.', a: ['now'], why: 'just now = «только что, минуту назад» — это точка, поэтому с Past Simple (sent).' },
       { t: 'order', a: 'Have you heard from Max recently', ru: 'Ты что-нибудь слышал от Макса в последнее время?' },
-      { t: 'order', a: 'Nobody has called me today', ru: 'Мне сегодня никто не звонил.' },
-      { t: 'tr', q: 'Я впервые в Лондоне.', a: ['it\'s the first time i\'ve been to london', 'it is the first time i have been to london', 'this is the first time i\'ve been to london', 'this is the first time i have been to london', 'it\'s the first time i\'ve been in london', 'it is the first time i have been in london', 'it\'s my first time in london', 'it is my first time in london', 'this is my first time in london'] },
+      { t: 'order', a: 'Nobody has called me yet', ru: 'Мне ещё никто не звонил.' },
+      { t: 'tr', q: 'Я впервые в Лондоне.', a: ['it\'s the first time i\'ve been to london', 'it is the first time i have been to london', 'this is the first time i\'ve been to london', 'this is the first time i have been to london', 'it\'s the first time i\'ve been in london', 'it is the first time i have been in london', 'it\'s my first time in london', 'it is my first time in london', 'this is my first time in london', 'i\'m in london for the first time', 'i am in london for the first time'] },
       { t: 'tr', q: 'Где ты родился?', a: ['where were you born'] },
-      { t: 'tr', q: 'Это лучший фильм, который я когда-либо видел.', a: ['it\'s the best film i\'ve ever seen', 'it is the best film i have ever seen', 'this is the best film i\'ve ever seen', 'this is the best film i have ever seen', 'it\'s the best movie i\'ve ever seen', 'it is the best movie i have ever seen', 'this is the best movie i\'ve ever seen', 'this is the best movie i have ever seen', 'it\'s the best film that i\'ve ever seen', 'this is the best film that i\'ve ever seen', 'it\'s the best movie that i\'ve ever seen', 'this is the best movie that i\'ve ever seen'] },
+      { t: 'tr', q: 'Это лучший фильм, который я когда-либо видел.', a: ['it\'s the best film i\'ve ever seen', 'it is the best film i have ever seen', 'this is the best film i\'ve ever seen', 'this is the best film i have ever seen', 'it\'s the best movie i\'ve ever seen', 'it is the best movie i have ever seen', 'this is the best movie i\'ve ever seen', 'this is the best movie i have ever seen', 'it\'s the best film that i\'ve ever seen', 'this is the best film that i\'ve ever seen', 'it\'s the best movie that i\'ve ever seen', 'this is the best movie that i\'ve ever seen', 'it is the best film that i have ever seen', 'this is the best film that i have ever seen', 'it is the best movie that i have ever seen', 'this is the best movie that i have ever seen'] },
       { t: 'listen', say: 'There\'s been a problem with the server.', a: ['there\'s been a problem with the server', 'there has been a problem with the server'] }
     ],
     test: [
@@ -298,7 +298,7 @@ Have you ever tried something like this? What's the best new thing you've done t
       { t: 'choice', q: 'They ___ away for a week, but now they\'re back.', o: ['have gone', 'went', 'go'], a: 1, why: 'Они уже вернулись, результат отменился → Past Simple.' },
       { t: 'gap', q: 'I ___ my keys, but then I found them in my bag. (lose)', a: ['lost'], why: 'Ключи нашлись — «потерял» уже не правда сейчас → Past Simple.' },
       { t: 'gap', q: 'This is the third time you ___ late this week! (be)', a: ['have been', '\'ve been'], why: 'This is the third time + Present Perfect.' },
-      { t: 'gap', q: 'The weather ___ terrible since we arrived. (be)', a: ['has been'], why: 'since we arrived — с тех пор до сейчас → Present Perfect.' },
+      { t: 'gap', q: 'The weather ___ terrible since we arrived. (be)', a: ['has been', '\'s been'], why: 'since we arrived — с тех пор до сейчас → Present Perfect.' },
       { t: 'gap', q: 'I haven\'t seen Kate ___. Is she OK? (в последнее время)', a: ['recently', 'lately'], why: '«В последнее время» → recently или lately, с Present Perfect.' }
     ]
   },
@@ -539,8 +539,8 @@ Lena: Then you definitely deserve a burger. Come on, I'm paying.`,
       },
       {
         id: 't-b1-4-2', title: 'It\'s been ages', level: 'B1',
-        text: `Last Saturday Kate got a message from Oleg: "Hey! It's been ages. Coffee?" Kate smiled. She and Oleg were best friends at university, but they haven't seen each other since graduation. It's been almost six years.
-They met at a small cafe in the centre. Oleg looked just like at university — the same glasses, the same terrible jokes.
+        text: `Last Saturday Kate got a message from Oleg: "Hey! It's been ages. Coffee?" Kate smiled. She and Oleg were best friends at university, but after graduation they lost touch. That was almost six years ago.
+They met at a small cafe in the centre. Oleg looked just like he did at university — the same glasses, the same terrible jokes.
 "So, what have you been doing all these years?" Kate asked.
 "Too much to tell," Oleg laughed. "I've been working as a game tester for three years. Before that I worked in a bank for two years, but I hated it. And I've been learning Japanese since last spring."
 "Japanese? Since when do you like languages?"
@@ -577,9 +577,9 @@ They talked for three hours. Oleg has been living in the same flat since univers
       { t: 'gap', q: 'I\'ve ___ lived in big cities. I love them. (всегда)', a: ['always'], why: 'С always — простая форма: I\'ve always lived.' },
       { t: 'order', a: 'How long have you been waiting', ru: 'Сколько ты уже ждёшь?' },
       { t: 'order', a: 'What have you been doing lately', ru: 'Чем ты занимался в последнее время?' },
-      { t: 'tr', q: 'Мы не виделись сто лет.', a: ['we haven\'t seen each other for ages', 'we have not seen each other for ages', 'we haven\'t seen each other in ages', 'we have not seen each other in ages', 'it\'s been ages since we saw each other', 'it has been ages since we saw each other', 'it\'s been ages since we last saw each other', 'it has been ages since we last saw each other', 'it\'s ages since we saw each other', 'it\'s ages since we last saw each other', 'it is ages since we last saw each other'] },
-      { t: 'tr', q: 'Я весь день работаю.', a: ['i\'ve been working all day', 'i have been working all day', 'i\'ve been working all day long', 'i have been working all day long'] },
-      { t: 'tr', q: 'Сколько вы женаты?', a: ['how long have you been married'] },
+      { t: 'tr', q: 'Мы не виделись сто лет.', a: ['we haven\'t seen each other for ages', 'we have not seen each other for ages', 'we haven\'t seen each other in ages', 'we have not seen each other in ages', 'it\'s been ages since we saw each other', 'it has been ages since we saw each other', 'it\'s been ages since we last saw each other', 'it has been ages since we last saw each other', 'it\'s ages since we saw each other', 'it\'s ages since we last saw each other', 'it is ages since we last saw each other', 'we haven\'t seen each other for a long time', 'we have not seen each other for a long time', 'we haven\'t seen each other in a long time'] },
+      { t: 'tr', q: 'Я весь день работаю.', a: ['i\'ve been working all day', 'i have been working all day', 'i\'ve been working all day long', 'i have been working all day long', 'i\'ve been working the whole day', 'i have been working the whole day', 'i\'ve worked all day', 'i have worked all day'] },
+      { t: 'tr', q: 'Сколько вы женаты?', a: ['how long have you been married', 'how long have you been married for'] },
       { t: 'listen', say: 'I\'ve been looking for you all morning.', a: ['i\'ve been looking for you all morning', 'i have been looking for you all morning'] }
     ],
     test: [

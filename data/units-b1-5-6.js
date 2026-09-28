@@ -136,7 +136,7 @@ COURSE.units.push(
 </ul>
 <p>С отрицанием и сроком обычно берут простую форму: <span class="say">I hadn't played for months.</span> — Я не играл несколько месяцев.</p>
 <div class="mini" data-q="By the evening, I ___ 30 bugs." data-o="had fixed|had been fixing|was fixing" data-a="0" data-why="Сколько сделано (30 штук) — результат → had fixed."></div>
-<div class="mini" data-q="We ___ each other since school." data-o="had been knowing|had known|were knowing" data-a="1" data-why="know — глагол состояния, в -ing не ставится → had known."></div>`
+<div class="mini" data-q="When we opened the studio, we ___ each other for ten years." data-o="had been knowing|had known|were knowing" data-a="1" data-why="know — глагол состояния, в -ing не ставится → had known."></div>`
       },
       {
         title: '7. Типичные ошибки — проверьте себя',
@@ -173,12 +173,12 @@ COURSE.units.push(
       ['clue', 'подсказка, улика', 'The clue had been there from the start.', 'Подсказка была там с самого начала.'],
       ['evidence', 'улики, доказательства', 'The detective had found new evidence.', 'Детектив нашёл новые улики.'],
       ['admit', 'признать, признаться', 'He admitted he had deleted it.', 'Он признался, что удалил это.'],
-      ['regret', 'сожалеть', 'I regret that I hadn\'t made a backup.', 'Жалею, что не сделал копию.'],
+      ['regret', 'сожалеть', 'I regretted that I hadn\'t made a backup.', 'Я жалел, что не сделал копию.'],
       ['suspect', 'подозревать', 'I\'d suspected him from the start.', 'Я подозревал его с самого начала.'],
       ['exhausted', 'измотанный', 'She was exhausted — she\'d been working since six.', 'Она была без сил — работала с шести.'],
       ['out of breath', 'запыхавшийся', 'He was out of breath because he\'d been running.', 'Он запыхался, потому что бежал.'],
       ['soaked', 'промокший насквозь', 'We were soaked — we\'d been walking in the rain.', 'Мы промокли — гуляли под дождём.'],
-      ['stuck', 'застрявший', 'I\'d been stuck on that level for a week.', 'Я застрял на этом уровне на неделю.'],
+      ['stuck', 'застрявший', 'I\'d been stuck on that level for a week.', 'Я уже неделю не мог пройти этот уровень.'],
       ['backup', 'резервная копия', 'Luckily, I had made a backup.', 'К счастью, я сделал резервную копию.'],
       ['delete', 'удалить', 'Somebody had deleted the folder.', 'Кто-то удалил папку.'],
       ['recognise', 'узнать (кого-то)', 'I didn\'t recognise her — she\'d cut her hair.', 'Я её не узнал — она подстриглась.'],
@@ -233,18 +233,18 @@ Max: Let's do it together. But this time, no phones!`,
       { t: 'choice', q: 'The streets were wet. It ___ all night.', o: ['was raining', 'has been raining', 'had been raining'], a: 2, why: 'Долгий процесс до момента в прошлом, видны следы → had been -ing.' },
       { t: 'choice', q: 'I was tired because I ___ bugs since the morning.', o: ['had been fixing', 'have been fixing', 'was fixed'], a: 0, why: 'Процесс длился до момента в прошлом (since the morning) → had been -ing.' },
       { t: 'choice', q: 'She\'d ___ the file before I asked. (’d = had)', o: ['send', 'sent', 'sending'], a: 1, why: 'had + 3-я форма: send → sent.' },
-      { t: 'choice', q: 'Was Tom at the party when you arrived? — No, he ___.', o: ['already left', 'had already left', 'has already left'], a: 1, why: 'Ушёл до нашего прихода → had already left.' },
+      { t: 'choice', q: 'Was Tom at the party when you arrived? — No, he ___.', o: ['already leaves', 'had already left', 'has already left'], a: 1, why: 'Ушёл до нашего прихода → had already left.' },
       { t: 'choice', q: 'We ___ each other for ten years before we started a studio together.', o: ['had been knowing', 'had known', 'have known'], a: 1, why: 'know — глагол состояния, в -ing не ставится → had known.' },
-      { t: 'gap', q: 'By the time we arrived, the film ___. (start)', a: ['had started', 'had already started'], why: 'By the time + прошлое → то, что случилось раньше, — had + V3.' },
+      { t: 'gap', q: 'By the time we arrived, the film ___. (start)', a: ['had started', 'had already started', '\'d started', '\'d already started'], why: 'By the time + прошлое → то, что случилось раньше, — had + V3.' },
       { t: 'gap', q: 'I realised I ___ my charger at home. (leave)', a: ['had left', '\'d left'], why: 'Оставил раньше, чем понял → had + left.' },
       { t: 'gap', q: 'They were nervous: they ___ on a plane before. (never / fly)', a: ['had never flown', '\'d never flown'], why: 'Опыт до момента в прошлом → had never + V3 (fly — flew — flown).' },
       { t: 'gap', q: 'My eyes hurt because I ___ at the screen for hours. (stare)', a: ['had been staring', '\'d been staring'], why: 'Долгий процесс до момента в прошлом + видимый след → had been -ing.' },
       { t: 'gap', q: 'I thought I ___ the file, but I hadn\'t. (save)', a: ['had saved', '\'d saved'], why: 'Думал, что уже сделано раньше → had + V3.' },
       { t: 'gap', q: 'We weren\'t hungry. We ___ a big lunch an hour before. (have)', a: ['had had', '\'d had'], why: 'Past Perfect от have — had had: первое had вспомогательное, второе — сам глагол.' },
       { t: 'order', a: 'I had never seen anything like it', ru: 'Я никогда не видел ничего подобного' },
-      { t: 'order', a: 'By the time I woke up everyone had left', ru: 'К тому времени, как я проснулся, все ушли' },
-      { t: 'tr', q: 'Когда я пришёл, игра уже закончилась.', a: ['when i came the game had already finished', 'when i came the game had already ended', 'when i arrived the game had already finished', 'when i arrived the game had already ended', 'when i got there the game had already finished', 'when i got there the game had already ended', 'when i came the match had already finished', 'when i arrived the match had already finished'] },
-      { t: 'tr', q: 'Он устал, потому что весь день работал.', a: ['he was tired because he had been working all day', 'he was tired because he\'d been working all day'] },
+      { t: 'order', a: 'I realised that I had lost my keys', ru: 'Я понял, что потерял ключи' },
+      { t: 'tr', q: 'Когда я пришёл, игра уже закончилась.', a: ['when i came the game had already finished', 'when i came the game had already ended', 'when i arrived the game had already finished', 'when i arrived the game had already ended', 'when i got there the game had already finished', 'when i got there the game had already ended', 'when i came the match had already finished', 'when i arrived the match had already finished', 'when i got there the match had already finished', 'when i came the match had already ended', 'when i arrived the match had already ended', 'when i got there the match had already ended'] },
+      { t: 'tr', q: 'Он устал, потому что весь день работал.', a: ['he was tired because he had been working all day', 'he was tired because he\'d been working all day', 'he was tired because he had worked all day', 'he was tired because he\'d worked all day', 'he was tired because he had been working the whole day', 'he was tired because he\'d been working the whole day'] },
       { t: 'listen', say: 'I had no idea what had happened', a: ['i had no idea what had happened', 'i\'d no idea what had happened'] },
       { t: 'listen', say: 'We had been playing for hours', a: ['we had been playing for hours', 'we\'d been playing for hours'] }
     ],
@@ -254,12 +254,12 @@ Max: Let's do it together. But this time, no phones!`,
       { t: 'choice', q: 'We weren\'t hungry. We ___.', o: ['have just eaten', 'had just eaten', 'were just eating'], a: 1, why: 'Рассказ в прошлом, «только что» до того момента → had just + V3.' },
       { t: 'choice', q: 'When I saw Lena, her hands were covered in paint. She ___.', o: ['had painted all morning', 'had been painting', 'painted'], a: 1, why: 'Процесс до момента в прошлом и его следы → had been -ing.' },
       { t: 'choice', q: 'How long ___ there before you moved to Moscow?', o: ['have you lived', 'had you lived', 'did you living'], a: 1, why: 'Срок до момента в прошлом (до переезда) → Past Perfect.' },
-      { t: 'choice', q: 'I was surprised. She ___ long hair.', o: ['had always been having', 'had always had', 'has always had'], a: 1, why: 'have в значении «иметь» — глагол состояния → had had, не had been having.' },
-      { t: 'gap', q: 'By the time the boss came, we ___ the whole design. (finish)', a: ['had finished', '\'d finished', 'had already finished'], why: 'By the time + прошлое → раньше этого момента: had + V3.' },
+      { t: 'choice', q: 'I was surprised to see her with short hair. She ___ long hair.', o: ['had always been having', 'had always had', 'has always had'], a: 1, why: 'have в значении «иметь» — глагол состояния → had had, не had been having.' },
+      { t: 'gap', q: 'By the time the boss came, we ___ the whole design. (finish)', a: ['had finished', '\'d finished', 'had already finished', '\'d already finished'], why: 'By the time + прошлое → раньше этого момента: had + V3.' },
       { t: 'gap', q: 'The game crashed. I ___ for three hours without saving! (play)', a: ['had been playing', '\'d been playing'], why: 'Долгий процесс до момента в прошлом (for three hours) → had been -ing.' },
       { t: 'gap', q: 'I ___ him for years, so I trusted him. (know)', a: ['had known', '\'d known'], why: 'know не ставится в -ing → had known.' },
       { t: 'gap', q: 'The flat was a mess. Nobody ___ it for weeks. (clean)', a: ['had cleaned'], why: '«Давно не» до момента в прошлом → had + V3 (nobody уже даёт отрицание).' },
-      { t: 'gap', q: 'When I got back, I found that someone ___ my coffee. (drink)', a: ['had drunk'], why: 'После found that — то, что случилось раньше: had + drunk.' },
+      { t: 'gap', q: 'When I got back, I found that someone ___ my coffee. (drink)', a: ['had drunk', '\'d drunk'], why: 'После found that — то, что случилось раньше: had + drunk.' },
       { t: 'gap', q: 'It wasn\'t raining when we left, but it ___, so the road was wet. (rain)', a: ['had been raining', '\'d been raining'], why: 'Дождь шёл раньше и кончился, остался след → had been -ing.' }
     ]
   },
@@ -380,7 +380,7 @@ Max: Let's do it together. But this time, no phones!`,
 <li><span class="say">I shan't be here tomorrow.</span> = <span class="say">I won't be here tomorrow.</span></li>
 </ul>
 <div class="g-bad">She shall be angry.</div>
-<div class="g-good">She <b>will</b> be angry. <span class="muted">— с he, she, they shall не используют</span></div>
+<div class="g-good">She <b>will</b> be angry. <span class="muted">— с he, she, they shall в обычной речи не используют</span></div>
 <div class="mini" data-q="___ I help you with the bag?" data-o="Will|Shall|Do" data-a="1" data-why="Предлагаем свою помощь: Shall I…?"></div>`
       },
       {
@@ -540,7 +540,7 @@ What will happen after the launch? Nobody knows. Maybe the app will become popul
       { t: 'order', a: 'What time are you meeting Kate', ru: 'Во сколько ты встречаешься с Катей?' },
       { t: 'order', a: 'I don\'t think it will be difficult', ru: 'Не думаю, что это будет сложно' },
       { t: 'tr', q: 'Я помогу тебе с сумкой.', a: ['i\'ll help you with the bag', 'i will help you with the bag', 'i\'ll help you with your bag', 'i will help you with your bag'] },
-      { t: 'tr', q: 'Что мне делать? (прошу совета)', a: ['what shall i do', 'what should i do'] },
+      { t: 'tr', q: 'Что мне делать? (прошу совета)', a: ['what shall i do', 'what should i do', 'what do i do'] },
       { t: 'listen', say: 'Are you going to watch the stream tonight?', a: ['are you going to watch the stream tonight'] },
       { t: 'listen', say: 'The car won\'t start', a: ['the car won\'t start', 'the car will not start'] }
     ],

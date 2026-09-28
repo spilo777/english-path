@@ -135,7 +135,7 @@ COURSE.units.push(
 <li>Главный — я: <b>I seem</b>.</li>
 <li>Действие раньше → <b>to have + V3</b>: <span class="say">I seem to have deleted the file.</span></li>
 </ol></div>
-<div class="g-tip">«Кажется, я…» в разговоре — почти всегда <b>I seem to…</b>, а не <i>It seems me…</i>. Ещё вариант: <span class="say">It seems that I've deleted the file.</span></div>
+<div class="g-tip">«Кажется, я…» в разговоре — часто <b>I seem to…</b>, но никогда не <i>It seems me…</i>. Ещё вариант: <span class="say">It seems that I've deleted the file.</span></div>
 <div class="g-bad">It seems me that he is angry. · He pretended that he is sleeping.</div>
 <div class="g-good">He <b>seems to be</b> angry. · He <b>pretended to be sleeping</b>.</div>
 <div class="mini" data-q="Where's my charger? I ___ it at the office." data-o="seem to leave|seem to have left|seem leaving" data-a="1" data-why="Оставил раньше, а кажется сейчас → to have + V3."></div>
@@ -402,7 +402,7 @@ Tom: He admits it! Let's go before he loses his armour too.`,
 <div class="g-bad">It's starting raining.</div>
 <div class="g-good">It's starting <b>to rain</b>.</div>
 <div class="mini" data-q="On the way home we stopped ___ petrol." data-o="getting|to get|get" data-a="1" data-why="Остановились, чтобы заправиться → stop + to."></div>
-<div class="mini" data-q="After a short break, the speaker went on ___ about colours." data-o="to talk|talking|talk" data-a="1" data-why="Продолжил говорить о том же → go on + -ing."></div>`
+<div class="mini" data-q="The speaker stopped for a sip of water and then went on ___ about the same topic." data-o="to talk|talking|talk" data-a="1" data-why="Продолжил говорить о том же → go on + -ing."></div>`
       },
       {
         title: '4. try to do и try doing',
@@ -551,7 +551,7 @@ Tom: He admits it! Let's go before he loses his armour too.`,
       ["turn down", "убавить; отклонить", "I turned down the offer.", "Я отказался от предложения."],
       ["lock", "запирать; замок", "I remember locking the door.", "Я помню, как запирал дверь."],
       ["overhear — overheard", "случайно услышать", "I couldn't help overhearing your conversation.", "Я невольно услышал ваш разговор."],
-      ["memory", "память; воспоминание", "My first game is my best memory.", "Моя первая игра — моё лучшее воспоминание."],
+      ["memory", "память; воспоминание", "Winning my first tournament is my best memory.", "Победа на первом турнире — моё лучшее воспоминание."],
       ["option", "вариант, опция", "Try the other option.", "Попробуй другой вариант."],
       ["nervous", "нервный, взволнованный", "I'm nervous, I can't help it.", "Я нервничаю, ничего не могу поделать."]
     ],
@@ -562,7 +562,7 @@ Tom: He admits it! Let's go before he loses his armour too.`,
 
 I still remember doing my first stream. I was so nervous that I forgot to turn on the microphone. For twenty minutes I was talking to nobody, and three viewers were watching a silent man playing a farming game. When somebody finally wrote "no sound", I couldn't help laughing. I'll never forget reading that message.
 
-Do I regret starting so late? A little. I'd like to have started in university, when I had more free time. But I don't regret leaving my office job. I hated sitting in meetings all day, and I prefer working at night to working in the morning anyway.
+Do I regret starting so late? A little. I'd like to have started at university, when I had more free time. But I don't regret leaving my office job. I hated sitting in meetings all day, and I prefer working at night to working in the morning anyway.
 
 The biggest lesson was about equipment. In the first year my stream kept freezing. I tried to fix it myself for months. Then a viewer suggested something simple: "Try lowering the bitrate." It worked. Now, when something goes wrong, I don't try to be a hero. I try changing one setting at a time, and I ask the community.
 
@@ -613,11 +613,11 @@ Leo: Then turn off notifications. Try doing that for one day. You'll feel better
       { t: 'choice', q: 'I prefer comedies ___ horror films.', o: ['than', 'to', 'from'], a: 1, why: 'prefer X to Y.' },
       { t: 'choice', q: 'Shall we take a taxi? — I\'d rather ___. It\'s a nice evening.', o: ['walk', 'to walk', 'walking'], a: 0, why: 'would rather + глагол без to.' },
       { t: 'choice', q: 'Jake lives in Tokyo now. He likes ___ there.', o: ['to live', 'living', 'live'], a: 1, why: 'Ситуация уже существует → like + -ing.' },
-      { t: 'gap', q: 'This room is dirty. It needs ___. (clean)', a: ['cleaning'], why: 'Что-то нуждается в действии → needs + -ing.' },
+      { t: 'gap', q: 'This room is dirty. It needs ___. (clean)', a: ['cleaning', 'to be cleaned'], why: 'Что-то нуждается в действии → needs + -ing.' },
       { t: 'gap', q: 'I couldn\'t help ___ when he fell off the chair. (laugh)', a: ['laughing'], why: 'can\'t help + -ing = не могу удержаться.' },
       { t: 'gap', q: 'I regret ___ that expensive keyboard. I never use it. (buy)', a: ['buying', 'having bought'], why: 'Жалею о сделанном → regret + -ing.' },
       { t: 'gap', q: 'I\'d rather you ___ my phone. It\'s private. (not / check)', a: ['didn\'t check', 'did not check'], why: 'would rather + другой человек + прошедшая форма.' },
-      { t: 'gap', q: 'After the break, she went on ___ about the new design. (talk)', a: ['talking'], why: 'Продолжила то же самое → go on + -ing.' },
+      { t: 'gap', q: 'After the break, she went on ___ about the new design, as before. (talk)', a: ['talking'], why: 'Продолжила то же самое → go on + -ing.' },
       { t: 'order', a: 'I would rather not go out tonight', ru: 'Я бы лучше не выходил сегодня вечером.' },
       { t: 'order', a: 'My laptop needs charging again', ru: 'Ноутбук снова надо зарядить.' },
       { t: 'order', a: 'Try restarting your computer first', ru: 'Сначала попробуй перезагрузить компьютер.' },

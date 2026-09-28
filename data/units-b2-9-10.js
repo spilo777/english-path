@@ -34,7 +34,7 @@ COURSE.units.push(
 <li><span class="say">Is it far? Can we get there on foot?</span> — Туда можно дойти пешком?</li>
 <li><span class="say">Can I pay by card?</span> — Можно картой? <span class="muted">(by card, by bank transfer; но <b>pay cash</b> или <b>pay in cash</b>)</span></li>
 <li><span class="say">The contract came by post, and I signed it by hand.</span> — Договор пришёл почтой, я подписал его от руки.</li>
-<li><span class="say">We'll send you the files by email.</span> — Пришлём файлы по почте.</li>
+<li><span class="say">We'll send you the files by email.</span> — Пришлём файлы по электронной почте.</li>
 <li><span class="say">I deleted the wrong layer by mistake.</span> — Я по ошибке удалил не тот слой.</li>
 <li><span class="say">We met by chance at a game jam.</span> — Мы случайно познакомились на геймджеме.</li>
 </ul>
@@ -47,7 +47,7 @@ COURSE.units.push(
       {
         title: '3. by — «кем», «чем», «на сколько» и «рядом»',
         html: `
-<div class="g-idea">У by есть ещё четыре значения: <b>автор / исполнитель</b>, <b>разница в цифрах</b>, <b>рядом с</b>. А инструмент, которым что-то сделали, — не by, а <b>with</b>.</div>
+<div class="g-idea">У by есть ещё три значения: <b>автор / исполнитель</b>, <b>разница в цифрах</b>, <b>рядом с</b>. А инструмент, которым что-то сделали, — не by, а <b>with</b>.</div>
 <table>
 <tr><th>Значение</th><th>Пример</th></tr>
 <tr><td>кем сделано (пассив)</td><td><span class="say">The level was designed by two interns.</span></td></tr>
@@ -319,20 +319,20 @@ Kira: I hope you're right. See you at the station at 6:45!`,
       { t: 'gap', q: "This new app is very similar ___ the one we made last year.", a: ["to"], why: "Похож на → similar to." },
       { t: 'gap', q: "Who is responsible ___ the sound design?", a: ["for"], why: "Отвечать за → responsible for." },
       { t: 'order', a: 'What was the reason for his decision', ru: 'Какова была причина его решения?' },
-      { t: 'order', a: 'It was kind of you to help', ru: 'Было очень мило с твоей стороны помочь' },
+      { t: 'order', a: 'It was kind of you to help', ru: 'Было мило с твоей стороны помочь' },
       { t: 'tr', q: 'Я горжусь этим проектом.', a: ["i am proud of this project", "i'm proud of this project"] },
-      { t: 'tr', q: 'Цены выросли на десять процентов.', a: ["prices went up by ten percent", "prices went up by 10 percent", "prices went up by 10%", "prices rose by ten percent", "prices rose by 10 percent", "prices rose by 10%", "prices increased by ten percent", "prices increased by 10 percent", "prices increased by 10%", "prices went up by ten per cent", "prices rose by ten per cent", "prices increased by ten per cent", "prices have gone up by ten percent", "prices have risen by ten percent", "prices have increased by ten percent", "prices have gone up by 10%", "prices have risen by 10%", "prices have increased by 10%"] },
+      { t: 'tr', q: 'Цены выросли на десять процентов.', a: ["prices went up by ten percent", "prices went up by 10 percent", "prices went up by 10%", "prices rose by ten percent", "prices rose by 10 percent", "prices rose by 10%", "prices increased by ten percent", "prices increased by 10 percent", "prices increased by 10%", "prices went up by ten per cent", "prices rose by ten per cent", "prices increased by ten per cent", "prices have gone up by ten percent", "prices have risen by ten percent", "prices have increased by ten percent", "prices have gone up by 10%", "prices have risen by 10%", "prices have increased by 10%", "prices grew by ten percent", "prices grew by 10 percent", "prices grew by 10%", "prices went up by 10 per cent", "prices rose by 10 per cent", "prices increased by 10 per cent", "prices have gone up by 10 percent", "prices have risen by 10 percent", "prices have increased by 10 percent"] },
       { t: 'listen', say: "We met by chance at a conference", a: ["we met by chance at a conference"] },
       { t: 'listen', say: "I'm not very keen on horror games", a: ["i'm not very keen on horror games", "i am not very keen on horror games"] }
     ],
     test: [
       { t: 'choice', q: "Did you come here ___ Sasha's car or ___ taxi?", o: ["by … by", "in … by", "on … in"], a: 1, why: "С притяжательным (Sasha's car) — in; способ без артикля — by taxi." },
       { t: 'choice', q: "Unemployment has fallen ___ 2% this year.", o: ["in", "by", "on"], a: 1, why: "На сколько изменилось → by + цифра; in — в чём (a fall in unemployment)." },
-      { t: 'choice', q: "Have you seen the new series ___ the creators of «Arcane»?", o: ["of", "from", "by"], a: 2, why: "Автор произведения → a film / series / book by." },
-      { t: 'choice', q: "There are many advantages ___ living near the office.", o: ["of", "in", "for"], a: 1, why: "«Есть преимущества в том, чтобы…» → advantages in / to + -ing; of — «преимущество чего-то»." },
-      { t: 'choice', q: "She's always been very friendly ___ new colleagues.", o: ["with", "of", "to"], a: 2, why: "Отношение к человеку → friendly / nice / rude to somebody." },
-      { t: 'choice', q: "Sorry ___ the mess — I'm in the middle of moving.", o: ["for", "about", "with"], a: 1, why: "Извиниться за ситуацию → sorry about." },
-      { t: 'choice', q: "He's completely independent ___ his parents now.", o: ["from", "on", "of"], a: 2, why: "dependent on, но independent of." },
+      { t: 'choice', q: "Have you read any books ___ Tolkien?", o: ["of", "with", "by"], a: 2, why: "Автор произведения → a film / song / book by." },
+      { t: 'choice', q: "There are many advantages ___ living near the office.", o: ["on", "in", "with"], a: 1, why: "«Есть преимущества в том, чтобы…» → advantages in / to + -ing; «преимущество чего-то» — advantage of." },
+      { t: 'choice', q: "She's always been very friendly ___ new colleagues.", o: ["for", "of", "to"], a: 2, why: "Отношение к человеку → friendly / nice / rude to somebody." },
+      { t: 'choice', q: "Sorry ___ the mess — I'm in the middle of moving.", o: ["on", "about", "with"], a: 1, why: "Извиниться за ситуацию → sorry about." },
+      { t: 'choice', q: "He's completely independent ___ his parents now.", o: ["with", "on", "of"], a: 2, why: "dependent on, но independent of." },
       { t: 'gap', q: "The storm caused a lot of damage ___ the building.", a: ["to"], why: "Ущерб чему-то → damage to." },
       { t: 'gap', q: "Is there any connection ___ these two crashes?", a: ["between"], why: "Связь двух вещей → connection between." },
       { t: 'gap', q: "I was really impressed ___ your presentation.", a: ["with", "by"], why: "Впечатлён чем-то → impressed with или by." },
@@ -469,7 +469,7 @@ Kira: I hope you're right. See you at the station at 6:45!`,
 <div class="g-bad">I've never heard from this game. · I'll think of it and tell you tomorrow. · She reminds me about my sister.</div>
 <div class="g-good">I've never heard <b>of</b> this game. · I'll think <b>about</b> it and tell you tomorrow. · She reminds me <b>of</b> my sister.</div>
 <div class="g-tip"><b>from</b> — «от кого пришло» (письмо, звонок). <b>of</b> у remind — «похож на», у hear — «слышал о существовании». <b>about</b> — «на тему».</div>
-<div class="mini" data-q="Who is Hideo Kojima? — You've never heard ___ him? Seriously?" data-o="from|of|about" data-a="1" data-why="Знать, что кто-то существует, → hear of."></div>
+<div class="mini" data-q="Who is Hideo Kojima? — You've never heard ___ him? Seriously?" data-o="from|of|for" data-a="1" data-why="Знать, что кто-то существует, → hear of."></div>
 <div class="mini" data-q="That song always reminds me ___ our first trip." data-o="about|of|for" data-a="1" data-why="Напоминать, вызывать воспоминание → remind of; about — «напомнить, чтобы не забыл»."></div>`
       },
       {
@@ -503,7 +503,7 @@ Kira: I hope you're right. See you at the station at 6:45!`,
 <div class="g-good">She accused me <b>of</b> lying. · Congratulations <b>on</b> your birthday! <span class="muted">(или просто Happy birthday!)</span> · The course consists <b>of</b> ten lessons. · I paid <b>for</b> the coffee.</div>
 <div class="g-tip">Самая частая ошибка русскоговорящих — «поздравляю <b>с</b>» → congratulations <b>with</b>. Правильно только <b>on</b>: поздравление «ложится <b>на</b>» событие.</div>
 <div class="mini" data-q="Don't blame the bug ___ me — I didn't touch that file!" data-o="for|on|to" data-a="1" data-why="blame что-то on кого-то; blame кого-то for что-то."></div>
-<div class="mini" data-q="Millions of people suffer ___ back pain after long hours at the computer." data-o="of|from|with" data-a="1" data-why="Страдать от → suffer from."></div>`
+<div class="mini" data-q="Millions of people suffer ___ back pain after long hours at the computer." data-o="of|from|in" data-a="1" data-why="Страдать от → suffer from."></div>`
       },
       {
         title: '7. in, into, with, to, on: believe in, crash into, provide with, spend on',
@@ -623,9 +623,9 @@ Ilya: I know. But it's complicated. The team consists of forty people, and I'd b
 Dasha: That sounds like fear talking. You're capable of much more than menus for a match-three game.
 Ilya: Maybe. But I care about my current team. I don't want them to think I've left them in the middle of a project.
 Dasha: Have you talked to your boss about it?
-Ilya: Not yet. I'm afraid he'll blame me for the delay on our release.
+Ilya: Not yet. I'm afraid he'll blame me for delaying our release.
 Dasha: He won't. He's the one who always insists on "growing as a designer". And anyway, you can't depend on one small studio forever.
-Ilya: True. Oh, and there's another thing. They asked me for a test task last week, and I think I made it in a rush. When they described to me what they wanted, I only understood half of it.
+Ilya: True. Oh, and there's another thing. They asked me for a test task last week, and I think I did it in a rush. When they described to me what they wanted, I only understood half of it.
 Dasha: And they still offered you the job. That tells you what they think of you.
 Ilya: Fair. The art director even complimented me on the colour choices.
 Dasha: See? What about money? Is it enough to live on over there?
@@ -651,7 +651,7 @@ Ilya: Promise. And remind me about it on Thursday, in case I lose my nerve.`,
       { t: 'choice', q: "Has anyone ___ a good name for the new character?", o: ["thought about", "thought of", "thought on"], a: 1, why: "Придумать идею → think of; think about — обдумывать." },
       { t: 'choice', q: "Have you ___ Kate recently? She hasn't posted anything.", o: ["heard of", "heard from", "heard about"], a: 1, why: "Получать весточку от человека → hear from." },
       { t: 'choice', q: "She was accused ___ copying another artist's work.", o: ["in", "for", "of"], a: 2, why: "accuse somebody of (doing) something." },
-      { t: 'choice', q: "I prefer working at night ___ working in the morning.", o: ["than", "to", "over"], a: 1, why: "prefer одно to другое." },
+      { t: 'choice', q: "I prefer working at night ___ working in the morning.", o: ["than", "to", "from"], a: 1, why: "prefer одно to другое." },
       { t: 'gap', q: "We need to do something ___ the loading times.", a: ["about"], why: "Что-то предпринять насчёт проблемы → do something about." },
       { t: 'gap', q: "He's applying ___ a job as a level designer.", a: ["for"], why: "Подавать заявку на должность → apply for." },
       { t: 'gap', q: "My sister has to pay ___ her own phone now.", a: ["for"], why: "Платить за вещь → pay for; но pay the bill / the rent без предлога." },
@@ -660,17 +660,17 @@ Ilya: Promise. And remind me about it on Thursday, in case I lose my nerve.`,
       { t: 'gap', q: "I can't concentrate ___ my work with all this noise.", a: ["on"], why: "Сосредоточиться на → concentrate on." },
       { t: 'order', a: 'He apologised to me for the mistake', ru: 'Он извинился передо мной за ошибку' },
       { t: 'order', a: 'This place reminds me of my childhood', ru: 'Это место напоминает мне о детстве' },
-      { t: 'tr', q: 'Не вини меня в этом.', a: ["don't blame me for this", "do not blame me for this", "don't blame me for it", "do not blame me for it", "don't blame this on me", "do not blame this on me", "don't blame it on me", "do not blame it on me", "don't blame me for that", "don't blame that on me"] },
-      { t: 'tr', q: 'Сколько ты тратишь на игры?', a: ["how much do you spend on games", "how much money do you spend on games"] },
+      { t: 'tr', q: 'Не вини меня в этом.', a: ["don't blame me for this", "do not blame me for this", "don't blame me for it", "do not blame me for it", "don't blame this on me", "do not blame this on me", "don't blame it on me", "do not blame it on me", "don't blame me for that", "do not blame me for that", "don't blame that on me", "do not blame that on me"] },
+      { t: 'tr', q: 'Сколько ты тратишь на игры?', a: ["how much do you spend on games", "how much money do you spend on games", "how much do you spend on video games", "how much money do you spend on video games"] },
       { t: 'listen', say: "You can always rely on me", a: ["you can always rely on me"] },
       { t: 'listen', say: "Let's discuss it tomorrow", a: ["let's discuss it tomorrow", "let us discuss it tomorrow"] }
     ],
     test: [
       { t: 'choice', q: "Can you describe ___ what the man looked like?", o: ["us", "to us", "for us"], a: 1, why: "describe / explain to somebody what / how / why…" },
-      { t: 'choice', q: "Lisa shouted «Catch!» and threw the keys ___ me.", o: ["at", "to", "on"], a: 1, why: "Бросить, чтобы поймали → throw to; at — чтобы попасть." },
+      { t: 'choice', q: "Lisa shouted 'Catch!' and threw the keys ___ me.", o: ["at", "to", "on"], a: 1, why: "Бросить, чтобы поймали → throw to; at — чтобы попасть." },
       { t: 'choice', q: "I don't care ___ people think of my hair.", o: ["about what", "what", "for what"], a: 1, why: "care + what / how / if — без about." },
       { t: 'choice', q: "I searched the whole office ___ my badge.", o: ["about", "for", "after"], a: 1, why: "search a place for something — искать там что-то." },
-      { t: 'choice', q: "Grandpa complained ___ a pain in his back.", o: ["about", "of", "for"], a: 1, why: "Жаловаться на боль, болезнь → complain of; about — на ситуацию." },
+      { t: 'choice', q: "Grandpa complained ___ a pain in his back.", o: ["on", "of", "for"], a: 1, why: "Жаловаться на боль, болезнь → complain of (в разговоре можно и about); on и for здесь невозможны." },
       { t: 'choice', q: "I wouldn't dream ___ selling my old consoles.", o: ["about", "of", "for"], a: 1, why: "Ни за что бы не стал → I wouldn't dream of + -ing." },
       { t: 'choice', q: "The police blamed the accident ___ the driver of the bus.", o: ["on", "for", "to"], a: 0, why: "blame something on somebody; blame somebody for something." },
       { t: 'gap', q: "Sunscreen protects your skin ___ the sun.", a: ["from"], why: "Защищать от → protect from." },

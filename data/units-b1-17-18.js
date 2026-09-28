@@ -310,7 +310,7 @@ Oleg: Any time. And good luck with the tabs!`,
       { t: 'gap', q: 'Can I have two ___ and a tea, please? (coffee)', a: ['coffees'], why: 'В кафе coffee = чашка кофе, считается: two coffees.' },
       { t: 'order', a: 'You have made great progress', ru: 'Ты добился больших успехов' },
       { t: 'order', a: 'What a beautiful view from here', ru: 'Какой красивый вид отсюда!' },
-      { t: 'tr', q: 'У нас было мало багажа.', a: ['we didn\'t have much luggage', 'we did not have much luggage', 'we had little luggage', 'we didn\'t have much baggage', 'we did not have much baggage', 'we had little baggage'] },
+      { t: 'tr', q: 'У нас было мало багажа.', a: ['we didn\'t have much luggage', 'we did not have much luggage', 'we had little luggage', 'we didn\'t have much baggage', 'we did not have much baggage', 'we had little baggage', 'we didn\'t have a lot of luggage', 'we did not have a lot of luggage', 'we didn\'t have a lot of baggage', 'we did not have a lot of baggage'] },
       { t: 'tr', q: 'Мой брат — программист. Он работает восемь часов в день.', a: ['my brother is a programmer he works eight hours a day', 'my brother is a programmer he works 8 hours a day', 'my brother\'s a programmer he works eight hours a day', 'my brother\'s a programmer he works 8 hours a day', 'my brother is a developer he works eight hours a day', 'my brother is a developer he works 8 hours a day'] },
       { t: 'listen', say: 'Thanks for the feedback', a: ['thanks for the feedback'] },
       { t: 'listen', say: 'We had a great time', a: ['we had a great time'] }
@@ -368,7 +368,7 @@ Oleg: Any time. And good luck with the tabs!`,
 <tr><th>с the</th><th>без the</th></tr>
 <tr><td><span class="say">the earth</span> — Земля (мир, где живём), <span class="say">the ground</span> — земля под ногами</td><td><span class="say">Earth</span> — планета среди других: <span class="say">Mars is further from the sun than Earth.</span></td></tr>
 <tr><td><span class="say">the space</span> — конкретное место: <span class="say">The parking space was too small.</span></td><td><span class="say">space</span> — космос: <span class="say">I'd love to travel in space.</span></td></tr>
-<tr><td><span class="say">the sun</span> — наше Солнце</td><td><span class="say">The sun is a star.</span> — одна из многих звёзд</td></tr>
+<tr><td><span class="say">the sun</span> — наше Солнце</td><td><span class="say">a sun</span> — любая звезда с планетами: <span class="say">This planet has two suns.</span></td></tr>
 </table>
 <p>Также всегда с the: <span class="say">the world</span>, <span class="say">the universe</span>, <span class="say">the sky</span>, <span class="say">the sea</span>, <span class="say">the country</span> (деревня, природа).</p>
 <p><b>Номер = имя, поэтому без the:</b></p>
@@ -522,7 +522,7 @@ Oleg: Any time. And good luck with the tabs!`,
 <div class="g-bad">I work at the Ubisoft. · We had lunch at the McDonald's on the Nevsky Prospect.</div>
 <div class="g-good">I work at <b>Ubisoft</b>. · We had lunch at <b>McDonald's</b> on <b>Nevsky Prospect</b>.</div>
 <div class="g-tip">Запоминалка: <b>the</b> любит «здания с билетом» (музей, театр, отель), слово <b>of</b> и «прилагательное впереди». Без the — улицы, «Имя + Airport/University/Station», бренды и всё на <b>-'s</b>.</div>
-<div class="mini" data-q="We stayed at ___ near the station." data-o="Hilton|the Hilton|a Hilton" data-a="1" data-why="Отели — с the: the Hilton."></div>
+<div class="mini" data-q="We stayed at ___ near the station." data-o="Hilton|the Hilton|Hilton's" data-a="1" data-why="Отели — с the: the Hilton."></div>
 <div class="mini" data-q="My flight lands at ___ at 6 pm." data-o="the Heathrow Airport|Heathrow Airport|a Heathrow Airport" data-a="1" data-why="Имя места + Airport → без the."></div>`
       },
       {
@@ -636,7 +636,7 @@ Artem: See you tomorrow, then!`,
       { t: 'gap', q: 'Five people were hurt in the crash. ___ injured were taken to hospital. (пострадавшие)', a: ['The', 'the'], why: 'Группа людей: the + прилагательное → the injured.' },
       { t: 'order', a: 'He was taken to hospital', ru: 'Его отвезли в больницу' },
       { t: 'order', a: 'Most people play on their phones', ru: 'Большинство людей играет на телефонах' },
-      { t: 'tr', q: 'Я играю на гитаре, но не умею играть на пианино.', a: ['i play the guitar but i can\'t play the piano', 'i play the guitar but i cannot play the piano', 'i play the guitar but i can not play the piano', 'i can play the guitar but i can\'t play the piano', 'i can play the guitar but i cannot play the piano'] },
+      { t: 'tr', q: 'Я играю на гитаре, но не умею играть на пианино.', a: ['i play the guitar but i can\'t play the piano', 'i play the guitar but i cannot play the piano', 'i play the guitar but i can not play the piano', 'i can play the guitar but i can\'t play the piano', 'i can play the guitar but i cannot play the piano', 'i play the guitar but i don\'t know how to play the piano', 'i play the guitar but i do not know how to play the piano'] },
       { t: 'tr', q: 'Мы жили в отеле «Хилтон» на Пятой авеню.', a: ['we stayed at the hilton on fifth avenue', 'we lived in the hilton on fifth avenue', 'we stayed in the hilton on fifth avenue', 'we stayed at the hilton hotel on fifth avenue', 'we stayed in the hilton hotel on fifth avenue'] },
       { t: 'listen', say: 'I am going to bed', a: ['i am going to bed', 'i\'m going to bed'] },
       { t: 'listen', say: 'The earth goes round the sun', a: ['the earth goes round the sun', 'the earth goes around the sun'] }

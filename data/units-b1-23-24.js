@@ -275,7 +275,7 @@ Two years ago I regretted buying this game. I don't regret it any more. Version 
         questions: [
           { q: 'How fast does version 2.0 run on the author\'s laptop?', o: ['Slightly faster than before', 'Twice as fast as before', 'The same as before'], a: 1 },
           { q: 'What does Oleg say about the last mission?', o: ['It is the hardest one in the game', 'It is easier than before', 'It has the best story'], a: 0 },
-          { q: 'What problem still hasn\'t the studio fixed?', o: ['The menus', 'The price', 'The sound'], a: 2 }
+          { q: 'Which problem has the studio still not fixed?', o: ['The menus', 'The price', 'The sound'], a: 2 }
         ]
       },
       {
@@ -293,7 +293,7 @@ Artem: By far. And the most stressful. We all worked at weekends before the rele
 Kira: Ha! You always say you'll stop working at weekends, but you never do.
 Artem: I know, I know. I've already promised my girlfriend that I'll stop. I haven't told my boss yet, though.
 Kira: Tell him soon. The sooner the better.
-Artem: Probably. Listen, we're looking for a freelance UI designer right now. Even though you're not looking for a full-time job, would you be interested?
+Artem: You're probably right. Listen, we're looking for a freelance UI designer right now. It's only a few hours a week, so you could do it even if you're busy with other clients. Would you be interested?
 Kira: Maybe. Is the pay any better than at my old agency?
 Artem: Much better. And the deadlines are no worse than anywhere else.
 Kira: Then send me the details. The earlier I know, the easier it is for me to plan my month.
@@ -322,7 +322,7 @@ Kira: Artem! You promised!`,
       { t: 'gap', q: "Your hair is the same colour ___ mine.", a: ["as"], why: "«Такой же, как» → the same as." },
       { t: 'gap', q: "The more I practise, the ___ I get. (good)", a: ["better"], why: "the more…, the + сравнение: good → better." },
       { t: 'order', a: 'I always have to remind him', ru: 'Мне всегда приходится ему напоминать' },
-      { t: 'order', a: 'We all went home after the match', ru: 'Мы все пошли домой после матча' },
+      { t: 'order', a: 'We all felt really tired', ru: 'Мы все очень устали' },
       { t: 'tr', q: 'Я больше там не работаю.', a: ["i don't work there any more", "i don't work there anymore", "i do not work there any more", "i do not work there anymore", "i no longer work there", "i don't work there any longer", "i do not work there any longer"] },
       { t: 'tr', q: 'Он даже не поздоровался.', a: ["he didn't even say hello", "he did not even say hello", "he didn't even say hi", "he did not even say hi"] },
       { t: 'listen', say: 'The sooner the better', a: ['the sooner the better'] },
@@ -720,8 +720,8 @@ Olga: Then finish them! See you on Friday.`,
       { t: 'gap', q: "She got ___ the taxi and told the driver the address.", a: ["into", "in"], why: "Сесть в машину или такси, то есть внутрь → get into (или get in)." },
       { t: 'order', a: 'What are you doing at the weekend', ru: 'Что ты делаешь на выходных?' },
       { t: 'order', a: 'We met at the end of the conference', ru: 'Мы познакомились в конце конференции' },
-      { t: 'tr', q: 'Я буду работать до семи.', a: ["i will be working until seven", "i'll be working until seven", "i will be working till seven", "i'll be working till seven", "i will work until seven", "i'll work until seven", "i will work till seven", "i'll work till seven", "i will be working until 7", "i'll be working until 7", "i will work until 7", "i'll work until 7", "i'll be working till 7", "i'll work till 7"] },
-      { t: 'tr', q: 'Мы добрались домой после полуночи.', a: ["we got home after midnight", "we arrived home after midnight", "we came home after midnight", "we reached home after midnight"] },
+      { t: 'tr', q: 'Я буду работать до семи.', a: ["i will be working until seven", "i'll be working until seven", "i will be working till seven", "i'll be working till seven", "i will work until seven", "i'll work until seven", "i will work till seven", "i'll work till seven", "i will be working until 7", "i'll be working until 7", "i will work until 7", "i'll work until 7", "i'll be working till 7", "i'll work till 7", "i will be working till 7", "i will work till 7"] },
+      { t: 'tr', q: 'Мы добрались домой после полуночи.', a: ["we got home after midnight", "we arrived home after midnight", "we came home after midnight", "we reached home after midnight", "we made it home after midnight"] },
       { t: 'listen', say: "Let's meet at the entrance", a: ["let's meet at the entrance", "let us meet at the entrance"] },
       { t: 'listen', say: "I didn't do it on purpose", a: ["i didn't do it on purpose", "i did not do it on purpose"] }
     ],

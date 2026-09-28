@@ -49,7 +49,7 @@ COURSE.units.push(
 </ul>
 <div class="g-bad">Tomorrow at nine I will work on the logo.</div>
 <div class="g-good">Tomorrow at nine I'<b>ll be working</b> on the logo. <span class="muted">— в 9 я буду в процессе</span></div>
-<div class="mini" data-q="Не приходи в 7 — мы ___ ужинать." data-o="will have|'ll be having|have" data-a="1" data-why="В 7 ужин будет идти, мы в процессе → will be + -ing."></div>`
+<div class="mini" data-q="Don't come at seven — at that time we ___ dinner." data-o="'ll have had|'ll be having|have had" data-a="1" data-why="В 7 ужин будет идти, мы в процессе → will be + -ing."></div>`
       },
       {
         title: '3. will be doing — «так и так будет»: планы, новости, вежливые вопросы',
@@ -82,7 +82,7 @@ COURSE.units.push(
 <li><span class="say">Don't come at nine. Anna won't be at home — she'll have gone to work.</span> — Не приходи в девять. Анны не будет — она уже уйдёт на работу.</li>
 <li><span class="say">We're late. The film will already have started by the time we get there.</span> — Мы опаздываем. Когда доберёмся, фильм уже начнётся.</li>
 <li><span class="say">The meeting is at three. I won't have read the brief by then.</span> — Встреча в три. К тому времени я ещё не прочитаю бриф.</li>
-<li><span class="say">Will you have fixed the bug by tomorrow?</span> — Ты исправишь баг к завтра?</li>
+<li><span class="say">Will you have fixed the bug by tomorrow?</span> — Ты исправишь баг к завтрашнему дню?</li>
 </ul>
 <p>С глаголами состояния — «к тому моменту будет уже столько-то лет»:</p>
 <table>
@@ -119,7 +119,7 @@ COURSE.units.push(
 <p><b>Но!</b> Если when — это вопрос «когда?» (что-то <i>неизвестно</i>), will остаётся: <span class="say">I don't know when the update will come out.</span> — Не знаю, когда выйдет обновление. Здесь when — не «в момент, когда», а «когда именно?».</p>
 <div class="g-tip">Правило: «в момент, когда / пока / как только» → Present. «Не знаю, когда…» (спрашиваем о времени) → will.</div>
 <div class="mini" data-q="Let's wait until it ___ raining." data-o="will stop|stops|stopped" data-a="1" data-why="После until про будущее — Present: stops."></div>
-<div class="mini" data-q="Do you know when Kate ___ back?" data-o="comes|will come|came" data-a="1" data-why="Это вопрос «когда именно?» (неизвестно) → will сохраняется."></div>`
+<div class="mini" data-q="Do you know when Kate ___ back? She hasn't bought a ticket yet." data-o="comes|will come|came" data-a="1" data-why="Это вопрос «когда именно?» (неизвестно) → will сохраняется."></div>`
       },
       {
         title: '6. When I\'ve done — «когда уже сделаю»',
@@ -205,7 +205,7 @@ COURSE.units.push(
       ['expect', 'ожидать', 'I expect we\'ll have sold a million copies by June.', 'Думаю, к июню мы продадим миллион копий.'],
       ['pack', 'собирать вещи', 'I\'ll call you when I\'ve packed.', 'Я позвоню, когда соберу вещи.'],
       ['hurry', 'спешить', 'If we don\'t hurry, we\'ll miss the train.', 'Если не поспешим, опоздаем на поезд.'],
-      ['miss', 'пропустить, опоздать на', 'Hurry, or the bus will have left!', 'Быстрее, а то автобус уже уйдёт!'],
+      ['miss', 'пропустить, опоздать на', 'Hurry, or we\'ll miss the bus!', 'Быстрее, а то опоздаем на автобус!'],
       ['stream', 'стримить; стрим', 'Don\'t call at nine. I\'ll be streaming.', 'Не звони в девять. Я буду на стриме.'],
       ['borrow', 'брать на время', 'Can I borrow it when you\'ve finished?', 'Можно взять, когда ты закончишь?'],
       ['wonder', 'интересоваться, задаваться вопросом', 'I wonder where I\'ll be when I\'m forty.', 'Интересно, где я буду, когда мне будет сорок.'],
@@ -234,7 +234,7 @@ So if you don't hear from me this week, don't worry. I'll call you once the laun
 Max: No, I'll be working from home all weekend. Why?
 Anna: Kate and I want to drive to the lake. We'll leave early, before it gets hot.
 Max: Sure, you can take it. But I'll need it back by Sunday evening. On Monday I'm driving to a client.
-Anna: No problem. We'll have come back by six on Sunday.
+Anna: No problem. We'll have brought it back by six on Sunday.
 Max: Great. When you get to the lake, send me a photo. I'll be sitting at my desk, and I'll be very jealous.
 Anna: Ha! I will. By the way, what time will you be finishing on Friday? We could pick up the keys then.
 Max: Probably around seven. If I finish earlier, I'll text you.
@@ -255,24 +255,24 @@ Anna: Sounds like a plan. See you on Friday!`,
       }
     ],
     practice: [
-      { t: 'choice', q: 'Don\'t call me at nine tomorrow. I ___ a meeting with the client.', o: ['will have', '\'ll be having', 'have had'], a: 1, why: 'В девять встреча будет идти, я в процессе → will be + -ing.' },
+      { t: 'choice', q: 'Don\'t call me at nine tomorrow. I ___ a meeting with the client.', o: ['\'ll have had', '\'ll be having', 'have had'], a: 1, why: 'В девять встреча будет идти, я в процессе → will be + -ing.' },
       { t: 'choice', q: 'By the end of the month we ___ the whole interface.', o: ['\'ll have redesigned', '\'ll be redesigning', 'redesign'], a: 0, why: 'By + срок, результат готов → will have + V3.' },
       { t: 'choice', q: 'I\'ll send you the link as soon as the stream ___.', o: ['will start', 'starts', 'is going to start'], a: 1, why: 'После as soon as про будущее — Present: starts.' },
       { t: 'choice', q: '___ you be using the printer this afternoon? I need to print a poster.', o: ['Do', 'Will', 'Are'], a: 1, why: 'Вежливо узнаём планы: Will you be + -ing.' },
       { t: 'choice', q: 'Don\'t worry ___ I\'m a bit late. The traffic is bad.', o: ['when', 'if', 'until'], a: 1, why: 'Опоздание не точно, только возможно → if.' },
       { t: 'choice', q: 'Can I have the controller when you ___ this level?', o: ['\'ve finished', '\'ll finish', '\'ll have finished'], a: 0, why: 'Сначала закончишь, потом отдашь → when + Present Perfect, без will.' },
       { t: 'choice', q: 'Hurry! By the time we get there, the concert ___.', o: ['will already start', 'will already have started', 'already starts'], a: 1, why: 'К моменту нашего прихода начало уже произойдёт → will have + V3.' },
-      { t: 'choice', q: 'I don\'t know when the new season ___ out.', o: ['comes', 'will come', 'has come'], a: 1, why: 'Здесь when = «когда именно?» (неизвестно) → will сохраняется.' },
+      { t: 'choice', q: 'I don\'t know when the new season ___ out. They haven\'t announced the date yet.', o: ['comes', 'will come', 'has come'], a: 1, why: 'Здесь when = «когда именно?» (неизвестно) → will сохраняется.' },
       { t: 'gap', q: 'This time next week I ___ on a beach in Turkey. (lie)', a: ['will be lying', '\'ll be lying'], why: 'Момент в будущем + действие в процессе → will be + -ing.' },
       { t: 'gap', q: 'Wait here until I ___ back. (come)', a: ['come'], why: 'После until про будущее — Present: come.' },
       { t: 'gap', q: 'By 2030 I ___ in this city for ten years. (live)', a: ['will have lived', '\'ll have lived', 'will have been living', '\'ll have been living'], why: 'Сколько лет к моменту в будущем → will have + V3.' },
       { t: 'gap', q: 'If it ___ tomorrow, we\'ll play at home. (rain)', a: ['rains'], why: 'После if про будущее — Present, he/it → -s.' },
-      { t: 'gap', q: 'Our goalkeeper is injured, so he ___ in the final. (not / play)', a: ['won\'t be playing', 'will not be playing'], why: 'Так сложились обстоятельства, «не будет играть» → won\'t be + -ing.' },
+      { t: 'gap', q: 'Our goalkeeper is injured, so he ___ in the final. (not / play)', a: ['won\'t be playing', 'will not be playing', 'won\'t play', 'will not play'], why: 'Так сложились обстоятельства, «не будет играть» → won\'t be + -ing (won\'t play тоже верно).' },
       { t: 'gap', q: 'Sarah ___ home by nine — she always leaves at 8.30. (leave)', a: ['will have left', '\'ll have left'], why: 'К девяти уход уже произойдёт → will have + V3.' },
       { t: 'order', a: 'I will call you when I arrive', ru: 'Я позвоню тебе, когда приеду.' },
       { t: 'order', a: 'Will you be using your laptop tonight', ru: 'Ты будешь пользоваться ноутбуком сегодня вечером?' },
-      { t: 'tr', q: 'К понедельнику я закончу макет.', a: ['i will have finished the mockup by monday', 'i\'ll have finished the mockup by monday', 'by monday i will have finished the mockup', 'by monday i\'ll have finished the mockup', 'i will have finished the layout by monday', 'i\'ll have finished the layout by monday', 'by monday i will have finished the layout', 'by monday i\'ll have finished the layout', 'i will have finished the mock-up by monday', 'i\'ll have finished the mock-up by monday'] },
-      { t: 'tr', q: 'Завтра в восемь я буду работать.', a: ['at eight tomorrow i will be working', 'at eight tomorrow i\'ll be working', 'tomorrow at eight i will be working', 'tomorrow at eight i\'ll be working', 'i will be working at eight tomorrow', 'i\'ll be working at eight tomorrow', 'i will be working tomorrow at eight', 'i\'ll be working tomorrow at eight', 'at 8 tomorrow i\'ll be working', 'tomorrow at 8 i\'ll be working', 'i\'ll be working at 8 tomorrow'] },
+      { t: 'tr', q: 'К понедельнику я закончу макет.', a: ['i will have finished the mockup by monday', 'i\'ll have finished the mockup by monday', 'by monday i will have finished the mockup', 'by monday i\'ll have finished the mockup', 'i will have finished the layout by monday', 'i\'ll have finished the layout by monday', 'by monday i will have finished the layout', 'by monday i\'ll have finished the layout', 'i will have finished the mock-up by monday', 'i\'ll have finished the mock-up by monday', 'by monday i will have finished the mock-up', 'by monday i\'ll have finished the mock-up', 'i will finish the mockup by monday', 'i\'ll finish the mockup by monday', 'by monday i will finish the mockup', 'by monday i\'ll finish the mockup', 'i will finish the layout by monday', 'i\'ll finish the layout by monday', 'by monday i\'ll finish the layout'] },
+      { t: 'tr', q: 'Завтра в восемь я буду работать.', a: ['at eight tomorrow i will be working', 'at eight tomorrow i\'ll be working', 'tomorrow at eight i will be working', 'tomorrow at eight i\'ll be working', 'i will be working at eight tomorrow', 'i\'ll be working at eight tomorrow', 'i will be working tomorrow at eight', 'i\'ll be working tomorrow at eight', 'at 8 tomorrow i\'ll be working', 'tomorrow at 8 i\'ll be working', 'i\'ll be working at 8 tomorrow', 'at 8 tomorrow i will be working', 'tomorrow at 8 i will be working', 'i will be working at 8 tomorrow', 'i will be working tomorrow at 8', 'i\'ll be working tomorrow at 8'] },
       { t: 'listen', say: 'I\'ll text you as soon as I get home.', a: ['i\'ll text you as soon as i get home', 'i will text you as soon as i get home'] }
     ],
     test: [
@@ -282,7 +282,7 @@ Anna: Sounds like a plan. See you on Friday!`,
       { t: 'choice', q: 'Which sentence is correct?', o: ['When I call Anna, I\'ll ask her about the tickets.', 'When I\'ve called Anna, I\'ll ask her about the tickets.', 'When I\'ll call Anna, I\'ll ask her about the tickets.'], a: 0, why: 'Спрашиваю во время звонка — действия одновременно → Present Simple, не Perfect.' },
       { t: 'choice', q: 'I\'m going to the supermarket later. ___ I go, I\'ll buy some coffee.', o: ['If', 'When', 'Until'], a: 1, why: 'Поход точно будет → when.' },
       { t: 'choice', q: 'Ladies and gentlemen, in a few minutes we ___ our descent.', o: ['will be starting', 'will have started', 'start'], a: 0, why: 'Плановое событие, спокойный «официальный» тон → will be + -ing.' },
-      { t: 'choice', q: 'I wonder if the shop ___ open on Sunday.', o: ['is', 'will be', 'would'], a: 1, why: 'if = «ли» (вопрос, неизвестно) → will можно и нужно.' },
+      { t: 'choice', q: 'Max has been really busy. I wonder if he ___ to the party tomorrow.', o: ['comes', 'will come', 'would'], a: 1, why: 'if = «ли» (вопрос, неизвестно) → will можно и нужно.' },
       { t: 'gap', q: 'I\'m sure you ___ me when you see me — I\'ve changed a lot. (not / recognise)', a: ['won\'t recognise', 'will not recognise', 'won\'t recognize', 'will not recognize'], why: 'Главная часть — будущее с will; will стоит в главной, а не после when.' },
       { t: 'gap', q: 'Don\'t turn off the PC before the update ___. (finish)', a: ['finishes', 'has finished', '\'s finished'], why: 'После before — Present Simple или Present Perfect, не will.' },
       { t: 'gap', q: 'By the time you read this letter, I ___ the country. (leave)', a: ['will have left', '\'ll have left'], why: 'К моменту в будущем действие уже завершится → will have + V3.' },
@@ -496,19 +496,19 @@ Anna: Sounds like a plan. See you on Friday!`,
       ['recognise', 'узнавать', 'I couldn\'t recognise you with a beard!', 'Я не узнал тебя с бородой!'],
       ['solve', 'решать (задачу, загадку)', 'It was hard, but we managed to solve the puzzle.', 'Было трудно, но мы решили головоломку.'],
       ['persuade', 'убедить, уговорить', 'We managed to persuade Max to join us.', 'Нам удалось уговорить Макса присоединиться.'],
-      ['beat — beat', 'победить, обыграть', 'I couldn\'t beat him, but I tried.', 'Я не смог его обыграть, но пытался.'],
+      ['beat — beat — beaten', 'победить, обыграть', 'I couldn\'t beat him, but I tried.', 'Я не смог его обыграть, но пытался.'],
       ['suggest', 'предлагать', 'Can I suggest something? We could meet on Friday.', 'Можно предложить? Мы могли бы встретиться в пятницу.'],
       ['realistic', 'реалистичный', 'Is it realistic? — It could work.', 'Это реально? — Может сработать.'],
       ['unfair', 'несправедливый', 'Life can be unfair sometimes.', 'Жизнь иногда бывает несправедливой.'],
       ['worse', 'хуже', 'It was bad, but it could have been worse.', 'Было плохо, но могло быть и хуже.'],
       ['lucky', 'везучий', 'You were lucky. You could have fallen.', 'Тебе повезло. Ты мог упасть.'],
       ['regret', 'сожалеть', 'I regret it. I could have studied harder.', 'Жалею. Мог бы учиться усерднее.'],
-      ['certain', 'уверенный, определённый', 'I\'m certain he must be at home.', 'Я уверен, он наверняка дома.'],
+      ['certain', 'уверенный, определённый', 'I\'m certain he\'s at home.', 'Я уверен, что он дома.'],
       ['obviously', 'очевидно', 'He obviously can\'t have read the brief.', 'Он явно не читал бриф.'],
       ['guess', 'догадываться; догадка', 'My guess is they must have left early.', 'Я думаю, они ушли пораньше.'],
       ['evidence', 'доказательства, улики', 'There\'s no evidence. It can\'t have been him.', 'Улик нет. Это не мог быть он.'],
       ['clue', 'подсказка, улика', 'The detective found a clue.', 'Детектив нашёл улику.'],
-      ['suspect', 'подозревать; подозреваемый', 'I suspect the cat must have broken the vase.', 'Подозреваю, что вазу разбил кот.'],
+      ['suspect', 'подозревать; подозреваемый', 'I suspect the cat broke the vase.', 'Подозреваю, что вазу разбил кот.'],
       ['mystery', 'загадка, тайна', 'It\'s a mystery. Where could it be?', 'Это загадка. Где оно может быть?'],
       ['explanation', 'объяснение', 'There must be an explanation.', 'Должно быть какое-то объяснение.'],
       ['notice', 'замечать', 'You must have noticed the new logo.', 'Ты наверняка заметил новый логотип.'],
@@ -553,7 +553,7 @@ Max: It was. When I was able to reconnect, we had already lost the base.
 Kate: Couldn't the organisers stop the game?
 Max: They could have, but they didn't. They said the rules don't allow it.
 Kate: That's so unfair. Well, it could have been worse. You still got second place, right?
-Max: True. And second place is two hundred dollars. I couldn't complain about that.
+Max: True. And second place is two hundred dollars. I can't complain about that.
 Kate: Wait, you won money? You must be joking!
 Max: No, really. It's the first time I've been able to make money from games.
 Kate: So what are you going to do now?
@@ -586,21 +586,21 @@ Max: I'm half serious. Anyway, next time we'll win. I'm sure we'll be able to.`,
       { t: 'gap', q: 'I\'d love to ___ play the guitar. (уметь)', a: ['be able to'], why: 'После would love to нужен инфинитив → be able to.' },
       { t: 'order', a: 'You could have told me earlier', ru: 'Ты мог бы сказать мне раньше.' },
       { t: 'order', a: 'She must have forgotten about it', ru: 'Она, наверно, забыла об этом.' },
-      { t: 'tr', q: 'Тебе удалось найти ключи?', a: ['did you manage to find the keys', 'did you manage to find your keys', 'were you able to find the keys', 'were you able to find your keys', 'did you manage to find the key', 'did you manage to find your key', 'were you able to find the key', 'were you able to find your key'] },
+      { t: 'tr', q: 'Тебе удалось найти ключи?', a: ['did you manage to find the keys', 'did you manage to find your keys', 'were you able to find the keys', 'were you able to find your keys', 'did you manage to find the key', 'did you manage to find your key', 'were you able to find the key', 'were you able to find your key', 'have you managed to find the keys', 'have you managed to find your keys', 'have you been able to find the keys', 'have you been able to find your keys'] },
       { t: 'tr', q: 'Ты, должно быть, шутишь.', a: ['you must be joking', 'you must be kidding'] },
       { t: 'listen', say: 'It could have been worse.', a: ['it could have been worse', 'it could\'ve been worse'] }
     ],
     test: [
       { t: 'choice', q: 'My grandmother ___ speak three languages when she was young.', o: ['could', 'managed to', 'was able'], a: 0, why: 'Общее умение в прошлом → could.' },
-      { t: 'choice', q: 'The shop was almost empty, but I ___ buy the last ticket.', o: ['could', 'was able to', 'can'], a: 1, why: 'Удалось в конкретный раз → was able to / managed to.' },
+      { t: 'choice', q: 'The concert was almost sold out, but I ___ buy the last ticket.', o: ['could', 'was able to', 'can'], a: 1, why: 'Удалось в конкретный раз → was able to / managed to.' },
       { t: 'choice', q: 'I tried to call you, but I ___ get through.', o: ['couldn\'t', 'didn\'t manage', 'can\'t'], a: 0, why: 'Отрицание couldn\'t подходит и для конкретного случая.' },
-      { t: 'choice', q: 'Don\'t touch that wire! You ___ get hurt.', o: ['can', 'could', 'must'], a: 1, why: 'Возможно в этой ситуации (опасность) → could.' },
+      { t: 'choice', q: 'Don\'t touch that wire! You ___ get hurt.', o: ['should', 'could', 'must'], a: 1, why: 'Возможно в этой ситуации (опасность) → could.' },
       { t: 'choice', q: 'Which sentence means «Я бы не смог жить в большом городе»?', o: ['I can\'t live in a big city.', 'I couldn\'t live in a big city.', 'I couldn\'t have lived in a big city yesterday.'], a: 1, why: 'couldn\'t в настоящем = «было бы невозможно для меня».' },
       { t: 'choice', q: 'He walked into a wall. He ___ looking where he was going.', o: ['can\'t have been', 'mustn\'t have been', 'can\'t be'], a: 0, why: 'Отрицательная догадка о прошлом процессе → can\'t have been + -ing.' },
       { t: 'choice', q: 'Where is Oleg? — I don\'t know. He ___ be in the kitchen, or maybe he\'s gone out.', o: ['must', 'could', 'can\'t'], a: 1, why: 'Не уверены, одна из версий → could (might).' },
       { t: 'gap', q: 'You ___ me you were in town! We could have met. (tell)', a: ['could have told', 'could\'ve told'], why: 'Упрёк: возможность была, но не использовали → could have + V3.' },
       { t: 'gap', q: 'They live in a huge house. They ___ a lot of money. (have, наверняка)', a: ['must have'], why: 'Вывод о настоящем → must + глагол (have).' },
-      { t: 'gap', q: 'The streets are wet. It ___ in the night. (rain, наверняка)', a: ['must have rained'], why: 'Вывод о прошлом по факту → must have + V3.' },
+      { t: 'gap', q: 'The streets are wet. It ___ in the night. (rain, наверняка)', a: ['must have rained', 'must\'ve rained'], why: 'Вывод о прошлом по факту → must have + V3.' },
       { t: 'gap', q: 'Tom ___ help us tomorrow — he\'ll check his schedule. (might / be able)', a: ['might be able to'], why: 'Два модальных подряд нельзя → might be able to.' },
       { t: 'gap', q: 'I used to ___ run 10 km, but not any more. (уметь)', a: ['be able to'], why: 'После used to нужен инфинитив, у can его нет → be able to.' }
     ]

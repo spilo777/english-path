@@ -22,7 +22,7 @@ COURSE.units.push(
 <tr><td><b>направление</b> — смысл угадывается</td><td><span class="say">The bus was full, so we couldn't get on.</span></td><td>…не смогли сесть</td></tr>
 <tr><td><b>направление</b></td><td><span class="say">He jumped in the car and drove off.</span></td><td>…и уехал</td></tr>
 <tr><td><b>новый смысл</b> — надо учить</td><td><span class="say">How did you get on at the interview?</span></td><td>Как прошло собеседование?</td></tr>
-<tr><td><b>новый смысл</b></td><td><span class="say">My English is enough to get by.</span></td><td>…чтобы как-то справляться</td></tr>
+<tr><td><b>новый смысл</b></td><td><span class="say">My English is good enough to get by.</span></td><td>…чтобы как-то справляться</td></tr>
 </table>
 <div class="g-tip">Главный список частиц: <b>in, out, on, off, up, down, away, back</b> + реже <b>by, through, about, along, over, forward, round</b>. В этом уроке — первые четыре, в следующем — остальные.</div>
 <div class="mini" data-q="«Мы отменили стрим из-за шторма»:" data-o="We called out the stream.|We called off the stream.|We put on the stream." data-a="1" data-why="Отменить = call off (от- ≈ off)."></div>
@@ -387,15 +387,15 @@ Den: Yes, boss. Logging off.`,
       { t: 'choice', q: "Stop ___ — nobody cares about your new skin!", o: ["showing off", "telling off", "putting off"], a: 0, why: "Хвастаться, выпендриваться = show off." },
       { t: 'choice', q: "They were playing a board game, so I ___.", o: ["joined in", "dropped in", "filled in"], a: 0, why: "Присоединиться к тому, что уже идёт, = join in." },
       { t: 'gap', q: "What's all that noise? What's ___? (go)", a: ["going on"], why: "Происходить = go on; вопрос в Continuous: What's going on?" },
-      { t: 'gap', q: "Yesterday we ___ at five to avoid the traffic. (set)", a: ["set off"], why: "Отправиться в путь = set off; set — неправильный: set – set – set." },
-      { t: 'gap', q: "Sixty euros for a phone case? I think I ___. (rip, пассив, прошлое)", a: ["was ripped off", "got ripped off"], why: "Пассив фразового глагола: was / got + ripped off." },
+      { t: 'gap', q: "Yesterday we ___ at five to avoid the traffic. (set)", a: ["set off", "set out"], why: "Отправиться в путь = set off (или set out); set — неправильный: set – set – set." },
+      { t: 'gap', q: "Sixty euros for a phone case? I think I ___. (rip, пассив, прошлое)", a: ["was ripped off", "got ripped off", "have been ripped off", "'ve been ripped off"], why: "Пассив фразового глагола: was / got + ripped off." },
       { t: 'gap', q: "Please ___ the application form and send it to us. (fill)", a: ["fill in", "fill out"], why: "Заполнить форму = fill in или fill out." },
       { t: 'gap', q: "I promised to help them move, and now I can't ___ it. (get)", a: ["get out of"], why: "Отвертеться от чего-то = get out of + something; три слова не разрываем." },
       { t: 'gap', q: "Our plane ___ two hours late yesterday. (take)", a: ["took off"], why: "Взлетать = take off; take — неправильный: took." },
       { t: 'order', a: 'I dozed off during the meeting', ru: 'Я задремал во время встречи' },
       { t: 'order', a: 'Thanks for pointing it out to me', ru: 'Спасибо, что указал мне на это' },
-      { t: 'tr', q: 'Мы отложили релиз до марта.', a: ["we put off the release until march", "we put the release off until march", "we put off the release till march", "we put the release off till march", "we postponed the release until march", "we postponed the release till march"] },
-      { t: 'tr', q: 'Они не ладят друг с другом.', a: ["they don't get on with each other", "they do not get on with each other", "they don't get along with each other", "they do not get along with each other", "they don't get on", "they do not get on", "they don't get along", "they do not get along"] },
+      { t: 'tr', q: 'Мы отложили релиз до марта.', a: ["we put off the release until march", "we put the release off until march", "we put off the release till march", "we put the release off till march", "we postponed the release until march", "we postponed the release till march", "we delayed the release until march", "we delayed the release till march", "we pushed back the release to march", "we pushed the release back to march"] },
+      { t: 'tr', q: 'Они не ладят друг с другом.', a: ["they don't get on with each other", "they do not get on with each other", "they don't get along with each other", "they do not get along with each other", "they don't get on", "they do not get on", "they don't get along", "they do not get along", "they don't get on with one another", "they don't get along with one another"] },
       { t: 'listen', say: 'Count me in', a: ['count me in'] },
       { t: 'listen', say: 'It turned out to be a bug', a: ['it turned out to be a bug'] }
     ],
@@ -411,7 +411,7 @@ Den: Yes, boss. Logging off.`,
       { t: 'gap', q: "Our teacher ___ for being late yesterday. (tell / us)", a: ["told us off"], why: "Отругать = tell somebody off; us — в середину, told — прошедшее." },
       { t: 'choice', q: "The fire was ___ quickly by two neighbours.", o: ["put out", "put off", "taken out"], a: 0, why: "Потушить огонь = put out; out здесь — «погасить»." },
       { t: 'choice', q: "My flatmate keeps ___ my food from the fridge.", o: ["on eating", "eating on", "to eat on"], a: 0, why: "Повторяющееся раздражающее действие = keep on + -ing." },
-      { t: 'gap', q: "The new game ___ next month — I've already pre-ordered it. (come)", a: ["comes out", "is coming out", "'s coming out", "will come out"], why: "Выходить (о фильме, игре) = come out; по расписанию подходит Present Simple." }
+      { t: 'gap', q: "The new game ___ next month — I've already pre-ordered it. (come)", a: ["comes out", "is coming out", "'s coming out", "will come out", "is going to come out"], why: "Выходить (о фильме, игре) = come out; по расписанию подходит Present Simple." }
     ]
   },
 
@@ -437,7 +437,7 @@ Den: Yes, boss. Logging off.`,
   <div><div class="g-h">Русский</div><p><b>До</b>ешь, я хочу помыть тарелку.</p><p><b>Сбавь</b> скорость!</p><p>Мне <b>отказали</b>.</p><p>Он <b>сбежал</b>.</p><p>Я тебе <b>перезвоню</b>.</p></div>
   <div><div class="g-h">English</div><p><span class="say">Eat <b>up</b>, I want to wash the plate.</span></p><p><span class="say">Slow <b>down</b>!</span></p><p><span class="say">I was turned <b>down</b>.</span></p><p><span class="say">He ran <b>away</b>.</span></p><p><span class="say">I'll call you <b>back</b>.</span></p></div>
 </div>
-<div class="g-tip"><b>up</b> — как русские «до-» и «за-» в смысле «доделать до конца»: <i>доесть</i> = eat up, <i>допить</i> = drink up, <i>заполнить бак</i> = fill up, <i>запереть</i> = lock up. <b>down</b> — «с-»: <i>сбавить, снизить, сломаться, списать (записать)</i>.</div>
+<div class="g-tip"><b>up</b> — как русские «до-» и «за-» в смысле «доделать до конца»: <i>доесть</i> = eat up, <i>допить</i> = drink up, <i>заполнить бак</i> = fill up, <i>запереть</i> = lock up. <b>down</b> — «с-»: <i>сбавить, снизить, сломаться, снести</i>.</div>
 <div class="mini" data-q="«Перезвони мне, когда освободишься»:" data-o="Call me back when you're free.|Call me again when you're free back.|Back call me when you're free." data-a="0" data-why="Перезвонить = call back (back — в ответ); местоимение me — в середину."></div>
 <div class="mini" data-q="We've ___ all the paper. Can you buy some more?" data-o="used up|used down|used away" data-a="0" data-why="up = до конца, полностью: use up — израсходовать всё."></div>`
       },
@@ -508,7 +508,7 @@ Den: Yes, boss. Logging off.`,
 </ul>
 <div class="g-bad">My grandmother grew me up. · We ended up to sleep in the car. · I took up to run.</div>
 <div class="g-good">My grandmother <b>brought</b> me <b>up</b>. · We ended up <b>sleeping</b> in the car. · I took up <b>running</b>.</div>
-<div class="g-tip"><b>grow up</b> — вырос <i>сам</i> (без объекта), <b>bring up</b> — вырастили <i>тебя</i> (есть объект). После <b>end up, give up, take up</b> — всегда <b>-ing</b>.</div>
+<div class="g-tip"><b>grow up</b> — вырос <i>сам</i> (без объекта), <b>bring up</b> — вырастили <i>тебя</i> (есть объект). Если после <b>end up, give up, take up</b> идёт глагол — только в форме <b>-ing</b>.</div>
 <div class="mini" data-q="We couldn't find a taxi and ended up ___ home." data-o="walking|to walk|walk" data-a="0" data-why="end up + -ing: «в итоге пришлось сделать»."></div>
 <div class="mini" data-q="He ___ by his aunt after his parents moved abroad." data-o="was brought up|was grown up|was taken up" data-a="0" data-why="Воспитали (пассив) = be brought up; grow up — только «вырасти самому»."></div>`
       },
@@ -547,8 +547,8 @@ Den: Yes, boss. Logging off.`,
 <tr><td><b>mix up / get mixed up</b></td><td>перепутать</td><td><span class="say">I always mix up the twins.</span></td></tr>
 <tr><td><b>beat sb up</b></td><td>избить</td><td><span class="say">In the first episode he gets beaten up.</span></td></tr>
 </table>
-<div class="g-bad">I can't stand up with this noise. · She broke with her boyfriend. · I invented an excuse. <span class="muted">(invent — изобрести)</span></div>
-<div class="g-good">I can't <b>put up with</b> this noise. · She <b>broke up</b> with her boyfriend. · I <b>made up</b> an excuse.</div>
+<div class="g-bad">I can't stand up with this noise. · She broke with her boyfriend. · He made up with an excuse. <span class="muted">(make up with — помириться с)</span></div>
+<div class="g-good">I can't <b>put up with</b> this noise. · She <b>broke up</b> with her boyfriend. · He <b>made up</b> an excuse.</div>
 <div class="g-tip"><b>put up with</b> — три слова, «терпеть через силу». Синоним одним словом — <b>stand</b> / <b>tolerate</b>: <span class="say">I can't stand it.</span></div>
 <div class="mini" data-q="Sorry I'm late — I was ___ at the airport." data-o="held up|held on|hold up" data-a="0" data-why="Задержаться не по своей вине = be held up."></div>
 <div class="mini" data-q="Don't worry, nobody believes him. He ___ the whole story." data-o="made up|came up|brought up" data-a="0" data-why="Выдумать, сочинить = make up."></div>`
@@ -753,7 +753,7 @@ Den: Yes, boss. Logging off.`,
       ["turn down", "отказать; убавить (звук)", "She turned down the offer.", "Она отказалась от предложения."],
       ["let somebody down — let down", "подвести, разочаровать", "Don't worry, I won't let you down.", "Не волнуйся, я тебя не подведу."],
       ["write down — wrote down", "записать", "Write down the address.", "Запиши адрес."],
-      ["shut down — shut down", "закрыться; выключить", "The servers will shut down at midnight.", "Серверы выключат в полночь."],
+      ["shut down — shut down", "закрыться; выключить", "The servers will shut down at midnight.", "Серверы отключатся в полночь."],
       ["give away — gave away", "отдать даром; выдать (секрет)", "The trailer gave away the ending.", "Трейлер выдал концовку."],
       ["get away with — got away with", "сойти с рук", "He broke the rules and got away with it.", "Он нарушил правила, и ему это сошло с рук."],
       ["throw away — threw away", "выбросить", "Don't throw away the receipt.", "Не выбрасывай чек."],
@@ -820,16 +820,16 @@ Ira: OK, OK. I'll write it down and save it for later.`,
       { t: 'choice', q: "They offered her a place in the team, but she ___.", o: ["turned it down", "let it down", "broke it down"], a: 0, why: "Отклонить предложение = turn down; it — в середину." },
       { t: 'choice', q: "The neighbours play drums every night. I can't ___ it any more!", o: ["put up with", "put up", "keep up with"], a: 0, why: "Терпеть = put up with — три слова, объект в конце." },
       { t: 'choice', q: "He didn't know the answer, so he just ___ something.", o: ["made up", "came up", "set up"], a: 0, why: "Выдумать, сочинить = make up." },
-      { t: 'choice', q: "You can count on me. I won't ___.", o: ["let you down", "let down you", "turn you down"], a: 0, why: "Подвести = let somebody down; you — в середину." },
+      { t: 'choice', q: "You can count on me. I won't ___.", o: ["let you down", "let down you", "let you up"], a: 0, why: "Подвести = let somebody down; you — в середину." },
       { t: 'choice', q: "We waited for Mark for an hour, but he never ___.", o: ["turned up", "turned down", "took up"], a: 0, why: "Прийти, появиться = turn up (или show up)." },
       { t: 'choice', q: "He used a cheat in the tournament and ___ it!", o: ["got away with", "got back to", "got away"], a: 0, why: "Сойти с рук = get away with + что-то." },
       { t: 'choice', q: "Our art director ___ a brilliant name for the game.", o: ["came up with", "came up", "caught up with"], a: 0, why: "Придумать = come up with + идея." },
-      { t: 'gap', q: "I drink five coffees a day. I need to ___ on caffeine. (cut)", a: ["cut down"], why: "Сократить потребление = cut down on + что-то." },
+      { t: 'gap', q: "I drink five coffees a day. I need to ___ on caffeine. (cut)", a: ["cut down", "cut back"], why: "Сократить потребление = cut down on (или cut back on) + что-то." },
       { t: 'gap', q: "These headphones don't work. I'm going to ___ to the shop. (take / them)", a: ["take them back"], why: "Отнести обратно = take back; them — в середину." },
       { t: 'gap', q: "If you don't know a word, ___ in the dictionary. (look / it)", a: ["look it up"], why: "Посмотреть в словаре = look up; it — в середину." },
-      { t: 'gap', q: "I'm ___ for a new graphics card. (save)", a: ["saving up"], why: "Копить на что-то = save up for; процесс сейчас — Continuous." },
+      { t: 'gap', q: "I'm ___ for a new graphics card. (save)", a: ["saving up", "saving"], why: "Копить на что-то = save up for; процесс сейчас — Continuous." },
       { t: 'gap', q: "Sorry, I'm in a meeting. I'll ___ in ten minutes. (call / you)", a: ["call you back"], why: "Перезвонить = call back; you — в середину." },
-      { t: 'gap', q: "We started with 500 gold, but we've already ___ it all. (use)", a: ["used up"], why: "Израсходовать всё = use up (up = до конца)." },
+      { t: 'gap', q: "We started with 500 gold, but we've already ___ all of it. (use)", a: ["used up", "used"], why: "Израсходовать всё = use up (up = до конца). С местоимением: used it all up." },
       { t: 'order', a: 'She broke up with her boyfriend', ru: 'Она рассталась со своим парнем' },
       { t: 'order', a: "I'll get back to you tomorrow", ru: 'Я отвечу тебе завтра' },
       { t: 'tr', q: 'Не сдавайся!', a: ["don't give up", "do not give up"] },
@@ -849,7 +849,7 @@ Ira: OK, OK. I'll write it down and save it for later.`,
       { t: 'choice', q: "Save your progress ___ the game crashes.", o: ["in case", "unless", "as long as"], a: 0, why: "Итог B2 · b2-7: на случай, если = in case." },
       { t: 'choice', q: "He looks ___ he hasn't slept for days.", o: ["like as", "as if", "as"], a: 1, why: "Итог B2 · b2-8: выглядит так, будто… → look as if + предложение." },
       { t: 'choice', q: "I complained ___ the manager ___ the noise.", o: ["to … about", "at … for", "to … on"], a: 0, why: "Итог B2 · b2-10: complain to somebody about something." },
-      { t: 'gap', q: "The final was ___ because of the storm, and nobody knew when it would take place. (call)", a: ["called off"], why: "Итог B2 · b2-11: отменить = call off; в пассиве частица остаётся после причастия." }
+      { t: 'gap', q: "The final was ___ because of the storm, and the fans got their money back. (call)", a: ["called off"], why: "Итог B2 · b2-11: отменить = call off; в пассиве частица остаётся после причастия." }
     ]
   }
 );

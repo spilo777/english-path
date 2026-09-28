@@ -219,7 +219,7 @@ COURSE.units.push(
       ['suspect', 'подозреваемый; подозревать', 'The suspect was seen leaving the bank.', 'Подозреваемого видели, когда он выходил из банка.'],
       ['realise', 'понимать, осознавать', 'Having read the task again, I realised my mistake.', 'Перечитав задание, я понял свою ошибку.'],
       ['exhausted', 'измотанный, без сил', 'Feeling exhausted, I skipped the party.', 'Чувствуя себя без сил, я пропустил вечеринку.'],
-      ['unemployed', 'безработный', 'Being unemployed, he had a lot of free time.', 'Будучи безработным, он имел много свободного времени.']
+      ['unemployed', 'безработный', 'Being unemployed, he had a lot of free time.', 'Будучи безработным, он располагал массой свободного времени.']
     ],
     texts: [
       {
@@ -285,7 +285,7 @@ Now I'm home, looking through almost four hundred photos. My favourite is the on
       { t: 'order', a: 'I felt something crawl up my arm', ru: 'Я почувствовал, как что-то проползло по руке' },
       { t: 'order', a: 'She came in holding a huge box', ru: 'Она вошла с огромной коробкой в руках' },
       { t: 'tr', q: 'Я видел, как он закрыл ноутбук и ушёл.', a: ['i saw him close the laptop and leave', 'i saw him close his laptop and leave', 'i saw him close the laptop and go', 'i saw him close his laptop and go', 'i saw him close the laptop and walk out', 'i saw him close his laptop and walk out'] },
-      { t: 'tr', q: 'Всю ночь было слышно, как идёт дождь.', a: ['i could hear it raining all night', 'we could hear it raining all night', 'you could hear it raining all night', 'i could hear the rain all night'] },
+      { t: 'tr', q: 'Всю ночь было слышно, как идёт дождь.', a: ['i could hear it raining all night', 'we could hear it raining all night', 'you could hear it raining all night', 'i could hear the rain all night', 'we could hear the rain all night', 'you could hear the rain all night', 'i could hear it raining all night long', 'you could hear it raining all night long'] },
       { t: 'listen', say: 'Sorry to keep you waiting', a: ['sorry to keep you waiting'] }
     ],
     test: [
@@ -409,7 +409,7 @@ Now I'm home, looking through almost four hundred photos. My favourite is the on
 <li><span class="say">Luckily we had a map, without which we would have got lost.</span> — …без которой мы бы заблудились.</li>
 <li><span class="say">She works for a company called Nimbus, which I'd never heard of.</span></li>
 </ul>
-<div class="g-bad">Mr Lee, whom I spoke to, agreed.</div>
+<div class="g-bad">Mr Lee, to who I spoke, agreed.</div>
 <div class="g-good">Mr Lee, <b>to whom</b> I spoke, agreed. / Mr Lee, <b>who</b> I spoke <b>to</b>, agreed.</div>
 <p><b>Число / часть + of whom (люди) / of which (вещи)</b> — «из которых»:</p>
 <ul class="g-list">
@@ -484,7 +484,7 @@ Now I'm home, looking through almost four hundred photos. My favourite is the on
 <div class="g-bad">We watched Arcane, I loved.</div><div class="g-good">We watched Arcane, <b>which</b> I loved.</div>
 <div class="g-bad">She has two cats, both of them sleep all day.</div><div class="g-good">She has two cats, <b>both of which</b> sleep all day.</div>
 <div class="g-bad">The team won, what nobody expected.</div><div class="g-good">The team won, <b>which</b> nobody expected.</div>
-<div class="g-bad">The man whom I spoke to…</div><div class="g-good">The man <b>I spoke to</b>… / The man <b>to whom</b> I spoke…</div>
+<div class="g-bad">The man to who I spoke…</div><div class="g-good">The man <b>I spoke to</b>… / The man <b>to whom</b> I spoke…</div>
 <div class="g-bad">The car stealing last night was found.</div><div class="g-good">The car <b>stolen</b> last night was found.</div>
 </div>
 <div class="g-sum"><div class="g-h">Итог юнита в одной строке</div><b>whose</b> + существительное · <b>where</b> = there · запятые = добавка: <b>, who / , which</b>, без that · <b>all of whom / none of which</b> · <b>, which</b> про всю фразу · <b>the guy talking</b> / <b>the game made</b>.</div>`
@@ -533,7 +533,7 @@ After university she worked in London for a big company, the name of which she p
 
 The team she hired is small and unusual. There are two artists, both of whom used to work in animation, a programmer who had never made a game before, and a composer whose music you may have heard in a popular TV series. The person in charge of the story is Maya's old school friend Tom, with whom she shares a desk by the window.
 
-Their office, which still smells slightly of bread, has a view overlooking the harbour. On the wall there is a huge map drawn by one of the artists, covered in notes and coffee stains. "That map is the reason the game works," says Maya. "Every place you visit in Lantern Road is a real place in Kelby."
+Their office, which still smells slightly of bread, overlooks the harbour. On the wall there is a huge map drawn by one of the artists, covered in notes and coffee stains. "That map is the reason the game works," says Maya. "Every place you visit in Lantern Road is a real place in Kelby."
 
 The launch was not easy. The first version had a bug that deleted the saves of players using old laptops, which made a lot of people angry. The team worked for three nights without sleep, during which Tom, according to Maya, ate forty-two sandwiches.
 
@@ -590,8 +590,8 @@ Nick: The last time I saw Dan, he was still apologising.`,
       { t: 'gap', q: 'I have a room ___ the garden. (overlook)', a: ['overlooking'], why: 'Комната «выходит» на сад постоянно → -ing clause.' },
       { t: 'order', a: 'I went back to the town where I grew up', ru: 'Я вернулся в город, где вырос' },
       { t: 'order', a: 'The man sitting next to me snored', ru: 'Мужчина, сидевший рядом со мной, храпел' },
-      { t: 'tr', q: 'Я познакомился с девушкой, у которой брат — пилот.', a: ['i met a girl whose brother is a pilot', 'i\'ve met a girl whose brother is a pilot', 'i have met a girl whose brother is a pilot'] },
-      { t: 'tr', q: 'Сара не смогла прийти, что было обидно.', a: ['sarah couldn\'t come, which was a shame', 'sarah could not come, which was a shame', 'sarah couldn\'t come which was a shame', 'sarah could not come which was a shame', 'sarah couldn\'t come, which was a pity', 'sarah couldn\'t come which was a pity'] },
+      { t: 'tr', q: 'Я познакомился с девушкой, у которой брат — пилот.', a: ['i met a girl whose brother is a pilot', 'i\'ve met a girl whose brother is a pilot', 'i have met a girl whose brother is a pilot', 'i met a girl whose brother\'s a pilot', 'i got to know a girl whose brother is a pilot'] },
+      { t: 'tr', q: 'Сара не смогла прийти, что было обидно.', a: ['sarah couldn\'t come, which was a shame', 'sarah could not come, which was a shame', 'sarah couldn\'t come which was a shame', 'sarah could not come which was a shame', 'sarah couldn\'t come, which was a pity', 'sarah couldn\'t come which was a pity', 'sarah couldn\'t make it, which was a shame', 'sarah couldn\'t make it which was a shame', 'sarah couldn\'t make it, which was a pity', 'sarah couldn\'t make it which was a pity'] },
       { t: 'listen', say: 'Helen has three brothers, all of whom are married', a: ['helen has three brothers, all of whom are married', 'helen has three brothers all of whom are married', 'helen has 3 brothers, all of whom are married', 'helen has 3 brothers all of whom are married'] }
     ],
     test: [
@@ -600,7 +600,7 @@ Nick: The last time I saw Dan, he was still apologising.`,
       { t: 'choice', q: 'Какое предложение правильное?', o: ['My dad, that is a doctor, works nights.', 'My dad, who is a doctor, works nights.', 'My dad who is a doctor works nights.'], a: 1, why: 'Папа один → добавка с запятыми и who, that нельзя.' },
       { t: 'gap', q: 'We stayed at the Grand Hotel, ___ a friend had recommended. (который)', a: ['which'], why: 'Добавка с запятой → which; убрать слово или поставить that нельзя.' },
       { t: 'choice', q: 'Kate showed me photos of her son, of ___ she\'s very proud.', o: ['who', 'whom', 'which'], a: 1, why: 'Предлог перед словом о человеке → whom.' },
-      { t: 'choice', q: 'Какое предложение звучит естественно в разговоре?', o: ['The guy whom I was talking to', 'The guy I was talking to', 'The guy to who I was talking'], a: 1, why: 'В разговоре слово опускают, а предлог в конце; whom с предлогом в конце не используют.' },
+      { t: 'choice', q: 'Какое предложение звучит естественно в разговоре?', o: ['The guy whom I was talking to', 'The guy I was talking to', 'The guy to who I was talking'], a: 1, why: 'В разговоре слово опускают, а предлог ставят в конец. whom в разговоре звучит книжно, а после предлога нужен whom, не who.' },
       { t: 'gap', q: 'Ten people applied for the job, ___ of whom had any experience. (ни один)', a: ['none'], why: 'none of whom = ни один из которых.' },
       { t: 'choice', q: 'The patch fixed nothing, ___ was really annoying.', o: ['what', 'that', 'which'], a: 2, why: ', which относится ко всей фразе; what здесь невозможен.' },
       { t: 'gap', q: 'That\'s the day ___ we got married. (когда)', a: ['when', 'that'], why: 'После the day — when, that или ничего.' },
