@@ -50,6 +50,10 @@
     if (h >= 0 && h < 4) S.stats.owl = 1;
     if (h >= 3 && h < 5) S.stats.insomnia = 1;
     if (now.getMonth() === 0 && now.getDate() === 1) S.stats.newyear = 1;
+    if (now.getMonth() === 9 && now.getDate() === 31) S.stats.halloween = 1;
+    S.dayParts = S.dayParts || {};
+    S.dayParts[d] = (S.dayParts[d] || 0) | (h < 12 ? 1 : h < 18 ? 2 : 4);
+    if (S.dayParts[d] === 7) S.stats.allDay = 1;
     S.activity[d] = S.activity[d] || { reviews: 0, exercises: 0, reads: 0 };
     S.activity[d][kind] = (S.activity[d][kind] || 0) + n;
   }
@@ -77,6 +81,7 @@
   function speak(text, opts = {}) {
     if (!('speechSynthesis' in window)) { toast('Браузер не поддерживает озвучку'); return null; }
     if (!opts.queue) speechSynthesis.cancel();
+    if (S && S.stats) S.stats.speaks = (S.stats.speaks || 0) + 1;
     const u = new SpeechSynthesisUtterance(text);
     const v = pickVoice(); if (v) u.voice = v;
     u.lang = v ? v.lang : 'en-US';
@@ -221,6 +226,7 @@
         if (!ok) b.classList.add('wrong');
         const w = $('.mini-why', el); w.innerHTML = `<b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(el.dataset.why || '')}`; w.className = 'mini-why ' + (ok ? 'ok' : 'bad');
         if (ok) speak(opts[right].replace(/[_]/g, '')); track('exercises');
+        S.stats.mini = (S.stats.mini || 0) + 1; if (ok) S.stats.miniRight = (S.stats.miniRight || 0) + 1;
         S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
       }));
     });
@@ -448,6 +454,7 @@
           S.stats.attempts[u.id] = (S.stats.attempts[u.id] || 0) + 1;
           if (score >= 1) S.stats.perfect[u.id] = true;
           if (score >= PASS && S.stats.attempts[u.id] === 1) S.stats.firstTryUnits[u.id] = true;
+          if (score >= PASS && S.stats.attempts[u.id] > 1 && !wasPassed) S.stats.retry = 1;
           s.testBest = Math.max(s.testBest || 0, score);
           save();
           if (score >= PASS) {
@@ -573,6 +580,7 @@
       if (ok) { S.stats.exStreak++; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); } else S.stats.exStreak = 0;
       if (!ok) hadMistake = true;
       if (ok && item.e.t === 'listen') S.stats.listenRight++;
+      if (!item.retry) { S.stats.exType = S.stats.exType || {}; S.stats.exType[item.e.t] = (S.stats.exType[item.e.t] || 0) + 1; }
       track('exercises');
       const e = item.e;
       const ans = displayAnswer(e);
@@ -1217,6 +1225,10 @@
         track('reviews');
         graded++; if (g === 0) agains++;
         if (m === 'ru-en') S.stats.ruEn++;
+        if (S.settings.cardMode === 'mix') S.stats.mixRev = (S.stats.mixRev || 0) + 1;
+        const hh = new Date().getHours(), mm = new Date().getMinutes();
+        if (hh >= 23) S.stats.late = (S.stats.late || 0) + 1;
+        if (hh === 0 && mm === 0) S.stats.midnight = 1;
         if (graded === 50 && Date.now() - sessionStart < 5 * 60000) S.stats.speedrun = 1;
         queue.shift();
         if (n.state === 'learn') {
@@ -1328,7 +1340,21 @@
       allOthers: ACH.list.every((a) => a.id === 'platinum' || S.ach[a.id]) ? 1 : 0,
       ...['lookups', 'listened', 'exStreakBest', 'ruEn', 'cleanSessions', 'listenRight'].reduce((o, k) => ((o[k] = S.stats[k] || 0), o), {}),
       ...['early', 'owl', 'insomnia', 'newyear', 'comeback', 'backup', 'voice', 'logo', 'speedrun', 'flawless'].reduce((o, k) => ((o[k] = S.stats[k] ? 1 : 0), o), {}),
-      flawlessPractice: S.stats.flawless ? 1 : 0
+      flawlessPractice: S.stats.flawless ? 1 : 0,
+      deckHalf: LEVELS.reduce((o, l) => { const d = deckStats(l); o[l] = d.total && (d.learned + d.known) * 2 >= d.total ? 1 : 0; return o; }, {}),
+      mixRev: S.stats.mixRev || 0, late: S.stats.late || 0, mini: S.stats.mini || 0, miniRight: S.stats.miniRight || 0, speaks: S.stats.speaks || 0,
+      phrases: cards.filter((c) => c.id.includes(' ') && String(c.src).startsWith('text:')).length,
+      customImgs: cards.filter((c) => c.img).length,
+      fullWeekend: acts.some(([d]) => { const x = new Date(d + 'T12:00'); if (x.getDay() !== 6) return false; const n = new Date(x.getTime() + DAY); const k = n.getFullYear() + '-' + String(n.getMonth() + 1).padStart(2, '0') + '-' + String(n.getDate()).padStart(2, '0'); return !!S.activity[k]; }) ? 1 : 0,
+      retryPassed: S.stats.retry ? 1 : 0,
+      exType: Object.assign({ order: 0, tr: 0, gap: 0, choice: 0, listen: 0 }, S.stats.exType || {}),
+      libAll: (window.LIBRARY || []).length && (window.LIBRARY || []).every((t) => S.textsRead[t.id]) ? 1 : 0,
+      readB2: (window.LIBRARY || []).some((t) => t.level === 'B2' && S.textsRead[t.id]) ? 1 : 0,
+      readCat: (window.LIBRARY || []).reduce((o, t) => { if (S.textsRead[t.id]) o[t.cat] = (o[t.cat] || 0) + 1; return o; }, { 'Сериалы': 0, 'Мультфильмы': 0, 'Игры': 0 }),
+      animeAll: (() => { const a = (window.LIBRARY || []).filter((t) => t.cat === 'Аниме'); return a.length && a.every((t) => S.textsRead[t.id]) ? 1 : 0; })(),
+      quizPerfect: Object.entries(S.quiz || {}).filter(([id, v]) => { const t = (window.LIBRARY || []).find((x) => x.id === id); return t && v >= t.questions.length; }).length,
+      account: window.Cloud && Cloud.user && Cloud.user() ? 1 : 0,
+      halloween: S.stats.halloween ? 1 : 0, midnight: S.stats.midnight ? 1 : 0, allDay: S.stats.allDay ? 1 : 0
     };
   }
   let achBusy = false;
@@ -1357,7 +1383,8 @@
       const t = ACH.tier(pctOf(x));
       const el = document.createElement('div');
       el.className = 'ach-pop ' + t.cls;
-      el.innerHTML = `<div class="ach-icon ${t.cls}"><i class="ph-fill ph-${x.icon}"></i></div><div><div class="tiny" style="opacity:.7">Достижение получено</div><b>${esc(x.title)}</b><div class="tiny"><span class="tier-${t.cls}">${t.name}</span> · ${pctOf(x)}% учеников</div></div>`;
+      const col = (ACH.CAT_COLORS || {})[x.cat] || ['#8b5cf6', '#5b4ff5'];
+      el.innerHTML = `<div class="ach-icon ${t.cls}" style="--c1:${col[0]};--c2:${col[1]}"><i class="ph-fill ph-${x.icon}"></i></div><div><div class="tiny" style="opacity:.7">Достижение получено</div><b>${esc(x.title)}</b><div class="tiny"><span class="tier-${t.cls}">${t.name}</span> · ${pctOf(x)}% учеников</div></div>`;
       document.body.appendChild(el);
       requestAnimationFrame(() => el.classList.add('in'));
       setTimeout(() => { el.classList.remove('in'); setTimeout(() => { el.remove(); nextPop(); }, 350); }, 3800);
@@ -1380,15 +1407,16 @@
     const secret = a.hidden && !got;
     const v = Math.min(a.need, a.val(c));
     const prog = !got && !secret && a.need > 1 ? `<div class="progress" style="margin-top:8px"><i style="width:${(v / a.need) * 100}%"></i></div><div class="tiny muted" style="margin-top:3px">${v.toLocaleString('ru-RU')} / ${a.need.toLocaleString('ru-RU')}</div>` : '';
-    return `<div class="ach ${got ? 'got' : 'locked'}">
-      <div class="ach-icon ${t.cls}">${secret ? '<i class="ph-fill ph-question"></i>' : `<i class="ph-fill ph-${a.icon}"></i>`}</div>
+    const col = (ACH.CAT_COLORS || {})[a.cat] || ['#8b5cf6', '#5b4ff5'];
+    return `<div class="ach ${got ? 'got' : 'locked'} r-${t.cls}">
+      <div class="ach-icon ${t.cls}" style="--c1:${secret ? '#475569' : col[0]};--c2:${secret ? '#0f172a' : col[1]}">${secret ? '<i class="ph-fill ph-question"></i>' : `<i class="ph-fill ph-${a.icon}"></i>`}${got ? '' : '<b class="ach-lock"><i class="ph-fill ph-lock-simple"></i></b>'}</div>
       <div style="flex:1;min-width:0">
         <div class="row" style="gap:8px"><b>${secret ? 'Секретное достижение' : esc(a.title)}</b></div>
         <div class="small muted">${secret ? 'Продолжайте заниматься, чтобы узнать' : esc(a.desc)}</div>
         ${prog}
         ${got ? `<div class="tiny muted" style="margin-top:4px">Получено ${new Date(got).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>` : ''}
       </div>
-      <div class="ach-rar"><span class="tier-${t.cls}">${P}%</span><span class="tiny muted">${t.name}</span></div>
+      <div class="ach-rar"><span class="rar-pill ${t.cls}">${t.name}</span><span class="tier-${t.cls}">${P}%</span></div>
     </div>`;
   }
   function renderAch() {
