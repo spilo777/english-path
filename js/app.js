@@ -181,6 +181,7 @@
     const list = [];
     units.forEach((u) => u.texts.forEach((t) => list.push(Object.assign({ unit: u }, t))));
     S.userTexts.forEach((t) => list.push(Object.assign({ user: true }, t)));
+    (window.LIBRARY || []).forEach((t) => list.push(t));
     return list;
   }
 
@@ -242,7 +243,8 @@
     const u = currentUnit();
     const ns = nextStep(u);
     const act = S.activity[today()] || {};
-    const unread = allTexts().filter((t) => !t.user && isUnlocked(t.unit) && !S.textsRead[t.id]);
+    const unread = allTexts().filter((t) => t.unit && isUnlocked(t.unit) && !S.textsRead[t.id])
+      .concat((window.LIBRARY || []).filter((t) => t.level === (currentUnit() || {}).level && !S.textsRead[t.id]));
     const suggest = unread[0];
     const learned = Object.values(S.cards).filter((c) => c.state === 'review' && c.ivl >= 21).length;
     const total = Object.keys(S.cards).length;
@@ -585,24 +587,52 @@
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
 
   // ───────────── Чтение ─────────────
+  const LIB = (window.LIBRARY || []).slice();
+  const LEVEL_ORDER = { A1: 1, A2: 2, B1: 3, B2: 4 };
+  LIB.sort((a, b) => (LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level]) || a.title.localeCompare(b.title));
+  const CAT_ICON = { 'Сериалы': '📺', 'Мультфильмы': '🎨', 'Игры': '🎮', 'Аниме': '🌸', 'Кино': '🎬', 'Про экран': '🍿' };
+  const wordsIn = (t) => t.text.split(/\s+/).filter(Boolean).length;
+  const minsIn = (t) => Math.max(1, Math.round(wordsIn(t) / 90));
+  const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+  function myLevel() { const u = currentUnit(); return u ? u.level : 'A1'; }
+
   function renderLibrary() {
-    const groups = units.filter(isUnlocked).map((u) => ({ u, texts: u.texts }));
+    const lvl = lsGet('ep.libLevel', myLevel());
+    const cat = lsGet('ep.libCat', 'all');
+    const hideRead = lsGet('ep.libHideRead', '') === '1';
+    const q = (sessionStorage.getItem('ep.libQ') || '').toLowerCase();
+    const cats = ['all', ...Object.keys(CAT_ICON).filter((c) => LIB.some((t) => t.cat === c))];
+    const list = LIB.filter((t) => (lvl === 'all' || t.level === lvl) && (cat === 'all' || t.cat === cat) && (!hideRead || !S.textsRead[t.id])
+      && (!q || (t.title + ' ' + t.about + ' ' + t.ru).toLowerCase().includes(q)));
+    const readN = LIB.filter((t) => S.textsRead[t.id]).length;
+    const unitGroups = units.filter(isUnlocked).map((u) => ({ u, texts: u.texts }));
     view().innerHTML = `
-      <h1>Чтение</h1>
-      <p class="muted">Нажимайте на слова, чтобы увидеть перевод и добавить их в карточки. Слова, которые уже в карточках, подчёркнуты.</p>
-      <div class="card" style="margin:20px 0">
-        <h3>Добавить свой текст</h3>
-        <p class="muted small">Статья, диалог из игры, субтитры, текст песни для себя — вставьте и читайте с переводом.</p>
-        <div class="stack">
-          <input class="input" id="ut-title" placeholder="Название" style="font-size:16px">
-          <textarea class="input" id="ut-text" placeholder="Вставьте английский текст"></textarea>
-          <div><button class="btn primary" id="ut-add">Добавить</button></div>
-        </div>
+      <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:220px"><h1 style="margin-bottom:4px">Чтение</h1>
+        <p class="muted" style="margin:0">${LIB.length} статей о сериалах, мультфильмах и играх · прочитано ${readN}</p></div>
+        <button class="btn small" id="ut-toggle">＋ Свой текст</button></div>
+      <div class="card" id="ut-box" style="margin-top:16px" hidden>
+        <h3>Свой текст</h3>
+        <p class="muted small">Статья, диалог из игры, субтитры, описание квеста — вставьте и читайте с переводом по тапу.</p>
+        <div class="stack"><input class="input" id="ut-title" placeholder="Название" style="font-size:16px"><textarea class="input" id="ut-text" placeholder="Вставьте английский текст"></textarea><div><button class="btn primary" id="ut-add">Добавить</button></div></div>
       </div>
-      ${S.userTexts.length ? `<div class="eyebrow">Мои тексты</div><div class="stack" style="margin-bottom:24px">${S.userTexts.map((t) => textRow(t, true)).join('')}</div>` : ''}
-      ${groups.map(({ u, texts }) => `<div class="eyebrow" style="margin-top:8px">${u.track === 'games' ? '🎮 ' : 'Юнит ' + u.num + ' · '}${esc(u.title)}</div>
-        <div class="stack" style="margin-bottom:16px">${texts.map((t) => textRow(t)).join('')}</div>`).join('')}
-      ${units.some((u) => !isUnlocked(u)) ? '<div class="soon">Новые тексты открываются вместе с юнитами.</div>' : ''}`;
+      <div class="lib-filters">
+        <div class="seg lib-lvl">${['all', 'A1', 'A2', 'B1', 'B2'].map((l) => `<button data-lvl="${l}" class="${lvl === l ? 'on' : ''}">${l === 'all' ? 'Все' : l}${l === myLevel() ? ' •' : ''}</button>`).join('')}</div>
+        <div class="chips-row">${cats.map((c) => `<button class="fchip ${cat === c ? 'on' : ''}" data-cat="${esc(c)}">${c === 'all' ? 'Все темы' : CAT_ICON[c] + ' ' + esc(c)}</button>`).join('')}</div>
+        <div class="row" style="gap:10px"><input class="input lib-search" id="lib-q" placeholder="Поиск: Shrek, аниме, Witcher…" value="${esc(q)}">
+          <label class="row small" style="gap:8px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="lib-hide" ${hideRead ? 'checked' : ''}> Скрыть прочитанные</label></div>
+      </div>
+      <p class="tiny muted" style="margin:6px 0 12px">${lvl === 'all' ? 'Все уровни' : 'Уровень ' + lvl} · ${list.length} ${plural(list.length, 'статья', 'статьи', 'статей')}. Точка • — ваш текущий уровень. Читать чуть выше своего уровня полезно, но не больше чем на шаг.</p>
+      <div class="lib-grid">${list.map(libCard).join('') || '<div class="empty" style="grid-column:1/-1"><div class="big">🔍</div>Ничего не нашлось — смените фильтр.</div>'}</div>
+      ${S.userTexts.length ? `<h2 style="margin-top:34px">Мои тексты</h2><div class="stack">${S.userTexts.map((t) => textRow(t, true)).join('')}</div>` : ''}
+      <details class="lib-units"><summary><h2 style="display:inline">Тексты из уроков</h2> <span class="muted small">${unitGroups.reduce((s, g) => s + g.texts.length, 0)}</span></summary>
+        ${unitGroups.map(({ u, texts }) => `<div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? '🎮 ' : 'Юнит ' + u.num + ' · '}${esc(u.title)}</div><div class="stack">${texts.map((t) => textRow(t)).join('')}</div>`).join('')}
+      </details>`;
+    $$('[data-lvl]').forEach((b) => b.addEventListener('click', () => { lsSet('ep.libLevel', b.dataset.lvl); renderLibrary(); }));
+    $$('[data-cat]').forEach((b) => b.addEventListener('click', () => { lsSet('ep.libCat', b.dataset.cat); renderLibrary(); }));
+    $('#lib-hide').addEventListener('change', (e) => { lsSet('ep.libHideRead', e.target.checked ? '1' : ''); renderLibrary(); });
+    let qt; $('#lib-q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { try { sessionStorage.setItem('ep.libQ', e.target.value); } catch (x) {} renderLibrary(); const i = $('#lib-q'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 250); });
+    $('#ut-toggle').addEventListener('click', () => { const b = $('#ut-box'); b.hidden = !b.hidden; if (!b.hidden) $('#ut-title').focus(); });
     $('#ut-add').addEventListener('click', () => {
       const title = $('#ut-title').value.trim() || 'Мой текст';
       const text = $('#ut-text').value.trim();
@@ -616,9 +646,21 @@
       S.userTexts = S.userTexts.filter((t) => t.id !== b.dataset.del); tomb('text:' + b.dataset.del); save(); renderLibrary();
     }));
   }
+  function libCard(t) {
+    const read = S.textsRead[t.id];
+    const qz = (S.quiz || {})[t.id];
+    return `<a class="lib-card cat-${Object.keys(CAT_ICON).indexOf(t.cat)}" href="#/read/${t.id}">
+      <div class="lib-cover"><span>${t.emoji || CAT_ICON[t.cat] || '📖'}</span>${read ? '<i class="lib-done">✓</i>' : ''}</div>
+      <div class="lib-body">
+        <div class="lib-meta"><span class="pill accent">${t.level}</span><span class="tiny muted">${CAT_ICON[t.cat] || ''} ${esc(t.cat)}</span></div>
+        <div class="lib-title">${esc(t.title)}</div>
+        <div class="lib-ru">${esc(t.ru)}</div>
+        <div class="tiny muted">${esc(t.about)} · ${minsIn(t)} мин · ${wordsIn(t)} слов${qz != null ? ` · тест ${qz}/${t.questions.length}` : ''}</div>
+      </div></a>`;
+  }
   function textRow(t, user) {
     return `<a class="unit-row" href="#/read/${t.id}"><div class="unit-num">${S.textsRead[t.id] ? '✓' : '📖'}</div>
-      <div class="body"><div class="title">${esc(t.title)}</div><div class="muted small">${t.text.split(/\s+/).length} слов${t.level ? ' · ' + t.level : ''}</div></div>
+      <div class="body"><div class="title">${esc(t.title)}</div><div class="muted small">${wordsIn(t)} слов${t.level ? ' · ' + t.level : ''}</div></div>
       ${user ? `<button class="icon-btn" data-del="${t.id}" title="Удалить">✕</button>` : ''}</a>`;
   }
 
@@ -630,20 +672,25 @@
     const paras = t.text.split(/\n+/).map((p) => p.trim()).filter(Boolean);
     let sid = 0;
     const html = paras.map((p) => {
-      const sents = p.match(/[^.!?…]+[.!?…]*["')\]]*\s*/g) || [p];
+      const sents = p.match(/[^.!?…]+[.!?…]*["')\]”]*\s*/g) || [p];
       return '<p>' + sents.map((s) => {
         const i = sid++; readerSentences.push(s.trim());
+        let first = true;
         const inner = s.replace(/([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’]*(?:-[A-Za-zÀ-ÿ]+)*)|([^A-Za-zÀ-ÿ]+)/g, (m, w, other) => {
-          if (w) { const known = S.cards[EngLookup.clean(w)] || lookup(w).some((r) => S.cards[r.word]); return `<span class="w${known ? ' known' : ''}" data-s="${i}">${esc(w)}</span>`; }
+          if (w) { const known = S.cards[EngLookup.clean(w)] || lookup(w).some((r) => S.cards[r.word]); const f = first; first = false; return `<span class="w${known ? ' known' : ''}" data-s="${i}"${f ? ' data-first="1"' : ''}>${esc(w)}</span>`; }
           return esc(other);
         });
         return `<span class="s" data-sid="${i}">${inner}</span>`;
       }).join('') + '</p>';
     }).join('');
+    const lib = !t.unit && !t.user;
     const back = t.unit ? `#/unit/${t.unit.id}/reading` : '#/library';
+    const nextT = lib ? LIB.filter((x) => x.level === t.level && x.id !== t.id && !S.textsRead[x.id])[0] : null;
     view().innerHTML = `
-      <a href="${back}" class="small">← ${t.unit ? 'К уроку' : 'Все тексты'}</a>
-      <h1 style="margin-top:14px">${esc(t.title)}</h1>
+      <a href="${back}" class="small">← ${t.unit ? 'К уроку' : 'Все статьи'}</a>
+      ${lib ? `<div class="reader-head"><div class="lib-cover sm cat-${Object.keys(CAT_ICON).indexOf(t.cat)}"><span>${t.emoji || '📖'}</span></div>
+        <div style="min-width:0"><div class="lib-meta"><span class="pill accent">${t.level}</span><span class="tiny muted">${CAT_ICON[t.cat] || ''} ${esc(t.cat)} · ${esc(t.about)} · ${minsIn(t)} мин</span></div>
+        <h1 style="margin:6px 0 2px">${esc(t.title)}</h1><div class="muted small">${esc(t.ru)}</div></div></div>` : `<h1 style="margin-top:14px">${esc(t.title)}</h1>`}
       <div class="reader-bar">
         <button class="btn small primary" id="rd-play">▶ Слушать</button>
         <button class="btn small" id="rd-stop" hidden>■ Стоп</button>
@@ -652,7 +699,11 @@
         <button class="btn small" id="rd-done">${S.textsRead[t.id] ? '✓ Прочитано' : 'Отметить прочитанным'}</button>
       </div>
       <div class="card reader-text" id="rd-text">${html}</div>
-      <p class="muted small" style="margin-top:14px">Совет: сначала прочитайте без озвучки, нажимая на незнакомые слова. Потом включите звук и читайте вслух вместе с диктором. Чтобы повторить одну фразу, нажмите на любое слово в ней и выберите «🔊 Предложение».</p>`;
+      <p class="muted small" style="margin-top:12px">👆 Нажмите на слово — перевод и «+ В карточки». Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
+      ${t.questions && t.questions.length ? `<div class="card quiz" id="quiz"><h3>Проверьте понимание</h3>${t.questions.map((qq, qi) => `
+        <div class="qz" data-q="${qi}"><div class="qz-q">${qi + 1}. ${esc(qq.q)}</div><div class="qz-o">${qq.o.map((o, oi) => `<button class="qz-btn" data-o="${oi}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
+        <div id="qz-res" class="small"></div></div>` : ''}
+      ${nextT ? `<a class="next-read" href="#/read/${nextT.id}"><span class="muted small">Следующая статья ${nextT.level}</span><b>${nextT.emoji || ''} ${esc(nextT.title)} →</b></a>` : ''}`;
     const rate = $('#rd-rate'); rate.value = S.settings.rate <= 0.75 ? '0.7' : S.settings.rate >= 0.95 ? '1' : '0.85';
     let playing = false;
     const playFrom = (i) => {
@@ -665,61 +716,143 @@
     const stop = () => { playing = false; if (window.speechSynthesis) speechSynthesis.cancel(); $$('.s.speaking').forEach((x) => x.classList.remove('speaking')); $('#rd-play').hidden = false; $('#rd-stop').hidden = true; };
     $('#rd-play').addEventListener('click', () => { playing = true; $('#rd-play').hidden = true; $('#rd-stop').hidden = false; playFrom(0); });
     $('#rd-stop').addEventListener('click', stop);
-    $('#rd-done').addEventListener('click', () => {
+    const markRead = () => {
       if (!S.textsRead[t.id]) { S.textsRead[t.id] = today(); track('reads'); }
       if (t.unit && t.unit.texts.every((x) => S.textsRead[x.id])) unitState(t.unit.id).steps.reading = true;
-      save(); $('#rd-done').textContent = '✓ Прочитано'; toast('Отмечено');
-    });
+      save(); $('#rd-done').textContent = '✓ Прочитано';
+    };
+    $('#rd-done').addEventListener('click', () => { markRead(); toast('Отмечено'); });
+    // вопросы на понимание
+    const answers = {};
+    $$('.qz-btn').forEach((b) => b.addEventListener('click', () => {
+      const box = b.closest('.qz'); const qi = +box.dataset.q; if (qi in answers) return;
+      const qq = t.questions[qi]; const oi = +b.dataset.o; answers[qi] = oi === qq.a;
+      $$('.qz-btn', box).forEach((x, k) => { x.disabled = true; if (k === qq.a) x.classList.add('right'); });
+      if (oi !== qq.a) b.classList.add('wrong');
+      track('exercises'); S.stats.exStreak = oi === qq.a ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak);
+      if (Object.keys(answers).length === t.questions.length) {
+        const right = Object.values(answers).filter(Boolean).length;
+        S.quiz = S.quiz || {}; S.quiz[t.id] = Math.max(S.quiz[t.id] || 0, right);
+        markRead();
+        $('#qz-res').innerHTML = `<div class="feedback ${right === t.questions.length ? 'ok' : right ? '' : 'bad'}" style="${right && right < t.questions.length ? 'background:var(--warn-soft);color:var(--warn)' : ''}"><b>${right} из ${t.questions.length}</b> — ${right === t.questions.length ? 'отлично, вы всё поняли!' : right ? 'хорошо. Перечитайте места с ошибками.' : 'текст пока сложноват — попробуйте статью уровнем ниже.'} Статья отмечена прочитанной.</div>`;
+      } else save();
+    }));
+    // клик по слову
     $('#rd-text').addEventListener('click', (ev) => {
+      if (String(window.getSelection && window.getSelection()).trim().includes(' ')) return; // выделена фраза
       const w = ev.target.closest('.w'); if (!w) return;
       $$('.w.sel').forEach((x) => x.classList.remove('sel'));
       w.classList.add('sel');
-      showWord(w, w.textContent, readerSentences[+w.dataset.s], t);
+      showWord(w, w.textContent, readerSentences[+w.dataset.s], t, !w.dataset.first && /^[A-Z]/.test(w.textContent));
     });
+    // выделение фразы
+    const onSel = () => setTimeout(() => {
+      const sel = window.getSelection(); if (!sel || sel.isCollapsed) return;
+      const txt = String(sel).replace(/\s+/g, ' ').trim().replace(/^[^A-Za-z]+|[^A-Za-z']+$/g, '');
+      if (!txt || !txt.includes(' ') || txt.split(' ').length > 10) return;
+      const rng = sel.getRangeAt(0); if (!$('#rd-text').contains(rng.commonAncestorContainer)) return;
+      const sEl = (rng.startContainer.parentElement || {}).closest ? rng.startContainer.parentElement.closest('.s') : null;
+      showPhrase(rng.getBoundingClientRect(), txt, sEl ? readerSentences[+sEl.dataset.sid] : '', t);
+    }, 10);
+    $('#rd-text').addEventListener('mouseup', onSel);
+    $('#rd-text').addEventListener('touchend', onSel);
   }
 
-  function showWord(anchor, raw, sentence, t) {
+  // Автоперевод (MyMemory, бесплатно, без ключа) — для слов не из словаря и фраз
+  const trMem = {};
+  function autoTranslate(q) {
+    const k = q.toLowerCase().trim();
+    if (trMem[k]) return trMem[k];
+    trMem[k] = fetch('https://api.mymemory.translated.net/get?langpair=en|ru&q=' + encodeURIComponent(k))
+      .then((r) => r.json())
+      .then((j) => {
+        let tr = j && j.responseData && j.responseData.translatedText;
+        if (!tr || /MYMEMORY|QUERY LENGTH|INVALID/i.test(tr) || tr.toLowerCase() === k) {
+          const m = ((j && j.matches) || []).find((x) => x.translation && /[а-яё]/i.test(x.translation));
+          tr = m ? m.translation : null;
+        }
+        return tr && /[а-яё]/i.test(tr) ? tr.replace(/\s+/g, ' ').trim() : null;
+      })
+      .catch(() => { delete trMem[k]; return null; });
+    return trMem[k];
+  }
+  function placePop(pop, r) {
+    pop.hidden = false;
+    const pw = Math.min(330, window.innerWidth - 24);
+    const left = Math.min(Math.max(12, r.left + r.width / 2 - pw / 2), window.innerWidth - pw - 12);
+    let top = r.bottom + 8;
+    if (top + 240 > window.innerHeight) top = Math.max(12, r.top - 250);
+    pop.style.left = left + 'px'; pop.style.top = top + 'px';
+  }
+  const exMark = (sentence, raw) => (sentence || '').replace(new RegExp('\\b(' + raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'i'), '**$1**');
+  const gtUrl = (q) => 'https://translate.google.com/?sl=en&tl=ru&op=translate&text=' + encodeURIComponent(q);
+  function markKnownWords(base) { $$('.w').forEach((w) => { if (EngLookup.clean(w.textContent) === base || lookup(w.textContent).some((x) => x.word === base)) w.classList.add('known'); }); }
+
+  function showWord(anchor, raw, sentence, t, maybeName) {
     const pop = $('#popover');
     const res = lookup(raw);
     S.stats.lookups++; save();
     const base = res[0] ? res[0].word : EngLookup.clean(raw);
     const inCards = !!S.cards[base];
-    const gt = (q) => 'https://translate.google.com/?sl=en&tl=ru&op=translate&text=' + encodeURIComponent(q);
     pop.innerHTML = `
       <div class="row" style="gap:10px"><div class="pw">${esc(raw)}</div><button class="icon-btn" id="pp-say">🔊</button><span class="spacer"></span><button class="icon-btn" id="pp-x">✕</button></div>
-      ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}`
-        : `<div class="alt" style="margin-top:6px">Этого слова пока нет во встроенном словаре. Посмотрите перевод по ссылке и сохраните сами:</div>
-           <input class="input" id="pp-tr" placeholder="Ваш перевод" style="font-size:15px;padding:10px 12px;margin-top:8px">`}
+      ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1, 3).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}`
+        : `<div class="alt" style="margin-top:4px">${maybeName ? 'Похоже на имя или название.' : 'Нет во встроенном словаре —'} <span id="pp-status">перевожу…</span></div>
+           <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off">`}
       <div class="actions">
         ${inCards ? '<span class="pill ok">✓ в карточках</span>' : '<button class="btn small primary" id="pp-add">+ В карточки</button>'}
-        <button class="btn small" id="pp-sent">🔊 Предложение</button>
-        <a class="btn small ghost" target="_blank" rel="noopener" href="${gt(sentence || raw)}">Перевести фразу ↗</a>
+        <button class="btn small" id="pp-sent">🔊 Фраза</button>
+        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик ↗</a>
       </div>`;
-    pop.hidden = false;
-    const r = anchor.getBoundingClientRect();
-    const pw = Math.min(320, window.innerWidth - 24);
-    let left = Math.min(Math.max(12, r.left + r.width / 2 - pw / 2), window.innerWidth - pw - 12);
-    let top = r.bottom + 8;
-    if (top + 220 > window.innerHeight) top = Math.max(12, r.top - 230);
-    pop.style.left = left + 'px'; pop.style.top = top + 'px';
+    placePop(pop, anchor.getBoundingClientRect());
     speak(raw);
     $('#pp-say').addEventListener('click', () => speak(raw));
     $('#pp-x').addEventListener('click', hidePopover);
     $('#pp-sent').addEventListener('click', () => speak(sentence || raw));
+    if (!res.length) autoTranslate(raw).then((tr) => {
+      const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return;
+      if (tr) { if (!inp.value) inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; }
+      else st.textContent = 'впишите перевод сами (или откройте переводчик):';
+    });
     const add = $('#pp-add');
     if (add) add.addEventListener('click', () => {
       const tr = res.length ? res[0].tr : ($('#pp-tr').value || '').trim();
       if (!tr) { toast('Впишите перевод'); $('#pp-tr').focus(); return; }
-      const ex = (sentence || '').replace(new RegExp('\\b(' + raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'i'), '**$1**');
-      addCard(base, tr, ex, '', t ? 'text:' + t.id : '');
-      save();
-      $$('.w').forEach((w) => { if (EngLookup.clean(w.textContent) === base || lookup(w.textContent).some((x) => x.word === base)) w.classList.add('known'); });
+      addCard(res.length ? base : raw.toLowerCase(), tr, exMark(sentence, raw), '', t ? 'text:' + t.id : '');
+      save(); markKnownWords(base);
       toast('Добавлено в карточки'); hidePopover();
     });
   }
+  function showPhrase(rect, phrase, sentence, t) {
+    const pop = $('#popover');
+    const id = phrase.toLowerCase();
+    const inCards = !!S.cards[id];
+    pop.innerHTML = `
+      <div class="row" style="gap:10px"><div class="pw" style="font-size:19px">${esc(phrase)}</div><span class="spacer"></span><button class="icon-btn" id="pp-say">🔊</button><button class="icon-btn" id="pp-x">✕</button></div>
+      <div class="alt" style="margin-top:4px">Фраза · <span id="pp-status">перевожу…</span></div>
+      <input class="input pp-input" id="pp-tr" placeholder="Перевод фразы" autocomplete="off">
+      <div class="actions">
+        ${inCards ? '<span class="pill ok">✓ в карточках</span>' : '<button class="btn small primary" id="pp-add">+ Фразу в карточки</button>'}
+        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(phrase)}">Переводчик ↗</a>
+      </div>`;
+    placePop(pop, rect);
+    S.stats.lookups++; save();
+    speak(phrase);
+    $('#pp-say').addEventListener('click', () => speak(phrase));
+    $('#pp-x').addEventListener('click', () => { hidePopover(); window.getSelection().removeAllRanges(); });
+    autoTranslate(phrase).then((tr) => { const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return; if (tr) { inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; } else st.textContent = 'впишите перевод:'; });
+    const add = $('#pp-add');
+    if (add) add.addEventListener('click', () => {
+      const tr = ($('#pp-tr').value || '').trim();
+      if (!tr) { toast('Впишите перевод'); $('#pp-tr').focus(); return; }
+      addCard(phrase, tr, exMark(sentence, phrase), '', t ? 'text:' + t.id : '');
+      save(); toast('Фраза добавлена в карточки'); hidePopover(); window.getSelection().removeAllRanges();
+    });
+  }
   function hidePopover() { const p = $('#popover'); if (p) p.hidden = true; $$('.w.sel').forEach((x) => x.classList.remove('sel')); }
-  document.addEventListener('click', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w')) hidePopover(); });
+  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w')) hidePopover(); });
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') hidePopover(); });
+
 
   // ───────────── Карточки ─────────────
   function renderCards() {
@@ -765,6 +898,12 @@
     drawList();
     $$('[data-deck]').forEach((cb) => cb.addEventListener('change', () => { S.settings.decks = S.settings.decks || {}; S.settings.decks[cb.dataset.deck] = cb.checked; save(); renderCards(); }));
     $('#cf').addEventListener('input', (e) => drawList(e.target.value.toLowerCase().trim()));
+    $('#nc-en').addEventListener('blur', () => {
+      const en = $('#nc-en').value.trim(); if (!en || $('#nc-ru').value.trim()) return;
+      const hit = lookup(en)[0]; if (hit && !en.includes(' ')) { $('#nc-ru').value = hit.tr; return; }
+      $('#nc-ru').placeholder = 'перевожу…';
+      autoTranslate(en).then((tr) => { if (tr && !$('#nc-ru').value) $('#nc-ru').value = tr; $('#nc-ru').placeholder = 'перевод'; });
+    });
     $('#nc-add').addEventListener('click', () => {
       const en = $('#nc-en').value.trim(), ru = $('#nc-ru').value.trim();
       if (!en || !ru) { toast('Заполните оба поля'); return; }

@@ -568,3 +568,71 @@ img { max-width: 100%; }
   .acc-actions .btn { flex: 1; }
 }
 @media (min-width: 761px) and (max-width: 1100px) { .nav .nav-account { margin-top: auto; } }
+
+/* ── Лого-ссылка */
+a.brand { color: var(--text); cursor: pointer; border-radius: 12px; }
+a.brand:hover .brand-mark { transform: rotate(-6deg) scale(1.05); }
+.brand-mark { transition: transform .2s; }
+
+/* ── Библиотека */
+.lib-filters { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.lib-lvl { width: fit-content; }
+.lib-lvl button { min-width: 56px; }
+.chips-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fchip { border: 1px solid var(--line-strong); background: var(--surface); padding: 7px 13px; border-radius: 99px; font-size: 14px; font-weight: 550; cursor: pointer; color: var(--text-2); transition: background .15s, border-color .15s; }
+.fchip:hover { border-color: var(--accent); }
+.fchip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+.lib-search { flex: 1; min-width: 180px; font-size: 15px; padding: 10px 14px; }
+.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.lib-card { display: flex; gap: 14px; padding: 14px; border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--text); transition: transform .15s, box-shadow .2s, border-color .2s; }
+.lib-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.lib-cover { position: relative; width: 76px; height: 96px; border-radius: 14px; flex-shrink: 0; display: grid; place-items: center; font-size: 36px; background: linear-gradient(145deg, #8b5cf6, #5b4ff5); box-shadow: inset 0 1px 0 rgba(255,255,255,.25); }
+.lib-cover span { filter: drop-shadow(0 4px 8px rgba(0,0,0,.25)); }
+.cat-0 .lib-cover, .lib-cover.cat-0 { background: linear-gradient(145deg, #ff8a5c, #e8456b); }   /* сериалы */
+.cat-1 .lib-cover, .lib-cover.cat-1 { background: linear-gradient(145deg, #5ed0a0, #1f9e8a); }   /* мультфильмы */
+.cat-2 .lib-cover, .lib-cover.cat-2 { background: linear-gradient(145deg, #7c70ff, #3b36c9); }   /* игры */
+.cat-3 .lib-cover, .lib-cover.cat-3 { background: linear-gradient(145deg, #ff9ad1, #c056e0); }   /* аниме */
+.cat-4 .lib-cover, .lib-cover.cat-4 { background: linear-gradient(145deg, #ffcc5c, #f08a24); }   /* кино */
+.cat-5 .lib-cover, .lib-cover.cat-5 { background: linear-gradient(145deg, #6fb8ff, #3a6fe0); }   /* про экран */
+.lib-done { position: absolute; right: -6px; top: -6px; width: 24px; height: 24px; border-radius: 50%; background: var(--ok); color: #fff; font-style: normal; font-size: 13px; display: grid; place-items: center; border: 2px solid var(--surface); }
+.lib-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.lib-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.lib-title { font-weight: 700; font-size: 16.5px; line-height: 1.25; letter-spacing: -0.01em; }
+.lib-ru { font-size: 13.5px; color: var(--text-2); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lib-units { margin-top: 34px; }
+.lib-units summary { cursor: pointer; list-style: none; }
+.lib-units summary::-webkit-details-marker { display: none; }
+.lib-units summary h2::before { content: '▸ '; color: var(--muted); }
+.lib-units[open] summary h2::before { content: '▾ '; }
+.reader-head { display: flex; gap: 16px; align-items: center; margin: 16px 0 6px; }
+.lib-cover.sm { width: 64px; height: 80px; font-size: 30px; }
+
+/* ── Вопросы к тексту */
+.quiz { margin-top: 20px; }
+.qz { padding: 12px 0; border-top: 1px solid var(--line); }
+.qz:first-of-type { border-top: 0; }
+.qz-q { font-weight: 600; margin-bottom: 10px; }
+.qz-o { display: flex; flex-wrap: wrap; gap: 8px; }
+.qz-btn { border: 1.5px solid var(--line-strong); background: var(--surface); padding: 9px 14px; border-radius: 12px; cursor: pointer; font-size: 15px; text-align: left; }
+.qz-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.qz-btn:disabled { cursor: default; opacity: .6; }
+.qz-btn.right { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); opacity: 1; font-weight: 650; }
+.qz-btn.wrong { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); opacity: 1; }
+.next-read { display: flex; flex-direction: column; gap: 2px; margin-top: 16px; padding: 16px 18px; border-radius: var(--radius-md); background: var(--grad-soft); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); color: var(--text); }
+.pp-input { font-size: 15px !important; padding: 9px 12px; margin-top: 8px; }
+.reader-text ::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); color: inherit; }
+
+@media (max-width: 760px) {
+  .lib-lvl { width: 100%; }
+  .lib-lvl button { min-width: 0; }
+  .chips-row { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .chips-row::-webkit-scrollbar { display: none; }
+  .fchip { flex-shrink: 0; }
+  .lib-grid { grid-template-columns: 1fr; gap: 10px; }
+  .lib-cover { width: 64px; height: 80px; font-size: 30px; }
+  .reader-head h1 { font-size: 24px; }
+  .qz-o { flex-direction: column; }
+}
+.nav a.brand { flex-direction: row; font-size: 17px; color: var(--text); background: transparent; box-shadow: none; }
+@media (max-width: 760px) { .nav a.brand { display: none; } }
+@media (min-width: 761px) and (max-width: 1100px) { .nav a.brand { width: auto; height: auto; padding: 4px 0 22px; } }

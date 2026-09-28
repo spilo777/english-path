@@ -86,6 +86,9 @@
     out.settings = num(a.settingsMod) >= num(b.settingsMod) ? a.settings : b.settings;
     out.settingsMod = Math.max(num(a.settingsMod), num(b.settingsMod));
     out.imgCache = Object.assign({}, b.imgCache || {}, a.imgCache || {});
+    const quiz = Object.assign({}, b.quiz || {});
+    Object.entries(a.quiz || {}).forEach(([k, v]) => { quiz[k] = Math.max(num(quiz[k]), num(v)); });
+    out.quiz = quiz;
     return out;
   }
 
