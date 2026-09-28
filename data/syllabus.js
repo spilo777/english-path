@@ -1277,7 +1277,7 @@ window.SYLLABUS = {
 {
 "id": "b2-8",
 "level": "B2",
-"title": "As, like, as if; during, for, while; by, until",
+"title": "As, like, as if",
 "red": [],
 "blue": [
 116,

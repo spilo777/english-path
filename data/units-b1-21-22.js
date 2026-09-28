@@ -1,0 +1,691 @@
+// Юниты B1 21–22: придаточные с who / that / which и без них, what и that, предлог в конце; -ing/-ed прилагательные, порядок прилагательных, прилагательное или наречие, well / hardly, so / such, too / enough, quite / pretty / rather / fairly
+COURSE.units.push(
+  // ───────────────────────────── UNIT B1-21 ─────────────────────────────
+  {
+    id: 'b1-21', level: 'B1', num: 21, track: 'main',
+    books: { blue: [92, 93] },
+    title: 'Придаточные 1–2: who, that, which и без них',
+    summary: 'Научимся уверенно склеивать две фразы в одну через who / that / which, понимать, когда «который» можно выбросить, ставить предлог в конец (the guy I work with), не путать what и that — и объяснять любое слово, которого не знаешь.',
+    grammar: [
+      {
+        title: '1. Главная идея: английское «который» не склоняется',
+        html: `
+<div class="g-idea">Что вы уже знаете (урок A2-20): <b>who</b> — для людей, <b>which</b> — для вещей, <b>that</b> — для всех, а «который» иногда можно выбросить: <span class="say">the game I bought</span>. На B1 разбираемся, <b>почему</b> так, и учимся говорить, как носители. Главный секрет: у русского «который» шесть форм, а в английском — одна (или ноль). Вместо падежей английский меняет <b>порядок слов</b>.</div>
+<div class="g-compare">
+  <div><div class="g-h">Русский</div><p>Парень, <b>который</b> мне позвонил…</p><p>Парень, <b>которому</b> я позвонил…</p><p>Парень, <b>с которым</b> я работаю…</p><p>Парень, <b>о котором</b> я тебе рассказывал…</p></div>
+  <div><div class="g-h">English</div><p><span class="say">The guy <b>who</b> called me…</span></p><p><span class="say">The guy <b>I</b> called…</span></p><p><span class="say">The guy I work <b>with</b>…</span></p><p><span class="say">The guy I told you <b>about</b>…</span></p></div>
+</div>
+<p>Такая часть предложения («который мне позвонил») называется <b>придаточным</b>. Она отвечает на вопрос <b>какой именно?</b> или <b>какого типа?</b>:</p>
+<ul class="g-list">
+<li><span class="say">The woman who lives next door is a vet.</span> — Женщина, которая живёт по соседству, — ветеринар. <span class="muted">(какая именно женщина)</span></li>
+<li><span class="say">I don't trust people who never lose.</span> — Я не доверяю людям, которые никогда не проигрывают. <span class="muted">(какого типа люди)</span></li>
+</ul>
+<div class="g-tip">По-русски перед «который» всегда запятая. В английском в таких уточняющих фразах запятых <b>нет</b> — придаточное прилипает к слову, как тег к картинке.</div>
+<div class="mini" data-q="Как сказать «Парень, которого я пригласил»?" data-o="The guy who invited me|The guy I invited|The guy invited me" data-a="1" data-why="«Которого я пригласил» — приглашал я, значит: the guy + I + invited."></div>`
+      },
+      {
+        title: '2. who, that, which: что выбрать в живой речи',
+        html: `
+<div class="g-idea">Правило из A2 верное, но у носителей есть привычки: для людей чаще <b>who</b>, для вещей в разговоре чаще <b>that</b>, а <b>which</b> звучит чуть более «письменно».</div>
+<table>
+<tr><th>О ком</th><th>Обычно</th><th>Можно</th><th>Нельзя</th></tr>
+<tr><td>люди</td><td><b class="g-v">who</b></td><td>that</td><td><s>which</s></td></tr>
+<tr><td>вещи, животные</td><td><b class="g-v">that</b></td><td>which</td><td><s>who</s></td></tr>
+</table>
+<ul class="g-list">
+<li><span class="say">An architect is someone who designs buildings.</span> — Архитектор — это человек, который проектирует здания.</li>
+<li><span class="say">Do you know anyone who wants to buy a used monitor?</span> — Знаешь кого-нибудь, кто хочет купить б/у монитор?</li>
+<li><span class="say">What was the name of the girl who called?</span> — Как звали девушку, которая звонила?</li>
+<li><span class="say">I work for a studio that makes mobile games.</span> — Я работаю в студии, которая делает мобильные игры.</li>
+<li><span class="say">I hate series that have unhappy endings.</span> — Ненавижу сериалы с несчастливым концом.</li>
+<li><span class="say">The laptop that broke down is working again.</span> — Ноутбук, который сломался, снова работает.</li>
+</ul>
+<p>После слов <b>everything, something, anything, nothing, all, the only</b> и после превосходной степени (<b>the best, the worst, the first</b>) почти всегда говорят <b>that</b> — или вообще ничего:</p>
+<ul class="g-list">
+<li><span class="say">Is there anything that I can do?</span> — Я могу чем-то помочь?</li>
+<li><span class="say">The only thing that matters is the deadline.</span> — Единственное, что важно, — дедлайн.</li>
+<li><span class="say">It's the best game I've ever played.</span> — Это лучшая игра, в которую я играл.</li>
+</ul>
+<div class="g-bad">Where's the nearest shop who sells SIM cards?</div>
+<div class="g-good">Where's the nearest shop <b>that</b> sells SIM cards? <span class="muted">— магазин не человек</span></div>
+<div class="g-bad">The driver which caused the accident was fined.</div>
+<div class="g-good">The driver <b>who</b> caused the accident was fined.</div>
+<div class="mini" data-q="Tanks are players ___ protect the team." data-o="who|which|what" data-a="0" data-why="Игроки — люди → who (можно that, но не which)."></div>
+<div class="mini" data-q="This is the only chair ___ doesn't hurt my back." data-o="who|that|what" data-a="1" data-why="После the only → that; стул — вещь."></div>`
+      },
+      {
+        title: '3. who / that вместо he, she, it — не дублируем',
+        html: `
+<div class="g-idea">Когда склеиваем две фразы, <b>who / that / which</b> встаёт на место <b>he, she, it, they</b>. Старое местоимение исчезает — второй раз его не повторяем.</div>
+<table>
+<tr><th>Две фразы</th><th>Одна фраза</th></tr>
+<tr><td>I met a Canadian girl. <b>She</b> is a UI designer.</td><td><span class="say">I met a Canadian girl who is a UI designer.</span></td></tr>
+<tr><td>I can't find my headphones. <b>They</b> were on the desk.</td><td><span class="say">Where are the headphones that were on the desk?</span></td></tr>
+<tr><td>A patch came out. <b>It</b> fixed the lag.</td><td><span class="say">The patch that came out yesterday fixed the lag.</span></td></tr>
+<tr><td>Some players were banned. <b>They</b> are back now.</td><td><span class="say">The players who were banned are back now.</span></td></tr>
+</table>
+<p>Глагол после who / that согласуется со словом <b>перед</b> ним:</p>
+<ul class="g-list">
+<li><span class="say">a person who plays</span> — один человек → plays</li>
+<li><span class="say">people who play</span> — много людей → play</li>
+<li><span class="say">I don't like people who talk during films.</span> — Не люблю людей, которые болтают во время фильма.</li>
+<li><span class="say">A streamer is a person who plays games for an audience.</span></li>
+</ul>
+<div class="g-bad">Dan said some things about me they weren't true.</div>
+<div class="g-good">Dan said some things about me <b>that</b> weren't true.</div>
+<div class="g-bad">I have a colleague who she draws amazing icons.</div>
+<div class="g-good">I have a colleague who draws amazing icons.</div>
+<div class="g-tip">Считайте who / that «новым подлежащим». Два подлежащих подряд (<i>who she</i>, <i>that it</i>) — это как два водителя за одним рулём.</div>
+<div class="mini" data-q="Where are the files ___ on the server?" data-o="they were|that were|were" data-a="1" data-why="that заменяет they: the files that were…"></div>`
+      },
+      {
+        title: '4. Когда «который» можно выбросить',
+        html: `
+<div class="g-idea">Всё решает одно: <b>кто делает действие</b> в придаточном. Если сам «который» — слово <b>обязательно</b>. Если кто-то другой (I, you, Kate) делает что-то <b>с ним</b> — слово можно выбросить, и в разговоре его обычно выбрасывают.</div>
+<table>
+<tr><th>«Который» делает сам</th><th>С «которым» что-то делают</th></tr>
+<tr><td><span class="say">The woman who lives next door is a vet.</span></td><td><span class="say">The woman I wanted to see was on holiday.</span></td></tr>
+<tr><td><span class="say">Where are the keys that were on the table?</span></td><td><span class="say">Did you find the keys you lost?</span></td></tr>
+<tr><td>who / that <b>нельзя</b> убрать</td><td>who / that <b>можно</b> убрать</td></tr>
+</table>
+<div class="g-steps"><div class="g-h">Проверка за секунду</div><ol>
+<li>Посмотрите на слово сразу после who / that.</li>
+<li>Там глагол (<i>who <b>lives</b></i>, <i>that <b>were</b></i>) → «который» сам действует → оставляем.</li>
+<li>Там кто-то другой (<i>that <b>I</b> bought</i>, <i>who <b>Kate</b> met</i>) → можно убрать.</li>
+</ol></div>
+<p>Смысл может перевернуться, если перепутать:</p>
+<ul class="g-list">
+<li><span class="say">the man who called me</span> — человек, который <b>мне</b> позвонил</li>
+<li><span class="say">the man I called</span> — человек, <b>которому я</b> позвонил</li>
+</ul>
+<p>Самые частые «короткие» фразы в жизни:</p>
+<ul class="g-list">
+<li><span class="say">Is there anything I can do?</span> — Могу я чем-то помочь?</li>
+<li><span class="say">That's the worst film I've ever seen.</span> — Это худший фильм, что я видел.</li>
+<li><span class="say">I gave him all the money I had.</span> — Я отдал ему все деньги, что у меня были.</li>
+<li><span class="say">The skin I bought yesterday looks terrible.</span> — Скин, который я вчера купил, выглядит ужасно.</li>
+</ul>
+<div class="g-bad">Did you find the keys you lost them?</div>
+<div class="g-good">Did you find the keys you lost? <span class="muted">— keys уже есть в начале, them не нужен</span></div>
+<div class="g-bad">The people work in our office are really friendly.</div>
+<div class="g-good">The people <b>who</b> work in our office are really friendly.</div>
+<div class="mini" data-q="The designer ___ the logo is on holiday." data-o="made|who made|who made it" data-a="1" data-why="Сразу глагол made — «который» сам сделал → who обязателен, it не нужен."></div>
+<div class="mini" data-q="The logo ___ is on the website." data-o="the designer made|the designer made it|who the designer made" data-a="0" data-why="Логотип сделал дизайнер → «который» можно убрать; it не повторяем; who — только для людей."></div>`
+      },
+      {
+        title: '5. Предлог — в конец: the guy I work with',
+        html: `
+<div class="g-idea">В русском предлог стоит <b>перед</b> «которым»: <i>с которым, о котором, на который</i>. В английском предлог остаётся <b>при своём глаголе</b> — в конце придаточного.</div>
+<div class="g-formula"><span class="g-part">предмет / человек</span><span class="g-plus">+</span><span class="g-part">(who / that)</span><span class="g-plus">+</span><span class="g-part">кто + глагол</span><span class="g-plus">+</span><span class="g-part g-v">предлог</span></div>
+<ul class="g-list">
+<li><span class="say">Do you know the woman Tom is talking to?</span> — Ты знаешь женщину, с которой разговаривает Том?</li>
+<li><span class="say">The bed I slept in was awful.</span> — Кровать, на которой я спал, была ужасной.</li>
+<li><span class="say">I didn't get the job I applied for.</span> — Я не получил работу, на которую подавался.</li>
+<li><span class="say">Are these the files you were looking for?</span> — Это те файлы, которые ты искал?</li>
+<li><span class="say">Max is someone you can rely on.</span> — Макс — человек, на которого можно положиться.</li>
+<li><span class="say">That's the level I got stuck on.</span> — Вот уровень, на котором я застрял.</li>
+<li><span class="say">Who were the people you were with?</span> — Кто были люди, с которыми ты был?</li>
+</ul>
+<p>Можно оставить who / that — предлог всё равно в конце: <span class="say">the man who I was sitting next to</span>, <span class="say">the server that we play on</span>.</p>
+<div class="g-bad">This is the guy with I work.</div>
+<div class="g-good">This is the guy I work <b>with</b>.</div>
+<div class="g-bad">The flat we're looking at it is too small.</div>
+<div class="g-good">The flat we're looking at is too small.</div>
+<div class="g-bad">That's the song I told you.</div>
+<div class="g-good">That's the song I told you <b>about</b>. <span class="muted">— без about смысл «я сказал тебе песню»</span></div>
+<div class="g-tip">Предлог «приклеен» к глаголу: <b>work with, look for, talk about, rely on, apply for, listen to, wait for</b>. Не отрывайте его — просто донесите до конца фразы.</div>
+<div class="mini" data-q="Кто та девушка, о которой ты говорил?" data-o="Who is the girl about you were talking?|Who is the girl you were talking about?|Who is the girl you were talking about her?" data-a="1" data-why="Предлог about уходит в конец, her не повторяем."></div>`
+      },
+      {
+        title: '6. what или that: «то, что» и «всё, что»',
+        html: `
+<div class="g-idea"><b>what</b> = «то, что» (the thing that). Оно стоит <b>само по себе</b>, без существительного перед ним. Если перед «что» есть слово — <i>everything, all, anything, the game</i> — нужен <b>that</b> или ничего.</div>
+<table>
+<tr><th>По-русски</th><th>По-английски</th></tr>
+<tr><td>То, что случилось, — моя вина.</td><td><span class="say">What happened was my fault.</span></td></tr>
+<tr><td>Всё, что случилось, — моя вина.</td><td><span class="say">Everything that happened was my fault.</span></td></tr>
+<tr><td>Это именно то, что мне нужно.</td><td><span class="say">That's exactly what I need.</span></td></tr>
+<tr><td>Это всё, что мне нужно.</td><td><span class="say">That's all I need.</span></td></tr>
+<tr><td>Скажи, что хочешь, и я закажу.</td><td><span class="say">Tell me what you want and I'll order it.</span></td></tr>
+<tr><td>Я сделаю, что смогу.</td><td><span class="say">I'll do what I can.</span> = <span class="say">I'll do the best I can.</span></td></tr>
+</table>
+<p>Живая конструкция: <b>What I like about… is…</b> — «Что мне нравится в… — так это…»:</p>
+<ul class="g-list">
+<li><span class="say">What I like about this game is the music.</span> — Что мне нравится в этой игре — так это музыка.</li>
+<li><span class="say">What I need right now is coffee.</span> — Что мне сейчас нужно — так это кофе.</li>
+</ul>
+<div class="g-bad">Everything what he said was true.</div>
+<div class="g-good">Everything <b>(that)</b> he said was true.</div>
+<div class="g-bad">The game what I bought is broken.</div>
+<div class="g-good">The game <b>(that)</b> I bought is broken.</div>
+<div class="g-bad">I don't agree with that you said.</div>
+<div class="g-good">I don't agree with <b>what</b> you said.</div>
+<div class="g-tip">Русское «что» после «всё» — ловушка. Запомните пару: <b>всё, что = everything that</b>; <b>то, что = what</b>.</div>
+<div class="mini" data-q="She apologised for ___ she said." data-o="that|what|which" data-a="1" data-why="Перед «что» нет существительного, «то, что» → what."></div>
+<div class="mini" data-q="I remember everything ___ you told me." data-o="what|that|who" data-a="1" data-why="После everything → that (или ничего), не what."></div>`
+      },
+      {
+        title: '7. Живой английский: объясняем слово, которого не знаем',
+        html: `
+<div class="g-idea">Придаточные — главный инструмент, когда забыл слово. Вместо паузы описываете: «это такая штука, которая…». Так говорят и носители, и это спасает в любом разговоре и в играх с голосовым чатом.</div>
+<table>
+<tr><th>Шаблон</th><th>Пример</th></tr>
+<tr><td>It's a thing (that) you use to…</td><td><span class="say">It's a thing you use to open wine.</span></td></tr>
+<tr><td>It's something that…</td><td><span class="say">It's something that happens when the game freezes.</span></td></tr>
+<tr><td>It's someone who…</td><td><span class="say">It's someone who fixes pipes.</span></td></tr>
+<tr><td>It's the kind of person who…</td><td><span class="say">He's the kind of person who reads the whole manual.</span></td></tr>
+</table>
+<p>Ещё фразы, которые звучат очень естественно:</p>
+<ul class="g-list">
+<li><span class="say">That series you told me about was great.</span> — Тот сериал, про который ты рассказывал, классный. <span class="muted">(that + предмет + ты… — очень разговорно)</span></li>
+<li><span class="say">The one I bought is black.</span> — Тот, что я купил, чёрный.</li>
+<li><span class="say">The last thing I need is another meeting.</span> — Только ещё одного созвона мне не хватало.</li>
+<li><span class="say">The only thing I don't like is the price.</span> — Единственное, что мне не нравится, — цена.</li>
+<li><span class="say">Anyone who has played Dark Souls knows this feeling.</span> — Каждый, кто играл в Dark Souls, знает это чувство.</li>
+</ul>
+<div class="g-tip">Не знаете слово <i>«отвёртка»</i>? <span class="say">It's the thing you use to fix screws.</span> Собеседник сам подскажет: <i>A screwdriver?</i> — и вы запомните слово навсегда.</div>
+<div class="mini" data-q="Вы забыли слово «зарядка». Как описать?" data-o="It's a thing you use to charge your phone.|It's a thing you use it to charge your phone.|It's a thing what charges your phone." data-a="0" data-why="the thing (that) you use — «которой» можно убрать, it не повторяем, what после thing нельзя."></div>`
+      },
+      {
+        title: '8. Типичные ошибки — проверьте себя',
+        html: `
+<div class="g-mistakes">
+<div class="g-bad">The man which lives upstairs is a DJ.</div><div class="g-good">The man <b>who</b> lives upstairs is a DJ.</div>
+<div class="g-bad">I bought a mouse who has six buttons.</div><div class="g-good">I bought a mouse <b>that</b> has six buttons.</div>
+<div class="g-bad">The game I bought it yesterday doesn't start.</div><div class="g-good">The game I bought yesterday doesn't start.</div>
+<div class="g-bad">The girl sits next to me is from Riga.</div><div class="g-good">The girl <b>who</b> sits next to me is from Riga.</div>
+<div class="g-bad">This is the team with I work.</div><div class="g-good">This is the team I work <b>with</b>.</div>
+<div class="g-bad">Everything what you need is in the folder.</div><div class="g-good">Everything <b>(that)</b> you need is in the folder.</div>
+<div class="g-bad">I didn't understand that he explained.</div><div class="g-good">I didn't understand <b>what</b> he explained.</div>
+<div class="g-bad">People who plays this game are crazy.</div><div class="g-good">People who <b>play</b> this game are crazy.</div>
+</div>
+<div class="g-sum"><div class="g-h">Итог юнита в одной строке</div>Люди → <b>who</b>, вещи → <b>that / which</b> · «который» сам действует → слово нужно, с ним что-то делают → можно выбросить · предлог — в конец: <b>the guy I work with</b> · «то, что» = <b>what</b>, «всё, что» = <b>everything that</b>.</div>`
+      }
+    ],
+    words: [
+      ['someone', 'кто-то, кто-нибудь', 'I need someone who can test the new level.', 'Мне нужен кто-то, кто протестирует новый уровень.'],
+      ['anyone', 'кто-нибудь; любой', 'Do you know anyone who speaks Japanese?', 'Ты знаешь кого-нибудь, кто говорит по-японски?'],
+      ['neighbour', 'сосед, соседка', 'The neighbour who lives above us plays the drums.', 'Сосед, который живёт над нами, играет на барабанах.'],
+      ['customer', 'клиент, покупатель', 'Customers who pre-order the game get a bonus skin.', 'Покупатели, которые делают предзаказ, получают бонусный скин.'],
+      ['colleague', 'коллега', 'The colleague I share a desk with is from Minsk.', 'Коллега, с которым я делю стол, из Минска.'],
+      ['owner', 'владелец, хозяин', 'Who is the owner of the cat that sleeps on our car?', 'Кто хозяин кота, который спит на нашей машине?'],
+      ['liar', 'лжец, врун', 'A liar is someone who doesn’t tell the truth.', 'Лжец — это тот, кто не говорит правду.'],
+      ['coward', 'трус', 'Only a coward attacks players who are away from the keyboard.', 'Только трус нападает на игроков, которые отошли от клавиатуры.'],
+      ['optimist', 'оптимист', 'An optimist is someone who expects good things to happen.', 'Оптимист — тот, кто ждёт, что случится хорошее.'],
+      ['complain', 'жаловаться', 'I don’t like people who complain all the time.', 'Не люблю людей, которые всё время жалуются.'],
+      ['describe', 'описывать', 'Can you describe the man you saw?', 'Можете описать человека, которого вы видели?'],
+      ['explain', 'объяснять', 'I didn’t understand what she explained.', 'Я не понял то, что она объяснила.'],
+      ['mention', 'упоминать', 'Is this the book you mentioned?', 'Это та книга, которую ты упоминал?'],
+      ['recommend', 'рекомендовать, советовать', 'The series you recommended was great.', 'Сериал, который ты посоветовал, был отличный.'],
+      ['rely on', 'полагаться на', 'Max is someone you can rely on.', 'Макс — человек, на которого можно положиться.'],
+      ['apply for', 'подавать заявку (на работу и т. п.)', 'I didn’t get the job I applied for.', 'Я не получил работу, на которую подавался.'],
+      ['look for', 'искать', 'Are these the files you were looking for?', 'Это те файлы, которые ты искал?'],
+      ['deal with', 'иметь дело с, разбираться с', 'That’s the client I have to deal with every day.', 'Это клиент, с которым мне приходится иметь дело каждый день.'],
+      ['belong to', 'принадлежать', 'The headphones that belong to Anna are on the table.', 'Наушники, которые принадлежат Анне, на столе.'],
+      ['happen', 'случаться, происходить', 'What happened was not your fault.', 'То, что случилось, — не твоя вина.'],
+      ['steal — stole', 'красть — украл', 'The man who stole my bike was caught.', 'Человека, который украл мой велосипед, поймали.'],
+      ['lose — lost', 'терять — потерял', 'Did you find the keys you lost?', 'Ты нашёл ключи, которые потерял?'],
+      ['blame', 'винить', 'Don’t blame me for everything that goes wrong.', 'Не вини меня во всём, что идёт не так.'],
+      ['apologise', 'извиняться', 'He apologised for what he said.', 'Он извинился за то, что сказал.'],
+      ['device', 'устройство, гаджет', 'A router is a device that connects you to the internet.', 'Роутер — это устройство, которое подключает тебя к интернету.'],
+      ['tool', 'инструмент', 'Figma is the tool I use most.', 'Figma — инструмент, которым я пользуюсь чаще всего.'],
+      ['feature', 'функция, особенность', 'The feature everyone asked for is finally here.', 'Функция, которую все просили, наконец появилась.'],
+      ['definition', 'определение', 'Read the definition and guess the word.', 'Прочитай определение и угадай слово.'],
+      ['guess', 'угадывать; догадка', 'Guess the word I’m thinking of.', 'Угадай слово, которое я загадал.'],
+      ['the only', 'единственный', 'You’re the only person who understands me.', 'Ты единственный человек, который меня понимает.'],
+      ['exactly', 'точно, именно', 'That’s exactly what I wanted.', 'Это именно то, что я хотел.']
+    ],
+    texts: [
+      {
+        id: 't-b1-21-1', title: 'Stream game: guess the word', level: 'B1',
+        text: `Dan: OK, chat, new game! I describe a word, Liza guesses it. She can't see the card. Ready?
+Liza: Ready. Go.
+Dan: It's a person who doesn't tell the truth. Someone you can never rely on.
+Liza: A liar! Too easy.
+Dan: Correct. Next one. It's a thing you use when your phone is almost dead. You connect it to the wall.
+Liza: A charger. The one I always forget at your place.
+Dan: Yes! OK, this one is harder. It's something that happens when a game suddenly stops working and you lose everything you did.
+Liza: A crash! The thing that happened to me yesterday. Three hours of progress, gone.
+Dan: I remember. What you said on stream after that was not family-friendly.
+Liza: Next!
+Dan: It's a person who is afraid of everything. Someone who runs away from every fight and leaves the friends he came with.
+Liza: A coward. Like you in every horror game we've played.
+Dan: That's not true. I just protect the players who stay behind. OK, last one. It's the thing that everyone in chat asks about, and the thing I never give them.
+Liza: Hmm... Free skins?
+Dan: No! The word on the card is "spoilers". People who haven't finished the series always ask for them, and people who have finished it always want to tell.
+Liza: That's four out of five. Not bad for someone who slept five hours.
+Dan: Chat, the viewer who guesses my next word first gets a shout-out. Here's the definition: it's something that I haven't had for two days and that I need more than coffee.
+Liza: Sleep! Everybody knows the answer, Dan.
+Dan: Hey! You're the only person who isn't allowed to answer!`,
+        questions: [
+          { q: 'What is the thing Liza always forgets at Dan\'s place?', o: ['Her headphones', 'Her charger', 'Her keys'], a: 1 },
+          { q: 'What happened to Liza yesterday?', o: ['Her game crashed and she lost her progress', 'She lost a fight in a horror game', 'She forgot the password'], a: 0 },
+          { q: 'Which word did Liza NOT guess?', o: ['liar', 'coward', 'spoilers'], a: 2 }
+        ]
+      },
+      {
+        id: 't-b1-21-2', title: 'The team I work with', level: 'B1',
+        text: `I've been working at a small game studio for two years, and people often ask me what the job is really like. The honest answer: it depends on the people you work with. So here is my team.
+
+Kate is the art director who hired me. She is the person I go to when I don't know what to do. She rarely says "no". Instead, she asks questions that make you find the answer yourself. Almost everything I know about colour I learned from her.
+
+Oleg is the developer who turns my designs into a real game. We argue a lot, but he's someone I can completely rely on. When a button I drew doesn't fit on a small screen, he doesn't complain. He just sends me a screenshot with a sad smiley, and I know exactly what I have to fix.
+
+Mira is our tester. Her job is to find the bugs that nobody else notices. Last month she found a bug that deleted the saves of players who changed the language in the menu. What she found saved us from a terrible release, and the players who would have lost their progress will never know about it.
+
+And then there's Boris, the studio cat. He belongs to the owner, but he sleeps on the keyboard of anyone who leaves their desk for more than five minutes.
+
+The tools we use are ordinary: Figma, a task board and a chat that never stops. The thing that makes the studio special is the people. The last thing I want is a bigger office full of people I don't know.
+
+If you're looking for a job in game design, my advice is simple: ask about the team you'll work with. The salary they offer matters, but the people you spend eight hours a day with matter more.`,
+        questions: [
+          { q: 'Who is the person the author goes to when she doesn\'t know what to do?', o: ['Oleg', 'Kate', 'Mira'], a: 1 },
+          { q: 'What does Oleg do when a button doesn\'t fit on a small screen?', o: ['He complains to Kate', 'He fixes it himself', 'He sends a screenshot with a sad smiley'], a: 2 },
+          { q: 'What was the bug that Mira found?', o: ['It deleted saves of players who changed the language', 'It stopped the game on small screens', 'It changed the colours in the menu'], a: 0 }
+        ]
+      }
+    ],
+    practice: [
+      { t: 'choice', q: 'Where\'s the nearest shop ___ sells phone cases?', o: ['who', 'that', 'what'], a: 1, why: 'Магазин — не человек → that (или which), who только для людей.' },
+      { t: 'choice', q: 'The driver ___ caused the accident has lost his licence.', o: ['which', 'who', 'what'], a: 1, why: 'Водитель — человек → who; which для людей нельзя.' },
+      { t: 'choice', q: 'Did you find the keys ___?', o: ['you lost', 'you lost them', 'who you lost'], a: 0, why: 'keys уже названы в начале, them не повторяем; who — только для людей.' },
+      { t: 'choice', q: '___ happened was my fault.', o: ['That', 'What', 'Which'], a: 1, why: '«То, что» без существительного перед ним → what.' },
+      { t: 'choice', q: 'Everything ___ he told us was true.', o: ['what', 'that', 'who'], a: 1, why: 'После everything → that (или ничего), не what.' },
+      { t: 'choice', q: 'Кто тот парень, с которым ты разговаривал?', o: ['Who is the guy with you were talking?', 'Who is the guy you were talking to?', 'Who is the guy you were talking to him?'], a: 1, why: 'Предлог уходит в конец придаточного, him не повторяем.' },
+      { t: 'choice', q: 'The people ___ in our office are very friendly.', o: ['work', 'who work', 'they work'], a: 1, why: 'Сразу после «которые» глагол — они сами работают → who обязателен.' },
+      { t: 'choice', q: 'Как сказать «человек, которому я позвонил»?', o: ['the man who called me', 'the man I called', 'the man called me'], a: 1, why: 'Звонил я → the man + I + called; the man who called me — «который позвонил мне».' },
+      { t: 'gap', q: 'I met a designer ___ worked on The Witcher. (который)', a: ['who', 'that'], why: 'Сразу глагол worked — «который» сам действует → слово обязательно.' },
+      { t: 'gap', q: 'Is this the tutorial you were talking ___? (о котором)', a: ['about'], why: 'talk about — предлог остаётся при глаголе, в конце.' },
+      { t: 'gap', q: 'I don\'t agree with ___ you said. (то, что)', a: ['what'], why: '«то, что» без существительного перед ним → what.' },
+      { t: 'gap', q: 'Oleg is someone you can rely ___. (на которого)', a: ['on'], why: 'rely on — предлог в конце придаточного.' },
+      { t: 'gap', q: 'People who ___ all the time are really tiring. (complain)', a: ['complain'], why: 'Глагол согласуется со словом перед who: people — много → complain без -s.' },
+      { t: 'gap', q: 'She gave me all the money ___ had. (у неё было)', a: ['she', 'that she'], why: 'all the money (that) she had — у придаточного своё подлежащее she.' },
+      { t: 'order', a: 'I didn\'t get the job I applied for', ru: 'Я не получил работу, на которую подавался' },
+      { t: 'order', a: 'Is there anything I can do', ru: 'Я могу чем-нибудь помочь?' },
+      { t: 'tr', q: 'Это именно то, что мне нужно.', a: ['that\'s exactly what i need', 'that is exactly what i need', 'it\'s exactly what i need', 'it is exactly what i need', 'this is exactly what i need'] },
+      { t: 'tr', q: 'Мне понравился сериал, который ты посоветовал.', a: ['i liked the series you recommended', 'i liked the series that you recommended', 'i liked the series which you recommended', 'i loved the series you recommended', 'i loved the series that you recommended', 'i enjoyed the series you recommended', 'i enjoyed the series that you recommended'] },
+      { t: 'listen', say: 'The man I was sitting next to talked all the time', a: ['the man i was sitting next to talked all the time'] }
+    ],
+    test: [
+      { t: 'choice', q: 'Какое предложение правильное?', o: ['The film we watched it was boring.', 'The film we watched was boring.', 'The film what we watched was boring.'], a: 1, why: 'it не повторяем, what после существительного нельзя; «который» можно убрать, ведь смотрели мы.' },
+      { t: 'choice', q: 'Where are the photos ___ on my desk?', o: ['they were', 'that were', 'were'], a: 1, why: 'Фото сами «лежали» → нужен that вместо they.' },
+      { t: 'choice', q: 'I can\'t find the charger ___ yesterday.', o: ['I bought', 'who I bought', 'I bought it'], a: 0, why: 'Покупал я → «который» можно убрать; it не повторяем; who — только для людей.' },
+      { t: 'gap', q: 'Tell me ___ you want and I\'ll order it. (что)', a: ['what'], why: '«то, что» → what.' },
+      { t: 'gap', q: 'The woman ___ lives next door to us is a pilot. (которая)', a: ['who', 'that'], why: 'Сразу глагол lives — слово обязательно; для людей who или that.' },
+      { t: 'choice', q: 'Is there anything ___ I can help with?', o: ['what', 'that', 'who'], a: 1, why: 'После anything → that (или ничего), не what.' },
+      { t: 'gap', q: 'Who were the people you were ___ at the party? (с которыми)', a: ['with'], why: 'Предлог with уходит в конец придаточного.' },
+      { t: 'choice', q: 'He apologised for ___ he had said.', o: ['that', 'what', 'which'], a: 1, why: '«за то, что» без существительного → what.' },
+      { t: 'choice', q: 'An optimist is a person who ___ good things to happen.', o: ['expect', 'expects', 'expecting'], a: 1, why: 'a person — один человек → глагол с -s: who expects.' },
+      { t: 'gap', q: 'The bed I slept ___ was really uncomfortable. (в которой)', a: ['in'], why: 'sleep in a bed — предлог in в конце придаточного.' },
+      { t: 'choice', q: 'The game that everyone is talking about is free. Какое слово можно убрать?', o: ['that', 'everyone', 'about'], a: 0, why: 'После that идёт everyone (другое подлежащее) → that можно убрать; about нужен.' },
+      { t: 'choice', q: 'Какое предложение правильное?', o: ['The man who I called didn\'t answer.', 'The man called me didn\'t answer.', 'The man which called me didn\'t answer.'], a: 0, why: 'the man (who) I called — верно; «который позвонил» требует who; which для людей нельзя.' }
+    ]
+  },
+
+  // ───────────────────────────── UNIT B1-22 ─────────────────────────────
+  {
+    id: 'b1-22', level: 'B1', num: 22, track: 'main',
+    books: { blue: [98, 99, 100, 101, 102, 103, 104] },
+    title: 'Прилагательные и наречия: bored/boring, so/such, too/enough, quite',
+    summary: 'Научимся не путать bored и boring, ставить несколько прилагательных в правильном порядке, выбирать между прилагательным и наречием, говорить «такой / так» через so и such, точнее использовать too и enough и чувствовать разницу между quite, pretty, rather и fairly.',
+    grammar: [
+      {
+        title: '1. Главная идея: -ing — какое оно, -ed — что я чувствую',
+        html: `
+<div class="g-idea">Что вы уже знаете (уроки A1-15 и A2-11): прилагательное отвечает «какой?», наречие — «как?», а ещё too и enough. Теперь тонкости. Первая: у многих прилагательных две формы. <b>-ing</b> описывает то, что <b>вызывает</b> чувство. <b>-ed</b> — того, кто это чувство <b>испытывает</b>.</div>
+<div class="g-compare">
+  <div><div class="g-h">Русский</div><p>Сериал <b>скучный</b>.</p><p>Мне <b>скучно</b>.</p><p>Концовка <b>разочаровала</b>. / Я <b>разочарован</b>.</p></div>
+  <div><div class="g-h">English</div><p><span class="say">The series is <b>boring</b>.</span></p><p><span class="say">I'm <b>bored</b>.</span></p><p><span class="say">The ending was <b>disappointing</b>. I was <b>disappointed</b>.</span></p></div>
+</div>
+<table>
+<tr><th>-ing: какое оно</th><th>-ed: что я чувствую</th><th>Перевод</th></tr>
+<tr><td><span class="say">interesting</span></td><td><span class="say">interested in</span></td><td>интересный / интересуюсь</td></tr>
+<tr><td><span class="say">exciting</span></td><td><span class="say">excited about</span></td><td>захватывающий / в предвкушении</td></tr>
+<tr><td><span class="say">confusing</span></td><td><span class="say">confused</span></td><td>запутанный / сбит с толку</td></tr>
+<tr><td><span class="say">annoying</span></td><td><span class="say">annoyed</span></td><td>раздражающий / раздражён</td></tr>
+<tr><td><span class="say">embarrassing</span></td><td><span class="say">embarrassed</span></td><td>неловкий / смущён</td></tr>
+<tr><td><span class="say">exhausting</span></td><td><span class="say">exhausted</span></td><td>изматывающий / без сил</td></tr>
+<tr><td><span class="say">terrifying</span></td><td><span class="say">terrified</span></td><td>жуткий / в ужасе</td></tr>
+<tr><td><span class="say">satisfying</span></td><td><span class="say">satisfied with</span></td><td>приятный, «в кайф» / доволен</td></tr>
+</table>
+<p>Так же: <i>surprising / surprised, amazing / amazed, shocking / shocked, relaxing / relaxed, tiring / tired, depressing / depressed, amusing / amused</i>. Частые предлоги после -ed: <b>interested in, bored with, excited about, disappointed with, tired of</b> (надоело).</p>
+<ul class="g-list">
+<li><span class="say">I'm bored because my job is boring.</span> — Мне скучно, потому что работа скучная.</li>
+<li><span class="say">Are you interested in joining our team?</span> — Вам интересно присоединиться к команде?</li>
+<li><span class="say">I'm tired of this meta.</span> — Мне надоела эта мета.</li>
+<li><span class="say">Did you meet anyone interesting at the party?</span> — Встретил кого-нибудь интересного?</li>
+</ul>
+<p>Осторожно: <b>-ing про человека</b> значит, что он вызывает это чувство у других. <span class="say">I'm bored</span> — мне скучно. <span class="say">I'm boring</span> — я скучный (зануда)!</p>
+<div class="g-bad">I'm so boring at this meeting.</div>
+<div class="g-good">I'm so <b>bored</b> at this meeting.</div>
+<div class="g-bad">I'm interesting in UX design.</div>
+<div class="g-good">I'm <b>interested</b> in UX design.</div>
+<div class="g-tip">-ing — это «источник» (игра, фильм, человек), -ed — «получатель» (тот, кто сидит перед экраном). <b>The game is exciting → I'm excited.</b></div>
+<div class="mini" data-q="The tutorial was so ___ that I closed the game." data-o="confused|confusing|confuse" data-a="1" data-why="Туториал вызывает путаницу → -ing."></div>
+<div class="mini" data-q="We were really ___ with the ending." data-o="disappointing|disappointed|disappoint" data-a="1" data-why="Мы испытываем разочарование → -ed (disappointed with)."></div>`
+      },
+      {
+        title: '2. Порядок прилагательных: a nice new wooden desk',
+        html: `
+<div class="g-idea">В русском порядок свободный: «старый красивый дом» = «красивый старый дом». В английском, когда прилагательных два и больше, порядок <b>почти фиксированный</b>: сначала <b>мнение</b>, потом <b>факты</b>.</div>
+<div class="g-formula"><span class="g-part g-v">мнение</span><span class="g-plus">→</span><span class="g-part">размер</span><span class="g-plus">→</span><span class="g-part">возраст</span><span class="g-plus">→</span><span class="g-part">цвет</span><span class="g-plus">→</span><span class="g-part">откуда</span><span class="g-plus">→</span><span class="g-part">из чего</span><span class="g-plus">+</span><span class="g-part g-v">предмет</span></div>
+<ul class="g-list">
+<li><span class="say">a nice new flat</span> — мнение → возраст</li>
+<li><span class="say">a beautiful large round wooden table</span> — мнение → размер → форма → материал</li>
+<li><span class="say">a small black plastic mouse</span> — размер → цвет → материал</li>
+<li><span class="say">an old Japanese film</span> — возраст → откуда</li>
+<li><span class="say">big blue eyes</span> — размер → цвет</li>
+<li><span class="say">a comfortable black gaming chair</span> — «для чего» (gaming) стоит вплотную к предмету</li>
+</ul>
+<p>Размер и длина (big, tall, long) идут перед формой и шириной (round, thin, wide): <span class="say">a long narrow street</span>, <span class="say">a tall thin guy</span>.</p>
+<p>Два цвета соединяем через <b>and</b>, остальные прилагательные — без and:</p>
+<ul class="g-list">
+<li><span class="say">a black and white film</span> — чёрно-белый фильм</li>
+<li><span class="say">a long black coat</span> — не <s>a long and black coat</s></li>
+</ul>
+<p>И с числами: <b>the first two, the next few, the last ten</b> — сначала «первые / следующие», потом число:</p>
+<ul class="g-list">
+<li><span class="say">I didn't enjoy the first two episodes.</span> — Мне не понравились первые две серии.</li>
+<li><span class="say">I'll be busy for the next few weeks.</span> — Я буду занят следующие несколько недель.</li>
+</ul>
+<div class="g-bad">the two first days · a wooden old small box</div>
+<div class="g-good">the <b>first two</b> days · a <b>small old wooden</b> box</div>
+<div class="g-tip">Мнение — всегда первым: сначала говорим, <b>нравится ли</b>, потом — <b>что это</b>. Чем «ближе к сути» признак (материал, назначение), тем ближе к существительному.</div>
+<div class="mini" data-q="She has ___." data-o="a leather small black bag|a small black leather bag|a black small leather bag" data-a="1" data-why="Размер → цвет → материал."></div>`
+      },
+      {
+        title: '3. Прилагательное или наречие: глубже',
+        html: `
+<div class="g-idea">Вопрос всегда один: описываем <b>предмет / человека</b> (какой?) — прилагательное; описываем <b>действие</b> (как?) — наречие.</div>
+<ul class="g-list">
+<li><span class="say">She speaks perfect English.</span> — прилагательное + English (какой английский?)</li>
+<li><span class="say">She speaks English perfectly.</span> — как говорит? → наречие</li>
+<li><span class="say">We stayed in because of the heavy rain.</span> / <span class="say">It was raining heavily.</span></li>
+</ul>
+<p>После <b>be, get, become, seem</b> и глаголов чувств <b>look, feel, sound, smell, taste</b> — прилагательное: мы описываем, <b>каким</b> кто-то кажется.</p>
+<ul class="g-list">
+<li><span class="say">You look tired.</span> — Ты выглядишь уставшим.</li>
+<li><span class="say">The film got more and more boring.</span> — Фильм становился всё скучнее.</li>
+<li><span class="say">This coffee tastes strange.</span> — У кофе странный вкус.</li>
+</ul>
+<p>Но если look = «смотреть», это уже действие → наречие: <span class="say">Look at the screen carefully.</span> — Внимательно посмотри на экран.</p>
+<p>Наречие ставится и <b>перед прилагательным / другим наречием</b> — усиливает или уточняет:</p>
+<ul class="g-list">
+<li><span class="say">It's a reasonably cheap café.</span> — Вполне недорогое кафе.</li>
+<li><span class="say">I'm terribly sorry.</span> — Мне ужасно жаль.</li>
+<li><span class="say">The exam was surprisingly easy.</span> — Экзамен оказался на удивление лёгким.</li>
+<li><span class="say">She learns incredibly quickly.</span> — Она учится невероятно быстро.</li>
+</ul>
+<p>И перед формой на <b>-ed / 3-ю форму</b>: <span class="say">badly organised</span>, <span class="say">beautifully drawn</span>, <span class="say">seriously injured</span>, <span class="say">poorly written</span>.</p>
+<p>Ловушка: <b>friendly, lonely, lovely, lively, silly, elderly, ugly</b> кончаются на -ly, но это прилагательные. Наречия от них нет — говорят <b>in a … way</b>: <span class="say">She smiled in a friendly way.</span></p>
+<div class="g-bad">The meetup was bad organised. · Drive careful!</div>
+<div class="g-good">The meetup was <b>badly</b> organised. · Drive <b>carefully</b>!</div>
+<div class="mini" data-q="The new level is ___ designed." data-o="beautiful|beautifully|beauty" data-a="1" data-why="Перед 3-й формой (designed) — наречие."></div>
+<div class="mini" data-q="This pizza smells ___." data-o="amazing|amazingly|amazed" data-a="0" data-why="smell = «пахнет каким-то» → прилагательное."></div>`
+      },
+      {
+        title: '4. good / well, hard / hardly, late / lately',
+        html: `
+<div class="g-idea">Базу вы знаете (A1-15): <b>good → well</b>, а <b>hard, fast, late</b> не меняются. Добавим то, что постоянно встречается в сериалах и играх.</div>
+<p><b>well + 3-я форма</b> — готовые прилагательные через дефис:</p>
+<ul class="g-list">
+<li><span class="say">a well-known artist</span> — известный художник</li>
+<li><span class="say">a well-paid job</span> — хорошо оплачиваемая работа</li>
+<li><span class="say">a well-designed interface</span> — хорошо продуманный интерфейс</li>
+<li><span class="say">The kids were well-behaved.</span> — Дети хорошо себя вели.</li>
+</ul>
+<p><b>lately</b> — не «поздно», а «в последнее время» (= recently): <span class="say">Have you played anything good lately?</span></p>
+<p><b>hardly</b> — «почти не». Ставится <b>перед</b> основным глаголом (после can / could):</p>
+<table>
+<tr><th>hard — усердно</th><th>hardly — почти не</th></tr>
+<tr><td><span class="say">He tried hard to find a job.</span></td><td><span class="say">He hardly tried.</span></td></tr>
+<tr><td><span class="say">I studied hard.</span></td><td><span class="say">We hardly know each other.</span></td></tr>
+<tr><td><span class="say">It's raining hard.</span></td><td><span class="say">I can hardly hear you.</span></td></tr>
+</table>
+<ul class="g-list">
+<li><span class="say">There's hardly any milk left.</span> — Молока почти не осталось.</li>
+<li><span class="say">Hardly anyone came to the stream.</span> — На стрим почти никто не пришёл.</li>
+<li><span class="say">She said hardly anything.</span> — Она почти ничего не сказала.</li>
+<li><span class="say">I hardly ever go out on weekdays.</span> — Я почти никогда не выхожу в будни.</li>
+<li><span class="say">It's hardly surprising that you're tired.</span> — Неудивительно, что ты устал. <span class="muted">(hardly = «уж точно не»)</span></li>
+</ul>
+<div class="g-bad">I hardly didn't sleep. · I know him hardly.</div>
+<div class="g-good">I <b>hardly</b> slept. · I <b>hardly</b> know him. <span class="muted">— hardly уже отрицание, второе not не нужно</span></div>
+<div class="mini" data-q="My neighbours were so loud that I could ___ sleep." data-o="hard|hardly|hardy" data-a="1" data-why="«Почти не мог спать» → hardly после could."></div>
+<div class="mini" data-q="Have you seen Kate ___?" data-o="late|lately|later" data-a="1" data-why="«В последнее время» → lately."></div>`
+      },
+      {
+        title: '5. so и such — «такой», «так»',
+        html: `
+<div class="g-idea">Русское «такой / так» по-английски — <b>so</b> или <b>such</b>. Правило простое: есть <b>существительное</b> → such. Нет существительного → so.</div>
+<div class="g-formula"><span class="g-part g-v">so</span><span class="g-plus">+</span><span class="g-part">прилагательное / наречие</span><span class="g-sep">·</span><span class="g-part g-v">such (a / an)</span><span class="g-plus">+</span><span class="g-part">(прилагательное) + существительное</span></div>
+<table>
+<tr><th>so</th><th>such</th></tr>
+<tr><td><span class="say">The story was so stupid.</span></td><td><span class="say">It was such a stupid story.</span></td></tr>
+<tr><td><span class="say">They are so nice.</span></td><td><span class="say">They are such nice people.</span></td></tr>
+<tr><td><span class="say">Everything happened so quickly.</span></td><td><span class="say">You're such an optimist!</span></td></tr>
+</table>
+<p>Порядок: <b>such a</b> (не <s>a such</s>), <b>so + прилагательное</b> без a: <s>a so good game</s>.</p>
+<p>«Так… что» — <b>so / such … (that)</b>. that в речи обычно пропускают:</p>
+<ul class="g-list">
+<li><span class="say">I was so tired I fell asleep on the sofa.</span> — Я так устал, что уснул на диване.</li>
+<li><span class="say">It was such nice weather that we worked outside.</span> — Была такая хорошая погода, что мы работали на улице.</li>
+</ul>
+<p>Удивление «настолько»: <span class="say">I didn't know it was so far.</span> — Не знал, что это так далеко. <span class="say">How can you say such a thing?</span> — Как ты можешь такое говорить?</p>
+<p>Запомните пары: <b>so long</b> = <b>such a long time</b>; <b>so much / so many</b> + существительное — это исключение, тут so:</p>
+<ul class="g-list">
+<li><span class="say">I haven't seen her for so long.</span> = <span class="say">for such a long time</span></li>
+<li><span class="say">Sorry I'm late — there was so much traffic.</span></li>
+<li><span class="say">There's no such word.</span> — Такого слова нет.</li>
+</ul>
+<div class="g-bad">It was so good game. · We had such fun time.</div>
+<div class="g-good">It was <b>such a</b> good game. · We had <b>such a</b> fun time.</div>
+<div class="g-tip">Проверка: уберите прилагательное. Если осталось существительное (<i>such a … game</i>) — нужен such. Если ничего не осталось (<i>so … !</i>) — so.</div>
+<div class="mini" data-q="It was ___ boring film that I left." data-o="so|such a|such" data-a="1" data-why="Есть существительное film (одно) → such a."></div>
+<div class="mini" data-q="The level was ___ hard that I gave up." data-o="so|such|such a" data-a="0" data-why="Нет существительного, только hard → so."></div>`
+      },
+      {
+        title: '6. too и enough глубже: too heavy to carry',
+        html: `
+<div class="g-idea">Что вы знаете (A2-11): <b>fast enough, enough time, too loud</b>. На B1 — три тонкости: <b>for + кто + to</b>, пропуск «его» в конце и <b>too</b> против <b>not enough</b>.</div>
+<p><b>1. Для кого и что сделать</b>: too / enough + <b>for</b> кого-то + <b>to</b> + глагол.</p>
+<ul class="g-list">
+<li><span class="say">Does he have enough experience for the job?</span> — enough … for + что</li>
+<li><span class="say">It's too far to walk.</span> — too … to + глагол</li>
+<li><span class="say">The text is too small for me to read.</span> — Текст слишком мелкий, чтобы я мог прочитать.</li>
+<li><span class="say">The bridge is just wide enough for two cars to pass.</span></li>
+</ul>
+<p><b>2. «Его / её» в конце не нужен</b>. Предмет уже в начале фразы — не повторяем it:</p>
+<ul class="g-list">
+<li><span class="say">The soup was too hot to eat.</span> — не <s>to eat it</s></li>
+<li><span class="say">These boxes are too heavy to carry.</span></li>
+<li><span class="say">This chair isn't strong enough to stand on.</span> — предлог остаётся!</li>
+</ul>
+<p>Сравните: <span class="say">The soup was so hot that we couldn't eat it.</span> — здесь it нужен, потому что после that новое полное предложение.</p>
+<p><b>3. too и not enough</b> — одна проблема с двух сторон:</p>
+<table>
+<tr><th>too — больше, чем нужно</th><th>not … enough — меньше</th></tr>
+<tr><td><span class="say">You work too hard.</span></td><td><span class="say">You don't work hard enough.</span></td></tr>
+<tr><td><span class="say">There are too many people.</span></td><td><span class="say">There aren't enough chairs.</span></td></tr>
+<tr><td><span class="say">There's too much furniture.</span></td><td><span class="say">There isn't enough space.</span></td></tr>
+</table>
+<p>enough может стоять один: <span class="say">We don't need more money. We have enough.</span></p>
+<div class="g-bad">The wallet was too big to put it in my pocket. · I'm not enough fit.</div>
+<div class="g-good">The wallet was too big to put in my pocket. · I'm not <b>fit enough</b>.</div>
+<div class="mini" data-q="This bag is too heavy ___." data-o="to carry|to carry it|for carry" data-a="0" data-why="too … to + глагол, без it: предмет (bag) уже назван."></div>`
+      },
+      {
+        title: '7. quite, pretty, rather, fairly — «довольно»',
+        html: `
+<div class="g-idea">Все четыре слова — «довольно», но с разным оттенком. Это шкала между «немного» и «очень».</div>
+<div class="g-formula"><span class="g-part">a bit</span><span class="g-plus">&lt;</span><span class="g-part">fairly</span><span class="g-plus">&lt;</span><span class="g-part g-v">quite ≈ pretty ≈ rather</span><span class="g-plus">&lt;</span><span class="g-part">very</span></div>
+<table>
+<tr><th>Слово</th><th>Оттенок</th><th>Пример</th></tr>
+<tr><td><b>fairly</b></td><td>нормально, но могло быть лучше</td><td><span class="say">My room is fairly big, but I'd like a bigger one.</span></td></tr>
+<tr><td><b>quite</b></td><td>довольно, больше «немного»</td><td><span class="say">She's quite famous.</span></td></tr>
+<tr><td><b>pretty</b></td><td>то же, разговорное</td><td><span class="say">The game is pretty good.</span></td></tr>
+<tr><td><b>rather</b></td><td>часто о неприятном; о хорошем — «на удивление»</td><td><span class="say">It's rather cold today.</span></td></tr>
+</table>
+<p>Место артикля: <b>quite a / an</b> + прилагательное, но <b>a pretty / a fairly</b>:</p>
+<ul class="g-list">
+<li><span class="say">We live in quite an old house.</span> — не <s>a quite old house</s></li>
+<li><span class="say">She has a pretty good job.</span></li>
+</ul>
+<p>Только с <b>quite</b> (не с pretty):</p>
+<ul class="g-list">
+<li><span class="say">It was quite a surprise.</span> — Это был прямо сюрприз. <span class="muted">(quite a + существительное)</span></li>
+<li><span class="say">There were quite a lot of people.</span> — Было довольно много людей.</li>
+<li><span class="say">I quite like horror games.</span> — Мне, в общем, нравятся хорроры.</li>
+</ul>
+<p><b>rather</b> о хорошем звучит как удивление: <span class="say">These dumplings are rather good! Where did you get them?</span></p>
+<p>Второе значение <b>quite = «совсем, полностью»</b> — с sure, right, true, different, impossible, clear и с agree:</p>
+<ul class="g-list">
+<li><span class="say">Are you sure? — Yes, quite sure.</span> — Да, совершенно уверен.</li>
+<li><span class="say">I quite agree with you.</span> — Полностью согласен.</li>
+<li><span class="say">I don't quite understand.</span> — Я не совсем понимаю. <span class="muted">(not quite = не совсем)</span></li>
+<li><span class="say">Are you ready? — Not quite.</span> — Почти.</li>
+</ul>
+<div class="g-tip">Сравните: <span class="say">The story is quite interesting.</span> — довольно интересная. <span class="say">The story is quite true.</span> — совершенно правдивая. Смысл зависит от прилагательного. А в американском английском quite часто звучит почти как very.</div>
+<div class="mini" data-q="It was ___ day, so we went to the beach." data-o="a quite nice|quite a nice|quite nice" data-a="1" data-why="quite ставится перед a: quite a nice day."></div>
+<div class="mini" data-q="«Я не совсем понимаю» —" data-o="I don't quite understand.|I don't pretty understand.|I don't fairly understand." data-a="0" data-why="not quite = не совсем; pretty и fairly так не используются."></div>`
+      },
+      {
+        title: '8. Типичные ошибки — проверьте себя',
+        html: `
+<div class="g-mistakes">
+<div class="g-bad">I'm boring. Let's play something.</div><div class="g-good">I'm <b>bored</b>. Let's play something.</div>
+<div class="g-bad">I'm interesting in game design.</div><div class="g-good">I'm <b>interested in</b> game design.</div>
+<div class="g-bad">a wooden beautiful old table</div><div class="g-good">a <b>beautiful old wooden</b> table</div>
+<div class="g-bad">The two first levels are easy.</div><div class="g-good">The <b>first two</b> levels are easy.</div>
+<div class="g-bad">The event was bad organised.</div><div class="g-good">The event was <b>badly</b> organised.</div>
+<div class="g-bad">I hardly didn't understand him.</div><div class="g-good">I <b>hardly</b> understood him.</div>
+<div class="g-bad">It was so good film!</div><div class="g-good">It was <b>such a</b> good film!</div>
+<div class="g-bad">The box is too heavy to lift it.</div><div class="g-good">The box is too heavy <b>to lift</b>.</div>
+<div class="g-bad">We live in a quite big flat.</div><div class="g-good">We live in <b>quite a</b> big flat.</div>
+</div>
+<div class="g-sum"><div class="g-h">Итог юнита в одной строке</div><b>boring</b> — вызывает, <b>bored</b> — чувствую · мнение → размер → возраст → цвет → материал · какой? — прилагательное, как? — наречие · <b>hardly</b> = почти не · <b>so</b> + признак, <b>such (a)</b> + существительное · <b>too heavy to carry</b> без it · fairly &lt; quite ≈ pretty ≈ rather.</div>`
+      }
+    ],
+    words: [
+      ['boring / bored', 'скучный / скучающий', 'The meeting was boring, and everyone was bored.', 'Встреча была скучной, и всем было скучно.'],
+      ['interesting / interested (in)', 'интересный / заинтересованный', 'I’m interested in motion design.', 'Меня интересует моушн-дизайн.'],
+      ['exciting / excited (about)', 'захватывающий / взволнованный, в предвкушении', 'I’m so excited about the new season.', 'Я так жду новый сезон.'],
+      ['disappointing / disappointed', 'разочаровывающий / разочарованный', 'The ending was disappointing.', 'Концовка разочаровала.'],
+      ['confusing / confused', 'запутанный / сбитый с толку', 'The menu is so confusing.', 'Меню такое запутанное.'],
+      ['annoying / annoyed', 'раздражающий / раздражённый', 'That sound is really annoying.', 'Этот звук очень раздражает.'],
+      ['embarrassing / embarrassed', 'неловкий / смущённый', 'I was embarrassed when my mic was on.', 'Мне было неловко, когда оказалось, что микрофон включён.'],
+      ['exhausting / exhausted', 'изматывающий / измотанный', 'After the release I was exhausted.', 'После релиза я был без сил.'],
+      ['terrifying / terrified', 'ужасающий / напуганный до ужаса', 'The last boss is terrifying.', 'Последний босс жуткий.'],
+      ['satisfying / satisfied (with)', 'приятный, приносящий удовлетворение / довольный', 'I’m not satisfied with this layout.', 'Я не доволен этим макетом.'],
+      ['amazing / amazed', 'потрясающий / поражённый', 'She made amazing progress.', 'Она сделала потрясающий прогресс.'],
+      ['relaxing / relaxed', 'расслабляющий / расслабленный', 'Fishing games are so relaxing.', 'Игры про рыбалку так расслабляют.'],
+      ['wooden', 'деревянный', 'I bought a small wooden desk.', 'Я купил маленький деревянный стол.'],
+      ['round', 'круглый', 'We sat at a large round table.', 'Мы сидели за большим круглым столом.'],
+      ['narrow', 'узкий', 'The hotel was on a long narrow street.', 'Отель был на длинной узкой улице.'],
+      ['carefully', 'осторожно, внимательно', 'Read the task carefully.', 'Внимательно прочитай задание.'],
+      ['seriously', 'серьёзно', 'Nobody takes me seriously.', 'Никто не воспринимает меня всерьёз.'],
+      ['reasonably', 'вполне, достаточно; разумно', 'The tickets are reasonably cheap.', 'Билеты вполне недорогие.'],
+      ['surprisingly', 'удивительно, на удивление', 'The test was surprisingly easy.', 'Тест оказался на удивление лёгким.'],
+      ['extremely', 'чрезвычайно, крайне', 'The boss fight is extremely hard.', 'Бой с боссом крайне сложный.'],
+      ['lonely', 'одинокий', 'He felt lonely in the new city.', 'Ему было одиноко в новом городе.'],
+      ['friendly', 'дружелюбный', 'She answered in a friendly way.', 'Она ответила дружелюбно.'],
+      ['lately', 'в последнее время', 'Have you watched anything good lately?', 'Смотрел что-нибудь хорошее в последнее время?'],
+      ['hardly', 'едва, почти не', 'I hardly know him.', 'Я его почти не знаю.'],
+      ['well-known', 'известный', 'He’s a well-known game designer.', 'Он известный геймдизайнер.'],
+      ['well-paid', 'хорошо оплачиваемый', 'It’s a well-paid job, but it’s boring.', 'Работа хорошо оплачивается, но она скучная.'],
+      ['such', 'такой', 'It was such a good day!', 'Это был такой хороший день!'],
+      ['quite', 'довольно; совсем, полностью', 'It’s quite a long way.', 'Это довольно далеко.'],
+      ['pretty', 'довольно (разг.); красивый', 'The new patch is pretty good.', 'Новый патч довольно хороший.'],
+      ['rather', 'довольно, скорее (часто о неприятном)', 'The weather is rather cold today.', 'Сегодня довольно холодно.'],
+      ['fairly', 'довольно, достаточно (слабее quite)', 'We meet fairly often.', 'Мы видимся довольно часто.']
+    ],
+    texts: [
+      {
+        id: 't-b1-22-1', title: 'Review: a sequel that disappointed me', level: 'B1',
+        text: `I was so excited about this sequel. The first game was one of the most amazing things I've ever played: a small, quiet story about a lonely lighthouse keeper, with beautiful hand-drawn art and a soundtrack I still listen to. So when the second part came out last Friday, I bought it on the first day.
+
+The beginning is pretty good. The new island looks wonderful, the animations are incredibly smooth, and the first two hours are well written. I was pleasantly surprised.
+
+Then things go wrong. The main story is rather confusing: there are so many new characters that I couldn't remember who was who. The puzzles are either too easy to be interesting or so hard that you need a guide. I got stuck on one for an hour, and when I finally solved it, I didn't feel satisfied. I just felt annoyed. There's also such a lot of walking between the puzzles that I almost fell asleep a few times.
+
+The interface is another problem. The camera moves too fast, and the text in the menus isn't big enough to read from the sofa. For a studio that is so well-known for its design, this is surprisingly careless.
+
+To be fair, the game is not boring. The music is still fantastic, and there's a scene near the end that is so moving I almost cried. The developers are obviously talented people who worked extremely hard.
+
+But I expected more. I hardly ever write negative reviews, and I don't want this one to sound too angry. It's quite a good game. It just isn't the masterpiece the first part was.
+
+My score: 6 out of 10. If you're interested in beautiful art, you'll enjoy it. If you're looking for a clever story, you'll probably be disappointed.`,
+        questions: [
+          { q: 'How did the author feel before the sequel came out?', o: ['Bored', 'Excited', 'Disappointed'], a: 1 },
+          { q: 'What is the problem with the text in the menus?', o: ['It is too big', 'It is not big enough to read from the sofa', 'It is badly translated'], a: 1 },
+          { q: 'Who will probably enjoy the game, according to the author?', o: ['People who are interested in beautiful art', 'People who want a clever story', 'People who like hard puzzles'], a: 0 }
+        ]
+      },
+      {
+        id: 't-b1-22-2', title: 'After the escape room', level: 'B1',
+        text: `Kate: So? Was it as terrifying as you expected?
+Max: Worse. When the lights went off, I was so terrified that I grabbed Oleg's arm.
+Oleg: He did. I still can't feel my hand.
+Kate: I thought it was pretty funny. The actor who played the ghost was amazing.
+Max: Amazing? He was extremely annoying. He kept whispering in my ear.
+Kate: That was his job! Anyway, the puzzles were well designed. Some were quite hard, but fair.
+Oleg: Quite hard? The lock with the numbers was almost impossible. We had hardly any time left when we opened it.
+Kate: We had four minutes. That's enough.
+Max: Four minutes isn't enough to breathe normally.
+Oleg: What I liked was the room itself. A small dark room with an old wooden piano and huge black curtains. Such a creepy atmosphere.
+Kate: Honestly, I was rather surprised. The website looked so cheap that I didn't expect much.
+Max: The first ten minutes were a bit boring, though. We were just reading notes.
+Kate: You weren't bored, you were confused. You read the same note three times.
+Max: It was a confusing note! The handwriting was terrible. I could hardly read it.
+Oleg: OK, where are we going now? I'm exhausted and extremely hungry.
+Kate: There's a Georgian café near here. It's reasonably cheap and the food is really good.
+Max: Is it far? I'm too tired to walk anywhere.
+Kate: It's two minutes away. You can hardly call that far.
+Max: Fine. But next time we choose something relaxing. Like sitting on a sofa.
+Oleg: Deal. Next Friday: sitting. Such an exciting plan.
+Kate: You two are such old men. I'm booking the zombie room for next month.
+Max: Then I'm booking a seat at the café for the whole evening.`,
+        questions: [
+          { q: 'What did Max think of the actor who played the ghost?', o: ['He was amazing', 'He was extremely annoying', 'He was boring'], a: 1 },
+          { q: 'Why did Max read the same note three times?', o: ['The handwriting was terrible', 'The room was too dark', 'He was bored'], a: 0 },
+          { q: 'Where are the friends going after the escape room?', o: ['To a zombie room', 'Home', 'To a Georgian café'], a: 2 }
+        ]
+      }
+    ],
+    practice: [
+      { t: 'choice', q: 'The lecture was so ___ that half of the students fell asleep.', o: ['bored', 'boring', 'bore'], a: 1, why: 'Лекция вызывает скуку → -ing.' },
+      { t: 'choice', q: 'I\'m not really ___ in football.', o: ['interesting', 'interested', 'interest'], a: 1, why: 'Речь о моём чувстве → -ed: interested in.' },
+      { t: 'choice', q: 'We live in ___ old house.', o: ['a quite', 'quite an', 'quite a'], a: 1, why: 'quite стоит перед артиклем; old начинается с гласной → quite an.' },
+      { t: 'choice', q: 'It was ___ nice weather that we stayed outside all day.', o: ['so', 'such', 'such a'], a: 1, why: 'weather — существительное, неисчисляемое → such без a.' },
+      { t: 'choice', q: 'This box is too heavy ___.', o: ['to carry', 'to carry it', 'for carry'], a: 0, why: 'too … to + глагол; box уже назван, it не повторяем.' },
+      { t: 'choice', q: 'She bought ___.', o: ['a leather small black bag', 'a small black leather bag', 'a black small leather bag'], a: 1, why: 'Порядок: размер → цвет → материал.' },
+      { t: 'choice', q: 'Your English is ___, and you speak it ___.', o: ['good / well', 'well / good', 'good / good'], a: 0, why: 'Какой английский? — good; как говоришь? — well.' },
+      { t: 'choice', q: 'I\'m not ___ sure. Let me check.', o: ['quite', 'pretty', 'fairly'], a: 0, why: 'not quite = не совсем; с pretty и fairly так не говорят.' },
+      { t: 'gap', q: 'I ___ slept last night, the neighbours were so loud. (почти не)', a: ['hardly'], why: 'hardly = почти не, стоит перед глаголом.' },
+      { t: 'gap', q: 'The conference was ___ organised. Nobody knew where to go. (bad)', a: ['badly'], why: 'Перед 3-й формой (organised) — наречие.' },
+      { t: 'gap', q: 'I haven\'t seen her for ___ a long time. (такой)', a: ['such'], why: 'a long time — есть существительное → such a.' },
+      { t: 'gap', q: 'This soup tastes ___. (strange)', a: ['strange'], why: 'taste = «на вкус какой» → прилагательное, без -ly.' },
+      { t: 'gap', q: 'He\'s a ___-known designer. (хорошо)', a: ['well'], why: 'well + 3-я форма: well-known.' },
+      { t: 'gap', q: 'We didn\'t go out because it was raining ___. (heavy)', a: ['heavily'], why: 'Как шёл дождь? — наречие heavily.' },
+      { t: 'order', a: 'I was so tired I fell asleep', ru: 'Я так устал, что уснул' },
+      { t: 'order', a: 'She isn\'t old enough to drive', ru: 'Она недостаточно взрослая, чтобы водить' },
+      { t: 'tr', q: 'Мне скучно.', a: ['i\'m bored', 'i am bored'] },
+      { t: 'tr', q: 'Это была такая интересная игра!', a: ['it was such an interesting game', 'that was such an interesting game', 'this was such an interesting game'] },
+      { t: 'listen', say: 'I quite agree with you', a: ['i quite agree with you'] }
+    ],
+    test: [
+      { t: 'choice', q: 'The ending was really ___. We expected more.', o: ['disappointed', 'disappointing', 'disappoint'], a: 1, why: 'Концовка вызывает разочарование → -ing.' },
+      { t: 'choice', q: 'Why do you look so ___? Is something wrong?', o: ['worried', 'worrying', 'worry'], a: 0, why: 'Как ты себя чувствуешь → -ed; look + прилагательное.' },
+      { t: 'choice', q: 'I didn\'t enjoy the ___ days of the course.', o: ['two first', 'first two', 'firsts two'], a: 1, why: 'Сначала first / next / last, потом число: the first two.' },
+      { t: 'gap', q: 'Please drive ___. The road is icy. (careful)', a: ['carefully'], why: 'Как вести машину? — наречие carefully.' },
+      { t: 'choice', q: 'Have you heard from Tom ___?', o: ['late', 'lately', 'latest'], a: 1, why: '«В последнее время» → lately, а late = поздно.' },
+      { t: 'gap', q: 'There\'s ___ any milk left. Can you buy some? (почти нет)', a: ['hardly'], why: 'hardly any = почти нисколько.' },
+      { t: 'choice', q: 'The film was ___ long that I fell asleep.', o: ['such', 'so', 'too'], a: 1, why: 'Нет существительного + «так…, что» → so … (that).' },
+      { t: 'choice', q: 'You always expect the best. You\'re ___ optimist!', o: ['so', 'such an', 'such'], a: 1, why: 'Одно существительное optimist → such an.' },
+      { t: 'gap', q: 'This chair isn\'t strong ___ to stand on. (достаточно)', a: ['enough'], why: 'enough ставится после прилагательного: strong enough.' },
+      { t: 'choice', q: 'The weather is ___ today, so let\'s stay in.', o: ['rather cold', 'rather good', 'fairly amazing'], a: 0, why: 'rather чаще описывает неприятное, а «останемся дома» — из-за холода.' },
+      { t: 'choice', q: 'Are you sure? — Yes, ___ sure.', o: ['quite', 'fairly', 'rather'], a: 0, why: 'quite sure = совершенно уверен (quite = полностью).' },
+      { t: 'choice', q: 'My room is ___ big, but I\'d prefer a bigger one.', o: ['fairly', 'extremely', 'such'], a: 0, why: 'fairly — «нормально, но могло быть лучше».' }
+    ]
+  }
+);
