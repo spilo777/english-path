@@ -209,6 +209,21 @@
       $$('button', el).forEach((b) => b.addEventListener('click', () => speak(b.textContent.toLowerCase() === 'a' ? 'A.' : b.textContent, { rate: 0.8 })));
     });
     $$('[data-speak]', root).forEach((el) => el.addEventListener('click', (e) => { e.stopPropagation(); speak(el.dataset.speak); }));
+    // мини-проверки внутри грамматики
+    $$('.mini', root).forEach((el) => {
+      const opts = (el.dataset.o || '').split('|'); const right = +el.dataset.a;
+      el.innerHTML = `<div class="mini-h"><i class="ph ph-question"></i> Проверьте себя</div><div class="mini-q">${esc(el.dataset.q || '').replace(/_{2,}/g, '<span class="blank">&nbsp;</span>')}</div>
+        <div class="mini-o">${opts.map((o, i) => `<button class="qz-btn" data-i="${i}">${esc(o)}</button>`).join('')}</div><div class="mini-why"></div>`;
+      $$('.qz-btn', el).forEach((b) => b.addEventListener('click', () => {
+        if (el.dataset.done) return; el.dataset.done = 1;
+        const ok = +b.dataset.i === right;
+        $$('.qz-btn', el).forEach((x, i) => { x.disabled = true; if (i === right) x.classList.add('right'); });
+        if (!ok) b.classList.add('wrong');
+        const w = $('.mini-why', el); w.innerHTML = `<b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(el.dataset.why || '')}`; w.className = 'mini-why ' + (ok ? 'ok' : 'bad');
+        if (ok) speak(opts[right].replace(/[_]/g, '')); track('exercises');
+        S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
+      }));
+    });
   }
   const view = () => $('#view');
 
