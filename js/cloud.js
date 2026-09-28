@@ -217,7 +217,28 @@
     window.addEventListener('online', () => { if (user) pull(); });
   }
 
+  // ───── перевод через Яндекс (edge-функция translate, только для вошедших) ─────
+  let yaOff = false;
+  const yaCache = {};
+  async function yandex(q, mode) {
+    if (!sb || !user || yaOff) return null;
+    const k = (mode || '') + ':' + q.toLowerCase();
+    if (k in yaCache) return yaCache[k];
+    try {
+      const { data, error } = await sb.functions.invoke('translate', { body: { q, mode } });
+      if (error) {
+        const st = error.context && error.context.status;
+        if (st === 501) yaOff = true;           // ключи ещё не добавлены
+        if (st === 404) yaCache[k] = null;
+        return null;
+      }
+      yaCache[k] = data || null;
+      return yaCache[k];
+    } catch (e) { return null; }
+  }
+
   window.Cloud = {
+    yandex, yandexReady: () => !!(sb && user && !yaOff),
     enabled, init, merge, pull, push, queuePush, signIn, signUp, signOut, resetPassword, resendConfirm, updatePassword, loadRarity, realPct,
     takeAuthEvent: () => { const e = authEvent; authEvent = null; return e; },
     peekAuthEvent: () => authEvent,

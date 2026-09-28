@@ -60,6 +60,7 @@
   COURSE.units.forEach((u) => u.words.forEach((w) => { const k = w[0].toLowerCase(); if (!DICT[k]) DICT[k] = w[1]; }));
   const DECK = (window.WORDS || []).map((w) => ({ id: w[0].toLowerCase(), en: w[0], ru: w[1], ex: w[2], exRu: w[3], lvl: w[4], pos: w[5], rank: w[6] }));
   DECK.forEach((w) => { if (!DICT[w.id]) DICT[w.id] = w.ru; });
+  const DECK_BY_ID = {}; DECK.forEach((w) => { DECK_BY_ID[w.id] = w; });
   const LEVELS = ['A1', 'A2', 'B1', 'B2'];
   const lookup = (w) => EngLookup.lookup(w, DICT);
 
@@ -366,7 +367,7 @@
     const s = unitState(u.id);
     const stepsHtml = STEPS.map(([k, label], i) => {
       const done = k === 'test' ? passed(u.id) : s.steps[k];
-      return `<a href="#/unit/${u.id}/${k}" class="${k === tab ? 'active' : ''} ${done ? 'done' : ''}">${i + 1}. ${label}</a>`;
+      return `<a href="#/unit/${u.id}/${k}" class="${k === tab ? 'active' : ''} ${done ? 'done' : ''}"><b class="st-n">${done ? '✓' : i + 1}</b><span>${label}</span></a>`;
     }).join('');
     view().innerHTML = `
       <a href="#/course" class="small">← Программа</a>
@@ -763,7 +764,14 @@
   function autoTranslate(q) {
     const k = q.toLowerCase().trim();
     if (trMem[k]) return trMem[k];
-    trMem[k] = fetch('https://api.mymemory.translated.net/get?langpair=en|ru&q=' + encodeURIComponent(k))
+    const ya = window.Cloud && Cloud.yandexReady && Cloud.yandexReady()
+      ? Cloud.yandex(k, /\s/.test(k) ? 'text' : 'word').then((d) => (d && d.text) || (d && d.defs && d.defs[0] && d.defs[0].tr.slice(0, 2).map((t) => t.text).join(', ')) || null)
+      : Promise.resolve(null);
+    trMem[k] = ya.then((y) => y || myMemory(k));
+    return trMem[k];
+  }
+  function myMemory(k) {
+    return fetch('https://api.mymemory.translated.net/get?langpair=en|ru&q=' + encodeURIComponent(k))
       .then((r) => r.json())
       .then((j) => {
         let tr = j && j.responseData && j.responseData.translatedText;
@@ -774,7 +782,19 @@
         return tr && /[а-яё]/i.test(tr) ? tr.replace(/\s+/g, ' ').trim() : null;
       })
       .catch(() => { delete trMem[k]; return null; });
-    return trMem[k];
+  }
+  // Словарная статья Яндекса: транскрипция, части речи, варианты
+  const POS_RU = { noun: 'сущ.', verb: 'гл.', adjective: 'прил.', adverb: 'нареч.', pronoun: 'мест.', preposition: 'предлог', conjunction: 'союз', numeral: 'числ.', interjection: 'межд.', participle: 'прич.', 'adverbial participle': 'деепр.', particle: 'частица', determiner: 'опр.' };
+  function yaBlock(el, word) {
+    if (!el || !(window.Cloud && Cloud.yandexReady && Cloud.yandexReady())) return Promise.resolve(null);
+    return Cloud.yandex(word, 'word').then((d) => {
+      if (!d || !d.defs || !d.defs.length || !el.isConnected) return null;
+      el.innerHTML = `${d.defs[0].ts ? `<div class="ya-ts">[${esc(d.defs[0].ts)}]</div>` : ''}` + d.defs.slice(0, 3).map((df) => `
+        <div class="ya-def"><span class="ya-pos">${esc(POS_RU[df.pos] || df.pos || '')}</span> ${df.tr.slice(0, 4).map((t) => esc(t.text)).join(', ')}</div>`).join('')
+        + `<a class="ya-attr" href="https://tech.yandex.ru/dictionary/" target="_blank" rel="noopener">Реализовано с помощью сервиса «Яндекс.Словарь»</a>`;
+      el.hidden = false;
+      return d;
+    });
   }
   function placePop(pop, r) {
     pop.hidden = false;
@@ -796,7 +816,7 @@
     const inCards = !!S.cards[base];
     pop.innerHTML = `
       <div class="row" style="gap:10px"><div class="pw">${esc(raw)}</div><button class="icon-btn" id="pp-say">🔊</button><span class="spacer"></span><button class="icon-btn" id="pp-x">✕</button></div>
-      ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1, 3).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}`
+      ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1, 3).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}<div class="ya-box" id="pp-ya" hidden></div>`
         : `<div class="alt" style="margin-top:4px">${maybeName ? 'Похоже на имя или название.' : 'Нет во встроенном словаре —'} <span id="pp-status">перевожу…</span></div>
            <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off">`}
       <div class="actions">
@@ -809,6 +829,7 @@
     $('#pp-say').addEventListener('click', () => speak(raw));
     $('#pp-x').addEventListener('click', hidePopover);
     $('#pp-sent').addEventListener('click', () => speak(sentence || raw));
+    if (res.length) yaBlock($('#pp-ya'), base);
     if (!res.length) autoTranslate(raw).then((tr) => {
       const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return;
       if (tr) { if (!inp.value) inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; }
@@ -1035,16 +1056,19 @@
       const m = S.settings.cardMode === 'mix' ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en') : S.settings.cardMode;
       const exHtml = c.ex ? esc(c.ex).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>') : '';
       const exPlain = c.ex ? c.ex.replace(/\*\*/g, '') : '';
-      const wantImg = S.settings.autoImg !== false && !c.noImg;
+      const dw = DECK_BY_ID[c.id];
+      const abstractPos = /^(pron|det|prep|conj|modal|num|excl|adv)$/;
+      const wantImg = S.settings.autoImg !== false && !c.noImg && c.id.length > 2 && !c.id.includes(' ') && !(dw && abstractPos.test(dw.pos || ''));
       const imgSlot = (c.img || wantImg) ? `<div class="assoc loading" id="fc-img"></div>` : '';
       const front = m === 'en-ru'
         ? `${imgSlot}<div class="front">${esc(c.en)}</div>${exHtml ? `<div class="ex">${exHtml}</div>` : ''}`
         : `${imgSlot}<div class="front" style="font-size:32px">${esc(c.ru)}</div>${c.exRu ? `<div class="ex">${esc(c.exRu)}</div>` : ''}<div class="muted small" style="margin-top:14px">Вспомните английское слово и скажите вслух</div>`;
       const q = encodeURIComponent(c.en);
       const tools = `<div class="img-tools">
-          <a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=${q}">🖼 Google Картинки</a>
-          <a class="btn small" target="_blank" rel="noopener" href="https://yandex.ru/images/search?text=${q}">🖼 Яндекс Картинки</a>
-          <button class="btn small ghost" id="img-set">✎ Своя картинка</button>
+          <span class="tiny muted">Картинка:</span>
+          <a class="btn small" target="_blank" rel="noopener" href="https://yandex.ru/images/search?text=${q}">Яндекс</a>
+          <a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=${q}">Google</a>
+          <button class="btn small" id="img-set">✎ Своя</button>
         </div>
         <div class="img-form" id="img-form" hidden><input class="input" id="img-url" placeholder="Вставьте адрес картинки (ПКМ по картинке → «Копировать адрес»)" value="${esc(c.img || '')}"><button class="btn small primary" id="img-save">OK</button></div>`;
       const back = m === 'en-ru'
@@ -1306,7 +1330,7 @@
     const cats = [...new Set(all.map((a) => a.cat))];
     const pass = (a) => filter === 'all' || (filter === 'got' ? S.ach[a.id] : !S.ach[a.id]);
     view().innerHTML = `
-      <h1>Достижения</h1>
+      <h1>Награды</h1>
       <div class="grid-2" style="margin:20px 0">
         <div class="card">
           <div class="eyebrow">Уровень вовлечённости</div>
@@ -1323,7 +1347,7 @@
         </div>
       </div>
       <div class="row" style="margin-bottom:16px">
-        <div class="seg">${[['all', 'Все'], ['got', 'Полученные'], ['todo', 'Не полученные']].map(([k, l]) => `<button data-f="${k}" class="${filter === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <div class="seg">${[['all', 'Все'], ['got', 'Получены'], ['todo', 'Впереди']].map(([k, l]) => `<button data-f="${k}" class="${filter === k ? 'on' : ''}">${l}</button>`).join('')}</div>
         <span class="spacer"></span>
         <span class="tiny muted">${pctReal() ? 'Процент — реальная доля учеников сайта с этим достижением' : 'Процент — примерная доля учеников. Реальная статистика появится, когда учеников с аккаунтом станет 10+'}</span>
       </div>
@@ -1338,6 +1362,7 @@
       .sort((x, y) => y.p - x.p).slice(0, n);
   }
 
+  const NAV_CLOUD = ($('#nav-account .ico') || { outerHTML: '<span class="ico">☁︎</span>' }).outerHTML;
   // ───────────── Аккаунт: вход, регистрация, восстановление ─────────────
   let authMode = 'up';      // up | in | sent | forgot | forgot-sent | reset
   let authEmail = '';
@@ -1508,7 +1533,7 @@
       const st = cloudOn() ? Cloud.status() : {};
       nav.innerHTML = st.user
         ? `<span class="avatar xs">${esc(((st.user.email || '?')[0]).toUpperCase())}</span><span>${st.lastError ? 'Нет связи' : 'Аккаунт'}</span>`
-        : `<span class="ico">☁︎</span><span>Войти</span>`;
+        : `${NAV_CLOUD}<span>Войти</span>`;
     }
     if (location.hash === '#/account' && cloudOn() && Cloud.status().user && authMode !== 'reset') renderAccountPage(Cloud.status());
   }
