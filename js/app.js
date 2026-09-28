@@ -459,29 +459,50 @@
   }
 
   // ───────────── Курс ─────────────
+  // Верх раздела «Курс»: заголовок + переключатель подразделов
+  function courseHead(tab, sub) {
+    const tabs = [['lessons', '#/course', 'graduation-cap', 'Уроки'], ['tenses', '#/tenses', 'clock-countdown', 'Времена'], ['books', '#/books/red', 'books', 'По учебнику']];
+    return `${topbar('Курс', avatarBtn())}
+      <nav class="tabs" role="tablist">${tabs.map(([k, h, ic, t]) => `<a href="${h}" role="tab" aria-selected="${k === tab}" class="${k === tab ? 'on' : ''}"><i class="ph${k === tab ? '-fill' : ''} ph-${ic}"></i>${t}</a>`).join('')}</nav>
+      ${sub ? `<p class="page-sub">${sub}</p>` : ''}`;
+  }
+  const openLevels = () => { try { return JSON.parse(lsGet('ep.courseOpen', 'null')); } catch (e) { return null; } };
   function renderCourse() {
+    const cur = currentUnit();
+    const saved = openLevels() || { [cur ? cur.level : 'A1']: true };
     const lvlHtml = COURSE.levels.map((l) => {
       const us = mainUnits.filter((u) => u.level === l.id);
       const games = units.filter((u) => u.track === 'games' && u.level === l.id);
+      const planned = SYL.lessons.filter((x) => x.level === l.id && !unitById(x.id));
+      const total = us.length + planned.length;
       const done = us.filter((u) => passed(u.id)).length;
+      const nextU = us.find((u) => isUnlocked(u) && !passed(u.id));
+      const open = !!saved[l.id];
+      const state = !us.length ? 'Готовится' : done === us.length && !planned.length ? 'Пройден' : nextU ? `Дальше: урок ${nextU.num}` : 'Закрыт';
       return `
-      <div class="level-block">
-        <div class="row" style="margin-bottom:6px"><h2 style="margin:0">${l.title}</h2>${us.length ? `<span class="pill ${done === us.length ? 'ok' : 'accent'}">${done}/${us.length}</span>` : ''}</div>
-        <p class="muted small">${esc(l.goal)}</p>
-        ${l.soon && !us.length ? `<div class="soon">Уроки этого уровня готовятся — план ниже, по учебникам.</div>` : ''}
-        ${us.map(unitRow).join('')}
-        ${SYL.lessons.filter((x) => x.level === l.id && !unitById(x.id)).map((x) => `<div class="unit-row locked planned"><div class="unit-num"><i class="ph ph-hourglass-medium"></i></div><div class="body"><div class="title">${esc(x.title)}</div><div class="muted small">Готовится · ${BOOK_KEYS.filter((k) => x[k] && x[k].length).map((k) => SYL.books[k].short + ' ' + rangeTxt(x[k])).join(' · ')}</div></div></div>`).join('')}
-        ${games.length ? `<div class="eyebrow" style="margin-top:18px"><i class="ph ph-game-controller"></i> Игровой трек</div>` + games.map(unitRow).join('') : ''}
-      </div>`;
+      <section class="lvl ${open ? 'open' : ''}" data-lvl="${l.id}">
+        <button class="lvl-head" aria-expanded="${open}">
+          <span class="lvl-badge lv-${l.id}">${l.id}</span>
+          <span class="lvl-info"><b>${esc(l.title.split('— ')[1] || l.title)}</b><span class="small muted">${done}/${total} ${plural(total, 'урок', 'урока', 'уроков')} · ${state}</span>
+            <span class="lvl-bar"><i style="width:${total ? (done / total) * 100 : 0}%"></i></span></span>
+          <i class="ph ph-caret-down lvl-caret"></i>
+        </button>
+        <div class="lvl-body">
+          <p class="muted small lvl-goal">${esc(l.goal)}</p>
+          ${us.map(unitRow).join('')}
+          ${planned.map((x) => `<div class="unit-row locked planned"><div class="unit-num"><i class="ph ph-hourglass-medium"></i></div><div class="body"><div class="title">${esc(x.title)}</div><div class="muted small">Готовится · ${BOOK_KEYS.filter((k) => x[k] && x[k].length).map((k) => SYL.books[k].short + ' ' + rangeTxt(x[k])).join(' · ')}</div></div></div>`).join('')}
+          ${games.length ? `<div class="eyebrow lvl-sub"><i class="ph ph-game-controller"></i> Игровой трек</div>` + games.map(unitRow).join('') : ''}
+        </div>
+      </section>`;
     }).join('');
-    view().innerHTML = `
-      ${topbar('Курс', avatarBtn())}
-      <a class="continue-card tenses-cta" href="#/tenses"><div class="cc-ill"><i class="ph-fill ph-clock-countdown"></i></div>
-        <div class="cc-body"><div class="cc-eyebrow">Отдельный раздел</div><div class="cc-title">Все времена английского</div><div class="cc-sub">${(window.TENSES || []).length} времён: карта, объяснения, упражнения и тренажёр «выбери время»</div></div>
-        <span class="pill-btn light">ОТКРЫТЬ</span></a>
-      <a class="list-link" href="#/books/red" style="margin:0 0 18px"><i class="ph ph-books"></i><span><b>Программа по учебникам Мерфи</b><span class="small muted">Красный, синий и зелёный: все ${Object.values(SYL.books).reduce((a, b) => a + Object.keys(b.units || {}).length, 0)} юнитов книг → уроки сайта, что уже пройдено</span></span><i class="ph ph-caret-right muted"></i></a>
-      <p class="page-sub">От нуля до B2 (и бонусом C1) строго по трём учебникам. Каждый урок — грамматика, слова, текст, практика и тест. Следующий урок открывается после теста на 80%+.</p>
-      <hr>${lvlHtml}`;
+    view().innerHTML = `${courseHead('lessons', 'От нуля до B2 (и бонусом C1) по трём учебникам Мерфи. Каждый урок — грамматика, слова, текст, практика и тест; следующий открывается после теста на 80%.')}
+      <div class="lvl-list">${lvlHtml}</div>`;
+    $$('.lvl-head').forEach((b) => b.addEventListener('click', () => {
+      const sec = b.closest('.lvl'); const on = !sec.classList.contains('open');
+      sec.classList.toggle('open', on); b.setAttribute('aria-expanded', on);
+      const st = openLevels() || { [cur ? cur.level : 'A1']: true }; st[sec.dataset.lvl] = on; lsSet('ep.courseOpen', JSON.stringify(st));
+      if (on) setTimeout(() => { const r = sec.getBoundingClientRect(); if (r.top < 0 || r.top > window.innerHeight * 0.6) sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+    }));
   }
   function renderBooksMap(key) {
     if (!SYL.books[key]) key = 'red';
@@ -491,9 +512,7 @@
     const st = (l) => { const u = unitById(l.id); if (!u) return 'soon'; if (passed(u.id)) return 'done'; return isUnlocked(u) ? 'open' : 'locked'; };
     const doneN = nums.filter((n) => byUnit[n] && st(byUnit[n]) === 'done').length;
     view().innerHTML = `
-      <a href="#/course" class="backlink"><i class="ph ph-caret-left"></i></a>
-      <h1 class="page-title">По учебникам</h1>
-      <p class="page-sub">Весь курс идёт по трём книгам. Каждый юнит книги закрыт уроком сайта — объяснения и упражнения на сайте свои, книгу можно решать параллельно.</p>
+      ${courseHead('books', 'Те же уроки, но в порядке учебника: какой юнит книги каким уроком сайта закрыт. Объяснения и упражнения на сайте свои — книгу можно решать параллельно.')}
       <div class="seg wl-seg">${BOOK_KEYS.map((k) => `<a href="#/books/${k}" class="${k === key ? 'on' : ''}" style="--bc:${BOOK_COL[k]}"><i class="ph-fill ph-book" style="color:${k === key ? '#fff' : BOOK_COL[k]}"></i> ${esc(SYL.books[k].short)} · ${SYL.books[k].level}</a>`).join('')}</div>
       <div class="book-head" style="--bc:${BOOK_COL[key]}"><i class="ph-fill ph-book-open-text"></i><div><b>${esc(bk.name)}</b><div class="small muted">${esc(bk.author)} · ${nums.length} юнитов · закрыто вами ${doneN}</div></div>
         <div class="progress" style="flex-basis:100%"><i style="width:${(doneN / nums.length) * 100}%;background:${BOOK_COL[key]}"></i></div></div>
@@ -1110,9 +1129,7 @@
   function renderTenses() {
     const done = TENSES.filter((t) => (tenseBest(t.id) || 0) >= 0.8).length;
     view().innerHTML = `
-      <a href="#/course" class="backlink"><i class="ph ph-caret-left"></i></a>
-      <h1 class="page-title">Времена</h1>
-      <p class="page-sub">Все ${TENSES.length} времён английского: когда какое нужно, как строится, чем отличается от соседнего. Освоено ${done} из ${TENSES.length}.</p>
+      ${courseHead('tenses', `Все ${TENSES.length} времён английского: когда какое нужно, как строится, чем отличается от соседнего. Освоено ${done} из ${TENSES.length}.`)}
       <a class="continue-card" href="#/tenses/train"><div class="cc-ill"><i class="ph-fill ph-target"></i></div>
         <div class="cc-body"><div class="cc-eyebrow">Тренажёр</div><div class="cc-title">Выбери правильное время</div><div class="cc-sub">20 вопросов вперемешку — главное умение: по ситуации понять, какое время нужно</div></div>
         <span class="pill-btn light">НАЧАТЬ</span></a>
