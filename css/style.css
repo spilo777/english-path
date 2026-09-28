@@ -730,3 +730,51 @@ a.brand:hover .brand-mark { transform: rotate(-6deg) scale(1.05); }
 .ya-def + .ya-def { margin-top: 3px; }
 .ya-pos { display: inline-block; min-width: 46px; color: var(--accent-text); font-weight: 650; font-size: 12.5px; }
 .ya-attr { display: block; margin-top: 6px; font-size: 11px; color: var(--muted); }
+
+/* ════════ Phosphor-иконки и обложки ════════ */
+.ph, .ph-fill { line-height: 1; vertical-align: -0.125em; }
+.btn .ph, .btn .ph-fill { font-size: 1.15em; }
+.icon-btn .ph, .icon-btn .ph-fill { font-size: 17px; vertical-align: middle; }
+.nav .ico { position: relative; }
+.nav .ico i { font-size: 21px; }
+.nav .i-fill { display: none; }
+.nav a.active .i-reg { display: none; }
+.nav a.active .i-fill { display: inline-block; color: var(--accent); }
+.task .num i { font-size: 22px; }
+.task.done .num i { font-size: 20px; }
+.stat .chip-ico { color: var(--accent-text); background: var(--accent-soft); }
+.stat .chip-ico i { font-size: 18px; }
+.hchip i { font-size: 14px; margin-right: 2px; }
+.unit-row .unit-num i { font-size: 20px; }
+.ach-icon i { font-size: 26px; color: var(--t-common); }
+.ach-icon.uncommon i { color: var(--t-uncommon); }
+.ach-icon.rare i { color: var(--t-rare); }
+.ach-icon.epic i { color: var(--t-epic); }
+.ach-icon.legend i { color: #b87700; }
+.ach-pop .ach-icon i { font-size: 24px; }
+.auth-ico i, .auth-banner-ico i { font-size: 26px; }
+.auth-big i { font-size: 56px; color: var(--accent); }
+.result .big i { font-size: 56px; color: var(--accent); }
+.empty .big i { font-size: 44px; }
+.fchip i { font-size: 15px; margin-right: 2px; }
+.lib-meta i { font-size: 13px; }
+.lib-cover span i { font-size: 34px; color: #fff; }
+.lib-cover.sm span i { font-size: 28px; }
+.lib-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; opacity: 0; transition: opacity .3s; }
+.lib-cover.has-img img { opacity: 1; }
+.lib-cover { overflow: hidden; }
+.lib-cover .lib-done { z-index: 2; right: 5px; top: 5px; font-weight: 400; }
+.lib-cover .lib-done i { font-size: 12px; color: #fff; }
+.lib-cover.has-img::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); pointer-events: none; }
+.lib-card .lib-cover { width: 84px; height: 112px; }
+.reader-head .lib-cover.sm { width: 72px; height: 96px; }
+.pw-eye i { font-size: 18px; }
+.assoc-x i { font-size: 12px; }
+.acc-row .ph-caret-right { font-size: 18px; }
+@media (max-width: 760px) {
+  .nav .ico i { font-size: 24px; }
+  .lib-card .lib-cover { width: 76px; height: 100px; }
+}
+.alt-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.alt-chip { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 99px; padding: 4px 10px; font-size: 13.5px; cursor: pointer; }
+.alt-chip:hover { border-color: var(--accent); background: var(--accent-soft); }

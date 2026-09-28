@@ -266,9 +266,9 @@
           <h1>${hello}!</h1>
           <p>${planDone === 3 ? 'План на сегодня выполнен. Отличная работа — завтра продолжим.' : 'Около 40–60 минут сегодня. Регулярность важнее длительности.'}</p>
           <div class="hero-chips">
-            <span class="hchip">🔥 ${st} ${plural(st, 'день', 'дня', 'дней')} подряд</span>
-            <span class="hchip">🏆 Уровень ${eng.lvl} · ${eng.rank}</span>
-            <span class="hchip">📘 ${u.level}, юнит ${u.num}</span>
+            <span class="hchip"><i class="ph ph-flame"></i> ${st} ${plural(st, 'день', 'дня', 'дней')} подряд</span>
+            <span class="hchip"><i class="ph ph-trophy"></i> Уровень ${eng.lvl} · ${eng.rank}</span>
+            <span class="hchip"><i class="ph ph-book-open"></i> ${u.level}, юнит ${u.num}</span>
           </div>
         </div>
         <div class="ring">
@@ -279,38 +279,38 @@
       </section>
       <div class="grid-4" style="margin-bottom:26px">
         <div class="stat"><div class="chip-ico">🃏</div><b>${due + nw}</b><span>карточек на сегодня</span></div>
-        <div class="stat"><div class="chip-ico">🧠</div><b>${total}</b><span>слов в работе</span></div>
-        <div class="stat"><div class="chip-ico">✅</div><b>${learned}</b><span>выучено надолго</span></div>
-        <div class="stat"><div class="chip-ico">🎖️</div><b>${Object.keys(S.ach).length}</b><span>достижений</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-brain"></i></div><b>${total}</b><span>слов в работе</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-seal-check"></i></div><b>${learned}</b><span>выучено надолго</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-medal"></i></div><b>${Object.keys(S.ach).length}</b><span>достижений</span></div>
       </div>
       ${cloudOn() && !Cloud.status().user && !(() => { try { return localStorage.getItem('ep.hideAuthBanner'); } catch (e) { return false; } })() ? `
-      <div class="auth-banner"><div class="auth-banner-ico">☁︎</div><div style="flex:1;min-width:0"><b>Сохраните прогресс в облаке</b><div class="small muted">Бесплатный аккаунт — и занятия будут одинаковыми на Mac и iPhone.</div></div>
-        <a class="btn small primary" href="#/account">Создать аккаунт</a><button class="icon-btn" id="hide-banner" title="Скрыть">✕</button></div>` : ''}
+      <div class="auth-banner"><div class="auth-banner-ico"><i class="ph ph-cloud"></i></div><div style="flex:1;min-width:0"><b>Сохраните прогресс в облаке</b><div class="small muted">Бесплатный аккаунт — и занятия будут одинаковыми на Mac и iPhone.</div></div>
+        <a class="btn small primary" href="#/account">Создать аккаунт</a><button class="icon-btn" id="hide-banner" title="Скрыть"><i class="ph ph-x"></i></button></div>` : ''}
       <div class="row" style="margin-bottom:12px"><h2 style="margin:0">План на сегодня</h2></div>
       <div class="stack">
         <div class="task ${reviewsDone ? 'done' : ''}">
-          <div class="num">${reviewsDone ? '✓' : '🃏'}</div>
+          <div class="num">${reviewsDone ? '<i class="ph ph-check"></i>' : '🃏'}</div>
           <div class="body"><b>Карточки</b><span class="muted small">${due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Пока пусто. Карточки появятся после шага «Слова» в уроке'}</span></div>
           ${due + nw ? '<a class="btn primary" href="#/review">Начать</a>' : ''}
         </div>
         <div class="task ${lessonToday ? 'done' : ''}">
-          <div class="num">${lessonToday ? '✓' : '📘'}</div>
+          <div class="num">${lessonToday ? '<i class="ph ph-check"></i>' : '<i class="ph ph-book-open"></i>'}</div>
           <div class="body"><b>Урок ${u.num}: ${esc(u.title)}</b><span class="muted small">${ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден'}</span>
             <div class="progress" style="margin-top:8px"><i style="width:${Math.round(unitProgress(u) * 100)}%"></i></div></div>
           ${ns ? `<a class="btn ${due + nw ? '' : 'primary'}" href="#/unit/${u.id}/${ns.k}">Продолжить</a>` : ''}
         </div>
         <div class="task ${(act.reads || 0) > 0 ? 'done' : ''}">
-          <div class="num">${readToday ? '✓' : '🎧'}</div>
+          <div class="num">${readToday ? '<i class="ph ph-check"></i>' : '<i class="ph ph-headphones"></i>'}</div>
           <div class="body"><b>Чтение и аудирование</b><span class="muted small">${suggest ? 'Текст: «' + esc(suggest.title) + '». Прочитайте, потом прослушайте и повторите вслух' : 'Все тексты прочитаны. Добавьте свой в «Чтение» или перечитайте любимый'}</span></div>
           <a class="btn" href="${suggest ? '#/read/' + suggest.id : '#/library'}">Читать</a>
         </div>
         <div class="task">
-          <div class="num">🌍</div>
+          <div class="num"><i class="ph ph-globe-hemisphere-west"></i></div>
           <div class="body"><b>Вне сайта: 20+ минут английского</b><span class="muted small">${esc(tipOfDay())}</span></div>
         </div>
       </div>
       ${(() => { const near = nearAch(); const e = engagement(); return `
-      <div class="row" style="margin:28px 0 10px"><h2 style="margin:0">Ближайшие достижения</h2><span class="spacer"></span><a class="small" href="#/achievements">Уровень ${e.lvl} · ${Object.keys(S.ach).length}/${ACH.list.length} →</a></div>
+      <div class="row" style="margin:28px 0 10px"><h2 style="margin:0">Ближайшие достижения</h2><span class="spacer"></span><a class="small" href="#/achievements">Уровень ${e.lvl} · ${Object.keys(S.ach).length}/${ACH.list.length} <i class="ph ph-arrow-right"></i></a></div>
       <div class="ach-list">${near.length ? near.map(({ a }) => achCard(a, achCtx())).join('') : ACH.list.filter((a) => !S.ach[a.id] && !a.hidden).slice(0, 3).map((a) => achCard(a, achCtx())).join('')}</div>`; })()}`;
     const hb = $('#hide-banner'); if (hb) hb.addEventListener('click', () => { try { localStorage.setItem('ep.hideAuthBanner', '1'); } catch (e) {} hb.closest('.auth-banner').remove(); });
   }
@@ -339,7 +339,7 @@
         <p class="muted small">${esc(l.goal)}</p>
         ${l.soon && !us.length ? `<div class="soon">Этот уровень добавим, когда вы дойдёте до него. Программа строится блоками по мере прохождения.</div>` : ''}
         ${us.map(unitRow).join('')}
-        ${games.length ? `<div class="eyebrow" style="margin-top:18px">🎮 Игровой трек</div>` + games.map(unitRow).join('') : ''}
+        ${games.length ? `<div class="eyebrow" style="margin-top:18px"><i class="ph ph-game-controller"></i> Игровой трек</div>` + games.map(unitRow).join('') : ''}
       </div>`;
     }).join('');
     view().innerHTML = `
@@ -352,7 +352,7 @@
     const p = unitProgress(u);
     const ok = passed(u.id);
     return `<a class="unit-row ${unlocked ? '' : 'locked'} ${ok ? 'passed' : ''}" href="#/unit/${u.id}">
-      <div class="unit-num">${ok ? '✓' : unlocked ? (u.track === 'games' ? '🎮' : u.num) : '🔒'}</div>
+      <div class="unit-num">${ok ? '<i class="ph ph-check"></i>' : unlocked ? (u.track === 'games' ? '<i class="ph ph-game-controller"></i>' : u.num) : '<i class="ph ph-lock-simple"></i>'}</div>
       <div class="body"><div class="title">${esc(u.title)}</div><div class="muted small">${esc(u.summary)}</div>
       ${unlocked && !ok && p > 0 ? `<div class="progress" style="margin-top:8px;max-width:240px"><i style="width:${Math.round(p * 100)}%"></i></div>` : ''}</div>
       ${ok && S.units[u.id] ? `<span class="pill ok">${Math.round(S.units[u.id].testBest * 100)}%</span>` : ''}
@@ -367,10 +367,10 @@
     const s = unitState(u.id);
     const stepsHtml = STEPS.map(([k, label], i) => {
       const done = k === 'test' ? passed(u.id) : s.steps[k];
-      return `<a href="#/unit/${u.id}/${k}" class="${k === tab ? 'active' : ''} ${done ? 'done' : ''}"><b class="st-n">${done ? '✓' : i + 1}</b><span>${label}</span></a>`;
+      return `<a href="#/unit/${u.id}/${k}" class="${k === tab ? 'active' : ''} ${done ? 'done' : ''}"><b class="st-n">${done ? '<i class="ph ph-check"></i>' : i + 1}</b><span>${label}</span></a>`;
     }).join('');
     view().innerHTML = `
-      <a href="#/course" class="small">← Программа</a>
+      <a href="#/course" class="small"><i class="ph ph-arrow-left"></i> Программа</a>
       <div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? 'Игровой трек' : 'Юнит ' + u.num} · ${u.level}</div>
       <h1>${esc(u.title)}</h1>
       <div class="steps">${stepsHtml}</div>
@@ -379,7 +379,7 @@
     const nextBtn = (k) => {
       const i = STEPS.findIndex(([x]) => x === k);
       const nx = STEPS[i + 1];
-      return nx ? `<a class="btn primary" href="#/unit/${u.id}/${nx[0]}" data-complete="${k}">Дальше: ${nx[1]} →</a>` : '';
+      return nx ? `<a class="btn primary" href="#/unit/${u.id}/${nx[0]}" data-complete="${k}">Дальше: ${nx[1]} <i class="ph ph-arrow-right"></i></a>` : '';
     };
     const wireComplete = () => $$('[data-complete]', body).forEach((a) => a.addEventListener('click', () => { s.steps[a.dataset.complete] = true; track('exercises', 0); save(); }));
 
@@ -392,11 +392,11 @@
       body.innerHTML = `
         <div class="card">
           <div class="row" style="margin-bottom:8px"><h3 style="margin:0">${u.words.length} ${plural(u.words.length, 'слово', 'слова', 'слов')}</h3><span class="spacer"></span>
-          <button class="btn small ${inCards === u.words.length ? '' : 'primary'}" id="add-all" ${inCards === u.words.length ? 'disabled' : ''}>${inCards === u.words.length ? '✓ Все в карточках' : '+ Добавить все в карточки'}</button></div>
+          <button class="btn small ${inCards === u.words.length ? '' : 'primary'}" id="add-all" ${inCards === u.words.length ? 'disabled' : ''}>${inCards === u.words.length ? '<i class="ph ph-check"></i> Все в карточках' : '+ Добавить все в карточки'}</button></div>
           <p class="muted small">Прослушайте каждое слово и повторите вслух. Потом добавьте их в карточки: дальше они будут приходить на повторение сами.</p>
           <div class="word-list">${u.words.map((w) => `
             <div class="word-item">
-              <button class="icon-btn" data-speak="${esc(w[0])}" aria-label="Слушать">🔊</button>
+              <button class="icon-btn" data-speak="${esc(w[0])}" aria-label="Слушать"><i class="ph ph-speaker-high"></i></button>
               <div style="flex:1"><div><span class="w">${esc(w[0])}</span> — ${esc(w[1])}</div>
               <div class="ex"><span class="say-ex" data-speak="${esc(w[2])}" style="cursor:pointer">${esc(w[2])}</span> · ${esc(w[3])}</div></div>
               ${S.cards[w[0].toLowerCase()] ? '<span class="pill ok">в карточках</span>' : ''}
@@ -412,14 +412,14 @@
       body.innerHTML = `
         <p class="muted">Прочитайте каждый текст. Нажимайте на незнакомые слова, чтобы увидеть перевод. Потом включите озвучку и прочитайте вслух вместе с диктором.</p>
         <div class="stack">${u.texts.map((t) => `
-          <a class="unit-row" href="#/read/${t.id}"><div class="unit-num">${S.textsRead[t.id] ? '✓' : '📖'}</div>
+          <a class="unit-row" href="#/read/${t.id}"><div class="unit-num">${S.textsRead[t.id] ? '<i class="ph ph-check"></i>' : '<i class="ph ph-book-open-text"></i>'}</div>
           <div class="body"><div class="title">${esc(t.title)}</div><div class="muted small">${t.text.split(/\s+/).length} слов</div></div></a>`).join('')}</div>
         <div class="row" style="margin-top:16px">${nextBtn('reading')}</div>`;
       wireComplete();
     } else if (tab === 'practice') {
       runExercises(body, shuffle(u.practice), {
         mode: 'practice',
-        onFinish: (score) => { s.steps.practice = true; save(); return `<a class="btn primary" href="#/unit/${u.id}/test">Перейти к тесту →</a>`; }
+        onFinish: (score) => { s.steps.practice = true; save(); return `<a class="btn primary" href="#/unit/${u.id}/test">Перейти к тесту <i class="ph ph-arrow-right"></i></a>`; }
       });
     } else if (tab === 'test') {
       body.innerHTML = `<div class="card ex-wrap">
@@ -438,10 +438,10 @@
           if (score >= PASS) {
             const nx = mainUnits[mainUnits.indexOf(u) + 1];
             const gm = units.find((x) => x.track === 'games' && !passed(x.id));
-            return `<p>${wasPassed ? 'Тест пройден снова.' : 'Юнит пройден! 🎉'}</p>
-              ${nx && u.track === 'main' ? `<a class="btn primary" href="#/unit/${nx.id}">Следующий юнит →</a>` : ''}
+            return `<p>${wasPassed ? 'Тест пройден снова.' : 'Юнит пройден! <i class="ph ph-confetti"></i>'}</p>
+              ${nx && u.track === 'main' ? `<a class="btn primary" href="#/unit/${nx.id}">Следующий юнит <i class="ph ph-arrow-right"></i></a>` : ''}
               ${!nx && u.track === 'main' ? `<p class="muted small" style="width:100%">Это последний юнит A1 на сайте. Попросите Claude добавить блок A2.</p>` : ''}
-              ${u.id === 'a1-0' && gm ? `<a class="btn" href="#/unit/${gm.id}">Открылся игровой трек 🎮</a>` : ''}
+              ${u.id === 'a1-0' && gm ? `<a class="btn" href="#/unit/${gm.id}">Открылся игровой трек <i class="ph ph-game-controller"></i></a>` : ''}
               <a class="btn" href="#/course">К программе</a>`;
           }
           return `<p>Нужно 80%. Повторите грамматику и слова, потом попробуйте ещё раз.</p>
@@ -525,7 +525,7 @@
         $$('#src .chip', b).forEach((c) => c.addEventListener('click', () => { if (!picked.includes(+c.dataset.i)) { picked.push(+c.dataset.i); redraw(); } }));
         getValue = () => picked.map((i) => words[i]).join(' ');
       } else if (e.t === 'listen') {
-        b.innerHTML = `<div class="row" style="margin:10px 0 16px"><button class="btn" id="play">🔊 Слушать</button><button class="btn ghost small" id="slow">🐢 Медленно</button></div>
+        b.innerHTML = `<div class="row" style="margin:10px 0 16px"><button class="btn" id="play"><i class="ph ph-speaker-high"></i> Слушать</button><button class="btn ghost small" id="slow"><i class="ph ph-person-simple-walk"></i> Медленно</button></div>
           <input class="input" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Напишите по-английски">`;
         $('#play', b).addEventListener('click', () => speak(e.say));
         $('#slow', b).addEventListener('click', () => speak(e.say, { rate: 0.6 }));
@@ -568,7 +568,7 @@
       if (e.t === 'listen' || e.t === 'tr' || e.t === 'order') { const say = e.t === 'listen' ? e.say : ans; setTimeout(() => speak(say), 200); }
       if (!ok && mode === 'practice' && !retried.has(e)) { retried.add(e); queue.push({ e, retry: true }); }
       const acts = $('#ex-actions', root);
-      acts.innerHTML = `<button class="btn primary" id="nxt">Дальше →</button>`;
+      acts.innerHTML = `<button class="btn primary" id="nxt">Дальше <i class="ph ph-arrow-right"></i></button>`;
       const nx = $('#nxt', acts); nx.focus();
       nx.addEventListener('click', () => { idx++; show(); });
       save();
@@ -591,11 +591,47 @@
   const LIB = (window.LIBRARY || []).slice();
   const LEVEL_ORDER = { A1: 1, A2: 2, B1: 3, B2: 4 };
   LIB.sort((a, b) => (LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level]) || a.title.localeCompare(b.title));
-  const CAT_ICON = { 'Сериалы': '📺', 'Мультфильмы': '🎨', 'Игры': '🎮', 'Аниме': '🌸', 'Кино': '🎬', 'Про экран': '🍿' };
+  const CAT_ICON = { 'Сериалы': '<i class="ph ph-television-simple"></i>', 'Мультфильмы': '<i class="ph ph-palette"></i>', 'Игры': '<i class="ph ph-game-controller"></i>', 'Аниме': '<i class="ph ph-flower-lotus"></i>', 'Кино': '<i class="ph ph-film-slate"></i>', 'Про экран': '<i class="ph ph-popcorn"></i>' };
   const wordsIn = (t) => t.text.split(/\s+/).filter(Boolean).length;
   const minsIn = (t) => Math.max(1, Math.round(wordsIn(t) / 90));
   const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } };
   const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+  // Обложки статей: картинки по теме из Википедии / Wikimedia Commons (только ссылки, кешируются на 30 дней)
+  const LIB_WIKI = {'lib-a1-shrek':'Shrek','lib-a1-peppa-pig':'Peppa Pig','lib-a2-ted-lasso':'Ted Lasso','lib-b1-speedrunning':'Speedrunning','lib-a2-sherlock':'Sherlock (TV series)','lib-a2-futurama':'Futurama','lib-a2-ratatouille':'Ratatouille (film)','lib-a1-minions':'Minions (film)','lib-a1-finding-nemo':'Finding Nemo','lib-b1-elden-ring':'Elden Ring','lib-a1-kung-fu-panda':'Kung Fu Panda (film)','lib-b1-dota-2':'Dota 2','lib-a1-tetris':'Tetris','lib-a1-pokemon':'Pokémon','lib-a1-lion-king':'The Lion King','lib-a2-zootopia':'Zootopia','lib-a2-coco':'Coco (2017 film)','lib-b2-chernobyl':'Chernobyl (miniseries)','lib-b1-witcher-3':'The Witcher 3: Wild Hunt','lib-b2-villains':'Villain','lib-a1-winnie-the-pooh':'Winnie-the-Pooh','lib-a1-frozen':'Frozen (2013 film)','lib-a1-cars':'Cars (film)','lib-a2-shrek-2':'Shrek 2','lib-b2-voice-actors':'Voice acting','lib-a1-the-sims':'The Sims','lib-b2-disco-elysium':'Disco Elysium','lib-a1-spongebob':'SpongeBob SquarePants','lib-b1-naruto':'Naruto','lib-a2-the-witcher':'The Witcher (TV series)','lib-a1-mr-bean':'Mr. Bean','lib-b2-streaming-wars':'Netflix','lib-b1-skyrim':'The Elder Scrolls V: Skyrim','lib-b1-arcane':'League of Legends','lib-b2-binge-watching':'Binge-watching','lib-b2-anime-west':'Anime','lib-b1-spirited-away':'Spirited Away','lib-b1-squid-game':'Squid Game','lib-b1-one-piece':'One Piece','lib-b1-attack-on-titan':'Attack on Titan','lib-b2-game-storytelling':'Video game','lib-b2-baldurs-gate-3':"Baldur's Gate 3",'lib-b1-indie-games':'Stardew Valley','lib-a2-brooklyn-99':'Brooklyn Nine-Nine','lib-a2-big-bang-theory':'The Big Bang Theory','lib-b2-cyberpunk-2077':'Cyberpunk 2077','lib-a2-inside-out':'Inside Out (2015 film)','lib-b1-pixar-story':'Pixar','lib-b1-peaky-blinders':'Peaky Blinders','lib-b1-gta-v':'Grand Theft Auto V','lib-a2-gravity-falls':'Gravity Falls','lib-b2-better-call-saul':'Better Call Saul','lib-b1-breaking-bad':'Breaking Bad','lib-b2-fandoms':'Fandom','lib-a1-toy-story':'Toy Story','lib-a2-only-murders':'Only Murders in the Building','lib-b2-true-detective':'True Detective','lib-a1-simpsons':'The Simpsons','lib-a2-spider-verse':'Spider-Man: Into the Spider-Verse','lib-a1-super-mario':'Mario','lib-a1-doctor-who':'Doctor Who','lib-b2-bojack-horseman':'BoJack Horseman','lib-b2-animated-film':'Animation','lib-a2-himym':'How I Met Your Mother','lib-b1-game-of-thrones':'Game of Thrones','lib-a2-avatar-tla':'Avatar: The Last Airbender','lib-a2-adventure-time':'Adventure Time','lib-b2-learning-with-tv':'Subtitles','lib-a2-up':'Up (2009 film)','lib-a1-among-us':'Among Us','lib-a2-httyd':'How to Train Your Dragon (2010 film)','lib-b2-dubbing-subtitles':'Dubbing','lib-a1-stranger-things':'Stranger Things','lib-b1-the-crown':'The Crown (TV series)','lib-b2-red-dead-redemption-2':'Red Dead Redemption 2','lib-b1-lost':'Lost (TV series)','lib-a2-stranger-things-80s':'Stranger Things'};
+  const LIB_COMMONS = {'lib-a2-mandalorian':'Cosplay of Blue Mandalorian','lib-a1-minecraft':'Minecraft Skeleton','lib-a1-tom-and-jerry':'cat chasing','lib-b1-black-mirror':'Broken Samsung Galaxy','lib-a2-the-office':'Dunder Mifflin','lib-b1-dark':'Fermes de la Forêt-Noire','lib-b2-rick-and-morty':'Rick and Morty opening credits','lib-b2-succession':'SuccessionTV','lib-a1-friends':'Friends Central Perk couch','lib-b2-sitcoms':'WUTV television studios','lib-b1-money-heist':'Money Heist Berlin character','lib-b1-the-last-of-us':'Cosplay of Ellie and Joel from The Last of Us','lib-a1-wednesday':'Wednesday Addams at FlameCon','lib-a2-modern-family':'Cast of Modern Family Golden Globes','lib-a2-friends-central-perk':'Central Perk NYC couch','lib-b1-house-md':'Gregory House dry brush portrait','lib-b2-spoilers':'SPOILER.png','lib-b2-mr-robot':'Elliot alderson','lib-b2-severance':'Office Corridor Basilica'};
+  let libImgMap = null, libImgLoading = null;
+  function libImages() {
+    if (libImgMap) return Promise.resolve(libImgMap);
+    try { const c = JSON.parse(localStorage.getItem('ep.libimg.v2') || 'null'); if (c && Date.now() - c.t < 30 * DAY && Object.keys(c.m).length > 50) { libImgMap = c.m; return Promise.resolve(libImgMap); } } catch (e) {}
+    if (libImgLoading) return libImgLoading;
+    const m = {};
+    const ids = Object.keys(LIB_WIKI);
+    const chunks = []; for (let i = 0; i < ids.length; i += 40) chunks.push(ids.slice(i, i + 40));
+    const wiki = Promise.all(chunks.map((ch) => fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=480&pilicense=any&titles=' + encodeURIComponent(ch.map((k) => LIB_WIKI[k]).join('|')))
+      .then((r) => r.json()).then((j) => {
+        const norm = {}; ((j.query || {}).normalized || []).concat((j.query || {}).redirects || []).forEach((n) => { norm[n.from] = n.to; });
+        const byT = {}; Object.values((j.query || {}).pages || {}).forEach((p) => { if (p.thumbnail) byT[p.title] = p.thumbnail.source; });
+        ch.forEach((k) => { let t = LIB_WIKI[k]; t = norm[t] || t; t = norm[t] || t; if (byT[t]) m[k] = byT[t]; });
+      }).catch(() => {})));
+    const commons = Promise.all(Object.entries(LIB_COMMONS).map(([k, q]) => fetch('https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=3&gsrsearch=' + encodeURIComponent(q) + '&prop=imageinfo&iiprop=url|mime&iiurlwidth=480')
+      .then((r) => r.json()).then((j) => { const p = Object.values((j.query || {}).pages || {}).sort((a, b) => a.index - b.index).find((x) => x.imageinfo && /jpeg|png/.test(x.imageinfo[0].mime)); if (p) m[k] = p.imageinfo[0].thumburl; }).catch(() => {})));
+    libImgLoading = Promise.all([wiki, commons]).then(() => {
+      libImgMap = m; libImgLoading = null;
+      if (Object.keys(m).length > 50) { try { localStorage.setItem('ep.libimg.v2', JSON.stringify({ t: Date.now(), m })); } catch (e) {} }
+      return m;
+    });
+    return libImgLoading;
+  }
+  function paintCovers(root) {
+    libImages().then((m) => {
+      $$('.lib-cover[data-img]', root || document).forEach((el) => {
+        const u = m[el.dataset.img]; if (!u || el.querySelector('img')) return;
+        const im = new Image(); im.alt = ''; im.referrerPolicy = 'no-referrer'; im.loading = 'lazy';
+        im.onload = () => el.classList.add('has-img'); im.onerror = () => im.remove();
+        im.src = u; el.appendChild(im);
+      });
+    });
+  }
   function myLevel() { const u = currentUnit(); return u ? u.level : 'A1'; }
 
   function renderLibrary() {
@@ -611,7 +647,7 @@
     view().innerHTML = `
       <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:220px"><h1 style="margin-bottom:4px">Чтение</h1>
         <p class="muted" style="margin:0">${LIB.length} статей о сериалах, мультфильмах и играх · прочитано ${readN}</p></div>
-        <button class="btn small" id="ut-toggle">＋ Свой текст</button></div>
+        <button class="btn small" id="ut-toggle"><i class="ph ph-plus"></i> Свой текст</button></div>
       <div class="card" id="ut-box" style="margin-top:16px" hidden>
         <h3>Свой текст</h3>
         <p class="muted small">Статья, диалог из игры, субтитры, описание квеста — вставьте и читайте с переводом по тапу.</p>
@@ -624,11 +660,12 @@
           <label class="row small" style="gap:8px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="lib-hide" ${hideRead ? 'checked' : ''}> Скрыть прочитанные</label></div>
       </div>
       <p class="tiny muted" style="margin:6px 0 12px">${lvl === 'all' ? 'Все уровни' : 'Уровень ' + lvl} · ${list.length} ${plural(list.length, 'статья', 'статьи', 'статей')}. Точка • — ваш текущий уровень. Читать чуть выше своего уровня полезно, но не больше чем на шаг.</p>
-      <div class="lib-grid">${list.map(libCard).join('') || '<div class="empty" style="grid-column:1/-1"><div class="big">🔍</div>Ничего не нашлось — смените фильтр.</div>'}</div>
+      <div class="lib-grid">${list.map(libCard).join('') || '<div class="empty" style="grid-column:1/-1"><div class="big"><i class="ph ph-magnifying-glass"></i></div>Ничего не нашлось — смените фильтр.</div>'}</div>
       ${S.userTexts.length ? `<h2 style="margin-top:34px">Мои тексты</h2><div class="stack">${S.userTexts.map((t) => textRow(t, true)).join('')}</div>` : ''}
       <details class="lib-units"><summary><h2 style="display:inline">Тексты из уроков</h2> <span class="muted small">${unitGroups.reduce((s, g) => s + g.texts.length, 0)}</span></summary>
-        ${unitGroups.map(({ u, texts }) => `<div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? '🎮 ' : 'Юнит ' + u.num + ' · '}${esc(u.title)}</div><div class="stack">${texts.map((t) => textRow(t)).join('')}</div>`).join('')}
+        ${unitGroups.map(({ u, texts }) => `<div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? '<i class="ph ph-game-controller"></i> ' : 'Юнит ' + u.num + ' · '}${esc(u.title)}</div><div class="stack">${texts.map((t) => textRow(t)).join('')}</div>`).join('')}
       </details>`;
+    paintCovers(view());
     $$('[data-lvl]').forEach((b) => b.addEventListener('click', () => { lsSet('ep.libLevel', b.dataset.lvl); renderLibrary(); }));
     $$('[data-cat]').forEach((b) => b.addEventListener('click', () => { lsSet('ep.libCat', b.dataset.cat); renderLibrary(); }));
     $('#lib-hide').addEventListener('change', (e) => { lsSet('ep.libHideRead', e.target.checked ? '1' : ''); renderLibrary(); });
@@ -651,7 +688,7 @@
     const read = S.textsRead[t.id];
     const qz = (S.quiz || {})[t.id];
     return `<a class="lib-card cat-${Object.keys(CAT_ICON).indexOf(t.cat)}" href="#/read/${t.id}">
-      <div class="lib-cover"><span>${t.emoji || CAT_ICON[t.cat] || '📖'}</span>${read ? '<i class="lib-done">✓</i>' : ''}</div>
+      <div class="lib-cover" data-img="${t.id}"><span>${CAT_ICON[t.cat] || '<i class="ph ph-book-open-text"></i>'}</span>${read ? '<b class="lib-done"><i class="ph-fill ph-check"></i></b>' : ''}</div>
       <div class="lib-body">
         <div class="lib-meta"><span class="pill accent">${t.level}</span><span class="tiny muted">${CAT_ICON[t.cat] || ''} ${esc(t.cat)}</span></div>
         <div class="lib-title">${esc(t.title)}</div>
@@ -660,9 +697,9 @@
       </div></a>`;
   }
   function textRow(t, user) {
-    return `<a class="unit-row" href="#/read/${t.id}"><div class="unit-num">${S.textsRead[t.id] ? '✓' : '📖'}</div>
+    return `<a class="unit-row" href="#/read/${t.id}"><div class="unit-num">${S.textsRead[t.id] ? '<i class="ph ph-check"></i>' : '<i class="ph ph-book-open-text"></i>'}</div>
       <div class="body"><div class="title">${esc(t.title)}</div><div class="muted small">${wordsIn(t)} слов${t.level ? ' · ' + t.level : ''}</div></div>
-      ${user ? `<button class="icon-btn" data-del="${t.id}" title="Удалить">✕</button>` : ''}</a>`;
+      ${user ? `<button class="icon-btn" data-del="${t.id}" title="Удалить"><i class="ph ph-x"></i></button>` : ''}</a>`;
   }
 
   let readerSentences = [];
@@ -688,23 +725,24 @@
     const back = t.unit ? `#/unit/${t.unit.id}/reading` : '#/library';
     const nextT = lib ? LIB.filter((x) => x.level === t.level && x.id !== t.id && !S.textsRead[x.id])[0] : null;
     view().innerHTML = `
-      <a href="${back}" class="small">← ${t.unit ? 'К уроку' : 'Все статьи'}</a>
-      ${lib ? `<div class="reader-head"><div class="lib-cover sm cat-${Object.keys(CAT_ICON).indexOf(t.cat)}"><span>${t.emoji || '📖'}</span></div>
+      <a href="${back}" class="small"><i class="ph ph-arrow-left"></i> ${t.unit ? 'К уроку' : 'Все статьи'}</a>
+      ${lib ? `<div class="reader-head"><div class="lib-cover sm cat-${Object.keys(CAT_ICON).indexOf(t.cat)}" data-img="${t.id}"><span>${CAT_ICON[t.cat] || '<i class="ph ph-book-open-text"></i>'}</span></div>
         <div style="min-width:0"><div class="lib-meta"><span class="pill accent">${t.level}</span><span class="tiny muted">${CAT_ICON[t.cat] || ''} ${esc(t.cat)} · ${esc(t.about)} · ${minsIn(t)} мин</span></div>
         <h1 style="margin:6px 0 2px">${esc(t.title)}</h1><div class="muted small">${esc(t.ru)}</div></div></div>` : `<h1 style="margin-top:14px">${esc(t.title)}</h1>`}
       <div class="reader-bar">
-        <button class="btn small primary" id="rd-play">▶ Слушать</button>
-        <button class="btn small" id="rd-stop" hidden>■ Стоп</button>
+        <button class="btn small primary" id="rd-play"><i class="ph-fill ph-play"></i> Слушать</button>
+        <button class="btn small" id="rd-stop" hidden><i class="ph-fill ph-stop"></i> Стоп</button>
         <select class="input" id="rd-rate"><option value="0.7">0.7×</option><option value="0.85">0.85×</option><option value="1">1×</option></select>
         <span class="spacer"></span>
-        <button class="btn small" id="rd-done">${S.textsRead[t.id] ? '✓ Прочитано' : 'Отметить прочитанным'}</button>
+        <button class="btn small" id="rd-done">${S.textsRead[t.id] ? '<i class="ph ph-check"></i> Прочитано' : 'Отметить прочитанным'}</button>
       </div>
       <div class="card reader-text" id="rd-text">${html}</div>
-      <p class="muted small" style="margin-top:12px">👆 Нажмите на слово — перевод и «+ В карточки». Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
+      <p class="muted small" style="margin-top:12px"><i class="ph ph-hand-tap"></i> Нажмите на слово — перевод и «+ В карточки». Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
       ${t.questions && t.questions.length ? `<div class="card quiz" id="quiz"><h3>Проверьте понимание</h3>${t.questions.map((qq, qi) => `
         <div class="qz" data-q="${qi}"><div class="qz-q">${qi + 1}. ${esc(qq.q)}</div><div class="qz-o">${qq.o.map((o, oi) => `<button class="qz-btn" data-o="${oi}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
         <div id="qz-res" class="small"></div></div>` : ''}
-      ${nextT ? `<a class="next-read" href="#/read/${nextT.id}"><span class="muted small">Следующая статья ${nextT.level}</span><b>${nextT.emoji || ''} ${esc(nextT.title)} →</b></a>` : ''}`;
+      ${nextT ? `<a class="next-read" href="#/read/${nextT.id}"><span class="muted small">Следующая статья ${nextT.level}</span><b>${esc(nextT.title)} <i class="ph ph-arrow-right"></i></b></a>` : ''}`;
+    paintCovers(view());
     const rate = $('#rd-rate'); rate.value = S.settings.rate <= 0.75 ? '0.7' : S.settings.rate >= 0.95 ? '1' : '0.85';
     let playing = false;
     const playFrom = (i) => {
@@ -720,7 +758,7 @@
     const markRead = () => {
       if (!S.textsRead[t.id]) { S.textsRead[t.id] = today(); track('reads'); }
       if (t.unit && t.unit.texts.every((x) => S.textsRead[x.id])) unitState(t.unit.id).steps.reading = true;
-      save(); $('#rd-done').textContent = '✓ Прочитано';
+      save(); $('#rd-done').innerHTML = '<i class="ph ph-check"></i> Прочитано';
     };
     $('#rd-done').addEventListener('click', () => { markRead(); toast('Отмечено'); });
     // вопросы на понимание
@@ -770,18 +808,36 @@
     trMem[k] = ya.then((y) => y || myMemory(k));
     return trMem[k];
   }
+  // MyMemory: выбираем лучший вариант из машинного перевода и памяти переводов, остальные — как альтернативы
+  const trAlts = {};
   function myMemory(k) {
     return fetch('https://api.mymemory.translated.net/get?langpair=en|ru&q=' + encodeURIComponent(k))
       .then((r) => r.json())
       .then((j) => {
-        let tr = j && j.responseData && j.responseData.translatedText;
-        if (!tr || /MYMEMORY|QUERY LENGTH|INVALID/i.test(tr) || tr.toLowerCase() === k) {
-          const m = ((j && j.matches) || []).find((x) => x.translation && /[а-яё]/i.test(x.translation));
-          tr = m ? m.translation : null;
-        }
-        return tr && /[а-яё]/i.test(tr) ? tr.replace(/\s+/g, ' ').trim() : null;
+        const cyr = (x) => x && /[а-яё]/i.test(x) && !/MYMEMORY|QUERY LENGTH|INVALID/i.test(x);
+        const clean = (x) => x.replace(/\s+/g, ' ').replace(/^["«»“”'\s]+|["«»“”'\s.!?]+$/g, '').trim();
+        const cand = {};
+        const bump = (t, w) => { if (!cyr(t)) return; const c = clean(t); if (!c || c.length > 120) return; const key = c.toLowerCase(); cand[key] = cand[key] || { t: c, w: 0 }; cand[key].w += w; };
+        const main = j && j.responseData && j.responseData.translatedText;
+        ((j && j.matches) || []).forEach((m) => {
+          const q = +m.match || 0; if (q < 0.7) return;
+          const src = String(m.segment || '').toLowerCase().replace(/[^a-z' ]/g, '').trim();
+          const exact = src === k.replace(/[^a-z' ]/g, '').trim();
+          bump(m.translation, q * (m['created-by'] === 'MT!' ? 1.3 : 1) * (exact ? 1.2 : 0.6));
+        });
+        bump(main, 0.9);
+        const list = Object.values(cand).sort((x, y) => y.w - x.w).map((x) => x.t);
+        const lower = [...new Set(list.map((x) => (/\s/.test(k) ? x : x.toLowerCase())))];
+        trAlts[k] = lower.slice(0, 4);
+        return lower[0] || null;
       })
       .catch(() => { delete trMem[k]; return null; });
+  }
+  function altChips(el, k, input) {
+    const alts = (trAlts[k.toLowerCase().trim()] || []).slice(1);
+    if (!el || !alts.length) return;
+    el.innerHTML = '<span class="tiny muted">Другие варианты:</span> ' + alts.map((a) => `<button type="button" class="alt-chip">${esc(a)}</button>`).join('');
+    $$('.alt-chip', el).forEach((b) => b.addEventListener('click', () => { input.value = b.textContent; input.focus(); }));
   }
   // Словарная статья Яндекса: транскрипция, части речи, варианты
   const POS_RU = { noun: 'сущ.', verb: 'гл.', adjective: 'прил.', adverb: 'нареч.', pronoun: 'мест.', preposition: 'предлог', conjunction: 'союз', numeral: 'числ.', interjection: 'межд.', participle: 'прич.', 'adverbial participle': 'деепр.', particle: 'частица', determiner: 'опр.' };
@@ -815,14 +871,14 @@
     const base = res[0] ? res[0].word : EngLookup.clean(raw);
     const inCards = !!S.cards[base];
     pop.innerHTML = `
-      <div class="row" style="gap:10px"><div class="pw">${esc(raw)}</div><button class="icon-btn" id="pp-say">🔊</button><span class="spacer"></span><button class="icon-btn" id="pp-x">✕</button></div>
+      <div class="row" style="gap:10px"><div class="pw">${esc(raw)}</div><button class="icon-btn" id="pp-say"><i class="ph ph-speaker-high"></i></button><span class="spacer"></span><button class="icon-btn" id="pp-x"><i class="ph ph-x"></i></button></div>
       ${res.length ? `<div class="tr">${esc(res[0].tr)}</div>${res[0].word !== EngLookup.clean(raw) ? `<div class="alt">форма слова <b>${esc(res[0].word)}</b></div>` : ''}${res.slice(1, 3).map((r) => `<div class="alt">${esc(r.word)}: ${esc(r.tr)}</div>`).join('')}<div class="ya-box" id="pp-ya" hidden></div>`
         : `<div class="alt" style="margin-top:4px">${maybeName ? 'Похоже на имя или название.' : 'Нет во встроенном словаре —'} <span id="pp-status">перевожу…</span></div>
-           <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off">`}
+           <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off"><div class="alt-row" id="pp-alts"></div>`}
       <div class="actions">
-        ${inCards ? '<span class="pill ok">✓ в карточках</span>' : '<button class="btn small primary" id="pp-add">+ В карточки</button>'}
-        <button class="btn small" id="pp-sent">🔊 Фраза</button>
-        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик ↗</a>
+        ${inCards ? '<span class="pill ok"><i class="ph ph-check"></i> в карточках</span>' : '<button class="btn small primary" id="pp-add">+ В карточки</button>'}
+        <button class="btn small" id="pp-sent"><i class="ph ph-speaker-high"></i> Фраза</button>
+        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
       </div>`;
     placePop(pop, anchor.getBoundingClientRect());
     speak(raw);
@@ -832,7 +888,7 @@
     if (res.length) yaBlock($('#pp-ya'), base);
     if (!res.length) autoTranslate(raw).then((tr) => {
       const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return;
-      if (tr) { if (!inp.value) inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; }
+      if (tr) { if (!inp.value) inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; altChips($('#pp-alts'), raw, inp); }
       else st.textContent = 'впишите перевод сами (или откройте переводчик):';
     });
     const add = $('#pp-add');
@@ -849,19 +905,19 @@
     const id = phrase.toLowerCase();
     const inCards = !!S.cards[id];
     pop.innerHTML = `
-      <div class="row" style="gap:10px"><div class="pw" style="font-size:19px">${esc(phrase)}</div><span class="spacer"></span><button class="icon-btn" id="pp-say">🔊</button><button class="icon-btn" id="pp-x">✕</button></div>
+      <div class="row" style="gap:10px"><div class="pw" style="font-size:19px">${esc(phrase)}</div><span class="spacer"></span><button class="icon-btn" id="pp-say"><i class="ph ph-speaker-high"></i></button><button class="icon-btn" id="pp-x"><i class="ph ph-x"></i></button></div>
       <div class="alt" style="margin-top:4px">Фраза · <span id="pp-status">перевожу…</span></div>
-      <input class="input pp-input" id="pp-tr" placeholder="Перевод фразы" autocomplete="off">
+      <input class="input pp-input" id="pp-tr" placeholder="Перевод фразы" autocomplete="off"><div class="alt-row" id="pp-alts"></div>
       <div class="actions">
-        ${inCards ? '<span class="pill ok">✓ в карточках</span>' : '<button class="btn small primary" id="pp-add">+ Фразу в карточки</button>'}
-        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(phrase)}">Переводчик ↗</a>
+        ${inCards ? '<span class="pill ok"><i class="ph ph-check"></i> в карточках</span>' : '<button class="btn small primary" id="pp-add">+ Фразу в карточки</button>'}
+        <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(phrase)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
       </div>`;
     placePop(pop, rect);
     S.stats.lookups++; save();
     speak(phrase);
     $('#pp-say').addEventListener('click', () => speak(phrase));
     $('#pp-x').addEventListener('click', () => { hidePopover(); window.getSelection().removeAllRanges(); });
-    autoTranslate(phrase).then((tr) => { const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return; if (tr) { inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; } else st.textContent = 'впишите перевод:'; });
+    autoTranslate(phrase).then((tr) => { const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return; if (tr) { inp.value = tr; st.textContent = 'автоперевод, можно поправить:'; altChips($('#pp-alts'), phrase, inp); } else st.textContent = 'впишите перевод:'; });
     const add = $('#pp-add');
     if (add) add.addEventListener('click', () => {
       const tr = ($('#pp-tr').value || '').trim();
@@ -907,11 +963,11 @@
     const drawList = (f = '') => {
       const items = all.filter((c) => !f || c.en.toLowerCase().includes(f) || c.ru.toLowerCase().includes(f)).sort((a, b) => b.added - a.added);
       listEl.innerHTML = items.length ? items.slice(0, 300).map((c) => `
-        <div class="word-item"><button class="icon-btn" data-speak="${esc(c.en)}">🔊</button>
+        <div class="word-item"><button class="icon-btn" data-speak="${esc(c.en)}"><i class="ph ph-speaker-high"></i></button>
           ${c.img ? `<img src="${esc(c.img)}" alt="" referrerpolicy="no-referrer" style="width:40px;height:40px;border-radius:10px;object-fit:cover;flex-shrink:0" onerror="this.remove()">` : ''}
           <div style="flex:1"><span class="w">${esc(c.en)}</span> — ${esc(c.ru)}<div class="ex">${c.state === 'new' ? 'новая' : c.state === 'learn' ? 'изучается' : 'следующее повторение через ' + fmtIvl(Math.max(0, c.due - Date.now()))}</div></div>
           <span class="pill ${c.ivl >= 21 ? 'ok' : c.state === 'new' ? '' : 'accent'}">${c.ivl >= 21 ? 'выучено' : c.state === 'new' ? 'новая' : 'в процессе'}</span>
-          <button class="icon-btn" data-del="${esc(c.id)}" title="Удалить">✕</button></div>`).join('')
+          <button class="icon-btn" data-del="${esc(c.id)}" title="Удалить"><i class="ph ph-x"></i></button></div>`).join('')
         : '<div class="empty"><div class="big">⧉</div>Слов пока нет. Добавьте их из урока или из текста.</div>';
       wireSay(listEl);
       $$('[data-del]', listEl).forEach((b) => b.addEventListener('click', () => { if (confirm('Удалить карточку?')) { delete S.cards[b.dataset.del]; tomb('card:' + b.dataset.del); save(); renderCards(); } }));
@@ -984,7 +1040,7 @@
     const ws = DECK.filter((w) => w.lvl === lvl);
     let shown = 150;
     view().innerHTML = `
-      <a href="#/cards" class="small">← Карточки</a>
+      <a href="#/cards" class="small"><i class="ph ph-arrow-left"></i> Карточки</a>
       <h1 style="margin-top:14px">Колода ${lvl}</h1>
       <p class="muted">Слова, которые вы уже знаете, отметьте «Знаю» — они не будут приходить в карточки. Слова идут от самых частых к более редким (частота по английским субтитрам фильмов и сериалов) — в этом же порядке они будут приходить в карточки.</p>
       <div class="row" style="margin:16px 0"><input class="input" id="dq" placeholder="Поиск по слову или переводу" style="flex:1;font-size:15px;padding:10px 14px">
@@ -997,7 +1053,7 @@
       $('#dl').innerHTML = items.slice(0, shown).map((w) => {
         const c = S.cards[w.id];
         const status = S.known[w.id] ? '<span class="pill ok">знаю</span>' : c ? `<span class="pill ${c.ivl >= 21 ? 'ok' : 'accent'}">${c.ivl >= 21 ? 'выучено' : c.state === 'new' ? 'в очереди' : 'учу'}</span>` : '';
-        return `<div class="word-item"><button class="icon-btn" data-speak="${esc(w.en)}">🔊</button>
+        return `<div class="word-item"><button class="icon-btn" data-speak="${esc(w.en)}"><i class="ph ph-speaker-high"></i></button>
           <div style="flex:1;min-width:0"><span class="w">${esc(w.en)}</span> <span class="tiny muted">${esc(w.pos || '')}${w.rank ? ' · №' + w.rank + ' по частоте' : ''}</span> — ${esc(w.ru)}
           <div class="ex"><span data-speak="${esc(w.ex)}" style="cursor:pointer">${esc(w.ex)}</span> · ${esc(w.exRu)}</div></div>
           ${status}${c && c.state !== 'new' ? '' : `<button class="btn small ghost" data-known="${esc(w.id)}">${S.known[w.id] ? 'Вернуть' : 'Знаю'}</button>`}</div>`;
@@ -1032,8 +1088,8 @@
 
     const mode = S.settings.cardMode;
     view().innerHTML = `
-      <div class="row"><a href="#/cards" class="small">← Карточки</a><span class="spacer"></span>
-        <select class="input" id="rv-mode"><option value="en-ru">англ → рус</option><option value="ru-en">рус → англ</option><option value="mix">вперемешку</option></select></div>
+      <div class="row"><a href="#/cards" class="small"><i class="ph ph-arrow-left"></i> Карточки</a><span class="spacer"></span>
+        <select class="input" id="rv-mode"><option value="en-ru">англ <i class="ph ph-arrow-right"></i> рус</option><option value="ru-en">рус <i class="ph ph-arrow-right"></i> англ</option><option value="mix">вперемешку</option></select></div>
       <div class="ex-head" style="margin-top:16px"><div class="progress"><i id="rv-bar" style="width:0"></i></div><span class="tiny muted" id="rv-left"></span></div>
       <div id="rv"></div>`;
     $('#rv-mode').value = mode;
@@ -1046,7 +1102,7 @@
       if (!queue.length) {
         keyHandler = null;
         if (graded >= 20 && agains === 0) { S.stats.cleanSessions++; save(); }
-        root.innerHTML = `<div class="card result"><div class="big">🎉</div><h2>На сегодня всё!</h2><p class="muted">Повторено карточек: ${doneCount}. Возвращайтесь завтра — слова придут сами.</p>
+        root.innerHTML = `<div class="card result"><div class="big"><i class="ph ph-confetti"></i></div><h2>На сегодня всё!</h2><p class="muted">Повторено карточек: ${doneCount}. Возвращайтесь завтра — слова придут сами.</p>
           <div class="row" style="justify-content:center"><a class="btn primary" href="#/">На главную</a></div></div>`;
         updateBadge(); return;
       }
@@ -1068,20 +1124,20 @@
           <span class="tiny muted">Картинка:</span>
           <a class="btn small" target="_blank" rel="noopener" href="https://yandex.ru/images/search?text=${q}">Яндекс</a>
           <a class="btn small" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=${q}">Google</a>
-          <button class="btn small" id="img-set">✎ Своя</button>
+          <button class="btn small" id="img-set"><i class="ph ph-pencil-simple"></i> Своя</button>
         </div>
-        <div class="img-form" id="img-form" hidden><input class="input" id="img-url" placeholder="Вставьте адрес картинки (ПКМ по картинке → «Копировать адрес»)" value="${esc(c.img || '')}"><button class="btn small primary" id="img-save">OK</button></div>`;
+        <div class="img-form" id="img-form" hidden><input class="input" id="img-url" placeholder="Вставьте адрес картинки (ПКМ по картинке — «Копировать адрес»)" value="${esc(c.img || '')}"><button class="btn small primary" id="img-save">OK</button></div>`;
       const back = m === 'en-ru'
         ? `<div class="back">${esc(c.ru)}${c.exRu ? `<div class="exru">${esc(c.exRu)}</div>` : ''}${tools}</div>`
         : `<div class="back">${esc(c.en)}${exHtml ? `<div class="exru">${exHtml}</div>` : ''}${tools}</div>`;
       root.innerHTML = `<div class="card fc" id="fc">${front}<div id="fc-back" hidden>${back}</div>
-        <div class="row" style="margin-top:18px"><button class="icon-btn" id="fc-say">🔊</button>${exPlain ? '<button class="btn small ghost" id="fc-ex">🔊 Пример</button>' : ''}</div></div>
+        <div class="row" style="margin-top:18px"><button class="icon-btn" id="fc-say"><i class="ph ph-speaker-high"></i></button>${exPlain ? '<button class="btn small ghost" id="fc-ex"><i class="ph ph-speaker-high"></i> Пример</button>' : ''}</div></div>
         <div id="fc-actions" style="margin-top:16px"><button class="btn primary" style="width:100%" id="fc-show">Показать ответ <span class="kbd" style="color:#fff;border-color:rgba(255,255,255,.4)">пробел</span></button></div>`;
       if (m === 'en-ru') speak(c.en);
       const fillImg = (url) => {
         const slot = $('#fc-img'); if (!slot) return;
         if (!url) { slot.remove(); return; }
-        slot.innerHTML = `<img src="${esc(url)}" alt="" referrerpolicy="no-referrer"><button class="assoc-x" title="Не показывать картинку для этого слова">✕</button>`;
+        slot.innerHTML = `<img src="${esc(url)}" alt="" referrerpolicy="no-referrer"><button class="assoc-x" title="Не показывать картинку для этого слова"><i class="ph ph-x"></i></button>`;
         const im = $('img', slot);
         im.onload = () => slot.classList.remove('loading');
         im.onerror = () => { slot.remove(); if (!c.img && S.imgCache) { S.imgCache[c.id] = ''; save(); } };
@@ -1160,7 +1216,7 @@
     const onKey = (ev) => { if (location.hash !== '#/review') { document.removeEventListener('keydown', onKey); return; } keyHandler && keyHandler(ev); };
     document.addEventListener('keydown', onKey);
     if (!queue.length) {
-      $('#rv').innerHTML = `<div class="card empty"><div class="big">✓</div>Сейчас повторять нечего. ${Object.keys(S.cards).length ? 'Следующие карточки придут позже.' : 'Добавьте слова из урока.'}</div>`;
+      $('#rv').innerHTML = `<div class="card empty"><div class="big"><i class="ph ph-check"></i></div>Сейчас повторять нечего. ${Object.keys(S.cards).length ? 'Следующие карточки придут позже.' : 'Добавьте слова из урока.'}</div>`;
       return;
     }
     next();
@@ -1183,11 +1239,11 @@
     const passedN = mainUnits.filter((u) => passed(u.id)).length;
     const totalReviews = Object.values(S.activity).reduce((s, a) => s + (a.reviews || 0), 0);
     view().innerHTML = `
-      <div class="row"><h1 style="margin:0">Прогресс</h1><span class="spacer"></span><a class="btn small" href="#/achievements">🏆 Достижения</a><a class="btn small" href="#/settings">⚙︎ Настройки</a></div>
+      <div class="row"><h1 style="margin:0">Прогресс</h1><span class="spacer"></span><a class="btn small" href="#/achievements"><i class="ph ph-trophy"></i> Достижения</a><a class="btn small" href="#/settings"><i class="ph ph-gear-six"></i> Настройки</a></div>
       <div class="grid-3" style="margin:20px 0">
-        <div class="stat"><div class="chip-ico">🔥</div><b>${streak()}</b><span>дней подряд</span></div>
-        <div class="stat"><div class="chip-ico">📅</div><b>${activeDays}</b><span>дней занятий</span></div>
-        <div class="stat"><div class="chip-ico">📘</div><b>${passedN}/${mainUnits.length}</b><span>юнитов пройдено</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-flame"></i></div><b>${streak()}</b><span>дней подряд</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-calendar-check"></i></div><b>${activeDays}</b><span>дней занятий</span></div>
+        <div class="stat"><div class="chip-ico"><i class="ph ph-book-open"></i></div><b>${passedN}/${mainUnits.length}</b><span>юнитов пройдено</span></div>
       </div>
       <div class="card" style="margin-bottom:16px">
         <h3>Активность за 30 дней</h3>
@@ -1286,7 +1342,7 @@
       const t = ACH.tier(pctOf(x));
       const el = document.createElement('div');
       el.className = 'ach-pop ' + t.cls;
-      el.innerHTML = `<div class="ach-icon ${t.cls}">${x.icon}</div><div><div class="tiny" style="opacity:.7">Достижение получено</div><b>${esc(x.title)}</b><div class="tiny"><span class="tier-${t.cls}">${t.name}</span> · ${pctOf(x)}% учеников</div></div>`;
+      el.innerHTML = `<div class="ach-icon ${t.cls}"><i class="ph-fill ph-${x.icon}"></i></div><div><div class="tiny" style="opacity:.7">Достижение получено</div><b>${esc(x.title)}</b><div class="tiny"><span class="tier-${t.cls}">${t.name}</span> · ${pctOf(x)}% учеников</div></div>`;
       document.body.appendChild(el);
       requestAnimationFrame(() => el.classList.add('in'));
       setTimeout(() => { el.classList.remove('in'); setTimeout(() => { el.remove(); nextPop(); }, 350); }, 3800);
@@ -1310,7 +1366,7 @@
     const v = Math.min(a.need, a.val(c));
     const prog = !got && !secret && a.need > 1 ? `<div class="progress" style="margin-top:8px"><i style="width:${(v / a.need) * 100}%"></i></div><div class="tiny muted" style="margin-top:3px">${v.toLocaleString('ru-RU')} / ${a.need.toLocaleString('ru-RU')}</div>` : '';
     return `<div class="ach ${got ? 'got' : 'locked'}">
-      <div class="ach-icon ${t.cls}">${secret ? '？' : a.icon}</div>
+      <div class="ach-icon ${t.cls}">${secret ? '<i class="ph-fill ph-question"></i>' : `<i class="ph-fill ph-${a.icon}"></i>`}</div>
       <div style="flex:1;min-width:0">
         <div class="row" style="gap:8px"><b>${secret ? 'Секретное достижение' : esc(a.title)}</b></div>
         <div class="small muted">${secret ? 'Продолжайте заниматься, чтобы узнать' : esc(a.desc)}</div>
@@ -1343,7 +1399,7 @@
           <div class="eyebrow">Коллекция</div>
           <b style="font-size:26px">${got.length}</b> <span class="muted">из ${all.length}</span>
           <div class="progress" style="margin:8px 0"><i style="width:${(got.length / all.length) * 100}%"></i></div>
-          <div class="small muted">${rarest ? `Самое редкое: ${rarest.icon} <b>${esc(rarest.title)}</b> (${pctOf(rarest)}%)` : 'Пока ни одного. Первое совсем близко!'}</div>
+          <div class="small muted">${rarest ? `Самое редкое: <i class="ph-fill ph-${rarest.icon}"></i> <b>${esc(rarest.title)}</b> (${pctOf(rarest)}%)` : 'Пока ни одного. Первое совсем близко!'}</div>
         </div>
       </div>
       <div class="row" style="margin-bottom:16px">
@@ -1362,7 +1418,7 @@
       .sort((x, y) => y.p - x.p).slice(0, n);
   }
 
-  const NAV_CLOUD = ($('#nav-account .ico') || { outerHTML: '<span class="ico">☁︎</span>' }).outerHTML;
+  const NAV_CLOUD = ($('#nav-account .ico') || { outerHTML: '<span class="ico"><i class="ph ph-cloud"></i></span>' }).outerHTML;
   // ───────────── Аккаунт: вход, регистрация, восстановление ─────────────
   let authMode = 'up';      // up | in | sent | forgot | forgot-sent | reset
   let authEmail = '';
@@ -1379,14 +1435,14 @@
     if (/fetch|network/i.test(m)) return 'Нет связи с сервером. Проверьте интернет.';
     return m;
   };
-  const eye = (id) => `<button type="button" class="pw-eye" data-eye="${id}" aria-label="Показать пароль">👁</button>`;
+  const eye = (id) => `<button type="button" class="pw-eye" data-eye="${id}" aria-label="Показать пароль"><i class="ph ph-eye"></i></button>`;
   function renderAuth() {
     const ev = window.Cloud && Cloud.takeAuthEvent ? Cloud.takeAuthEvent() : null;
     if (ev === 'recovery') authMode = 'reset';
     if (ev === 'confirmed') setTimeout(() => toast('Почта подтверждена — вы вошли'), 300);
     const linkErr = ev && ev.startsWith('link-error:') ? ev.slice(11) : '';
     if (!cloudOn()) {
-      view().innerHTML = `<div class="auth-wrap"><div class="card auth-card"><div class="auth-ico">☁︎</div><h1>Аккаунт</h1><p class="muted">Облако сейчас недоступно — проверьте интернет и обновите страницу. Всё, что вы делаете, продолжает сохраняться в этом браузере.</p></div></div>`;
+      view().innerHTML = `<div class="auth-wrap"><div class="card auth-card"><div class="auth-ico"><i class="ph ph-cloud"></i></div><h1>Аккаунт</h1><p class="muted">Облако сейчас недоступно — проверьте интернет и обновите страницу. Всё, что вы делаете, продолжает сохраняться в этом браузере.</p></div></div>`;
       return;
     }
     const st = Cloud.status();
@@ -1407,7 +1463,7 @@
           <p class="tiny muted auth-foot">${up ? 'Уже есть аккаунт? <a href="javascript:void 0" data-mode="in">Войти</a>' : 'Ещё нет аккаунта? <a href="javascript:void 0" data-mode="up">Зарегистрироваться</a>'}</p>
         </form>`;
     } else if (authMode === 'sent') {
-      body = `<div class="auth-state"><div class="auth-big">📬</div><h2>Проверьте почту</h2>
+      body = `<div class="auth-state"><div class="auth-big"><i class="ph ph-envelope-simple-open"></i></div><h2>Проверьте почту</h2>
         <p class="muted">Мы отправили письмо на <b>${esc(authEmail)}</b>. Нажмите в нём ссылку «Confirm your mail» — сайт откроется, и вы сразу окажетесь в аккаунте.</p>
         <p class="tiny muted">Письма нет пару минут? Загляните в «Спам» или «Промоакции».</p>
         <div class="auth-err" id="a-err"></div>
@@ -1419,11 +1475,11 @@
         <label class="fld"><span>Почта аккаунта</span><input class="input" id="a-email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" value="${esc(authEmail)}" required></label>
         <div class="auth-err" id="a-err"></div>
         <button class="btn primary auth-cta" id="a-go" type="submit">Отправить ссылку</button>
-        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in">← Назад ко входу</a></p></form>`;
+        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in"><i class="ph ph-arrow-left"></i> Назад ко входу</a></p></form>`;
     } else if (authMode === 'forgot-sent') {
-      body = `<div class="auth-state"><div class="auth-big">🔑</div><h2>Письмо отправлено</h2>
+      body = `<div class="auth-state"><div class="auth-big"><i class="ph ph-key"></i></div><h2>Письмо отправлено</h2>
         <p class="muted">Ссылка для нового пароля ушла на <b>${esc(authEmail)}</b>. Откройте её на этом устройстве.</p>
-        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in">← Назад ко входу</a></p></div>`;
+        <p class="tiny muted auth-foot"><a href="javascript:void 0" data-mode="in"><i class="ph ph-arrow-left"></i> Назад ко входу</a></p></div>`;
     } else if (authMode === 'reset') {
       body = `<form class="auth-form" id="auth-form" novalidate>
         <p class="muted small" style="margin:0 0 4px">${st.user ? 'Придумайте новый пароль для ' + esc(st.user.email || '') + '.' : 'Ссылка устарела. Запросите новую.'}</p>
@@ -1435,15 +1491,15 @@
     view().innerHTML = `
       <div class="auth-wrap">
         <div class="card auth-card">
-          ${titles[0] ? `<div class="auth-ico">☁︎</div><h1>${titles[0]}</h1>${titles[1] ? `<p class="muted auth-sub">${titles[1]}</p>` : ''}` : ''}
+          ${titles[0] ? `<div class="auth-ico"><i class="ph ph-cloud"></i></div><h1>${titles[0]}</h1>${titles[1] ? `<p class="muted auth-sub">${titles[1]}</p>` : ''}` : ''}
           ${linkErr ? `<div class="auth-err show" style="margin-bottom:12px">Ссылка из письма не сработала: ${esc(linkErr)}. Запросите новую.</div>` : ''}
           ${tabs}${body}
         </div>
         ${authMode === 'up' || authMode === 'in' ? `
         <div class="auth-perks">
-          <div><span>🔄</span><b>Одно обучение на всех устройствах</b><small>Начали на Mac — продолжили в метро с iPhone</small></div>
-          <div><span>🛟</span><b>Прогресс не потеряется</b><small>Даже если очистить браузер или сменить телефон</small></div>
-          <div><span>🏆</span><b>Настоящая редкость достижений</b><small>Сравнение с другими учениками</small></div>
+          <div><span><i class="ph ph-devices"></i></span><b>Одно обучение на всех устройствах</b><small>Начали на Mac — продолжили в метро с iPhone</small></div>
+          <div><span><i class="ph ph-lifebuoy"></i></span><b>Прогресс не потеряется</b><small>Даже если очистить браузер или сменить телефон</small></div>
+          <div><span><i class="ph ph-trophy"></i></span><b>Настоящая редкость достижений</b><small>Сравнение с другими учениками</small></div>
         </div>
         <p class="tiny muted" style="text-align:center;margin-top:14px">Без аккаунта всё тоже работает — прогресс хранится в этом браузере.</p>` : ''}
       </div>`;
@@ -1494,7 +1550,7 @@
     const rs = $('#a-resend');
     if (rs) rs.addEventListener('click', async () => {
       showErr(''); busy(rs, true, 'Отправляю…');
-      try { await Cloud.resendConfirm(authEmail); busy(rs, false); rs.textContent = '✓ Письмо отправлено ещё раз'; rs.disabled = true; setTimeout(() => { rs.disabled = false; rs.textContent = 'Отправить письмо ещё раз'; }, 60000); }
+      try { await Cloud.resendConfirm(authEmail); busy(rs, false); rs.innerHTML = '<i class="ph ph-check"></i> Письмо отправлено ещё раз'; rs.disabled = true; setTimeout(() => { rs.disabled = false; rs.textContent = 'Отправить письмо ещё раз'; }, 60000); }
       catch (e) { busy(rs, false); showErr(authErr(e)); }
     });
   }
@@ -1506,12 +1562,12 @@
         <div class="card auth-card">
           <div class="acc-head"><div class="avatar">${esc((email[0] || '?').toUpperCase())}</div>
             <div style="min-width:0"><b class="acc-mail">${esc(email)}</b>
-            <div class="small ${st.lastError ? '' : 'muted'}" style="${st.lastError ? 'color:var(--bad)' : ''}">${st.lastError ? '⚠︎ Не удалось синхронизировать' : st.pushing || st.pulling ? '⟳ Синхронизация…' : '☁︎ Всё сохранено в облаке' + (st.lastSync ? ' · ' + st.lastSync.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '')}</div></div></div>
+            <div class="small ${st.lastError ? '' : 'muted'}" style="${st.lastError ? 'color:var(--bad)' : ''}">${st.lastError ? '<i class="ph ph-warning"></i> Не удалось синхронизировать' : st.pushing || st.pulling ? '<i class="ph ph-arrows-clockwise"></i> Синхронизация…' : '<i class="ph ph-cloud"></i> Всё сохранено в облаке' + (st.lastSync ? ' · ' + st.lastSync.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '')}</div></div></div>
           ${st.lastError ? `<div class="auth-err show" style="margin-top:14px">${esc(authErr(st.lastError))} Прогресс в безопасности в этом браузере и отправится, когда связь вернётся.</div>` : ''}
           <div class="grid-3 acc-stats"><div><b>${cards}</b><span>слов</span></div><div><b>${days}</b><span>${plural(days, 'день', 'дня', 'дней')}</span></div><div><b>${ach}</b><span>достижений</span></div></div>
           <p class="small muted">Войдите с этой почтой на iPhone или другом компьютере — прогресс подтянется автоматически. Синхронизация идёт сама, кнопка ниже нужна только если хочется обновить прямо сейчас.</p>
           <div class="acc-actions">
-            <button class="btn" id="acc-sync">⟳ Синхронизировать</button>
+            <button class="btn" id="acc-sync"><i class="ph ph-arrows-clockwise"></i> Синхронизировать</button>
             <button class="btn ghost" id="acc-pw">Сменить пароль</button>
             <button class="btn ghost" id="acc-out" style="color:var(--bad)">Выйти</button>
           </div>
@@ -1526,8 +1582,8 @@
     const box = $('#acc-card'); if (box) {
       const st = cloudOn() ? Cloud.status() : {};
       box.innerHTML = st.user
-        ? `<a class="acc-row" href="#/account"><div class="avatar sm">${esc(((st.user.email || '?')[0]).toUpperCase())}</div><div style="flex:1;min-width:0"><b>${esc(st.user.email || '')}</b><div class="small muted">${st.lastError ? 'Ошибка синхронизации' : '☁︎ Синхронизировано'}</div></div><span class="muted">→</span></a>`
-        : `<a class="acc-row" href="#/account"><div class="avatar sm off">☁︎</div><div style="flex:1"><b>Войти или создать аккаунт</b><div class="small muted">Чтобы прогресс был на всех устройствах</div></div><span class="muted">→</span></a>`;
+        ? `<a class="acc-row" href="#/account"><div class="avatar sm">${esc(((st.user.email || '?')[0]).toUpperCase())}</div><div style="flex:1;min-width:0"><b>${esc(st.user.email || '')}</b><div class="small muted">${st.lastError ? 'Ошибка синхронизации' : '<i class="ph ph-cloud"></i> Синхронизировано'}</div></div><i class="ph ph-caret-right muted"></i></a>`
+        : `<a class="acc-row" href="#/account"><div class="avatar sm off"><i class="ph ph-cloud"></i></div><div style="flex:1"><b>Войти или создать аккаунт</b><div class="small muted">Чтобы прогресс был на всех устройствах</div></div><i class="ph ph-caret-right muted"></i></a>`;
     }
     const nav = $('#nav-account'); if (nav) {
       const st = cloudOn() ? Cloud.status() : {};
@@ -1562,8 +1618,8 @@
             <select class="input" id="st-voice"><option value="">Автоматически</option>${voices.map((v) => `<option value="${esc(v.name)}" ${v.name === S.settings.voice ? 'selected' : ''}>${esc(v.name)} (${v.lang})</option>`).join('')}</select></label>
           <label class="field">Скорость
             <select class="input" id="st-rate">${[0.7, 0.8, 0.9, 1].map((r) => `<option value="${r}" ${r === S.settings.rate ? 'selected' : ''}>${r}×</option>`).join('')}</select></label>
-          <div><button class="btn small" id="st-test">🔊 Проверить: Hello! Nice to meet you.</button></div>
-          <p class="muted small" style="margin:0">На Mac самые живые голоса — Samantha, Ava, Zoe (можно скачать в Системных настройках → Универсальный доступ → Устный контент).</p>
+          <div><button class="btn small" id="st-test"><i class="ph ph-speaker-high"></i> Проверить: Hello! Nice to meet you.</button></div>
+          <p class="muted small" style="margin:0">На Mac самые живые голоса — Samantha, Ava, Zoe (можно скачать в Системных настройках <i class="ph ph-arrow-right"></i> Универсальный доступ <i class="ph ph-arrow-right"></i> Устный контент).</p>
         </div>
         <div class="card stack">
           <h3 style="margin:0">Резервная копия</h3>
