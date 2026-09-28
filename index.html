@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0b10" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="English Path">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Path</title>
+<link rel="stylesheet" href="css/style.css?v=1790584223">
+</head>
+<body>
+<div class="app">
+  <aside class="nav" id="nav">
+    <div class="brand"><span class="brand-mark">E</span><span class="brand-name">English Path</span></div>
+    <a href="#/" data-nav="today"><span class="ico">☀︎</span><span>Сегодня</span></a>
+    <a href="#/course" data-nav="course"><span class="ico">▤</span><span>Курс</span></a>
+    <a href="#/library" data-nav="library"><span class="ico">❏</span><span>Чтение</span></a>
+    <a href="#/cards" data-nav="cards"><span class="ico">⧉</span><span>Карточки</span><b class="badge" id="due-badge" hidden></b></a>
+    <a href="#/achievements" data-nav="achievements"><span class="ico">🏆</span><span>Достижения</span></a>
+    <a href="#/stats" data-nav="stats"><span class="ico">↗</span><span>Прогресс</span></a>
+    <a href="#/settings" data-nav="settings" class="nav-settings"><span class="ico">⚙︎</span><span>Настройки</span></a>
+  </aside>
+  <main class="main" id="view"></main>
+</div>
+<div class="popover" id="popover" hidden></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="data/dict.js?v=1790584223"></script>
+<script src="data/course.js?v=1790584223"></script>
+<script src="data/units-a1-5-6.js?v=1790584223"></script>
+<script src="data/units-a1-7-8.js?v=1790584223"></script>
+<script src="data/units-a1-9-10.js?v=1790584223"></script>
+<script src="data/units-games-2-3.js?v=1790584223"></script>
+<script src="data/words.js?v=1790584223"></script>
+<script src="js/lookup.js?v=1790584223"></script>
+<script src="js/achievements.js?v=1790584223"></script>
+<script src="js/config.js?v=1790584223"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/cloud.js?v=1790584223"></script>
+<script src="js/app.js?v=1790584223"></script>
+</body>
+</html>
