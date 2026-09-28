@@ -1428,7 +1428,7 @@
            <input class="input pp-input" id="pp-tr" placeholder="Перевод" autocomplete="off"><div class="alt-row" id="pp-alts"></div>`}
       <div class="actions">
         ${inCards ? '<span class="pill ok"><i class="ph ph-check"></i> в карточках</span>' : '<button class="btn small primary" id="pp-add">+ В карточки</button>'}
-        ${sid != null ? '<button class="btn small" id="pp-sent"><i class="ph ph-text-align-left"></i> Всё предложение</button>' : ''}
+        ${sid != null || (sentence && /\s/.test(sentence.trim()) && sentence.trim().toLowerCase() !== String(raw).toLowerCase()) ? '<button class="btn small" id="pp-sent"><i class="ph ph-text-align-left"></i> Всё предложение</button>' : ''}
         <a class="btn small ghost" target="_blank" rel="noopener" href="${gtUrl(sentence || raw)}">Переводчик <i class="ph ph-arrow-up-right"></i></a>
       </div>`;
     placePop(pop, anchor.getBoundingClientRect());
@@ -1437,7 +1437,7 @@
     speak(sayW);
     $('#pp-say').addEventListener('click', () => speak(sayW));
     $('#pp-x').addEventListener('click', hidePopover);
-    const ps = $('#pp-sent'); if (ps) ps.addEventListener('click', () => showSentence(sid, t));
+    const ps = $('#pp-sent'); if (ps) ps.addEventListener('click', () => (sid != null ? showSentence(sid, t) : showTextSentence(sentence, anchor)));
     if (res.length) yaBlock($('#pp-ya'), base);
     if (!res.length) autoTranslate(raw).then((tr) => {
       const inp = $('#pp-tr'), st = $('#pp-status'); if (!inp || !st) return;
@@ -1514,8 +1514,53 @@
     $('#pp-x').addEventListener('click', hidePopover);
     autoTranslate(text).then((tr) => { const b = $('#ps-ru'); if (!b || readerSentences[i] !== text || !pop.contains(b)) return; b.innerHTML = tr ? esc(tr) : '<span class="muted">Не удалось перевести автоматически — откройте «Переводчик».</span>'; });
   }
-  function hidePopover() { const p = $('#popover'); if (p) p.hidden = true; $$('.w.sel').forEach((x) => x.classList.remove('sel')); $$('.s.sel-sent').forEach((x) => x.classList.remove('sel-sent')); }
-  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w') && !ev.target.closest('.s')) hidePopover(); });
+  // Перевод по нажатию в уроках: английские слова в объяснениях и заданиях становятся нажимаемыми
+  function showTextSentence(text, anchorEl) {
+    text = String(text || '').replace(/_{2,}/g, '___').replace(/\s+/g, ' ').trim(); if (!text) return;
+    const pop = $('#popover');
+    const plain = text.replace(/___/g, '…');
+    pop.innerHTML = `<div class="row" style="gap:8px;margin-bottom:6px"><span class="eyebrow" style="margin:0">Предложение</span><span class="spacer"></span><button class="icon-btn" id="pp-x"><i class="ph ph-x"></i></button></div>
+      <div class="ps-en">${esc(plain)}</div><div class="ps-ru" id="ps-ru"><span class="muted">перевожу…</span></div>
+      <div class="actions"><button class="btn small primary" id="ps-say"><i class="ph-fill ph-play"></i> Слушать</button><button class="btn small" id="ps-slow"><i class="ph ph-timer"></i> Медленно</button></div>`;
+    placePop(pop, (anchorEl || view()).getBoundingClientRect());
+    const say = (r) => speakTTS(plain.replace(/…/g, ''), { rate: r });
+    say(S.settings.rate);
+    $('#ps-say').addEventListener('click', () => say(S.settings.rate));
+    $('#ps-slow').addEventListener('click', () => say(0.6));
+    $('#pp-x').addEventListener('click', hidePopover);
+    autoTranslate(plain.replace(/…/g, '')).then((tr) => { const b = $('#ps-ru'); if (b && pop.contains(b)) b.innerHTML = tr ? esc(tr) : '<span class="muted">Не удалось перевести автоматически.</span>'; });
+  }
+  const WF_TARGETS = '.lesson .card, .mini-q, .ex-q, .tq-q, .feedback .right, .tense-formula, .tense-hero';
+  const WF_SKIP = 'button, input, textarea, select, a, .lw, .blank, .tq-gap, .mini-o, .options, .chips, .ipa, svg';
+  function wordify(root) {
+    $$(WF_TARGETS, root).forEach((box) => {
+      const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (!/[A-Za-z]/.test(n.nodeValue) || (n.parentElement && n.parentElement.closest(WF_SKIP)) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach((n) => {
+        const frag = document.createDocumentFragment();
+        n.nodeValue.split(/([A-Za-z][A-Za-z'’]*(?:-[A-Za-z]+)*)/).forEach((part, i) => {
+          if (!part) return;
+          if (i % 2) { const sp = document.createElement('span'); sp.className = 'lw'; sp.textContent = part; frag.appendChild(sp); } else frag.appendChild(document.createTextNode(part));
+        });
+        n.parentNode.replaceChild(frag, n);
+      });
+    });
+  }
+  const lessonPage = () => /^#\/(unit|tenses)\//.test(location.hash);
+  let wfQueued = false;
+  new MutationObserver(() => { if (wfQueued || !lessonPage()) return; wfQueued = true; requestAnimationFrame(() => { wfQueued = false; wordify(view()); }); }).observe(document.querySelector('#view'), { childList: true, subtree: true });
+  document.querySelector('#view').addEventListener('click', (ev) => {
+    const w = ev.target.closest('.lw'); if (!w) return;
+    ev.stopPropagation(); ev.preventDefault();
+    $$('.lw.sel').forEach((x) => x.classList.remove('sel')); w.classList.add('sel');
+    const ctx = w.closest('.say, .mini-q, .ex-q, .tq-q, li, td, p, .g-bad, .g-good, .g-formula, div');
+    let sentence = w.textContent;
+    if (ctx) { const c = ctx.cloneNode(true); $$('.blank, .tq-gap, .gap', c).forEach((x) => { x.textContent = ' ___ '; }); sentence = c.textContent.replace(/\s+/g, ' ').trim(); }
+    const enOnly = (sentence.match(/[A-Za-z][^А-Яа-яЁё—]*[A-Za-z.!?…_]/) || [sentence])[0];
+    showWord(w, w.textContent, enOnly, null, false);
+  }, true);
+  function hidePopover() { const p = $('#popover'); if (p) p.hidden = true; $$('.w.sel, .lw.sel').forEach((x) => x.classList.remove('sel')); $$('.s.sel-sent').forEach((x) => x.classList.remove('sel-sent')); }
+  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest('#popover') && !ev.target.closest('.w') && !ev.target.closest('.s') && !ev.target.closest('.lw')) hidePopover(); });
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') hidePopover(); });
 
 

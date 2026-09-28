@@ -1320,3 +1320,9 @@ a.bm-row[href]:hover { background: var(--surface-2); }
   .topic-hero .topic-ill { font-size: 80px; }
   .topic-actions .pill-btn { width: 100%; }
 }
+
+/* ── Нажимаемые слова в уроках */
+.lw { cursor: pointer; border-radius: 4px; transition: background .12s; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { .lw:hover { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent-soft); } }
+.lw.sel { background: var(--accent); color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+.lesson .say .lw.sel, .say .lw.sel { color: #fff; }
