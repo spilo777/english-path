@@ -1249,3 +1249,34 @@ a.bm-row[href]:hover { background: var(--surface-2); }
   .lvl-badge { width: 44px; height: 44px; border-radius: 13px; }
   .lvl-body { padding: 0 10px 10px; }
 }
+
+/* ═════════ Система отступов: один ритм на всех страницах ═════════
+   --s-block — между соседними блоками (карточки, плитки, списки)
+   --s-section — между смысловыми разделами (секции с заголовком)
+   --s-head — внутри шапки страницы (заголовок, подзаголовок, вкладки) */
+:root { --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-block: var(--s-4); --s-section: var(--s-6); --s-head: var(--s-3); }
+@media (max-width: 760px) { :root { --s-section: 28px; --s-block: 14px; } }
+#view > * { margin-top: 0 !important; margin-bottom: 0 !important; }
+#view > * + * { margin-top: var(--s-block) !important; }
+/* разделы с заголовками */
+#view > * + :is(section, .sec, .sec-h, h2, details, .lvl-list, .menu-list, .list-link, .words-all, .ach-list:not(.eyebrow + .ach-list), .lib-units),
+#view > * + .card:is(.quiz),
+#view > section + * { margin-top: var(--s-section) !important; }
+/* шапка страницы */
+#view > .topbar + * { margin-top: var(--s-2) !important; }
+#view > .backlink + * { margin-top: var(--s-3) !important; }
+#view > :is(h1, .page-title) + :is(.page-sub, p) { margin-top: var(--s-1) !important; }
+#view > :is(h1, .page-title) + .tabs { margin-top: var(--s-4) !important; }
+#view > .tabs + * { margin-top: var(--s-head) !important; }
+#view > .tabs + .page-sub + * { margin-top: var(--s-5) !important; }
+#view > .page-sub + * { margin-top: var(--s-5) !important; }
+#view > .eyebrow + :is(h1, .ach-list, *) { margin-top: var(--s-2) !important; }
+#view > * + .eyebrow { margin-top: var(--s-5) !important; }
+#view > h1 + .book-chips, #view > h1 + .steps { margin-top: var(--s-3) !important; }
+#view > .book-chips + .steps { margin-top: var(--s-3) !important; }
+/* подсказки и мелкий текст рядом с блоком */
+#view > * + p.small, #view > * + p.tiny { margin-top: var(--s-3) !important; }
+#view > .reader-bar + .reader-text, #view > .reader-head + .reader-bar { margin-top: var(--s-3) !important; }
+/* заголовок раздела прижат к своему содержимому */
+#view > .sec-h + * { margin-top: var(--s-3) !important; }
+/* низ страницы: запас под плавающее меню уже в .main */

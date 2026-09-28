@@ -1550,7 +1550,7 @@
         <div class="small" style="font-weight:650;margin-bottom:8px">Добавить слово вручную</div>
         <div class="row"><input class="input" id="nc-en" placeholder="english" style="flex:1;min-width:120px;font-size:15px;padding:10px"><input class="input" id="nc-ru" placeholder="перевод" style="flex:1;min-width:120px;font-size:15px;padding:10px"><button class="btn small primary" id="nc-add">Добавить</button></div>
       </div>
-      <div class="card">
+      <div class="card words-all">
         <div class="row" style="margin-bottom:10px"><h3 style="margin:0">Все слова · ${all.length}</h3><span class="spacer"></span>
           <input class="input" id="cf" placeholder="Поиск" style="max-width:200px;padding:8px 12px;font-size:14px"></div>
         <div class="word-list" id="clist"></div>
