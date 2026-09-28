@@ -124,7 +124,28 @@
     return audioPending[k].then(pick);
   }
   let curAudio = null, speakTok = 0;
-  function stopAudio() { speakTok++; if (curAudio) { try { curAudio.pause(); } catch (e) {} curAudio = null; } }
+  // iOS/Safari разрешает звук только в ответ на нажатие. Один раз «разблокируем» общий <audio> и синтез речи
+  // при первом касании — после этого живые записи и голос браузера играют и после загрузки из сети.
+  const liveEl = new Audio(); liveEl.preload = 'auto';
+  const silentWav = (() => { try { const n = 800, b = new ArrayBuffer(44 + n * 2), d = new DataView(b); const w = (o, t) => { for (let i = 0; i < t.length; i++) d.setUint8(o + i, t.charCodeAt(i)); };
+    w(0, 'RIFF'); d.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true); d.setUint32(24, 16000, true); d.setUint32(28, 32000, true); d.setUint16(32, 2, true); d.setUint16(34, 16, true); w(36, 'data'); d.setUint32(40, n * 2, true);
+    return URL.createObjectURL(new Blob([b], { type: 'audio/wav' })); } catch (e) { return ''; } })();
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return; audioUnlocked = true;
+    try { if (silentWav) { liveEl.src = silentWav; const p = liveEl.play(); if (p && p.catch) p.catch(() => { audioUnlocked = false; }); } } catch (e) {}
+    try { if (window.speechSynthesis && !speechSynthesis.speaking) { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
+  }
+  ['touchend', 'click', 'keydown'].forEach((ev) => document.addEventListener(ev, unlockAudio, true));
+  function stopAudio() { speakTok++; try { liveEl.pause(); } catch (e) {} curAudio = null; }
+  function playLive(url, rate, fallback) {
+    curAudio = liveEl;
+    liveEl.onerror = fallback;
+    liveEl.src = url;
+    try { liveEl.playbackRate = Math.max(0.7, Math.min(1, rate || 1)); } catch (e) {}
+    const pr = liveEl.play(); if (pr && pr.catch) pr.catch(fallback);
+    if (S && S.stats) { S.stats.speaks = (S.stats.speaks || 0) + 1; S.stats.live = (S.stats.live || 0) + 1; }
+  }
   function fillIpa(root) {
     $$('[data-ipa]', root || document).forEach((el) => {
       if (el.dataset.done) return; el.dataset.done = 1;
@@ -137,19 +158,25 @@
     stopAudio();
     if (!opts.tts && !opts.onend && !opts.queue && S.settings.liveVoice !== false && liveEligible(w)) {
       const tok = speakTok;
-      if (window.speechSynthesis) speechSynthesis.cancel();
+      const rate = opts.rate || S.settings.rate;
       let fell = false;
       const fallback = () => { if (fell || tok !== speakTok) return; fell = true; speakTTS(text, opts); };
+      const k = w.toLowerCase().replace(/’/g, "'");
+      if (k in audioMap) { // запись уже известна — играем сразу, в том же нажатии
+        const rec = audioMap[k], pref = S.settings.accent === 'uk' ? 'uk' : 'us';
+        const u = rec && (rec[pref] || rec.us || rec.uk || rec.any);
+        if (!u) return speakTTS(text, opts);
+        if (window.speechSynthesis) speechSynthesis.cancel();
+        playLive(u, rate, fallback);
+        return null;
+      }
+      if (window.speechSynthesis) speechSynthesis.cancel();
       const timer = setTimeout(fallback, 2500);
       liveAudio(w).then((a) => {
         clearTimeout(timer);
         if (fell || tok !== speakTok) return;
         if (!a || !a.u) return fallback();
-        const au = new Audio(a.u); curAudio = au;
-        au.playbackRate = Math.max(0.7, Math.min(1, opts.rate || S.settings.rate || 1));
-        au.onerror = fallback;
-        const pr = au.play(); if (pr && pr.catch) pr.catch(fallback);
-        if (S && S.stats) { S.stats.speaks = (S.stats.speaks || 0) + 1; S.stats.live = (S.stats.live || 0) + 1; }
+        playLive(a.u, rate, fallback);
       }).catch(fallback);
       return null;
     }
