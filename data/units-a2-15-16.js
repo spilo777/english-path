@@ -130,7 +130,7 @@ COURSE.units.push(
 </table>
 <div class="g-bad">We arrived to London on Friday.</div>
 <div class="g-good">We arrived <b>in</b> London on Friday. / We got <b>to</b> London on Friday.</div>
-<div class="g-tip">Русское «приехал <b>в</b> Лондон» тянет к to. Запомните пару: <b>get to</b> — но <b>arrive in / at</b>. Если сомневаетесь — говорите get to, это всегда верно.</div>
+<div class="g-tip">Русское «приехал <b>в</b> Лондон» тянет к to. Запомните пару: <b>get to</b> — но <b>arrive in / at</b>. Если сомневаетесь — говорите get to, это всегда верно (кроме home / here / there: get home).</div>
 <div class="mini" data-q="What time did you arrive ___ the station?" data-o="to|at|in" data-a="1" data-why="arrive + не город и не страна → at."></div>
 <div class="mini" data-q="I'm tired. Let's go ___." data-o="to home|home|at home" data-a="1" data-why="Куда? домой → go home, без to."></div>`
       },
@@ -247,7 +247,7 @@ COURSE.units.push(
       {
         id: 't-a2-15-1', title: 'A weekend in Prague', level: 'A2',
         text: `Last spring my friend Max and I went to Prague for four days. We went by train because it's cheaper than the plane. The journey lasted eleven hours, and I slept for most of it. Max played games on his Switch while I was sleeping.
-We arrived in Prague early in the morning. Our hotel was near the old town, so we walked there on foot. We went along a beautiful river, across an old stone bridge, and through a small park. The hotel was just round the corner from the main square.
+We arrived in Prague early in the morning. Our hotel was near the old town, so we went there on foot. We went along a beautiful river, across an old stone bridge, and through a small park. The hotel was just round the corner from the main square.
 We couldn't check in until two o'clock, so we left our bags at the hotel and went out. During the first day we saw a lot of old churches and a clock that is more than six hundred years old. Before going back to the hotel, we had dinner in a small café. The waiter talked to us about the history of the city for half an hour.
 On the last evening we went on a boat trip. We went under six bridges, and the city looked amazing at night.
 We got home on Monday night. I've been back at work since Tuesday, but I still think about Prague every day.`,
@@ -262,7 +262,7 @@ We got home on Monday night. I've been back at work since Tuesday, but I still t
         text: `Kate: Hi, Tom! You're late again. The meeting started at ten.
 Tom: I know, sorry. I was on the phone with the client until half past nine, and then my bus didn't come.
 Kate: Why didn't you come by bike?
-Tom: I fell off it on Saturday. So I've come to work on foot or by bus since Monday.
+Tom: I fell off it on Saturday. So I've been coming to work on foot or by bus since Monday.
 Kate: Oh no! Are you OK?
 Tom: Yes, I'm fine. Did I miss anything important during the meeting?
 Kate: Not much. The boss talked about the new game for about an hour. The new characters look great. Anna is working on them.
@@ -287,8 +287,8 @@ Tom: Ha ha. Very funny. Next time I'll be on time, I promise.`,
       { t: 'choice', q: 'My phone rang ___ I was having a shower.', o: ['during', 'while', 'for'], a: 1, why: 'Дальше целая фраза с глаголом → while.' },
       { t: 'choice', q: 'Nobody spoke ___ the exam.', o: ['during', 'while', 'for'], a: 0, why: 'the exam — существительное → during.' },
       { t: 'choice', q: 'We arrived ___ Madrid late at night.', o: ['to', 'in', 'at'], a: 1, why: 'arrive + город или страна → in.' },
-      { t: 'choice', q: 'The ball flew ___ the net.', o: ['over', 'through', 'along'], a: 0, why: 'Над сеткой, сверху → over.' },
-      { t: 'choice', q: 'This is a painting ___ Van Gogh.', o: ['of', 'with', 'by'], a: 2, why: 'Автор картины, книги, песни → by.' },
+      { t: 'choice', q: 'The tennis ball flew ___ the net.', o: ['over', 'through', 'along'], a: 0, why: 'Над сеткой, сверху → over.' },
+      { t: 'choice', q: 'This is a painting ___ Van Gogh. He painted it in 1889.', o: ['of', 'with', 'by'], a: 2, why: 'Автор картины, книги, песни → by.' },
       { t: 'gap', q: 'Don\'t leave ___ I call you. (до тех пор, пока не)', a: ['until', 'till'], why: 'Действие идёт до момента → until (till), без лишнего not.' },
       { t: 'gap', q: 'I always check my mail before ___ work. (start)', a: ['starting'], why: 'После before глагол с -ing.' },
       { t: 'gap', q: 'I usually go to work ___ foot.', a: ['on'], why: 'Пешком — готовое выражение on foot.' },
@@ -307,10 +307,10 @@ Tom: Ha ha. Very funny. Next time I'll be on time, I promise.`,
       { t: 'choice', q: 'I\'ve known Max ___ we were at university.', o: ['for', 'since', 'during'], a: 1, why: 'С момента в прошлом (целая фраза) до сейчас → since.' },
       { t: 'choice', q: 'We lived in Minsk ___ 2020, and then we moved to Riga.', o: ['since', 'for', 'until'], a: 2, why: 'Прошлое закончилось в 2020 → until (до).' },
       { t: 'gap', q: 'After ___ the level, I saved the game. (finish)', a: ['finishing'], why: 'После after глагол с -ing.' },
-      { t: 'choice', q: 'We played online ___ the whole night.', o: ['during', 'while', 'since'], a: 0, why: 'the whole night — существительное → during (всю ночь).' },
+      { t: 'choice', q: 'My phone rang three times ___ the night.', o: ['during', 'while', 'since'], a: 0, why: 'the night — существительное → during (во время, в течение ночи).' },
       { t: 'choice', q: 'What time did you get ___ the airport?', o: ['at', 'to', 'in'], a: 1, why: 'get + место → get to.' },
       { t: 'gap', q: 'I was ___ the phone with my mum for an hour.', a: ['on'], why: 'Говорить по телефону → on the phone.' },
-      { t: 'choice', q: 'The dog ran ___ the road and nearly hit a car.', o: ['across', 'through', 'over'], a: 0, why: 'С одной стороны дороги на другую → across.' },
+      { t: 'choice', q: 'The dog ran ___ the road, and a car nearly hit it.', o: ['across', 'through', 'over'], a: 0, why: 'С одной стороны дороги на другую → across.' },
       { t: 'gap', q: 'She got her first job as a designer ___ the age of 22.', a: ['at'], why: 'Возраст → at (the age of) 22.' },
       { t: 'choice', q: 'I opened the box ___ a knife.', o: ['by', 'with', 'on'], a: 1, why: 'Инструмент (чем?) → with.' },
       { t: 'gap', q: 'Please don\'t touch anything until the teacher ___. (come)', a: ['comes'], why: 'После until про будущее — Present Simple: comes.' }
@@ -615,7 +615,7 @@ Tom: Perfect. I hope to finish my portfolio on Friday, so I'll be free all day.`
       { t: 'gap', q: 'Do you want me ___ you? (help)', a: ['to help'], why: 'want + кто + to + глагол.' },
       { t: 'order', a: 'I want you to meet my friend', ru: 'Я хочу, чтобы ты познакомился с моим другом' },
       { t: 'order', a: 'Have you finished reading the book', ru: 'Ты закончил читать книгу?' },
-      { t: 'tr', q: 'Я надеюсь тебя скоро увидеть.', a: ['i hope to see you soon'] },
+      { t: 'tr', q: 'Я надеюсь тебя скоро увидеть.', a: ['i hope to see you soon', 'i hope i will see you soon', 'i hope i see you soon'] },
       { t: 'tr', q: 'Мне нравится рисовать по вечерам.', a: ['i like drawing in the evening', 'i like to draw in the evening', 'i like drawing in the evenings', 'i like to draw in the evenings', 'i enjoy drawing in the evening', 'i enjoy drawing in the evenings'] },
       { t: 'listen', say: 'Would you like me to send you the file?', a: ['would you like me to send you the file'] }
     ],

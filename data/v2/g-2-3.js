@@ -337,7 +337,7 @@ Optional: Collect 5 herbs (5/5) — complete!`,
 <tr><td><span class="say">Need help!</span></td><td>I need help.</td><td>Нужна помощь!</td></tr>
 <tr><td><span class="say">On my way!</span></td><td>I am on my way.</td><td>Иду!</td></tr>
 <tr><td><span class="say">Ready?</span></td><td>Are you ready?</td><td>Готовы?</td></tr>
-<tr><td><span class="say">Nice shot!</span></td><td>It is a nice shot.</td><td>Классный выстрел!</td></tr>
+<tr><td><span class="say">Nice shot!</span></td><td>That was a nice shot.</td><td>Классный выстрел!</td></tr>
 <tr><td><span class="say">Two enemies!</span></td><td>There are two enemies.</td><td>Два врага!</td></tr>
 </table>
 <div class="g-bad">I ready. <span class="muted">— это ни коротко, ни полностью</span></div>
@@ -371,7 +371,7 @@ Optional: Collect 5 herbs (5/5) — complete!`,
 <div class="g-good">Let's go! <span class="muted">— после Let's глагол без to</span></div>
 <div class="g-bad">Let's don't push.</div>
 <div class="g-good">Let's <b>not</b> push.</div>
-<div class="g-tip">Пожелания — тоже команды: <span class="say">Have fun!</span> — Веселитесь! <span class="say">Good luck!</span> — Удачи! Отсюда и чатовое glhf.</div>
+<div class="g-tip">Пожелания часто строятся как команды: <span class="say">Have fun!</span> — Веселитесь! Вместе с <span class="say">Good luck!</span> (Удачи!) получается чатовое glhf.</div>
 <div class="mini" data-q="«Давайте подождём Лину»" data-o="Let's wait for Lina.|Let's to wait for Lina.|Let's we wait Lina." data-a="0" data-why="Let's + глагол без to и без we; ждать кого-то = wait for."></div>
 <div class="mini" data-q="«Давайте не будем давить!»" data-o="Let's don't push!|Let's not push!|Not let's push!" data-a="1" data-why="Отрицание с Let's — Let's not + глагол."></div>`
         },
@@ -501,13 +501,13 @@ Optional: Collect 5 herbs (5/5) — complete!`,
         ['brb', 'сейчас вернусь (be right back)', 'brb, I need water.', 'сейчас вернусь, мне нужна вода.'],
         ['np', 'без проблем (no problem)', 'ty! — np', 'спасибо! — без проблем'],
         ['ty', 'спасибо (thank you)', 'ty for the heal!', 'спасибо за хил!'],
-        ['lag', 'лаг, задержка; лагать', 'Sorry, I have lag.', 'Извините, у меня лагает.'],
+        ['lag', 'лаг, задержка; лагать', 'Sorry, I\'m lagging.', 'Извините, у меня лагает.'],
         ['noob', 'нуб, новичок', 'I\'m a noob, can you help me?', 'Я новичок, можешь помочь?'],
         ['nerf', 'ослабить (в патче)', 'They need to nerf this weapon.', 'Это оружие нужно ослабить.'],
         ['buff', 'усилить; усиление', 'They need to buff my character.', 'Моего персонажа нужно усилить.'],
         ['op', 'имба, слишком сильный', 'This skill is so op!', 'Этот навык просто имба!'],
         ['respawn', 'возрождение; возродиться', 'Wait for respawn.', 'Жди возрождения.'],
-        ['carry', 'тащить (команду)', 'Lina, you carry us!', 'Лина, ты нас тащишь!'],
+        ['carry', 'тащить (команду)', 'Lina, you\'re carrying us!', 'Лина, ты нас тащишь!'],
         ['lobby', 'лобби', 'We are in the lobby.', 'Мы в лобби.'],
         ['match', 'матч', 'The match starts now.', 'Матч начинается.'],
         ['queue', 'очередь; встать в очередь', 'Let\'s queue together.', 'Давай пойдём в поиск вместе.'],
@@ -547,7 +547,7 @@ MATCH STARTS IN 5… 4… 3…
 [Team] IronBear: I'm behind you, SkyFox
 YOU WIN!
 [All] RedKnight: gg wp
-[Team] SkyFox: gg! Lina, you carry us
+[Team] SkyFox: gg! ty for the carry, Lina
 [Team] Lina_07: ty :) queue again?
 [Team] You: sure! let's go`,
           questions: [
@@ -579,7 +579,7 @@ You: gg wp, everyone. Thank you, you are a very good team.
 Max: ty! Let's play again!`,
           questions: [
             { q: 'What does Anna need to do?', o: ['To heal', 'To buy a weapon', 'To write in chat'], a: 0 },
-            { q: 'The player doesn\'t understand Max. What is his question?', o: ['Can you repeat?', 'Can you heal me?', 'Is everyone ready?'], a: 0 },
+            { q: 'The player doesn\'t understand Max. What does the player ask?', o: ['Can you repeat?', 'Can you heal me?', 'Is everyone ready?'], a: 0 },
             { q: 'Who wins the match?', o: ['Max\'s team', 'The enemies', 'We don\'t know'], a: 0 }
           ]
         }

@@ -129,7 +129,7 @@ COURSE.units.push(
 <table>
 <tr><th>what</th><th>which</th></tr>
 <tr><td><span class="say">What colour are her eyes?</span> <span class="muted">(все цвета мира)</span></td><td><span class="say">Which colour do you want — blue or green?</span></td></tr>
-<tr><td><span class="say">What games do you play?</span></td><td><span class="say">Which game do we play tonight — this or that?</span></td></tr>
+<tr><td><span class="say">What games do you play?</span></td><td><span class="say">Which game do we play tonight — this one or that one?</span></td></tr>
 </table>
 <p>Без существительного <b>which</b> — только о вещах. О людях — <b>who</b>: <span class="say">Who plays the guitar — Tom or Max?</span></p>
 <div class="g-bad">What colour has your car? · Which plays the guitar — Tom or Max?</div>
@@ -160,7 +160,7 @@ COURSE.units.push(
 <div class="g-bad">How many years do you have?</div>
 <div class="g-good">How <b>old are</b> you?</div>
 <div class="g-bad">How many time do you play?</div>
-<div class="g-good">How <b>long</b> do you play? · How <b>much</b> time do you play?</div>
+<div class="g-good">How <b>long</b> do you play? · How <b>many hours</b> do you play?</div>
 <div class="mini" data-q="___ is it from here to the office? — Two kilometres." data-o="How long|How far|How often" data-a="1" data-why="Спрашиваем о расстоянии → how far."></div>
 <div class="mini" data-q="Как часто ты играешь?" data-o="How much do you play?|How often do you play?|How many do you play?" data-a="1" data-why="«Как часто» = how often."></div>`
       },
@@ -295,7 +295,7 @@ Who won? Not our team. We got fourteen points, and the winners got sixteen. But 
       { t: 'gap', q: '___ is your favourite character? — Geralt. (кто)', a: ['Who'], why: 'Спрашиваем о человеке (персонаже) → who.' },
       { t: 'order', a: 'What time does the stream start', ru: 'Во сколько начинается стрим?' },
       { t: 'order', a: 'Who told you about this game', ru: 'Кто рассказал тебе об этой игре?' },
-      { t: 'tr', q: 'Где ты купил этот ноутбук?', a: ['where did you buy this laptop'] },
+      { t: 'tr', q: 'Где ты купил этот ноутбук?', a: ['where did you buy this laptop', 'where did you buy that laptop', 'where did you get this laptop', 'where did you get that laptop'] },
       { t: 'tr', q: 'Как часто ты играешь в игры?', a: ['how often do you play games', 'how often do you play video games'] },
       { t: 'listen', say: 'How long does it take by bus?', a: ['how long does it take by bus'] }
     ],
@@ -306,7 +306,7 @@ Who won? Not our team. We got fourteen points, and the winners got sixteen. But 
       { t: 'gap', q: 'What ___ Max write in the chat? — «GG».', a: ['did'], why: 'Писал Макс, спрашиваем «что?» → нужен did.' },
       { t: 'choice', q: 'Why ___ you answer my message yesterday?', o: ['don\'t', 'didn\'t', 'wasn\'t'], a: 1, why: 'Почему не… в прошлом с обычным глаголом → didn\'t.' },
       { t: 'choice', q: '___ size are your shoes?', o: ['Which', 'What', 'How'], a: 1, why: 'Размер вообще, без готовых вариантов → What size.' },
-      { t: 'choice', q: 'You can have tea or coffee. ___ do you want?', o: ['What', 'Which', 'Who'], a: 1, why: 'Выбор из двух названных вариантов → which.' },
+      { t: 'choice', q: 'You can have tea or coffee. ___ do you want?', o: ['Who', 'Which', 'How'], a: 1, why: 'Выбор из двух названных вариантов → which.' },
       { t: 'choice', q: '___ plays the guitar in your band — Tom or Max?', o: ['Which', 'Who', 'What'], a: 1, why: 'О людях без существительного говорят who, не which.' },
       { t: 'gap', q: 'How ___ is it from your home to the station? — Two kilometres.', a: ['far'], why: 'Расстояние → how far.' },
       { t: 'gap', q: 'What does your brother ___? — He\'s a programmer.', a: ['do'], why: 'В вопросе о работе do два раза: помощник does и глагол do.' },
@@ -511,11 +511,11 @@ First I learned "am, is, are", and then Present Simple. When I understood "she w
 I studied every evening after work. I usually opened my notebook after dinner, when the house was quiet.
 Sometimes I made mistakes, but I didn't stop. When I didn't understand a rule, I read it again or asked my friend Kate. She lives in London, so her English is great.
 Now I can read short texts, and I can talk about my day. Last week I played an RPG in English. There were a lot of new words, but I understood the story!
-My next goal is A2. Before I start, I want to repeat all the A1 topics. When I finish them, I want to watch a series without subtitles. Maybe it's hard, but I want to try.`,
+My next goal is A2. Before I start, I want to review all the A1 topics. When I finish them, I want to watch a series without subtitles. Maybe it's hard, but I want to try.`,
         questions: [
-          { q: 'Why was the writer scared?', o: ['Grammar was always hard for him', 'He had no time', 'English was boring'], a: 0 },
+          { q: 'Why was the writer scared?', o: ['Grammar was always hard', 'There was no time', 'English was boring'], a: 0 },
           { q: 'Who helped the writer with English?', o: ['Kate', 'Max', 'A teacher'], a: 0 },
-          { q: 'What does the writer want to do before A2?', o: ['Buy a new game', 'Repeat all the A1 topics', 'Go to London'], a: 1 }
+          { q: 'What does the writer want to do before A2?', o: ['Buy a new game', 'Review all the A1 topics', 'Go to London'], a: 1 }
         ]
       },
       {
@@ -559,7 +559,7 @@ Max: Perfect. See you tonight!`,
       { t: 'gap', q: 'Brush your teeth ___ you go to bed. (перед тем как)', a: ['before'], why: '«Перед тем как» → before.' },
       { t: 'order', a: 'I was tired so I went to bed', ru: 'Я устал, поэтому пошёл спать.' },
       { t: 'order', a: 'Call me when you get home', ru: 'Позвони мне, когда придёшь домой.' },
-      { t: 'tr', q: 'Я остался дома, потому что было холодно.', a: ['i stayed at home because it was cold', 'i stayed home because it was cold'] },
+      { t: 'tr', q: 'Я остался дома, потому что было холодно.', a: ['i stayed at home because it was cold', 'i stayed home because it was cold', 'i stayed in because it was cold'] },
       { t: 'tr', q: 'Я купил игру, но не играл в неё.', a: ['i bought the game but i didn\'t play it', 'i bought the game, but i didn\'t play it', 'i bought the game but i did not play it', 'i bought the game, but i did not play it', 'i bought a game but i didn\'t play it', 'i bought a game, but i didn\'t play it'] },
       { t: 'listen', say: 'When I got home, I opened my laptop.', a: ['when i got home i opened my laptop', 'when i got home, i opened my laptop'] }
     ],

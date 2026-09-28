@@ -177,7 +177,7 @@ COURSE.units.push(
 </table>
 <div class="g-steps"><div class="g-h">Три места — три правила</div><ol>
 <li><b>Перед обычным глаголом:</b> <span class="say">I always drink coffee in the morning.</span> <span class="say">She often plays online.</span> <span class="say">We rarely watch TV.</span></li>
-<li><b>После am / is / are / was / were:</b> <span class="say">I'm always tired on Monday.</span> <span class="say">He is never late.</span> <span class="say">It was often cold there.</span></li>
+<li><b>После am / is / are / was / were:</b> <span class="say">I'm always tired on Mondays.</span> <span class="say">He is never late.</span> <span class="say">It was often cold there.</span></li>
 <li><b>Между двумя глаголами</b> (can, do/does, did + глагол): <span class="say">I can never find my keys.</span> <span class="say">It doesn't often rain here.</span> <span class="say">Do you usually work from home?</span></li>
 </ol></div>
 <div class="g-bad">I drink always coffee. · I always am late.</div>
@@ -239,7 +239,7 @@ COURSE.units.push(
       ['smell', 'пахнуть', 'The kitchen smells good.', 'На кухне вкусно пахнет.'],
       ['taste', 'быть на вкус', 'This coffee tastes bad.', 'У этого кофе плохой вкус.'],
       ['always', 'всегда', 'I always drink coffee in the morning.', 'Я всегда пью кофе утром.'],
-      ['usually', 'обычно', 'We usually play on Friday.', 'Мы обычно играем в пятницу.'],
+      ['usually', 'обычно', 'We usually play on Fridays.', 'Мы обычно играем по пятницам.'],
       ['often', 'часто', 'She often works from home.', 'Она часто работает из дома.'],
       ['sometimes', 'иногда', 'I sometimes watch anime.', 'Я иногда смотрю аниме.'],
       ['rarely', 'редко', 'He rarely eats breakfast.', 'Он редко завтракает.'],
@@ -251,15 +251,15 @@ COURSE.units.push(
     texts: [
       {
         id: 't-a1-15-1', title: 'A fast player and a slow player', level: 'A1',
-        text: `My friend Leo is a very good gamer. He plays fast and thinks quickly. He usually wins easily, but he is never proud.
-Leo works hard in the day. He is a designer in a big studio. He often finishes his work early, and then he goes home and turns on his computer.
+        text: `My friend Leo is a very good gamer. He plays fast and thinks quickly. He usually wins easily, but he never talks about it.
+Leo works hard during the day. He is a designer in a big studio. He often finishes his work early, and then he goes home and turns on his computer.
 I sometimes play with Leo online. I am a slow player. I always move carefully and I read every message twice. Leo laughs, but he helps me.
 Last Friday we played a new horror game. The world looked beautiful, but the music sounded scary. Suddenly a monster ran out of a dark room. I screamed loudly! Leo was calm. He killed the monster quietly and said, "You play well. You are just very careful."
 It was two in the morning. We were both tired, but we were still happy.`,
         questions: [
           { q: 'How does Leo play?', o: ['Slowly and carefully', 'Fast', 'Badly'], a: 1 },
           { q: 'Where does Leo work?', o: ['In a big studio', 'At home', 'In a shop'], a: 0 },
-          { q: 'What did the narrator do when the monster came?', o: ['He killed it quietly', 'He screamed loudly', 'He turned off the game'], a: 1 }
+          { q: 'What did the narrator do when the monster came?', o: ['Killed it quietly', 'Screamed loudly', 'Turned off the game'], a: 1 }
         ]
       },
       {
@@ -300,10 +300,10 @@ Anna: I'm still at my desk. Bring me one too, please!`,
       { t: 'gap', q: 'I ___ play games at night. (обычно)', a: ['usually'], why: 'Слова частоты стоят перед обычным глаголом.' },
       { t: 'gap', q: 'They work very ___. (усердно)', a: ['hard'], why: 'hard — и «трудный», и «усердно»; hardly значит «почти не».' },
       { t: 'order', a: 'He speaks English very well', ru: 'Он очень хорошо говорит по-английски.' },
-      { t: 'order', a: 'I always drink coffee in the morning', ru: 'Я всегда пью кофе утром.' },
-      { t: 'order', a: 'We met our friends in the park yesterday', ru: 'Вчера мы встретили друзей в парке.' },
+      { t: 'order', a: 'I always drink coffee with milk', ru: 'Я всегда пью кофе с молоком.' },
+      { t: 'order', a: 'I was at home all evening', ru: 'Я весь вечер был дома.' },
       { t: 'tr', q: 'Он всегда опаздывает.', a: ['he is always late', 'he\'s always late'] },
-      { t: 'tr', q: 'Мне очень нравится этот сериал.', a: ['i like this series very much', 'i like this show very much', 'i really like this series', 'i really like this show', 'i like this tv series very much'] },
+      { t: 'tr', q: 'Мне очень нравится этот сериал.', a: ['i like this series very much', 'i like this show very much', 'i really like this series', 'i really like this show', 'i like this tv series very much', 'i like this series a lot', 'i like this show a lot', 'i really like this tv series'] },
       { t: 'listen', say: 'She finished the level quickly', a: ['she finished the level quickly'] }
     ],
     test: [
@@ -587,7 +587,7 @@ Kate`,
       { t: 'choice', q: '«Я бы хотел остаться дома».', o: ['I like to stay at home.', 'I\'d like to stay at home.', 'I\'d like stay at home.'], a: 1, why: 'Хочу сейчас — I\'d like + to + глагол.' },
       { t: 'choice', q: 'Would you like to go to the concert? — ___ I\'m busy.', o: ['Yes, please.', 'Sorry, I can\'t.', 'No, I don\'t.'], a: 1, why: 'Вежливый отказ от приглашения — Sorry, I can\'t.' },
       { t: 'choice', q: '«Не трогай это!»', o: ['Not touch it!', 'Don\'t touch it!', 'Don\'t touching it!'], a: 1, why: 'Запрет — Don\'t + глагол в начальной форме.' },
-      { t: 'choice', q: '«Хорошо вам повеселиться!»', o: ['Have fun!', 'You have fun!', 'Having fun!'], a: 0, why: 'Пожелание — глагол have в начале, без you.' },
+      { t: 'choice', q: '«Повеселитесь!» (пожелание)', o: ['Have fun!', 'You have fun!', 'Having fun!'], a: 0, why: 'Пожелание — глагол have в начале, без you.' },
       { t: 'choice', q: 'Let\'s go to the park. — ___', o: ['Good idea!', 'Yes, I do.', 'Yes, I would like.'], a: 0, why: 'На Let\'s… соглашаются: Good idea! / OK, let\'s.' },
       { t: 'choice', q: 'Только Том должен идти спать: «___ to bed, Tom. You look tired.»', o: ['Let\'s go', 'Go', 'Going'], a: 1, why: 'Просьба к одному человеку — просто глагол; Let\'s — это «мы вместе».' },
       { t: 'gap', q: '___ careful! The road is wet. (быть)', a: ['be'], why: 'careful — «какой?», поэтому Be careful.' },

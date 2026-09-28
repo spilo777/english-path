@@ -231,7 +231,7 @@ Kate: That's OK. I don't need good English. I need a friend in the game!`,
           text: `Anna is a teacher. She works from Monday to Friday. She doesn't work at the weekend.
 She gets up at six o'clock. She doesn't drink coffee in the morning. She drinks tea.
 On Monday and Wednesday she does sport in the evening. On Tuesday and Thursday she studies English. She doesn't understand every word, but she likes English films.
-On Friday evening she watches a film with her friends. They don't watch it in the city. They watch it at Anna's house.
+On Friday evening she watches a film with her friends. They don't go to the cinema. They watch it at Anna's house.
 On Saturday she sleeps late. She doesn't get up early. On Sunday she reads and listens to music.
 Does Anna play games? No, she doesn't. Her friend Max plays every day, and he often plays with his friends from London. Anna doesn't. She doesn't have time for games.
 Does Anna like her week? Yes, she does!`,
@@ -486,7 +486,7 @@ Kate: Are your friends there with you?
 Max: No, they aren't. They're at home.
 Kate: I'm not working today. I'm playing our game with Tom and Anna. They're waiting for you!
 Max: Sorry! I'm finishing now. Is Tom playing too?
-Kate: No, he isn't. He's talking and eating. He isn't listening to me!
+Kate: Yes, he is, but he's talking and eating. He isn't listening to me!
 Max: Ha! OK, I'm coming.
 Kate: OK. We're waiting!`,
           questions: [

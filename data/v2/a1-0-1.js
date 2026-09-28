@@ -229,7 +229,7 @@ Tom: Thank you!
 Anna: You're welcome.
 Max: Thanks, Tom!
 Tom: You're welcome, Max.
-Anna: Coffee, coffee and tea. Please!
+Anna: Coffee, coffee and tea!
 Tom: Thank you, Anna!
 Kate: Hello, Anna! Hi, Tom! Hi, Max!
 Anna: Hi, Kate! Coffee? Tea?
@@ -530,7 +530,7 @@ Kate: Bye!`,
         {
           id: 't-a1-1-2', title: 'My team', level: 'A1',
           text: `My name is Ilya. I'm a designer, and I'm from Kazan.
-Max, Kate, Sam and Lily are my friends. We are five friends. We are at work, and the game is good!
+Max, Kate, Sam and Lily are my friends. We are a team. We are at work, and the game is good!
 Max is a designer too. He is from Kazan. He is a nice man, and he is a good friend.
 Kate is an artist. She is from London. She isn't a designer, but she is a good artist.
 Sam and Lily aren't designers. They are students. They are from New York.

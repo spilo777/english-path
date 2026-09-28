@@ -147,7 +147,7 @@ COURSE.units.push(
 <tr><th>Куда</th><th>Где</th><th>Смысл</th></tr>
 <tr><td><span class="say">go to work</span></td><td><span class="say">at work</span></td><td>на работу / на работе</td></tr>
 <tr><td><span class="say">go to school</span></td><td><span class="say">at school</span></td><td>в школу / в школе</td></tr>
-<tr><td><span class="say">go to university</span></td><td><span class="say">at university</span></td><td>в университет</td></tr>
+<tr><td><span class="say">go to university</span></td><td><span class="say">at university</span></td><td>в университет / в университете</td></tr>
 <tr><td><span class="say">go to bed</span></td><td><span class="say">in bed</span></td><td>спать / в постели</td></tr>
 <tr><td><span class="say">go to hospital</span></td><td><span class="say">in hospital</span></td><td>в больницу / в больнице</td></tr>
 <tr><td><span class="say">go home</span></td><td><span class="say">at home</span></td><td>домой / дома</td></tr>
@@ -219,7 +219,7 @@ COURSE.units.push(
       {
         id: 't-a1-13-1', title: 'A new job', level: 'A1',
         text: `Last Monday I started a new job. I'm a designer in a small game studio. The studio is in the city centre, near the station.
-In the morning I took a bus to work. The bus was full, so I didn't sit. At the studio the boss gave me a laptop and a desk. The desk is near the window, and I can see the sky and the river.
+In the morning I took a bus to work. The bus was full, so I didn't get a seat. At the studio the boss gave me a laptop and a desk. The desk is near the window, and I can see the sky and the river.
 There are two artists and a programmer in our team. The artists are very friendly. The programmer didn't say a word all day — he had headphones on.
 We had lunch at one. There is a cafe on the first floor, and the soup there is great.
 In the afternoon the boss showed me our game. It's a game about a cat in space. The cat can fly, and the music is fantastic. I love music in games.
@@ -235,14 +235,13 @@ I finished work at six, went home and went to bed early. It was a good day.`,
         text: `Anna: Hi, Max! Where are you?
 Max: I'm at work. I finish work at seven today.
 Anna: Do you want to go to the cinema after work? There's a new film about a detective and a robot dog.
-Max: Oh, I saw the trailer! The dog is so funny.
-Max: OK, but I can't stay out late. I need to go to the dentist in the morning.
+Max: Oh, I saw the trailer! The dog is so funny. OK, but I can't stay out late. I need to go to the dentist in the morning.
 Anna: No problem. Where do we meet? At the station?
 Max: No, the station is always busy. Can we meet at the bank near the cinema?
 Anna: Sure. After the film we can have dinner. I know a nice place.
 Max: Great! I didn't have lunch today. I was in meetings all day.
 Anna: And how is your brother? Is he still in hospital?
-Max: No, he went home last week. Now he is in bed all day, watches TV and plays the guitar. The neighbours are not happy!
+Max: No, he went home last week. Now he stays in bed all day, watches TV and plays the guitar. The neighbours are not happy!
 Anna: Ha! OK, see you at seven.`,
         questions: [
           { q: 'Why can\'t Max stay out late?', o: ['He has to work at night', 'He needs to go to the dentist in the morning', 'He wants to watch TV'], a: 1 },
@@ -277,7 +276,7 @@ Anna: Ha! OK, see you at seven.`,
       { t: 'choice', q: 'Rome is ___ capital of Italy.', o: ['a', 'the', '—'], a: 1, why: 'Столица у страны одна → the.' },
       { t: 'choice', q: 'Do you play ___ tennis?', o: ['a', 'the', '—'], a: 2, why: 'Спорт и игры — без артикля.' },
       { t: 'choice', q: 'Where\'s Kate? — She\'s ___ school.', o: ['at', 'at the', 'in a'], a: 0, why: 'at school — учится в школе, устойчивая фраза без the.' },
-      { t: 'choice', q: 'You look ill. Go to ___ doctor.', o: ['a', 'the', '—'], a: 1, why: 'go to the doctor / the dentist — с the.' },
+      { t: 'choice', q: 'You look ill. Go to ___ doctor.', o: ['an', 'the', '—'], a: 1, why: 'go to the doctor / the dentist — с the.' },
       { t: 'choice', q: 'Как правильно?', o: ['This is a my desk.', 'This is the my desk.', 'This is my desk.'], a: 2, why: 'my уже стоит перед словом — артикль не нужен.' },
       { t: 'choice', q: 'I didn\'t understand ___ end of this series.', o: ['an', 'the', '—'], a: 1, why: 'Конец у сериала один, уточнили какой → the end of…' },
       { t: 'gap', q: 'What\'s ___ name of this street? (артикль)', a: ['the'], why: 'У улицы одно название, уточнили какое — the name of…' },
@@ -395,7 +394,7 @@ Anna: Ha! OK, see you at seven.`,
 <li><span class="say">We stayed at a small hotel.</span> = <span class="say">We stayed in a small hotel.</span> — с гостиницей можно и так, и так.</li>
 </ul>
 <div class="g-tip"><b>in</b> a car / a taxi, но <b>on</b> a bus / a train / a plane. Ассоциация: в автобусе можно <b>встать и пройтись</b> — ты «на борту» (on board). В машине только сидишь внутри — in.</div>
-<div class="g-bad">in the photo — «на фото» переводят как on the photo</div>
+<div class="g-bad">He's on the photo. <span class="muted">— «на фото» хочется перевести как on</span></div>
 <div class="g-good">He's in the photo. I saw it in the newspaper.</div>
 <div class="mini" data-q="Where were you? — ___ Max's. We played games." data-o="In|On|At" data-a="2" data-why="У кого-то дома — at + имя с 's: at Max's."></div>
 <div class="mini" data-q="I always listen to podcasts ___ the train." data-o="in|on|at" data-a="1" data-why="Общественный транспорт — on: on the bus, on the train."></div>`
@@ -514,7 +513,7 @@ Max: It starts in two minutes. Thanks, Kate!`,
     practice: [
       { t: 'choice', q: 'The concert starts ___ 7:30.', o: ['in', 'on', 'at'], a: 2, why: 'Точное время на часах → at.' },
       { t: 'choice', q: 'I was born ___ 1998.', o: ['in', 'on', 'at'], a: 0, why: 'Год — большой отрезок времени → in.' },
-      { t: 'choice', q: 'What are you doing ___ the weekend?', o: ['in', 'on', 'at'], a: 2, why: 'Британский вариант — at the weekend.' },
+      { t: 'choice', q: 'What are you doing ___ the weekend? (британский вариант)', o: ['in', 'on', 'at'], a: 2, why: 'Британский вариант — at the weekend.' },
       { t: 'choice', q: 'See you ___ Saturday!', o: ['in', 'on', 'at'], a: 1, why: 'День недели → on.' },
       { t: 'choice', q: 'I saw Anna ___ yesterday.', o: ['on', 'in', '— (ничего)'], a: 2, why: 'Перед yesterday / today / tomorrow предлог не ставим.' },
       { t: 'choice', q: 'There\'s a big map ___ the wall.', o: ['in', 'on', 'at'], a: 1, why: 'Стена — поверхность, карта на ней → on.' },
@@ -526,7 +525,7 @@ Max: It starts in two minutes. Thanks, Kate!`,
       { t: 'gap', q: 'The milk is ___ the fridge. (предлог)', a: ['in'], why: 'Внутри холодильника → in.' },
       { t: 'gap', q: 'The lesson starts ___ five minutes. (через)', a: ['in'], why: '«Через» + срок от сейчас = in.' },
       { t: 'gap', q: 'My cat is sleeping ___ the bed. (под)', a: ['under'], why: '«Под» = under.' },
-      { t: 'order', a: 'We have a meeting on Monday morning', ru: 'У нас встреча в понедельник утром' },
+      { t: 'order', a: 'Our meeting is on Monday morning', ru: 'Наша встреча в понедельник утром' },
       { t: 'order', a: 'The gym is opposite the station', ru: 'Спортзал напротив вокзала' },
       { t: 'tr', q: 'Я не работаю ночью.', a: ['i don\'t work at night', 'i do not work at night'] },
       { t: 'tr', q: 'Мой стол рядом с окном.', a: ['my desk is next to the window', 'my desk is by the window', 'my desk is beside the window', 'my desk is near the window', 'my table is next to the window'] },

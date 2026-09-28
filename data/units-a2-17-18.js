@@ -153,7 +153,7 @@ COURSE.units.push(
 <tr><th>English</th><th>Значение</th><th>Пример</th></tr>
 <tr><td><b>carry on / go on</b></td><td>продолжать</td><td><span class="say">Don't stop. Carry on.</span></td></tr>
 <tr><td><b>hold on</b></td><td>подожди (секунду)</td><td><span class="say">Hold on a minute.</span></td></tr>
-<tr><td><b>get on</b></td><td>справляться, успевать</td><td><span class="say">How did you get on at the interview?</span></td></tr>
+<tr><td><b>get on</b></td><td>справляться; (как) прошло</td><td><span class="say">How did you get on at the interview?</span></td></tr>
 <tr><td><b>take off</b></td><td>взлетать</td><td><span class="say">The plane took off late.</span></td></tr>
 <tr><td><b>go off</b></td><td>сработать, зазвонить</td><td><span class="say">My alarm went off at six.</span></td></tr>
 <tr><td><b>grow up</b></td><td>вырасти</td><td><span class="say">I grew up in a small town.</span></td></tr>
@@ -184,7 +184,7 @@ COURSE.units.push(
 <tr><td><b>turn / switch on, off</b></td><td>включить / выключить</td><td>turn it on, switch it off</td></tr>
 <tr><td><b>turn up / turn down</b></td><td>сделать громче (теплее) / тише</td><td>turn it down</td></tr>
 <tr><td><b>pick up / put down</b></td><td>поднять / положить</td><td>pick them up</td></tr>
-<tr><td><b>give / bring / take / put back</b></td><td>вернуть / принести / отнести / положить обратно</td><td>give it back</td></tr>
+<tr><td><b>give / bring / take / put back</b></td><td>вернуть / принести обратно / отнести обратно / положить на место</td><td>give it back</td></tr>
 <tr><td><b>pay</b> sb <b>back</b></td><td>вернуть деньги</td><td>I'll pay you back.</td></tr>
 <tr><td><b>try on</b></td><td>примерить</td><td>try it on</td></tr>
 <tr><td><b>fill in / fill out</b></td><td>заполнить (форму)</td><td>fill it in</td></tr>
@@ -438,7 +438,7 @@ Now Kate is thinking of taking a course in public speaking. "It depends on the p
 </ul>
 <div class="g-bad">Football plays in many countries.</div>
 <div class="g-good">Football <b>is played</b> in many countries. <span class="muted">— футбол не играет сам, в него играют</span></div>
-<div class="mini" data-q="Coffee ___ in Brazil and Colombia." data-o="grows|is grown|is grow" data-a="1" data-why="Кофе выращивают (он не сам) → is + grown."></div>`
+<div class="mini" data-q="Coffee ___ by farmers in Brazil and Colombia." data-o="grown|is grown|is grow" data-a="1" data-why="Кофе выращивают (он не сам) → is + grown."></div>`
       },
       {
         title: '4. В прошлом: was / were + V3 и I was born',
@@ -546,10 +546,10 @@ Now Kate is thinking of taking a course in public speaking. "It depends on the p
       ["build — built — built", "строить — построил — построен", "The castle was built in 1500.", "Замок построили в 1500 году."],
       ["steal — stole — stolen", "красть — украл — украден", "My wallet was stolen.", "У меня украли кошелёк."],
       ["write — wrote — written", "писать — написал — написан", "The song was written in one night.", "Песню написали за одну ночь."],
-      ["sell — sold — sold", "продавать — продал — продан", "The game sold a million copies.", "Игра разошлась миллионом копий."],
+      ["sell — sold — sold", "продавать — продал — продан", "The game sold a million copies.", "Игра разошлась тиражом в миллион копий."],
       ["break — broke — broken", "ломать — сломал — сломан", "The screen was broken.", "Экран был разбит."],
       ["find — found — found", "находить — нашёл — найден", "My bike was found by the police.", "Мой велосипед нашла полиция."],
-      ["speak — spoke — spoken", "говорить — сказал — сказан", "Spanish is spoken in Mexico.", "В Мексике говорят по-испански."],
+      ["speak — spoke — spoken", "говорить — говорил — (на нём) говорят", "Spanish is spoken in Mexico.", "В Мексике говорят по-испански."],
       ["give — gave — given", "давать — дал — дан", "I was given a free ticket.", "Мне дали бесплатный билет."],
       ["invite", "приглашать", "We were invited to the wedding.", "Нас пригласили на свадьбу."],
       ["invent", "изобретать", "Who invented the computer mouse?", "Кто изобрёл компьютерную мышь?"],
@@ -590,7 +590,7 @@ The story is so exciting that a film about it was made in 2023. And new versions
       {
         title: 'A very bad Monday', id: 't-a2-18-2', level: 'A2',
         text: `Nick: Hi, Lena. You look terrible. What's wrong?
-Lena: Everything! First, my account has been hacked. All my messages were deleted, and some strange posts were written from my name.
+Lena: Everything! First, my account has been hacked. All my messages were deleted, and some strange posts were published from my account.
 Nick: Oh no. Has your password been changed?
 Lena: Yes, it has. I was sent a code, so now I can log in again. But that's not all.
 Nick: What else happened?
@@ -628,8 +628,8 @@ Nick: No problem. And my advice — change all your passwords today.`,
       { t: 'order', a: 'When was this game released', ru: 'Когда вышла эта игра?' },
       { t: 'order', a: 'I was born in a small town', ru: 'Я родился в маленьком городе' },
       { t: 'order', a: 'My car is being repaired now', ru: 'Мою машину сейчас ремонтируют' },
-      { t: 'tr', q: 'Мой телефон украли.', a: ['my phone was stolen', 'my phone has been stolen', 'my phone\'s been stolen'] },
-      { t: 'tr', q: 'Этот логотип нарисовал мой друг.', a: ['this logo was designed by my friend', 'this logo was drawn by my friend', 'this logo was made by my friend', 'this logo was created by my friend', 'my friend designed this logo', 'my friend drew this logo'] },
+      { t: 'tr', q: 'Мой телефон украли.', a: ['my phone was stolen', 'my phone has been stolen', 'my phone\'s been stolen', 'my phone got stolen', 'someone stole my phone', 'somebody stole my phone'] },
+      { t: 'tr', q: 'Этот логотип нарисовал мой друг.', a: ['this logo was designed by my friend', 'this logo was drawn by my friend', 'this logo was made by my friend', 'this logo was created by my friend', 'my friend designed this logo', 'my friend drew this logo', 'my friend made this logo', 'my friend created this logo'] },
       { t: 'listen', say: 'The game was made in Poland.', a: ['the game was made in poland'] },
       { t: 'listen', say: 'Has the bug been fixed?', a: ['has the bug been fixed'] }
     ],

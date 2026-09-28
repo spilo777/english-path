@@ -5,7 +5,7 @@ COURSE.units.push(
     id: 'a2-9', level: 'A2', num: 9, track: 'main',
     books: { red: [23, 36] },
     title: 'Used to; be, have, do; неправильные глаголы',
-    summary: 'Научимся говорить «раньше я играл, а теперь нет», безошибочно выбирать помощника be, have или do и выучим три формы 65 самых частых неправильных глаголов.',
+    summary: 'Научимся говорить «раньше я играл, а теперь нет», безошибочно выбирать помощника be, have или do и выучим три формы 66 самых частых неправильных глаголов.',
     grammar: [
       {
         title: '1. Главная идея: used to — «раньше было, а теперь нет»',
@@ -95,7 +95,7 @@ COURSE.units.push(
 <tr><th>Утверждение</th><th>Вопрос</th><th>Отрицание</th></tr>
 <tr><td>She is streaming.</td><td><span class="say">Is she streaming?</span></td><td><span class="say">She isn't streaming.</span></td></tr>
 <tr><td>They were sleeping.</td><td><span class="say">Were they sleeping?</span></td><td><span class="say">They weren't sleeping.</span></td></tr>
-<tr><td>You have played it.</td><td><span class="say">Have you played it?</span></td><td><span class="say">I haven't played it.</span></td></tr>
+<tr><td>You have played it.</td><td><span class="say">Have you played it?</span></td><td><span class="say">You haven't played it.</span></td></tr>
 <tr><td>He works from home.</td><td><span class="say">Does he work from home?</span></td><td><span class="say">He doesn't work from home.</span></td></tr>
 <tr><td>Our team won.</td><td><span class="say">Did our team win?</span></td><td><span class="say">Our team didn't win.</span></td></tr>
 </table>
@@ -354,8 +354,8 @@ Kate: Deal. But I'm warning you: I learn fast!`,
       { t: 'order', a: 'I used to live near the sea', ru: 'Раньше я жил у моря' },
       { t: 'order', a: 'Did you use to play the guitar', ru: 'Ты раньше играл на гитаре?' },
       { t: 'order', a: 'She has forgotten her password', ru: 'Она забыла свой пароль' },
-      { t: 'tr', q: 'Раньше я не любил сериалы.', a: ['i didn\'t use to like series', 'i did not use to like series', 'i didn\'t use to like tv series', 'i did not use to like tv series', 'i never used to like series', 'i never used to like tv series', 'i didn\'t use to like tv shows', 'i did not use to like tv shows'] },
-      { t: 'tr', q: 'Раньше у нас была собака.', a: ['we used to have a dog'] },
+      { t: 'tr', q: 'Раньше я не любил сериалы.', a: ['i didn\'t use to like series', 'i did not use to like series', 'i didn\'t use to like tv series', 'i did not use to like tv series', 'i never used to like series', 'i never used to like tv series', 'i didn\'t use to like tv shows', 'i did not use to like tv shows', 'i never used to like tv shows'] },
+      { t: 'tr', q: 'Раньше у нас была собака.', a: ['we used to have a dog', 'we had a dog before'] },
       { t: 'listen', say: 'I used to play this game every day', a: ['i used to play this game every day'] }
     ],
     test: [
@@ -412,13 +412,14 @@ Kate: Deal. But I'm warning you: I learn fast!`,
 <tr><td>bad / badly — плохой / плохо</td><td><span class="say">worse</span> — хуже</td></tr>
 <tr><td>far — далеко</td><td><span class="say">further</span> (или farther) — дальше</td></tr>
 </table>
-<p><b>Наречия</b> (как делаем) сравниваются так же. Короткие получают -er, наречия на -ly и often — more:</p>
+<p><b>Наречия</b> (как делаем) сравниваются так же. Короткие (hard, fast, early) получают -er, наречия на -ly и often — more. Исключение: <b>early → earlier</b> (это не «наречие на -ly», -ly здесь часть слова):</p>
 <ul class="g-list">
 <li><span class="say">Kate works harder than me.</span> — Кейт работает усерднее меня.</li>
 <li><span class="say">Can you come earlier?</span> — Можешь прийти пораньше?</li>
 <li><span class="say">Please speak more slowly.</span> — Говорите, пожалуйста, медленнее.</li>
 <li><span class="say">I want to play more often.</span> — Я хочу играть чаще.</li>
 </ul>
+<div class="g-tip">Несколько частых двусложных слов тоже обычно берут -er: <b>quiet → quieter</b>, <b>simple → simpler</b>, <b>clever → cleverer</b>, <b>narrow → narrower</b>.</div>
 <div class="g-bad">more cheap · more easy · gooder</div>
 <div class="g-good"><b>cheaper</b> · <b>easier</b> · <b>better</b></div>
 <div class="mini" data-q="busy → ?" data-o="busier|more busy|busyer" data-a="0" data-why="Два слога на -y → y меняем на i и добавляем -er."></div>
@@ -633,7 +634,7 @@ So is it the best game of the year? For me, it's one of the best, but not the be
       { t: 'order', a: 'It is the biggest city in Russia', ru: 'Это самый большой город в России' },
       { t: 'order', a: 'I do not play as often as you', ru: 'Я играю не так часто, как ты' },
       { t: 'tr', q: 'Твой план лучше моего.', a: ['your plan is better than mine', 'your plan\'s better than mine', 'your plan is better than my plan'] },
-      { t: 'tr', q: 'Москва намного больше, чем Казань.', a: ['moscow is much bigger than kazan', 'moscow is a lot bigger than kazan', 'moscow is far bigger than kazan', 'moscow is much larger than kazan', 'moscow is a lot larger than kazan'] },
+      { t: 'tr', q: 'Москва намного больше, чем Казань.', a: ['moscow is much bigger than kazan', 'moscow is a lot bigger than kazan', 'moscow is far bigger than kazan', 'moscow is much larger than kazan', 'moscow is a lot larger than kazan', 'moscow\'s much bigger than kazan', 'moscow\'s a lot bigger than kazan'] },
       { t: 'listen', say: 'This is the best game I have ever played', a: ['this is the best game i have ever played', 'this is the best game i\'ve ever played'] }
     ],
     test: [

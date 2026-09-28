@@ -55,7 +55,7 @@ COURSE.units.push(
 <div class="g-bad">I haven't never been to Paris. · I never have been to Paris.</div>
 <div class="g-good">I have <b>never</b> been to Paris. · I haven't <b>ever</b> been to Paris.</div>
 <div class="g-tip">Русское «никогда <b>не</b>» — два отрицания. Английское <b>never</b> — одно слово, которое уже всё отрицает. Хотите сказать «не» — берите never <b>или</b> haven't, но не вместе.</div>
-<div class="mini" data-q="Have you ___ played golf?" data-o="ever|never|yet" data-a="0" data-why="В вопросе об опыте — ever: «когда-нибудь»."></div>
+<div class="mini" data-q="Have you ___ played golf? — Yes, once." data-o="ever|never|yet" data-a="0" data-why="В вопросе об опыте — ever: «когда-нибудь»."></div>
 <div class="mini" data-q="Я никогда не летал на самолёте." data-o="I haven't never flown on a plane.|I have never flown on a plane.|I never have flown on a plane." data-a="1" data-why="Одно отрицание: have + never + 3-я форма (flown)."></div>`
       },
       {
@@ -230,7 +230,7 @@ COURSE.units.push(
       ["married", "женатый, замужем", "They've been married for ten years.", "Они женаты десять лет."],
       ["how long", "как долго, сколько времени", "How long have you lived here?", "Сколько ты здесь живёшь?"],
       ["for", "в течение (+ срок)", "I've worked here for two years.", "Я работаю здесь два года."],
-      ["since", "с (какого-то момента), с тех пор как", "It's been raining since morning.", "Дождь идёт с утра."],
+      ["since", "с (какого-то момента), с тех пор как", "It's been raining since this morning.", "Дождь идёт с утра."],
       ["ago", "назад", "I started this job a year ago.", "Я начал эту работу год назад."],
       ["a long time", "долго, давно", "I haven't seen her for a long time.", "Я давно её не видел."],
       ["for ages", "очень давно, целую вечность (разг.)", "I haven't played it for ages.", "Я сто лет в неё не играл."],
@@ -258,7 +258,7 @@ Max: Ouch! Have you ever ridden a horse?
 Kate: Yes, a few times. My grandparents have a farm.
 Max: Last question. Have you ever finished Dark Souls?
 Kate: No. I've tried many times, but I've never beaten the first boss.
-Max: Ha! Me too. I've died there about a hundred times.`,
+Max: Ha! Same here. I've died there about a hundred times.`,
         questions: [
           { q: 'When did Max go to Japan?', o: ['Last year', 'Two years ago', 'He has never been there'], a: 1 },
           { q: 'Why hasn\'t Kate been to Asia?', o: ['She doesn\'t like planes', 'She doesn\'t like Asia', 'She has no money'], a: 0 },
@@ -282,8 +282,8 @@ Anna laughs and writes back: "Since six in the morning! Good night!"`,
       }
     ],
     practice: [
-      { t: 'choice', q: 'Have you ___ been to Italy?', o: ['ever', 'never', 'yet'], a: 0, why: 'В вопросе об опыте «когда-нибудь» → ever.' },
-      { t: 'choice', q: 'I\'ve ___ seen snow in my life.', o: ['never', 'ever', 'not'], a: 0, why: '«Никогда» в утверждении → never, одно отрицание.' },
+      { t: 'choice', q: 'Have you ___ been to Italy? — Yes, twice.', o: ['ever', 'never', 'yet'], a: 0, why: 'В вопросе об опыте «когда-нибудь» → ever.' },
+      { t: 'choice', q: 'I\'ve ___ seen snow in my life.', o: ['never', 'ever', 'no'], a: 0, why: '«Никогда» в утверждении → never, одно отрицание.' },
       { t: 'choice', q: 'Tom isn\'t here. He\'s ___ to the gym.', o: ['been', 'gone', 'went'], a: 1, why: 'Тома нет, он сейчас в зале → has gone.' },
       { t: 'choice', q: 'I\'ve ___ to London twice.', o: ['been', 'gone', 'went'], a: 0, why: 'Опыт: съездил и вернулся → been to.' },
       { t: 'choice', q: 'I\'ve worked here ___ 2021.', o: ['for', 'since', 'ago'], a: 1, why: '2021 — точка старта → since.' },
@@ -300,7 +300,7 @@ Anna laughs and writes back: "Since six in the morning! Good night!"`,
       { t: 'order', a: 'How long have you known Max', ru: 'Сколько ты знаешь Макса?' },
       { t: 'tr', q: 'Я знаю её с 2015 года.', a: ['i have known her since 2015', 'i\'ve known her since 2015'] },
       { t: 'tr', q: 'Я никогда не был за границей.', a: ['i have never been abroad', 'i\'ve never been abroad', 'i haven\'t ever been abroad', 'i have not ever been abroad'] },
-      { t: 'tr', q: 'Сколько ты здесь живёшь?', a: ['how long have you lived here', 'how long have you been living here'] },
+      { t: 'tr', q: 'Сколько ты здесь живёшь?', a: ['how long have you lived here', 'how long have you been living here', "how long have you lived here for"] },
       { t: 'listen', say: 'It has been raining all day.', a: ['it has been raining all day', 'it\'s been raining all day'] }
     ],
     test: [
@@ -496,7 +496,7 @@ Anna laughs and writes back: "Since six in the morning! Good night!"`,
       ["give — gave — given", "давать — дал", "The boss gave us a day off last Friday.", "Начальник дал нам выходной в прошлую пятницу."],
       ["speak — spoke — spoken", "говорить — говорил", "I've never spoken to him.", "Я ни разу с ним не говорил."],
       ["buy — bought — bought", "покупать — купил", "When did you buy this chair?", "Когда ты купил этот стул?"],
-      ["sell — sold — sold", "продавать — продал", "The game has sold a million copies.", "Игра продалась миллионом копий."],
+      ["sell — sold — sold", "продавать — продал", "The game has sold a million copies.", "Игра разошлась тиражом в миллион копий."],
       ["come — came — come", "приходить — пришёл", "Your package has come!", "Твоя посылка пришла!"],
       ["do — did — done", "делать — сделал", "Have you done the task?", "Ты сделал задачу?"],
       ["send — sent — sent", "отправлять — отправил", "I sent the file an hour ago.", "Я отправил файл час назад."],
@@ -525,7 +525,7 @@ Kate: I don't know. I had it on the metro this morning. I was drawing some ideas
 Max: Have you called the cafe?
 Kate: Yes, I called them an hour ago. They looked everywhere, but they haven't found it.
 Max: Have you checked your bag? Really carefully?
-Kate: Yes, twice. It isn't there. And I've already looked in my car.
+Kate: Yes, twice. It isn't there. And I've already checked my desk.
 Max: Did you have your name on it?
 Kate: Yes, I put a sticker with my name and phone number on it last year.
 Max: Good. Then somebody can call you. Have you checked your messages?
@@ -573,7 +573,7 @@ I've played all four Pixel Fox games, and I've finished "Night Train" twice. I'v
       { t: 'order', a: 'I have never played this game', ru: 'Я никогда не играл в эту игру.' },
       { t: 'tr', q: 'Я уже видел этот сериал.', a: ['i have already seen this series', 'i\'ve already seen this series', 'i have already watched this series', 'i\'ve already watched this series', 'i have seen this series already', 'i\'ve seen this series already', 'i have watched this series already', 'i\'ve watched this series already'] },
       { t: 'tr', q: 'Я видел Кейт в субботу.', a: ['i saw kate on saturday'] },
-      { t: 'tr', q: 'Когда ты купил этот ноутбук?', a: ['when did you buy this laptop'] },
+      { t: 'tr', q: 'Когда ты купил этот ноутбук?', a: ['when did you buy this laptop', 'when did you buy that laptop'] },
       { t: 'listen', say: 'I\'ve lost my phone!', a: ['i\'ve lost my phone', 'i have lost my phone'] }
     ],
     test: [

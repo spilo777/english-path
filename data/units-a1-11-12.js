@@ -36,7 +36,7 @@ COURSE.units.push(
 </table>
 <ul class="g-list">
 <li><span class="say">I know Max. Max knows me. It's my game. It's mine.</span> — Я знаю Макса. Макс знает меня. Это моя игра. Она моя.</li>
-<li><span class="say">We know Max. Max knows us. It's our flat. It's ours.</span> — Это наша квартира. Она наша.</li>
+<li><span class="say">We know Max. Max knows us. It's our flat. It's ours.</span> — Мы знаем Макса. Макс знает нас. Это наша квартира. Она наша.</li>
 <li><span class="say">I've got your number, but you haven't got mine.</span> — У меня есть твой номер, а у тебя нет моего.</li>
 </ul>
 <div class="g-tip">Почти все слова последнего столбика кончаются на <b>-s</b>: yours, hers, ours, theirs. Исключение одно — <b>mine</b>.</div>
@@ -155,7 +155,7 @@ COURSE.units.push(
 <div class="g-bad">the game's name <span class="muted">/ the film's end</span></div>
 <div class="g-good">the name of the game <span class="muted">/ the end of the film</span></div>
 <div class="mini" data-q="Машина моих родителей:" data-o="my parent's car|my parents' car|my parents car" data-a="1" data-why="Родителей двое, слово кончается на -s → только апостроф."></div>
-<div class="mini" data-q="Как называется эта деревня?" data-o="What's the name of this village?|What's this village's name?|What's the village name of?" data-a="0" data-why="Для мест и вещей — the name of…"></div>`
+<div class="mini" data-q="Как называется эта деревня?" data-o="What's the name of this village?|What's name of this village?|What's the village name of?" data-a="0" data-why="Для мест и вещей — the name of…"></div>`
       },
       {
         title: '8. Типичные ошибки — проверьте себя',
@@ -219,7 +219,7 @@ Max: Ha! And the umbrella near the door?
 Lena: It belongs to a friend of mine. She came here yesterday and forgot it.
 Max: I see. By the way, what's the name of your new game? Your character looks great.
 Lena: It's "Star Farm". My character's skin was a present from my brother.
-Max: Nice! My skin is boring. Is your brother's account open for friends?
+Max: Nice! My skin is boring. Is your brother's account open to friends?
 Lena: Yes. Give me your nickname. I can send him yours.
 Max: Great, thanks!`,
         questions: [
@@ -261,7 +261,7 @@ At the end of the day I took my bag and my brother's old jacket and went home.`,
       { t: 'order', a: 'Whose headphones are these', ru: 'Чьи это наушники?' },
       { t: 'order', a: 'She came with a friend of hers', ru: 'Она пришла со своей подругой.' },
       { t: 'order', a: 'What is the name of your character', ru: 'Как зовут твоего персонажа?' },
-      { t: 'tr', q: 'Этот кофе мой, а тот твой.', a: ['this coffee is mine and that is yours', 'this coffee is mine and that one is yours', 'this coffee is mine but that is yours', 'this coffee is mine and that coffee is yours', 'this coffee is mine and that\'s yours', 'this coffee is mine but that one is yours', 'this coffee is mine but that\'s yours'] },
+      { t: 'tr', q: 'Этот кофе мой, а тот твой.', a: ['this coffee is mine and that is yours', 'this coffee is mine and that one is yours', 'this coffee is mine but that is yours', 'this coffee is mine and that coffee is yours', 'this coffee is mine and that\'s yours', 'this coffee is mine but that one is yours', 'this coffee is mine but that\'s yours', 'this is my coffee and that is yours', 'this is my coffee and that one is yours', 'this is my coffee but that is yours'] },
       { t: 'tr', q: 'Я взял ноутбук сестры.', a: ['i took my sister\'s laptop', 'i borrowed my sister\'s laptop', 'i took my sister’s laptop'] },
       { t: 'listen', say: 'Is this charger mine or yours?', a: ['is this charger mine or yours'] }
     ],
@@ -388,7 +388,7 @@ At the end of the day I took my bag and my brother's old jacket and went home.`,
 <tr><td>hair</td><td>волосы</td><td><span class="say">Her hair is very long.</span></td></tr>
 <tr><td>money</td><td>деньги</td><td><span class="say">The money is on the table.</span></td></tr>
 <tr><td>furniture</td><td>мебель</td><td><span class="say">They've got some nice furniture.</span></td></tr>
-<tr><td>bread</td><td>хлеб, батон</td><td><span class="say">I want to buy some bread.</span></td></tr>
+<tr><td>bread</td><td>хлеб <span class="muted">(батон — a loaf of bread)</span></td><td><span class="say">I want to buy some bread.</span></td></tr>
 <tr><td>weather</td><td>погода</td><td><span class="say">It's nice weather today.</span></td></tr>
 <tr><td>work, homework</td><td>работа, домашка</td><td><span class="say">It's hard work.</span></td></tr>
 <tr><td>luggage</td><td>багаж, чемоданы</td><td><span class="say">We haven't got much luggage.</span></td></tr>
@@ -421,7 +421,7 @@ At the end of the day I took my bag and my brother's old jacket and went home.`,
 <li><span class="say">How many photos did you take?</span> — Сколько фото ты сделал?</li>
 <li><span class="say">How much money do you need?</span> — Сколько денег тебе нужно?</li>
 <li><span class="say">How much is it?</span> — Сколько это стоит?</li>
-<li><span class="say">Did you take any photos? — Some, but not many.</span> — Ты фотографировал? — Немного, но не много.</li>
+<li><span class="say">Did you take any photos? — Some, but not many.</span> — Ты фотографировал? — Да, несколько, но немного.</li>
 </ul>
 <p>После <b>a lot of</b> глагол — по существительному:</p>
 <ul class="g-list">
@@ -559,7 +559,7 @@ Sam: Hmm. Good advice. OK, one bag and the backpack!`,
       { t: 'order', a: 'How much sugar do you want', ru: 'Сколько сахара ты хочешь?' },
       { t: 'order', a: 'There are a lot of people here', ru: 'Здесь много людей.' },
       { t: 'tr', q: 'Мне нужна информация.', a: ['i need some information', 'i need information'] },
-      { t: 'tr', q: 'У меня мало денег.', a: ['i haven\'t got much money', 'i have not got much money', 'i don\'t have much money', 'i do not have much money', 'i have got little money', 'i have little money'] },
+      { t: 'tr', q: 'У меня мало денег.', a: ['i haven\'t got much money', 'i have not got much money', 'i don\'t have much money', 'i do not have much money', 'i have got little money', 'i have little money', 'i haven\'t got a lot of money', 'i don\'t have a lot of money'] },
       { t: 'listen', say: 'A bottle of water and a piece of cake, please', a: ['a bottle of water and a piece of cake please'] },
       { t: 'listen', say: 'How many people are coming?', a: ['how many people are coming'] }
     ],

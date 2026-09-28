@@ -40,7 +40,7 @@
 <ul class="g-list">
 <li><span class="say">I don't often play games.</span> — Я нечасто играю. → <span class="say">I didn't play yesterday.</span> — Вчера я не играл.</li>
 <li><span class="say">Does she often call you?</span> — Она часто тебе звонит? → <span class="say">Did she call you last night?</span> — Она звонила тебе вчера вечером?</li>
-<li><span class="say">He doesn't work on Saturday.</span> — Он не работает в субботу. → <span class="say">He didn't work last Saturday.</span> — Он не работал в прошлую субботу.</li>
+<li><span class="say">He doesn't work on Saturdays.</span> — Он не работает по субботам. → <span class="say">He didn't work last Saturday.</span> — Он не работал в прошлую субботу.</li>
 </ul>
 <div class="g-bad">She didn't works. / Does she called?</div>
 <div class="g-good">She didn't work. / Did she call?</div>
@@ -271,8 +271,8 @@ Tom: Yes, I did! The weather was very good, and I didn't think about work at all
         { t: 'order', a: 'Where did you go last summer', ru: 'Куда ты ездил прошлым летом?' },
         { t: 'order', a: 'We did not visit the museum', ru: 'Мы не ходили в музей.' },
         { t: 'order', a: 'Did your friends like the film', ru: 'Твоим друзьям понравился фильм?' },
-        { t: 'tr', q: 'Что ты делал вчера?', a: ['what did you do yesterday'] },
-        { t: 'tr', q: 'Я его не видел.', a: ['i didn\'t see him', 'i did not see him'] },
+        { t: 'tr', q: 'Что ты делал вчера?', a: ['what did you do yesterday', 'what were you doing yesterday'] },
+        { t: 'tr', q: 'Я его не видел.', a: ['i didn\'t see him', 'i did not see him', 'i haven\'t seen him', 'i have not seen him'] },
         { t: 'listen', say: 'Did you have fun?', a: ['did you have fun'] }
       ],
       test: [
@@ -393,7 +393,7 @@ Tom: Yes, I did! The weather was very good, and I didn't think about work at all
 <tr><td><span class="say">Save</span></td><td>Сохранить</td><td>запомнить прогресс</td></tr>
 <tr><td><span class="say">Settings</span> / <span class="say">Options</span></td><td>Настройки</td><td>звук, графика…</td></tr>
 <tr><td><span class="say">Quit</span> / <span class="say">Exit</span></td><td>Выйти</td><td>закрыть игру</td></tr>
-<tr><td><span class="say">Back</span></td><td>Назад</td><td>прошлый экран</td></tr>
+<tr><td><span class="say">Back</span></td><td>Назад</td><td>предыдущий экран</td></tr>
 </table>
 <p>Внутри настроек:</p>
 <ul class="g-list">
@@ -539,7 +539,7 @@ You win! Level up!`,
         { t: 'order', a: 'Select your character', ru: 'Выберите своего персонажа.' },
         { t: 'order', a: 'Don\'t attack the enemy', ru: 'Не атакуйте врага.' },
         { t: 'tr', q: 'Откройте карту.', a: ['open the map'] },
-        { t: 'tr', q: 'Не выходи из игры!', a: ['don\'t quit the game', 'do not quit the game', 'don\'t exit the game', 'do not exit the game', 'don\'t quit', 'do not quit'] },
+        { t: 'tr', q: 'Не выходи из игры!', a: ['don\'t quit the game', 'do not quit the game', 'don\'t exit the game', 'do not exit the game', 'don\'t quit', 'do not quit', 'don\'t leave the game', 'do not leave the game'] },
         { t: 'listen', say: 'Save the game', a: ['save the game'] }
       ],
       test: [

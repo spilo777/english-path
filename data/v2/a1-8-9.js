@@ -85,7 +85,7 @@
 </ul>
 <div class="g-bad">I not was at home.</div>
 <div class="g-good">I wasn't at home. <span class="muted">— not ставим после was, а не перед ним</span></div>
-<div class="g-tip">Помощник <b>do / does</b>, как в Present Simple, здесь не нужен. С глаголом be (am / is / are / was / were) он не встречается никогда.</div>
+<div class="g-tip">Помощник <b>do / does</b>, как в Present Simple, здесь не нужен. В отрицаниях и вопросах с am / is / are / was / were он не ставится.</div>
 <div class="mini" data-q="Её не было дома." data-o="She not was at home.|She wasn't at home.|She weren't at home." data-a="1" data-why="she → was, отрицание → wasn't."></div>`
         },
         {
@@ -270,8 +270,8 @@ Last month I was at the office every day. I was busy and tired. But Spain was so
         { t: 'order', a: 'Where were you yesterday', ru: 'Где ты был вчера?' },
         { t: 'order', a: 'The museum was closed', ru: 'Музей был закрыт.' },
         { t: 'tr', q: 'Я был занят.', a: ['i was busy'] },
-        { t: 'tr', q: 'Как прошла вечеринка?', a: ['how was the party'] },
-        { t: 'tr', q: 'Час назад она была здесь.', a: ['she was here an hour ago', 'an hour ago she was here', 'one hour ago she was here', 'she was here one hour ago', 'an hour ago she was there', 'she was there an hour ago'] },
+        { t: 'tr', q: 'Как прошла вечеринка?', a: ['how was the party', 'how did the party go'] },
+        { t: 'tr', q: 'Час назад она была здесь.', a: ['she was here an hour ago', 'an hour ago she was here', 'one hour ago she was here', 'she was here one hour ago'] },
         { t: 'listen', say: 'It was so much fun', a: ['it was so much fun'] }
       ],
       test: [
@@ -337,7 +337,7 @@ Last month I was at the office every day. I was busy and tired. But Spain was so
 <div class="g-steps"><div class="g-h">Как проверить себя</div><ol>
 <li>На конце <b>e</b>? — Добавьте только <b>d</b>: live → lived, decide → decided.</li>
 <li>На конце <b>y</b>? Посмотрите на букву перед ней. Согласная (study, try) → <b>ied</b>. Гласная (play, stay) → <b>ed</b>.</li>
-<li>Слово из одного слога, как stop (остановиться), plan (планировать)? — Удвойте последнюю букву: stopped, planned.</li>
+<li>Слово из одного слога и кончается на «согласная-гласная-согласная», как stop (остановиться), plan (планировать)? — Удвойте последнюю букву: stopped, planned. (Но work, help — на две согласные: worked, helped.)</li>
 <li>Слово длинное, как listen, open? — Не удваиваем: listened, opened.</li>
 <li>Всё остальное — просто <b>-ed</b>.</li>
 </ol></div>
@@ -512,7 +512,7 @@ I made coffee and had breakfast. Then I played a new game. It was very good!
 I played for four hours. I lost a lot, but then I won!
 In the evening my friend Max came to my flat. We watched a film and drank tea. The film was boring, so we stopped it and played chess. Max won two games, and I won one.
 At eight o'clock we went to the park. We met Anna there. She told us about her trip to Spain. She was there last month, and she loved it.
-I came home at ten, read a book and slept like a cat.`,
+I came home at ten, read a book and went to sleep.`,
           questions: [
             { q: 'How was the film?', o: ['boring', 'very good', 'terrible and long'], a: 0 },
             { q: 'Who was in the park?', o: ['Tom', 'Anna', 'Lisa'], a: 1 },
@@ -524,7 +524,7 @@ I came home at ten, read a book and slept like a cat.`,
           text: `Two years ago I decided to learn English.
 I bought a book and an app for my phone. I studied every evening after work.
 It wasn't fun at the start. I understood only a bit, but I tried.
-Then I started to play games in English. I saw a lot of new words there. I wrote them in a book and learned ten words every day. I listened to English music and watched films in English too.
+Then I started to play games in English. I saw a lot of new words there. I wrote them in a notebook and learned ten words every day. I listened to English music and watched films in English too.
 Last week I talked to a man from Canada in a game. I understood him! We played together for an hour. Then he said, "Your English is good!"
 I was so happy. Now I study every day, and I love it.`,
           questions: [
@@ -546,14 +546,14 @@ I was so happy. Now I study every day, and I love it.`,
         { t: 'gap', q: 'I ___ a good film last night. (see)', a: ['saw'], why: 'see — неправильный: saw.' },
         { t: 'gap', q: 'We ___ at a café yesterday. (eat)', a: ['ate'], why: 'eat — неправильный: ate.' },
         { t: 'gap', q: 'He ___ in London in 2020. (live)', a: ['lived'], why: 'live кончается на e → только + d.' },
-        { t: 'gap', q: 'The game ___ at nine. (start)', a: ['started'], why: 'start — правильный: + ed.' },
+        { t: 'gap', q: 'Yesterday the game ___ at nine. (start)', a: ['started'], why: 'yesterday — прошлое; start — правильный: + ed.' },
         { t: 'gap', q: 'I met Anna two days ___. (назад)', a: ['ago'], why: '«Назад» — ago, после срока.' },
         { t: 'gap', q: 'She ___ English every evening last year. (study)', a: ['studied'], why: 'study: согласная + y → ied.' },
-        { t: 'order', a: 'I went to the cinema yesterday', ru: 'Я ходил в кино вчера.' },
-        { t: 'order', a: 'We stayed at home last weekend', ru: 'В прошлые выходные мы остались дома.' },
+        { t: 'order', a: 'I went to the cinema with Tom', ru: 'Я ходил в кино с Томом.' },
+        { t: 'order', a: 'We stayed at home all day', ru: 'Мы весь день просидели дома.' },
         { t: 'tr', q: 'Я купил новую игру.', a: ['i bought a new game'] },
         { t: 'tr', q: 'У меня был хороший день.', a: ['i had a good day', 'i had a nice day'] },
-        { t: 'tr', q: 'Он пришёл домой поздно.', a: ['he came home late', 'he came back home late'] },
+        { t: 'tr', q: 'Он пришёл домой поздно.', a: ['he came home late', 'he came back home late', 'he got home late'] },
         { t: 'listen', say: 'I got up at ten', a: ['i got up at ten', 'i got up at 10'] }
       ],
       test: [
@@ -564,11 +564,11 @@ I was so happy. Now I study every day, and I love it.`,
         { t: 'choice', q: 'plan → прошедшее:', o: ['planed', 'planned', 'plannd'], a: 1, why: 'Короткое слово «согл.-гласн.-согл.» → удваиваем n.' },
         { t: 'choice', q: 'У нас был хороший вечер.', o: ['We were a good evening.', 'We had a good evening.', 'We was have a good evening.'], a: 1, why: '«У нас был» = we had.' },
         { t: 'gap', q: 'I ___ my phone yesterday. (lose)', a: ['lost'], why: 'lose — неправильный: lost.' },
-        { t: 'gap', q: 'They ___ a message from Tom. (get)', a: ['got'], why: 'get — неправильный: got.' },
-        { t: 'gap', q: 'We ___ the game! (win)', a: ['won'], why: 'win — неправильный: won.' },
-        { t: 'gap', q: 'I ___ to call you. (try)', a: ['tried'], why: 'try: согласная + y → ied.' },
+        { t: 'gap', q: 'Yesterday they ___ a message from Tom. (get)', a: ['got'], why: 'get — неправильный: got.' },
+        { t: 'gap', q: 'We ___ the game last night! (win)', a: ['won'], why: 'win — неправильный: won.' },
+        { t: 'gap', q: 'I ___ to call you yesterday. (try)', a: ['tried'], why: 'try: согласная + y → ied.' },
         { t: 'gap', q: 'Last year I ___ a lot of books. (read)', a: ['read'], why: 'read — пишется так же, но звучит «ред».' },
-        { t: 'gap', q: 'She ___ the office at six. (leave)', a: ['left'], why: 'leave — неправильный: left.' }
+        { t: 'gap', q: 'Yesterday she ___ the office at six. (leave)', a: ['left'], why: 'leave — неправильный: left.' }
       ]
     }
   ].forEach(put);

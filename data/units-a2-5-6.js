@@ -47,7 +47,7 @@ COURSE.units.push(
 <div class="g-bad">Max doesn't come to the party next week.</div>
 <div class="g-good">Max <b>isn't coming</b> to the party next week.</div>
 <div class="g-tip">Самый частый вопрос про планы: <span class="say">What are you doing tonight?</span> — «Что делаешь вечером?» Без слова-времени он значит «что ты делаешь <i>сейчас</i>», так что время обязательно.</div>
-<div class="mini" data-q="___ you ___ anything this weekend?" data-o="Do … do|Are … doing|Did … do" data-a="1" data-why="Спрашиваем о планах на выходные → Are you doing…?"></div>
+<div class="mini" data-q="___ you ___ anything next weekend?" data-o="Do … do|Are … doing|Did … do" data-a="1" data-why="Спрашиваем о планах на выходные → Are you doing…?"></div>
 <div class="mini" data-q="Я не иду на вечеринку в субботу." data-o="I don't go to the party on Saturday.|I'm not going to the party on Saturday.|I not going to the party on Saturday." data-a="1" data-why="Договорённость (здесь — её отсутствие) → am not + -ing."></div>`
       },
       {
@@ -114,7 +114,7 @@ COURSE.units.push(
 </ol></div>
 <div class="g-bad">Look at the sky! It rains soon.</div>
 <div class="g-good">Look at the sky! It<b>'s going to rain</b>.</div>
-<div class="mini" data-q="Уже 8:55, а встреча в 9:00 на другом конце города." data-o="I'm late.|I'm going to be late.|I was late." data-a="1" data-why="Видно по часам, что опоздание неизбежно → going to be late."></div>`
+<div class="mini" data-q="Уже 8:55, а встреча в 9:00 на другом конце города." data-o="I'm being late.|I'm going to be late.|I was late." data-a="1" data-why="Видно по часам, что опоздание неизбежно → going to be late."></div>`
       },
       {
         title: '6. -ing или going to?',
@@ -192,14 +192,14 @@ Max: At five, I think. So I'm free after that.
 Kate: Perfect. Are you going to bring Anna?
 Max: I don't know. She's very busy this month. She's going to start a new job on Monday, and she has a lot to do.
 Kate: Ask her anyway. And after the film we're going to play the new co-op game at Tom's place.
-Max: At night? Kate, I have work on Monday!
+Max: At night? Kate, I'm working on Sunday!
 Kate: Me too. But the game comes out on Friday, and I'm not going to wait a week!
 Max: OK, OK. I'm going to buy it tonight, then.
 Kate: Great. See you on Saturday. Don't be late!
 Max: Me? Late? Never.`,
         questions: [
           { q: 'Where are Kate and Tom meeting before the film?', o: ['At Tom\'s place', 'At the café next to the cinema', 'At the station'], a: 1 },
-          { q: 'Why is Max busy on Saturday afternoon?', o: ['He is working', 'He is having lunch with his parents', 'He is going to the dentist'], a: 1 },
+          { q: 'What is Max doing on Saturday at lunchtime?', o: ['He is working', 'He is having lunch with his parents', 'He is going to the dentist'], a: 1 },
           { q: 'What is Anna going to do on Monday?', o: ['Start a new job', 'Play a new game', 'Go to Kazan'], a: 0 }
         ]
       },
@@ -226,7 +226,7 @@ Right now Anna is looking out of the window. The sky is dark and grey. "Oh no," 
       { t: 'choice', q: 'Look at the score! We ___!', o: ['are going to win', 'win', 'won'], a: 0, why: 'По счёту видно, чем кончится → going to.' },
       { t: 'choice', q: '___ Tom going to stream today?', o: ['Does', 'Is', 'Do'], a: 1, why: 'Вопрос с going to строится через is/are: Is Tom going to…?' },
       { t: 'choice', q: 'Lisa ___ to the party next week. She\'s on holiday.', o: ['doesn\'t come', 'isn\'t coming', 'not coming'], a: 1, why: 'Планы людей в отрицании → isn\'t + -ing.' },
-      { t: 'choice', q: 'What time ___ the match start?', o: ['is', 'does', 'will'], a: 1, why: 'Время матча по программе → Present Simple, вопрос с does.' },
+      { t: 'choice', q: 'What time ___ the match start?', o: ['is', 'does', 'do'], a: 1, why: 'Время матча по программе → Present Simple, вопрос с does.' },
       { t: 'gap', q: 'My hands are dirty. I\'m going to ___ them. (wash)', a: ['wash'], why: 'После going to — начальная форма глагола.' },
       { t: 'gap', q: 'We ___ a party next Saturday. (have — договорились)', a: ['\'re having', 'are having'], why: 'Договорённость → are + having.' },
       { t: 'gap', q: 'I ___ going to have breakfast. I\'m not hungry. (не)', a: ['\'m not', 'am not'], why: 'Отрицание: am not going to.' },
@@ -429,7 +429,7 @@ Right now Anna is looking out of the window. The sky is dark and grey. "Oh no," 
     texts: [
       {
         id: 't-a2-6-1', title: 'Moving day', level: 'A2',
-        text: `Max is moving to a new flat today. Kate and Tom came to help.
+        text: `Max is moving to a new flat today. Kate and Tom have come to help.
 Kate: Wow, Max. So many boxes! Where shall we start?
 Max: Maybe with the kitchen? The van will be here in an hour.
 Tom: OK. I'll take the plates. Kate, shall we do the books together?
@@ -479,7 +479,7 @@ Shall we check these predictions next December? Yes, let's do that. Someone, ple
       { t: 'choice', q: 'It\'s dark in here. ___ turn on the light?', o: ['Shall I', 'Will I', 'Do I'], a: 0, why: 'Предлагаем что-то сделать → Shall I…?' },
       { t: 'choice', q: 'Думаю, фильм тебе не понравится.', o: ['I think you won\'t like the film.', 'I don\'t think you\'ll like the film.', 'I don\'t think you won\'t like the film.'], a: 1, why: '«Думаю, что не…» → I don\'t think + will.' },
       { t: 'choice', q: 'We ___ to the theatre tonight. We\'ve got tickets.', o: ['\'ll go', '\'re going', 'go'], a: 1, why: 'Есть билеты — план готов заранее → -ing, не will.' },
-      { t: 'choice', q: 'I\'m tired. I think I ___ to bed early.', o: ['go', '\'ll go', '\'m going to go'], a: 1, why: 'Решаю вслух прямо сейчас → I think I\'ll…' },
+      { t: 'choice', q: 'I\'m tired. I think I ___ to bed early.', o: ['go', '\'ll go', 'goes'], a: 1, why: 'Решаю вслух прямо сейчас → I think I\'ll…' },
       { t: 'gap', q: 'Are you ready? — Not yet. I ___ be ready in five minutes.', a: ['\'ll', 'will'], why: 'Факт о ближайшем будущем → will / \'ll.' },
       { t: 'gap', q: 'It\'s a nice day. ___ we go for a walk?', a: ['shall'], why: 'Предложение «давай…?» → Shall we…?' },
       { t: 'gap', q: 'I\'m sorry I was late. It ___ happen again.', a: ['won\'t', 'will not'], why: 'Обещание «не повторится» → won\'t.' },
@@ -490,7 +490,7 @@ Shall we check these predictions next December? Yes, let's do that. Someone, ple
       { t: 'order', a: 'Do you think they will win', ru: 'Как ты думаешь, они победят?' },
       { t: 'order', a: 'What shall I wear to the party', ru: 'Что мне надеть на вечеринку?' },
       { t: 'tr', q: 'Я тебе завтра позвоню.', a: ['i\'ll call you tomorrow', 'i will call you tomorrow', 'i\'ll phone you tomorrow', 'i will phone you tomorrow'] },
-      { t: 'tr', q: 'Открыть окно?', a: ['shall i open the window'] },
+      { t: 'tr', q: 'Открыть окно?', a: ['shall i open the window', 'should i open the window'] },
       { t: 'listen', say: 'I won\'t forget, I promise', a: ['i won\'t forget i promise', 'i will not forget i promise'] }
     ],
     test: [

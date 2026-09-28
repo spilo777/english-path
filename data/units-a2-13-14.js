@@ -295,7 +295,7 @@ Seller: Sorry, we don't sell chairs. But there's a good shop on the second floor
     practice: [
       { t: 'choice', q: 'I need an umbrella. Do you have ___?', o: ['it', 'one', 'ones'], a: 1, why: 'Любой зонт (an umbrella) → one; it — только про уже известный, тот самый.' },
       { t: 'choice', q: 'These cups are dirty. Can I have some clean ___?', o: ['one', 'ones', 'it'], a: 1, why: 'Чашек много → ones.' },
-      { t: 'choice', q: '___ people in my office use Figma.', o: ['Most of', 'Most', 'The most'], a: 1, why: 'Люди вообще, без the/my → Most people.' },
+      { t: 'choice', q: '___ people in my office use Figma.', o: ['Most of', 'Most', 'The most'], a: 1, why: 'Перед people нет the / my → Most people (in my office — просто уточнение). С the было бы Most of the people.' },
       { t: 'choice', q: '___ my friends play on PC.', o: ['Most', 'Most of', 'The most of'], a: 1, why: 'Перед my (конкретная группа) → most of.' },
       { t: 'choice', q: 'Tea or coffee? — ___. I don\'t mind.', o: ['Neither', 'Either', 'Both'], a: 1, why: '«Любое из двух, мне всё равно» → Either.' },
       { t: 'choice', q: 'I\'ve got two brothers. ___ are older than me.', o: ['Both', 'Either', 'All'], a: 0, why: 'Два человека, оба → both; all — для трёх и больше.' },
@@ -316,7 +316,7 @@ Seller: Sorry, we don't sell chairs. But there's a good shop on the second floor
     test: [
       { t: 'choice', q: 'I\'ve lost my headphones. I need to buy new ___.', o: ['one', 'ones', 'them'], a: 1, why: 'Новые, другие наушники (множественное) → ones; them — это были бы те же самые.' },
       { t: 'choice', q: 'Which hotel did you stay at? — The ___ near the beach.', o: ['one', 'it', 'ones'], a: 0, why: 'the one + где = «тот, который…» про одну вещь.' },
-      { t: 'choice', q: '___ of my parents speaks English.', o: ['Neither', 'Either', 'None'], a: 0, why: 'Родителей двое, глагол без not → Neither of.' },
+      { t: 'choice', q: 'My parents only speak Russian. ___ of them speaks English.', o: ['Neither', 'Either', 'None'], a: 0, why: 'Родителей двое, глагол без not → Neither of.' },
       { t: 'choice', q: 'Выберите правильное: «Мне не нравится ни один из этих двух жанров».', o: ['I don\'t like neither of these genres.', 'I don\'t like either of these genres.', 'I like either of these genres.'], a: 1, why: 'С not → either; neither + not = двойное отрицание.' },
       { t: 'gap', q: 'Some ___ us are going to the cinema tonight.', a: ['of'], why: 'Перед us / them / it всегда нужен of.' },
       { t: 'choice', q: '___ children like cartoons. (дети вообще)', o: ['Most of', 'Most', 'Most of the'], a: 1, why: 'Дети вообще, без группы → Most children.' },
@@ -619,7 +619,7 @@ I got home at seven. I was tired, but I really enjoyed myself. And now I have a 
         id: 't-a2-14-2', title: 'The game jam', level: 'A2',
         text: `Kate: Hi Max! What are you doing this weekend?
 Max: Nothing special. I have to do some housework — do the washing, do the shopping… Boring. Why?
-Kate: There's a game jam on Saturday. Teams make a small game in two days. Do you want to come?
+Kate: There's a game jam this weekend. Teams make a small game in two days. Do you want to come?
 Max: Me? I can't make games. I've never done it.
 Kate: That's fine. Most people there are beginners. You can do the sound. You play the guitar, right?
 Max: Yes, a little. OK, why not? How do I get there?

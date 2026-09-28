@@ -161,7 +161,7 @@
 <li>Обычно + <b>s</b>: book → <span class="say">books</span>, phone → <span class="say">phones</span>, car → <span class="say">cars</span>.</li>
 <li>Кончается на <b>s, sh, ch, x</b> → + <b>es</b>: box → <span class="say">boxes</span>, bus (автобус) → <span class="say">buses</span>.</li>
 <li>Согласная + <b>y</b> → <b>ies</b>: city (город) → <span class="say">cities</span>. Но гласная + y — просто s: boy (мальчик) → <span class="say">boys</span>.</li>
-<li>Кончается на <b>f / fe</b> → <b>ves</b>: knife (нож) → <span class="say">knives</span>, wife (жена) → <span class="say">wives</span>.</li>
+<li>Многие слова на <b>f / fe</b> → <b>ves</b>: knife (нож) → <span class="say">knives</span>, wife (жена) → <span class="say">wives</span>.</li>
 </ol></div>
 <p><b>Особые слова</b> — без -s, их просто запоминаем:</p>
 <table>
@@ -558,7 +558,7 @@ Max usually gets up at seven. He drinks coffee and has breakfast at eight. He ne
 At nine he works. He has a big table and a new laptop. He likes the work, and he is never late!
 In the evening Max plays games. He often plays with friends from London. They speak English in the game, so Max studies English every day. He reads books in English and watches videos.
 Tom is a friend from London. He works in an office. He gets up early and goes to work at eight. He sometimes plays with Max at night.
-At night Max is tired, but he is happy. He usually sleeps at twelve.`,
+At night Max is tired, but he is happy. He usually goes to sleep at twelve.`,
           questions: [
             { q: 'Max works…', o: ['in an office', 'from home', 'in London'], a: 1 },
             { q: 'In the evening Max usually…', o: ['plays games', 'goes to work', 'has breakfast'], a: 0 },
@@ -599,7 +599,7 @@ Anna likes cats, and I like dogs. But the cat and the dog are not friends!`,
         { t: 'order', a: 'She never drinks coffee', ru: 'Она никогда не пьёт кофе' },
         { t: 'order', a: 'We often play games at night', ru: 'Мы часто играем в игры ночью' },
         { t: 'tr', q: 'Он говорит по-английски.', a: ['he speaks english'] },
-        { t: 'tr', q: 'Я обычно встаю в семь.', a: ['i usually get up at seven', 'i usually get up at 7'] },
+        { t: 'tr', q: 'Я обычно встаю в семь.', a: ['i usually get up at seven', 'i usually get up at 7', 'i usually get up at seven o\'clock'] },
         { t: 'listen', say: 'She lives in Moscow', a: ['she lives in moscow'] },
         { t: 'listen', say: 'He always gets up early', a: ['he always gets up early'] }
       ],

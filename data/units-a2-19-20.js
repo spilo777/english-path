@@ -226,7 +226,7 @@ COURSE.units.push(
       ["windy", "ветреный; ветрено", "It was very windy on the beach.", "На пляже было очень ветрено."],
       ["cloudy", "пасмурный, облачный", "It's cloudy, but it isn't raining.", "Пасмурно, но дождя нет."],
       ["foggy", "туманный", "It was foggy, so the flight was late.", "Был туман, поэтому рейс задержали."],
-      ["wet", "мокрый, сырой", "It's wet outside. Take a hood.", "На улице сыро. Надень капюшон."],
+      ["wet", "мокрый, сырой", "It's wet outside. Put your hood up.", "На улице сыро. Надень капюшон."],
       ["dark", "тёмный; темно", "It gets dark very early in December.", "В декабре очень рано темнеет."],
       ["temperature", "температура", "What's the temperature today?", "Какая сегодня температура?"],
       ["degree", "градус; степень", "It's minus five degrees outside.", "На улице минус пять градусов."],
@@ -303,7 +303,7 @@ Lena: Yes. And the weather forecast says it will snow tonight, so leave early to
       { t: 'gap', q: 'What did the doctor ___ you? (tell / say)', a: ['tell'], why: 'Человек (you) сразу после глагола → tell.' },
       { t: 'order', a: 'It was a long way to the station', ru: 'До станции было далеко' },
       { t: 'order', a: 'There will be a new level next week', ru: 'На следующей неделе будет новый уровень' },
-      { t: 'tr', q: 'Вчера был сильный ветер.', a: ['there was a strong wind yesterday', 'yesterday there was a strong wind', 'it was very windy yesterday', 'yesterday it was very windy'] },
+      { t: 'tr', q: 'Вчера был сильный ветер.', a: ['there was a strong wind yesterday', 'yesterday there was a strong wind', 'it was very windy yesterday', 'yesterday it was very windy', 'it was really windy yesterday', 'yesterday it was really windy'] },
       { t: 'tr', q: 'Она сказала, что устала.', a: ['she said she was tired', 'she said that she was tired'] },
       { t: 'listen', say: 'Is it far from here?', a: ['is it far from here'] }
     ],
@@ -578,7 +578,7 @@ But I like the people I work with, and I like the games we make. If everything g
         questions: [
           { q: 'Who started the studio?', o: ['Vera', 'Oleg', 'Dima'], a: 1 },
           { q: 'What does Dima do if there is a bug at night?', o: ['He calls Oleg', 'He goes to sleep', 'He fixes it before breakfast'], a: 2 },
-          { q: 'What would the writer change first?', o: ['The place of the office', 'The people in the team', 'The tool he uses'], a: 0 }
+          { q: 'What one thing would the writer change?', o: ['Where the office is', 'The people in the team', 'The tool he uses'], a: 0 }
         ]
       }
     ],
@@ -586,7 +586,7 @@ But I like the people I work with, and I like the games we make. If everything g
       { t: 'choice', q: 'If it ___ tomorrow, we\'ll play at home.', o: ['will rain', 'rains', 'rained'], a: 1, why: 'Реальное условие: после if — настоящее время.' },
       { t: 'choice', q: 'We\'ll miss the start of the match ___ we don\'t leave now.', o: ['if', 'when', 'who'], a: 0, why: 'Может случиться, а может нет → if.' },
       { t: 'choice', q: 'I\'m going to the shop. ___ I get back, let\'s cook dinner.', o: ['If', 'Which', 'When'], a: 2, why: 'Я точно вернусь → when.' },
-      { t: 'choice', q: 'If I ___ a dog, I\'d walk every day.', o: ['had', 'have', 'will have'], a: 0, why: 'Фантазия (собаки нет) → if + прошедшая форма: had.' },
+      { t: 'choice', q: 'If I ___ a dog, I\'d walk it every day.', o: ['had', 'have', 'will have'], a: 0, why: 'Фантазия (собаки нет) → if + прошедшая форма: had.' },
       { t: 'choice', q: 'I don\'t know the answer. If I knew it, I ___ you.', o: ['will tell', 'tell', 'would tell'], a: 2, why: '«Если бы» → would + глагол.' },
       { t: 'choice', q: '___, I wouldn\'t buy that laptop. It\'s too slow.', o: ['If I am you', 'If I were you', 'If I would be you'], a: 1, why: 'Совет «на твоём месте» → If I were you.' },
       { t: 'choice', q: 'Do you know anyone ___ can fix my bike?', o: ['which', 'what', 'who'], a: 2, why: 'Речь о человеке → who.' },

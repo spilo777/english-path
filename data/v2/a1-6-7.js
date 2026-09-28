@@ -246,7 +246,7 @@ Tom: Yes, there are. There are two eggs. That's all.
 Anna: Two eggs? And have we got any bread?
 Tom: No, we haven't. There isn't any bread, and there isn't any cheese.
 Anna: Oh no! Is there a shop near here?
-Tom: Yes, there's a small shop opposite the park. But it isn't near, and it's cold today.
+Tom: Well, there's a small shop opposite the park. But it isn't very near, and it's cold today.
 Anna: Hmm. Is there a café near here?
 Tom: Yes, there's a café next to the station. It's small, but it's nice and cheap. There's good coffee there.
 Anna: Breakfast in the café, then?
@@ -363,7 +363,7 @@ Anna: It's on the chair, next to the door.`,
 <p>Ответы: <span class="say">Sure!</span> / <span class="say">Of course.</span> / <span class="say">Sorry, I can't.</span></p>
 <p><b>could</b> — это «мягкий» can. <span class="say">Could you help me, please?</span> — Не могли бы вы мне помочь? <span class="say">Could I sit here?</span> — Можно мне здесь сесть? Так вежливее, например с незнакомыми людьми.</p>
 <p>А ещё <b>could / couldn't</b> — это can в прошлом: <span class="say">I couldn't sleep.</span> — Я не мог уснуть. Прошлое мы подробно пройдём в юнитах 8–9.</p>
-<div class="g-tip">Русское «Можно…?» без слова «мне» по-английски всегда <b>Can I…?</b> — «я» нужно назвать.</div>
+<div class="g-tip">Русское «Можно…?» без слова «мне» по-английски обычно <b>Can I…?</b> — «я» нужно назвать.</div>
 <div class="mini" data-q="Можно мне поиграть?" data-o="Can you play?|Can I play?|Can play?" data-a="1" data-why="Просим разрешения для себя → Can I…?"></div>
 <div class="mini" data-q="Самая вежливая просьба к незнакомому:" data-o="Could you help me, please?|You help me.|Do you can help me?" data-a="0" data-why="Could you…, please? — мягкая вежливая просьба."></div>`
         },
@@ -522,7 +522,7 @@ Max: Yes, I know them. They're very nice. Bye!`,
         },
         {
           id: 't-a1-7-2', title: 'Our hobbies', level: 'A1',
-          text: `There are five people in our office, and we all have hobbies.
+          text: `There are six people in our office, and we all have hobbies.
 Max can draw very well. He draws cats, and they are very nice. He can't sing at all, but he sings every morning. We always listen to him.
 Kate can play the guitar, and she can dance. Her music is very good. She often plays for us.
 Tom can cook. He often makes breakfast for us. He can't swim, but he can ride a bike very fast.
@@ -555,7 +555,7 @@ What can you do? What is your hobby?`,
         { t: 'order', a: 'My friend can ride a bike', ru: 'Мой друг умеет кататься на велосипеде' },
         { t: 'order', a: 'What can you do', ru: 'Что ты умеешь?' },
         { t: 'tr', q: 'Я не умею плавать.', a: ["i can't swim", 'i cannot swim', 'i can not swim'] },
-        { t: 'tr', q: 'Можете повторить, пожалуйста?', a: ['can you repeat please', 'can you repeat it please', 'please can you repeat', 'could you repeat please', 'could you repeat it please'] },
+        { t: 'tr', q: 'Можете повторить, пожалуйста?', a: ['can you repeat please', 'can you repeat it please', 'can you repeat that please', 'please can you repeat', 'could you repeat please', 'could you repeat it please', 'could you repeat that please'] },
         { t: 'listen', say: 'Can you play chess?', a: ['can you play chess'] }
       ],
       test: [

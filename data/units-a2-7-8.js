@@ -45,7 +45,7 @@ COURSE.units.push(
 <div class="g-bad">She mights come. · I might to go. · I might will go.</div>
 <div class="g-good">She <b>might come</b>. · I <b>might go</b>.</div>
 <div class="mini" data-q="Anna ___ join us later." data-o="mights|might|might to" data-a="1" data-why="might — одна форма для всех, дальше глагол без to."></div>
-<div class="mini" data-q="Are you playing tonight? — I ___. I have a lot of work." data-o="might|might play to|mighting" data-a="0" data-why="Короткий ответ: I might — глагол можно не повторять."></div>`
+<div class="mini" data-q="Are you playing tonight? — I ___. I'm not sure yet." data-o="might|might play to|mighting" data-a="0" data-why="Короткий ответ: I might — глагол можно не повторять."></div>`
       },
       {
         title: '3. might not и «точно» против «возможно»',
@@ -160,14 +160,14 @@ COURSE.units.push(
       ['perhaps', 'возможно, пожалуй', 'Perhaps they\'re busy.', 'Возможно, они заняты.'],
       ['probably', 'вероятно, наверное', 'I\'ll probably stay at home.', 'Я, наверное, останусь дома.'],
       ['possible', 'возможный', 'Is it possible?', 'Это возможно?'],
-      ['sure', 'уверенный; конечно', 'I\'m not sure. — Sure, no problem.', 'Я не уверен. — Конечно, без проблем.'],
+      ['sure', 'уверенный; конечно', 'I\'m not sure. / Sure, no problem!', 'Я не уверен. / Конечно, без проблем!'],
       ['could', 'мог, умел; не мог бы (вежливо)', 'Could you help me, please?', 'Не могли бы вы мне помочь?'],
       ['couldn\'t', 'не мог, не смог', 'I couldn\'t sleep last night.', 'Я не мог уснуть прошлой ночью.'],
       ['borrow', 'брать взаймы, одалживать у кого-то', 'Could I borrow your charger?', 'Можно одолжить твою зарядку?'],
       ['lend — lent', 'давать взаймы, одалживать кому-то', 'Can you lend me ten dollars?', 'Можешь одолжить мне десять долларов?'],
       ['charger', 'зарядка, зарядное устройство', 'I couldn\'t find my charger.', 'Я не смог найти свою зарядку.'],
       ['umbrella', 'зонт', 'Take an umbrella. It might rain.', 'Возьми зонт. Может пойти дождь.'],
-      ['forecast', 'прогноз', 'The forecast says it may snow.', 'Прогноз говорит, что может пойти снег.'],
+      ['forecast', 'прогноз', 'The forecast says it may snow.', 'По прогнозу, может пойти снег.'],
       ['storm', 'буря, гроза', 'There might be a storm tonight.', 'Ночью может быть гроза.'],
       ['lucky', 'везучий, удачливый', 'Try again. You might be lucky.', 'Попробуй ещё раз. Может, повезёт.'],
       ['luck', 'удача', 'Good luck with the exam!', 'Удачи на экзамене!'],
@@ -188,7 +188,7 @@ COURSE.units.push(
         id: 't-a2-7-1', title: 'Maybe on Saturday', level: 'A2',
         text: `Kate: Hi, Max! Are you coming to Tom's birthday party on Saturday?
 Max: I might. I'm not sure yet. I have a big project at work, and the deadline is on Monday.
-Kate: Oh no. Could you finish it on Friday?
+Kate: Oh no. Can you finish it by Friday?
 Max: Maybe. I couldn't work on it last week because my laptop broke. The screen was black, and I couldn't do anything.
 Kate: That's terrible! Did you fix it?
 Max: Yes, my brother fixed it. He's great with computers. When he was twelve, he could build a PC on his own.
@@ -513,7 +513,7 @@ Do you think I should write more tips? Tell me in the comments!`,
       { t: 'order', a: 'What time do you have to get up', ru: 'Во сколько тебе нужно вставать?' },
       { t: 'order', a: 'Do you think I should buy it', ru: 'Как думаешь, мне стоит это купить?' },
       { t: 'tr', q: 'Мне пришлось работать в субботу.', a: ['i had to work on saturday', 'i had to work last saturday', 'i had to work saturday'] },
-      { t: 'tr', q: 'Тебе не нужно приходить завтра.', a: ['you don\'t have to come tomorrow', 'you don\'t need to come tomorrow', 'you do not have to come tomorrow', 'you do not need to come tomorrow'] },
+      { t: 'tr', q: 'Тебе не нужно приходить завтра.', a: ['you don\'t have to come tomorrow', 'you don\'t need to come tomorrow', 'you do not have to come tomorrow', 'you do not need to come tomorrow', 'you needn\'t come tomorrow'] },
       { t: 'tr', q: 'Тебе стоит отдохнуть.', a: ['you should rest', 'you should have a rest', 'you should take a rest', 'you should take a break', 'you should have a break', 'you ought to rest', 'you ought to have a rest', 'you should relax'] },
       { t: 'listen', say: 'You mustn\'t be late.', a: ['you mustn\'t be late', 'you must not be late'] }
     ],

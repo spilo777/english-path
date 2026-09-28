@@ -103,7 +103,7 @@ COURSE.units.push(
 <p>Некоторые глаголы почти не бывают с -ing, потому что это не действие, а состояние: <b>know, want, like, love, need, understand, believe, have</b> (иметь). В прошлом они просто в Past Simple:</p>
 <div class="g-bad">I was knowing the answer. · She was wanting a new phone.</div>
 <div class="g-good">I <b>knew</b> the answer. · She <b>wanted</b> a new phone.</div>
-<div class="mini" data-q="Yesterday I ___ a new level in Figma from 2 to 5." data-o="designed|was designing|design" data-a="0" data-why="Действие целиком, с двух до пяти → Past Simple."></div>
+<div class="mini" data-q="Yesterday I ___ a logo in Figma from 2 to 5 and then sent it to the client." data-o="designed|was designing|design" data-a="0" data-why="Действие целиком, с двух до пяти → Past Simple."></div>
 <div class="mini" data-q="He ___ the answer, but he didn't say it." data-o="was knowing|knew|was know" data-a="1" data-why="know — состояние, в -ing не ставится → knew."></div>`
       },
       {
@@ -225,7 +225,7 @@ Anna: Were you working the whole evening?
 Tom: Not the whole evening. While the files were uploading, I watched an episode of my favourite series. But my phone was in the other room. Why were you calling? Did something happen?
 Anna: Yes! I was walking past the new game shop when I saw a sign: "Free tickets for the gaming festival". They were giving away tickets, and I wanted to take one for you too.
 Tom: Wow! Did you get them?
-Anna: I got one for me. When I came back for the second, they weren't giving them away any more.
+Anna: I got one for myself. When I came back for the second, they weren't giving them away any more.
 Tom: Oh no! Next time just send me a message!`,
         questions: [
           { q: 'Where was Tom at seven?', o: ['At the office', 'At the gym', 'In the game shop'], a: 1 },
@@ -240,8 +240,8 @@ Tom: Oh no! Next time just send me a message!`,
       { t: 'choice', q: '___ it raining when you left?', o: ['Did', 'Were', 'Was'], a: 2, why: 'Вопрос в Past Continuous: was выходит вперёд; it → was.' },
       { t: 'choice', q: 'I ___ when the alarm rang.', o: ['was sleeping', 'slept', 'sleep'], a: 0, why: 'Сон — длинный процесс, будильник прервал его → was sleeping.' },
       { t: 'choice', q: 'We were having lunch when the boss ___ in.', o: ['was coming', 'came', 'comes'], a: 1, why: 'Короткое событие посреди процесса → Past Simple.' },
-      { t: 'choice', q: 'My phone died ___ I was streaming.', o: ['while', 'so', 'because'], a: 0, why: 'Пока шёл процесс → while + Past Continuous.' },
-      { t: 'choice', q: 'Yesterday I ___ from 9 to 6.', o: ['was working', 'worked', 'were working'], a: 1, why: 'Действие целиком, от начала до конца → Past Simple.' },
+      { t: 'choice', q: 'My phone died ___ I was streaming.', o: ['while', 'so', 'if'], a: 0, why: 'Пока шёл процесс → while + Past Continuous.' },
+      { t: 'choice', q: 'Yesterday I ___ from 9 to 6, and then I went to the gym.', o: ['was working', 'worked', 'were working'], a: 1, why: 'Действие целиком, от начала до конца → Past Simple.' },
       { t: 'choice', q: 'I ___ what to do, so I called Max.', o: ['wasn\'t knowing', 'didn\'t know', 'wasn\'t know'], a: 1, why: 'know — состояние, в -ing не ставится → didn\'t know.' },
       { t: 'gap', q: 'Sorry, I ___ . What did you say? (not/listen)', a: ["wasn't listening", 'was not listening'], why: 'Процесс в момент, когда говорили → wasn\'t + -ing.' },
       { t: 'gap', q: 'What ___ you doing at 8 o\'clock yesterday?', a: ['were'], why: 'Вопрос в Past Continuous, you → were.' },
@@ -251,8 +251,8 @@ Tom: Oh no! Next time just send me a message!`,
       { t: 'gap', q: '— Were they working? — No, they ___ .', a: ["weren't", 'were not'], why: 'Краткий ответ повторяет помощник: No, they weren\'t.' },
       { t: 'order', a: 'What were you doing at midnight', ru: 'Что ты делал в полночь?' },
       { t: 'order', a: 'I was driving when you called', ru: 'Я был за рулём, когда ты позвонил' },
-      { t: 'tr', q: 'Шёл снег, когда мы вышли из дома.', a: ['it was snowing when we left home', 'it was snowing when we left the house', 'it was snowing when we went out', 'it was snowing when we left'] },
-      { t: 'tr', q: 'Я уснул, пока смотрел фильм.', a: ['i fell asleep while i was watching a film', 'i fell asleep while i was watching the film', 'i fell asleep while i was watching a movie', 'i fell asleep while i was watching the movie'] },
+      { t: 'tr', q: 'Шёл снег, когда мы вышли из дома.', a: ['it was snowing when we left home', 'it was snowing when we left the house', 'it was snowing when we went out', 'it was snowing when we went outside', 'it was snowing when we left our house', 'it was snowing when we left'] },
+      { t: 'tr', q: 'Я уснул, пока смотрел фильм.', a: ['i fell asleep while i was watching a film', 'i fell asleep while i was watching the film', 'i fell asleep while i was watching a movie', 'i fell asleep while i was watching the movie', 'i fell asleep while watching a film', 'i fell asleep while watching the film', 'i fell asleep while watching a movie', 'i fell asleep while watching the movie'] },
       { t: 'listen', say: 'We were playing online when the lights went out.', a: ['we were playing online when the lights went out'] }
     ],
     test: [
@@ -384,7 +384,7 @@ Tom: Oh no! Next time just send me a message!`,
 <li><span class="say">The stream has just started.</span> — Стрим только что начался.</li>
 <li><span class="say">It's only nine, and Kate has already gone to bed.</span> — Только девять, а Кейт уже легла.</li>
 <li><span class="say">— This is Emma. — I know. We've already met.</span> — Мы уже знакомы.</li>
-<li><span class="say">Don't tell me the ending. — Too late, I've already watched it.</span></li>
+<li><span class="say">— Let's watch the new episode! — Sorry, I've already watched it.</span> — Извини, я уже посмотрел.</li>
 </ul>
 <div class="g-bad">I have finished just. · She already has gone.</div>
 <div class="g-good">I have <b>just</b> finished. · She has <b>already</b> gone.</div>
@@ -506,7 +506,7 @@ At two o'clock we're still working. Max has finished the icons, and the buttons 
 At six the boss comes into the room with a big smile. "Great news! The trailer has already got ten thousand views!" Everybody laughs. We're tired, but we're happy. Now we just need to wait for tomorrow.`,
         questions: [
           { q: 'Who has fixed the bug in the main menu?', o: ['Max', 'Tom', 'Kate'], a: 1 },
-          { q: 'Why haven\'t they sent the trailer yet at ten?', o: ['They haven\'t chosen the music', 'The buttons are pink', 'The boss is away'], a: 0 },
+          { q: 'Why haven\'t they sent the trailer to the bloggers yet?', o: ['They haven\'t chosen the music', 'The buttons are pink', 'The boss is away'], a: 0 },
           { q: 'What has Tom ordered?', o: ['Coffee', 'New icons', 'Pizza'], a: 2 }
         ]
       },
@@ -528,7 +528,7 @@ Liza: Does your brother still live with you?
 Dan: Yes, he still lives here. He hasn't found a flat yet.
 Liza: Then he can show me the game! Can I come over on Saturday?
 Dan: Sure. But please, not a word about the series. I haven't seen the ending yet!
-Liza: Deal. My lips are closed.`,
+Liza: Deal. My lips are sealed.`,
         questions: [
           { q: 'How many episodes has Dan watched?', o: ['One', 'Eight', 'None'], a: 0 },
           { q: 'Has Dan played the new game?', o: ['Yes, he has reached level ten', 'No, he has only downloaded it', 'No, he hasn\'t bought it'], a: 1 },
@@ -541,7 +541,7 @@ Liza: Deal. My lips are closed.`,
       { t: 'choice', q: 'I have ___ this series. It\'s great!', o: ['saw', 'see', 'seen'], a: 2, why: 'После have — 3-я форма: see → saw → seen.' },
       { t: 'choice', q: 'We\'ve ___ the new level. Let\'s play!', o: ['downloaded', 'download', 'downloading'], a: 0, why: 'Правильный глагол: 3-я форма = -ed.' },
       { t: 'choice', q: '— Are you hungry? — No, I\'ve ___ had breakfast.', o: ['yet', 'just', 'still'], a: 1, why: 'Только что, совсем недавно → just между have и глаголом.' },
-      { t: 'choice', q: 'Has the film started ___?', o: ['already', 'yet', 'just'], a: 1, why: 'Обычный вопрос «уже?» → yet в конце.' },
+      { t: 'choice', q: 'Has the film started ___?', o: ['still', 'yet', 'just'], a: 1, why: 'Обычный вопрос «уже?» → yet в конце.' },
       { t: 'choice', q: 'Выберите правильный порядок:', o: ['I have finished already it.', 'I have already finished it.', 'I already have finished it.'], a: 1, why: 'already стоит между have и 3-й формой.' },
       { t: 'choice', q: 'Is Max ___ at the office? He was there at 8.', o: ['yet', 'still', 'already'], a: 1, why: 'Всё ещё, как было → still.' },
       { t: 'choice', q: 'Where is Anna? — She\'s ___ home.', o: ['went', 'gone', 'go'], a: 1, why: 'She\'s = she has + 3-я форма: go → gone.' },

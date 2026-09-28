@@ -122,7 +122,7 @@ COURSE.units.push(
 <tr><th>После плюса: too</th><th>После минуса: either</th></tr>
 <tr><td><span class="say">I'm tired. — I'm tired too.</span></td><td><span class="say">I'm not ready. — I'm not ready either.</span></td></tr>
 <tr><td><span class="say">I liked the film. — I liked it too.</span></td><td><span class="say">I can't cook. — I can't either.</span></td></tr>
-<tr><td><span class="say">Anna is a designer. Her brother is a designer too.</span></td><td><span class="say">Max doesn't watch TV. He doesn't read news either.</span></td></tr>
+<tr><td><span class="say">Anna is a designer. Her brother is a designer too.</span></td><td><span class="say">Max doesn't watch TV. He doesn't read the news either.</span></td></tr>
 </table>
 <p>Короче и живее: <b>So / Neither + помощник + кто</b>.</p>
 <div class="g-formula"><span class="g-part g-v">So</span><span class="g-plus">+</span><span class="g-part">помощник</span><span class="g-plus">+</span><span class="g-part">I</span> = я тоже <span class="g-sep">·</span> <span class="g-part g-v">Neither / Nor</span><span class="g-plus">+</span><span class="g-part">помощник</span><span class="g-plus">+</span><span class="g-part">I</span> = я тоже нет</div>
@@ -329,7 +329,7 @@ It came last week. The box was very heavy — too heavy for me to carry alone, s
     ],
     test: [
       { t: 'choice', q: 'Kate has been to Japan, but I ___.', o: ['haven\'t', 'didn\'t', 'don\'t'], a: 0, why: 'В первой части has been (Present Perfect) → помощник have: I haven\'t.' },
-      { t: 'choice', q: 'Will you be at the meeting tomorrow? — I ___. I\'m not sure yet.', o: ['might', 'might be', 'might to'], a: 0, why: 'Короткий ответ — только помощник: I might.' },
+      { t: 'choice', q: 'Will you come to the meeting tomorrow? — I ___. I\'m not sure yet.', o: ['might', 'might to', 'am might'], a: 0, why: 'Короткий ответ — только помощник: I might (без to и без am).' },
       { t: 'choice', q: 'Max doesn\'t eat meat. — ___ Does he eat fish?', o: ['Does he?', 'Doesn\'t he?', 'Isn\'t he?'], a: 1, why: 'Фраза с doesn\'t → реакция Doesn\'t he?' },
       { t: 'gap', q: 'You\'ll help me with the logo, ___ you?', a: ['won\'t'], why: 'Плюс с will → хвостик с минусом: won\'t you?' },
       { t: 'gap', q: 'They didn\'t win the match, ___ they?', a: ['did'], why: 'Минус с didn\'t → хвостик с плюсом: did they?' },
@@ -404,7 +404,7 @@ It came last week. The box was very heavy — too heavy for me to carry alone, s
 <tr><td>вещи</td><td><span class="say">She didn't say anything.</span></td><td><span class="say">She said nothing.</span></td></tr>
 <tr><td>вещи</td><td><span class="say">There isn't anything in the fridge.</span></td><td><span class="say">There's nothing in the fridge.</span></td></tr>
 </table>
-<p><b>nobody / nothing</b> можно поставить в <b>начало</b> фразы или ответить одним словом. <b>any-</b> так не работает:</p>
+<p><b>nobody / nothing</b> можно поставить в <b>начало</b> фразы или ответить одним словом. <b>any-</b> в значении «никто / ничего» так не работает:</p>
 <ul class="g-list">
 <li><span class="say">Nobody lives in that house.</span> — В том доме никто не живёт.</li>
 <li><span class="say">Nothing happened.</span> — Ничего не случилось.</li>
@@ -450,7 +450,7 @@ It came last week. The box was very heavy — too heavy for me to carry alone, s
 <div class="g-bad">I didn't go nowhere. · Somebody knows? <span class="muted">(в вопросе)</span></div>
 <div class="g-good">I didn't go <b>anywhere</b>. · Does <b>anybody</b> know?</div>
 <div class="mini" data-q="I've lost my keys. They must be ___ in the flat." data-o="anywhere|somewhere|nowhere" data-a="1" data-why="Утверждение, место неизвестно → somewhere."></div>
-<div class="mini" data-q="Did you meet ___ at the party?" data-o="somebody|anybody|nobody" data-a="1" data-why="Обычный вопрос → anybody."></div>`
+<div class="mini" data-q="I didn't meet ___ interesting at the party." data-o="somebody|anybody|nobody" data-a="1" data-why="Уже есть not (didn't) → anybody."></div>`
       },
       {
         title: '5. something new, nothing to do',
@@ -514,7 +514,7 @@ It came last week. The box was very heavy — too heavy for me to carry alone, s
 <div class="g-bad">I don't see nothing.</div><div class="g-good">I don't see <b>anything</b>. / I see <b>nothing</b>.</div>
 <div class="g-bad">We have none time.</div><div class="g-good">We have <b>no</b> time.</div>
 <div class="g-bad">Who called? — None.</div><div class="g-good">Who called? — <b>Nobody</b>. / <b>No-one</b>.</div>
-<div class="g-bad">Is somebody here? <span class="muted">(простой вопрос)</span></div><div class="g-good">Is <b>anybody</b> here?</div>
+<div class="g-bad">There isn't somebody here.</div><div class="g-good">There isn't <b>anybody</b> here. / There's <b>nobody</b> here.</div>
 <div class="g-bad">I want interesting something.</div><div class="g-good">I want <b>something interesting</b>.</div>
 <div class="g-bad">There isn't nowhere to sit.</div><div class="g-good">There's <b>nowhere</b> to sit. / There isn't <b>anywhere</b> to sit.</div>
 <div class="g-bad">Everybody love this game.</div><div class="g-good">Everybody <b>loves</b> this game.</div>
@@ -547,7 +547,7 @@ It came last week. The box was very heavy — too heavy for me to carry alone, s
       ["empty", "пустой", "The server was empty.", "Сервер был пустой."],
       ["lonely", "одинокий", "I felt lonely — I had nobody to talk to.", "Мне было одиноко — не с кем было поговорить."],
       ["hide — hid", "прятать(ся) — спрятал(ся)", "The cat hid somewhere under the bed.", "Кот спрятался где-то под кроватью."],
-      ["search", "искать, обыскивать", "I searched everywhere.", "Я обыскал всё."],
+      ["search", "искать, обыскивать", "I searched everywhere.", "Я искал везде."],
       ["look for", "искать", "Are you looking for something?", "Ты что-то ищешь?"],
       ["happen", "случаться, происходить", "Did anything happen?", "Что-нибудь случилось?"],
       ["lose — lost", "терять — потерял", "I've lost my headphones.", "Я потерял наушники."],

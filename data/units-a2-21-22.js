@@ -59,7 +59,7 @@ COURSE.units.push(
 <tr><td><span class="say">We need to talk.</span></td><td><span class="say">What about?</span></td><td>О чём?</td></tr>
 <tr><td><span class="say">I'm saving money.</span></td><td><span class="say">What for?</span></td><td>Для чего? Зачем?</td></tr>
 <tr><td><span class="say">I got a strange email.</span></td><td><span class="say">Who from?</span></td><td>От кого?</td></tr>
-<tr><td><span class="say">The new guy is really nice.</span></td><td><span class="say">Where from?</span></td><td>Откуда он?</td></tr>
+<tr><td><span class="say">We've got a new guy on the team.</span></td><td><span class="say">Where from?</span></td><td>Откуда он?</td></tr>
 </table>
 <p><b>What … for?</b> — это «зачем, с какой целью». Можно и полным вопросом:</p>
 <ul class="g-list">
@@ -82,7 +82,7 @@ COURSE.units.push(
 <li><span class="say">What are your neighbours like?</span> — Какие у тебя соседи? — <span class="say">Quiet, thank God.</span></li>
 <li><span class="say">What was the weather like in Sochi?</span> — Какая была погода в Сочи? — <span class="say">It was sunny every day.</span></li>
 <li><span class="say">What's the new Zelda like? Is it worth it?</span> — Ну как новая Zelda? Стоит того?</li>
-<li><span class="say">What were the lessons like?</span> — Как тебе были уроки?</li>
+<li><span class="say">What were the lessons like?</span> — Ну и как прошли уроки?</li>
 </ul>
 <p>Не путайте похожие вопросы — у них разный смысл:</p>
 <table>
@@ -259,7 +259,7 @@ Nina: I don't know what he's doing, but I can hear him. He's on a call. Let's ge
 His fans have a lot of questions. Where does he live? How old is he? What does he look like? He never shows his face, and he never says where he comes from. People in the chat often ask him, "Where are you from?" He always answers, "From the dark!" and laughs.
 Some fans think they know what his real name is. Others say they know which city he lives in, because once you could hear a train announcement behind him. But they are not sure if that is true.
 My friend Dasha is a big fan. Last week she asked me, "Do you know what software he uses for his voice?" I had no idea what to say. Then she asked, "I wonder whether he works in a normal office during the day. What do you think?"
-I think the mystery is part of the show. People don't really want to know what his face is like. They want to know what he is going to play next and who he is talking to when he whispers "Are you there?" in the middle of the night.`,
+I think the mystery is part of the show. People don't really want to know what his face looks like. They want to know what he is going to play next and who he is talking to when he whispers "Are you there?" in the middle of the night.`,
         questions: [
           { q: 'What does Pixel Ghost play?', o: ['New shooters', 'Old horror games', 'Racing games'], a: 1 },
           { q: 'What does he answer when people ask where he is from?', o: ['From the dark', 'From a big city', 'From the internet'], a: 0 },
@@ -285,7 +285,7 @@ I think the mystery is part of the show. People don't really want to know what h
       { t: 'order', a: 'Who are you waiting for', ru: 'Кого ты ждёшь?' },
       { t: 'order', a: 'Do you know where the station is', ru: 'Ты не знаешь, где вокзал?' },
       { t: 'order', a: 'I wonder if he got my message', ru: 'Интересно, получил ли он моё сообщение' },
-      { t: 'tr', q: 'О чём ты думаешь?', a: ['what are you thinking about'] },
+      { t: 'tr', q: 'О чём ты думаешь?', a: ['what are you thinking about', 'what\'re you thinking about', 'what are you thinking of'] },
       { t: 'tr', q: 'Какая там погода?', a: ['what is the weather like there', 'what\'s the weather like there', 'how is the weather there', 'how\'s the weather there'] },
       { t: 'listen', say: 'Could you tell me where the lift is?', a: ['could you tell me where the lift is'] }
     ],
@@ -416,7 +416,7 @@ I think the mystery is part of the show. People don't really want to know what h
 <tr><td>один остров, одна гора</td><td><span class="say">Sicily, Bali, Elbrus, Everest</span></td></tr>
 <tr><td>озёра со словом Lake</td><td><span class="say">Lake Baikal, Lake Como</span></td></tr>
 <tr><td>аэропорты, вокзалы</td><td><span class="say">Sheremetyevo Airport, King's Cross Station</span></td></tr>
-<tr><td>университеты «Город + University»</td><td><span class="say">Moscow State University, Harvard University</span></td></tr>
+<tr><td>университеты «Название + University»</td><td><span class="say">Moscow State University, Harvard University</span></td></tr>
 </table>
 <ul class="g-list">
 <li><span class="say">Japan is an island country in Asia.</span> — Япония — островная страна в Азии.</li>
@@ -430,7 +430,7 @@ I think the mystery is part of the show. People don't really want to know what h
       {
         title: '6. Названия мест с the',
         html: `
-<div class="g-idea">the появляется в четырёх случаях: в названии есть <b>слово-«объединение»</b> (Republic, Kingdom, States), название во <b>множественном числе</b>, это <b>вода</b> (океан, море, река), это <b>здание, куда ходят</b> (отель, музей, театр, кино) — и конструкция <b>the … of …</b>.</div>
+<div class="g-idea">the появляется, когда: в названии есть <b>слово-«объединение»</b> (Republic, Kingdom, States), название во <b>множественном числе</b>, это <b>вода</b> (океан, море, река), это <b>здание, куда ходят</b> (отель, музей, театр, кино) — и конструкция <b>the … of …</b>.</div>
 <table>
 <tr><th>Что</th><th>Примеры (с the)</th></tr>
 <tr><td>Republic, Kingdom, States, Emirates</td><td><span class="say">the Czech Republic, the UK, the USA, the United Arab Emirates</span></td></tr>
@@ -439,7 +439,7 @@ I think the mystery is part of the show. People don't really want to know what h
 <tr><td>пустыни</td><td><span class="say">the Sahara, the Gobi</span></td></tr>
 <tr><td>отели, музеи, театры, кинотеатры, галереи</td><td><span class="say">the Hilton, the Hermitage, the Bolshoi Theatre, the Louvre</span></td></tr>
 <tr><td>the … of …</td><td><span class="say">the Tower of London, the University of Tokyo, the Gulf of Finland</span></td></tr>
-<tr><td>части света и страны</td><td><span class="say">the north of Italy, the south of France</span></td></tr>
+<tr><td>север, юг… страны (the … of)</td><td><span class="say">the north of Italy, the south of France</span></td></tr>
 </table>
 <p>Сравните пары — разница только в форме названия:</p>
 <ul class="g-list">
@@ -615,13 +615,13 @@ Now we're planning the next trip: the Canary Islands or maybe the United States.
       { t: 'order', a: 'I still haven\'t watched the final episode', ru: 'Я до сих пор не посмотрел последнюю серию' },
       { t: 'order', a: 'We stayed at the Hilton near the river', ru: 'Мы жили в «Хилтоне» у реки' },
       { t: 'tr', q: 'Дай мне его, пожалуйста. (про телефон)', a: ['give it to me please', 'please give it to me', 'can you give it to me please', 'could you give it to me please'] },
-      { t: 'tr', q: 'Я был в Нидерландах.', a: ['i have been to the netherlands', 'i\'ve been to the netherlands', 'i was in the netherlands'] },
+      { t: 'tr', q: 'Я был в Нидерландах.', a: ['i have been to the netherlands', 'i\'ve been to the netherlands', 'i have been in the netherlands', 'i\'ve been in the netherlands', 'i was in the netherlands'] },
       { t: 'listen', say: 'Have you been to the north of Italy?', a: ['have you been to the north of italy', 'have you ever been to the north of italy'] }
     ],
     test: [
       { t: 'choice', q: 'I ___ when my cat ___ on the keyboard.', o: ['was streaming … jumped', 'streamed … was jumping', 'was streaming … was jumping'], a: 0, why: 'Длинный процесс в прошлом → was streaming; короткое событие, которое его прервало → Past Simple (a2-1).' },
       { t: 'choice', q: 'I ___ my phone yesterday, and I ___ it yet.', o: ['lost … haven\'t found', 'have lost … didn\'t find', 'lost … didn\'t find'], a: 0, why: 'yesterday → Past Simple; yet (до сих пор) → Present Perfect (a2-4).' },
-      { t: 'choice', q: 'Look at those black clouds! It ___ rain.', o: ['is going to', 'will', 'is raining'], a: 0, why: 'Прогноз по тому, что видим сейчас → going to (a2-5).' },
+      { t: 'choice', q: 'Look at those black clouds! It ___ rain.', o: ['is going to', 'going to', 'is raining'], a: 0, why: 'Прогноз по тому, что видим сейчас → going to (a2-5).' },
       { t: 'choice', q: 'You ___ pay for this app. It\'s free.', o: ['mustn\'t', 'don\'t have to', 'can\'t'], a: 1, why: 'Нет необходимости → don\'t have to; mustn\'t — это запрет (a2-8).' },
       { t: 'gap', q: 'I ___ play Minecraft every day, but now I don\'t. (use — 2 слова)', a: ['used to'], why: 'Привычка в прошлом, которой сейчас нет → used to + глагол (a2-9).' },
       { t: 'choice', q: 'This chair is ___ for me. I need a bigger one.', o: ['too small', 'small enough', 'smaller'], a: 0, why: 'Размер мешает, это проблема → too + прилагательное (a2-11).' },
