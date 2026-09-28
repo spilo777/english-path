@@ -1383,7 +1383,7 @@
       const t = ACH.tier(pctOf(x));
       const el = document.createElement('div');
       el.className = 'ach-pop ' + t.cls;
-      const col = (ACH.CAT_COLORS || {})[x.cat] || ['#8b5cf6', '#5b4ff5'];
+      const col = x.color || ['#8b5cf6', '#5b4ff5'];
       el.innerHTML = `<div class="ach-icon ${t.cls}" style="--c1:${col[0]};--c2:${col[1]}"><i class="ph-fill ph-${x.icon}"></i></div><div><div class="tiny" style="opacity:.7">Достижение получено</div><b>${esc(x.title)}</b><div class="tiny"><span class="tier-${t.cls}">${t.name}</span> · ${pctOf(x)}% учеников</div></div>`;
       document.body.appendChild(el);
       requestAnimationFrame(() => el.classList.add('in'));
@@ -1407,7 +1407,7 @@
     const secret = a.hidden && !got;
     const v = Math.min(a.need, a.val(c));
     const prog = !got && !secret && a.need > 1 ? `<div class="progress" style="margin-top:8px"><i style="width:${(v / a.need) * 100}%"></i></div><div class="tiny muted" style="margin-top:3px">${v.toLocaleString('ru-RU')} / ${a.need.toLocaleString('ru-RU')}</div>` : '';
-    const col = (ACH.CAT_COLORS || {})[a.cat] || ['#8b5cf6', '#5b4ff5'];
+    const col = a.color || ['#8b5cf6', '#5b4ff5'];
     return `<div class="ach ${got ? 'got' : 'locked'} r-${t.cls}">
       <div class="ach-icon ${t.cls}" style="--c1:${secret ? '#475569' : col[0]};--c2:${secret ? '#0f172a' : col[1]}">${secret ? '<i class="ph-fill ph-question"></i>' : `<i class="ph-fill ph-${a.icon}"></i>`}${got ? '' : '<b class="ach-lock"><i class="ph-fill ph-lock-simple"></i></b>'}</div>
       <div style="flex:1;min-width:0">
