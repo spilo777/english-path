@@ -287,7 +287,7 @@
     return i <= 0 || passed(mainUnits[i - 1].id);
   }
   const STEPS = [
-    ['grammar', 'Грамматика'], ['words', 'Слова'], ['reading', 'Чтение'], ['practice', 'Практика'], ['test', 'Тест']
+    ['words', 'Слова'], ['grammar', 'Грамматика'], ['reading', 'Чтение'], ['practice', 'Практика'], ['test', 'Тест']
   ];
   function unitProgress(u) {
     const s = unitState(u.id);
@@ -368,7 +368,7 @@
     if (keepScroll === true) requestAnimationFrame(() => window.scrollTo(0, y)); else window.scrollTo(0, 0);
     if (!r) return renderToday();
     if (r === 'course') return renderCourse();
-    if (r === 'unit') return renderUnit(a, b || 'grammar');
+    if (r === 'unit') return renderUnit(a, b || (unitById(a) && nextStep(unitById(a)) ? nextStep(unitById(a)).k : 'words'));
     if (r === 'library') {
       if (a === 'all') { if (b) { lsSet('ep.libCat', b); lsSet('ep.libLevel', 'all'); } return renderLibrary(); }
       if (a === 'new') { renderLibrary(); const bx = $('#ut-box'); bx.hidden = false; $('#ut-title').focus(); return; }
@@ -422,7 +422,7 @@
     const task = (done, ico, title, sub, href, btn) => `<a class="task ${done ? 'done' : ''}" href="${href}"><div class="num">${done ? '<i class="ph ph-check"></i>' : `<i class="ph ${ico}"></i>`}</div><div class="body"><b>${title}</b><span class="muted small">${sub}</span></div>${btn && !done ? `<span class="pill-btn sm">${btn}</span>` : '<i class="ph ph-caret-right muted"></i>'}</a>`;
     view().innerHTML = `
       ${topbar(hello, rbtn('#/library/find', 'magnifying-glass', 'Поиск по статьям') + avatarBtn(), new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, (c) => c.toUpperCase()) + (planDone === 3 ? ' · план выполнен' : ''))}
-      <a class="continue-card" href="#/unit/${u.id}/${ns ? ns.k : 'grammar'}">
+      <a class="continue-card" href="#/unit/${u.id}/${ns ? ns.k : 'words'}">
         <div class="cc-ill"><i class="ph-fill ph-graduation-cap"></i></div>
         <div class="cc-body"><div class="cc-eyebrow">Курс · ${u.level} · юнит ${u.num}</div>
           <div class="cc-title">${esc(u.title)}</div>
@@ -436,7 +436,7 @@
       <section class="sec"><div class="sec-head"><h2>План на сегодня</h2><span class="see-all muted">${planDone}/3</span></div>
       <div class="stack">
         ${task(reviewsDone, 'ph-cards', 'Карточки', due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Слова появятся после шага «Слова» в уроке', due + nw ? '#/review' : '#/cards', due + nw ? 'НАЧАТЬ' : '')}
-        ${task(lessonToday, 'ph-book-open', `Урок ${u.num}: ${esc(u.title)}`, ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден', `#/unit/${u.id}/${ns ? ns.k : 'grammar'}`, ns ? 'УРОК' : '')}
+        ${task(lessonToday, 'ph-book-open', `Урок ${u.num}: ${esc(u.title)}`, ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден', `#/unit/${u.id}/${ns ? ns.k : 'words'}`, ns ? 'УРОК' : '')}
         ${task(readToday, 'ph-headphones', 'Чтение и аудирование', suggest ? '«' + esc(suggest.title) + '» — прочитайте, прослушайте, повторите вслух' : 'Выберите статью или книгу в библиотеке', suggest ? '#/read/' + suggest.id : '#/library', 'ЧИТАТЬ')}
         <div class="task"><div class="num"><i class="ph ph-globe-hemisphere-west"></i></div><div class="body"><b>Вне сайта: 20+ минут английского</b><span class="muted small">${esc(tipOfDay())}</span></div></div>
       </div></section>
@@ -562,16 +562,21 @@
     const wireComplete = () => $$('[data-complete]', body).forEach((a) => a.addEventListener('click', () => { s.steps[a.dataset.complete] = true; track('exercises', 0); save(); }));
 
     if (tab === 'grammar') {
-      body.innerHTML = `<div class="stack lesson">${u.grammar.map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}
+      const wl = u.words || [];
+      const wordsCard = wl.length ? `<div class="card words-mini"><div class="row" style="margin-bottom:10px"><h3 style="margin:0"><i class="ph ph-cards"></i> Слова этого урока</h3><span class="spacer"></span><a class="small" href="#/unit/${u.id}/words">Все ${wl.length} с примерами</a></div>
+        <div class="wm-list">${wl.map((w, i) => `<button type="button" class="wm-chip ${i >= 12 ? 'more' : ''}" data-speak="${esc(w[0])}"><b>${esc(w[0])}</b> <span>${esc(w[1].split(/[,;]/)[0])}</span></button>`).join('')}${wl.length > 12 ? `<button type="button" class="wm-toggle">ещё ${wl.length - 12}</button>` : ''}</div>
+        <p class="tiny muted" style="margin:10px 0 0">Нажмите на слово — прозвучит. Любое английское слово ниже тоже можно нажать и увидеть перевод.</p></div>` : '';
+      body.innerHTML = `<div class="stack lesson">${wordsCard}${u.grammar.map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}
         <div class="row">${nextBtn('grammar')}</div></div>`;
       wireSay(body); wireComplete();
+      const wt = $('.wm-toggle', body); if (wt) wt.addEventListener('click', () => { $('.wm-list', body).classList.add('all'); wt.remove(); });
     } else if (tab === 'words') {
       const inCards = u.words.filter((w) => S.cards[w[0].toLowerCase()]).length;
       body.innerHTML = `
         <div class="card">
           <div class="row" style="margin-bottom:8px"><h3 style="margin:0">${u.words.length} ${plural(u.words.length, 'слово', 'слова', 'слов')}</h3><span class="spacer"></span>
           <button class="btn small ${inCards === u.words.length ? '' : 'primary'}" id="add-all" ${inCards === u.words.length ? 'disabled' : ''}>${inCards === u.words.length ? '<i class="ph ph-check"></i> Все в карточках' : '+ Добавить все в карточки'}</button></div>
-          <p class="muted small">Прослушайте каждое слово и повторите вслух. Потом добавьте их в карточки: дальше они будут приходить на повторение сами.</p>
+          <p class="muted small">Начните урок со слов: они встретятся в объяснении, текстах и упражнениях. Прослушайте каждое и повторите вслух, потом добавьте все в карточки — дальше они будут приходить на повторение сами.</p>
           <div class="word-list">${u.words.map((w) => `
             <div class="word-item">
               <button class="icon-btn" data-speak="${esc(w[0])}" aria-label="Слушать"><i class="ph ph-speaker-high"></i></button>

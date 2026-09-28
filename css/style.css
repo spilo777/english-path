@@ -1336,3 +1336,14 @@ a.bm-row[href]:hover { background: var(--surface-2); }
 .mini .tr-box { margin: 2px 0 10px; }
 .ex-label { font-size: 14px; color: var(--text-2); font-weight: 650; margin-bottom: 4px; }
 #ex-body .tr-box { margin: 10px 0 14px; }
+
+/* ── Слова урока над грамматикой */
+.words-mini h3 { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; }
+.wm-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.wm-chip { border: 0; background: var(--surface-2); border-radius: 12px; padding: 6px 11px; font-size: 14px; cursor: pointer; color: var(--text); text-align: left; }
+.wm-chip b { font-weight: 700; color: var(--accent-text); }
+.wm-chip span { color: var(--muted); }
+.wm-chip:hover { background: var(--accent-soft); }
+.wm-chip.more { display: none; }
+.wm-list.all .wm-chip.more { display: inline-block; }
+.wm-toggle { border: 1px dashed var(--line-strong); background: none; border-radius: 12px; padding: 6px 11px; font-size: 14px; font-weight: 650; color: var(--accent-text); cursor: pointer; }
