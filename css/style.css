@@ -1347,3 +1347,6 @@ a.bm-row[href]:hover { background: var(--surface-2); }
 .wm-chip.more { display: none; }
 .wm-list.all .wm-chip.more { display: inline-block; }
 .wm-toggle { border: 1px dashed var(--line-strong); background: none; border-radius: 12px; padding: 6px 11px; font-size: 14px; font-weight: 650; color: var(--accent-text); cursor: pointer; }
+/* новые (ещё не пройденные) слова — пунктир */
+.lw.nw { text-decoration: underline dotted; text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.lw.nw.sel { text-decoration: none; }

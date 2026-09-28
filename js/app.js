@@ -565,7 +565,7 @@
       const wl = u.words || [];
       const wordsCard = wl.length ? `<div class="card words-mini"><div class="row" style="margin-bottom:10px"><h3 style="margin:0"><i class="ph ph-cards"></i> Слова этого урока</h3><span class="spacer"></span><a class="small" href="#/unit/${u.id}/words">Все ${wl.length} с примерами</a></div>
         <div class="wm-list">${wl.map((w, i) => `<button type="button" class="wm-chip ${i >= 12 ? 'more' : ''}" data-speak="${esc(w[0])}"><b>${esc(w[0])}</b> <span>${esc(w[1].split(/[,;]/)[0])}</span></button>`).join('')}${wl.length > 12 ? `<button type="button" class="wm-toggle">ещё ${wl.length - 12}</button>` : ''}</div>
-        <p class="tiny muted" style="margin:10px 0 0">Нажмите на слово — прозвучит. Любое английское слово ниже тоже можно нажать и увидеть перевод.</p></div>` : '';
+        <p class="tiny muted" style="margin:10px 0 0">Нажмите на слово — прозвучит. Любое английское слово ниже тоже нажимается и показывает перевод, а <span class="lw nw">пунктиром</span> подчёркнуты слова, которых ещё нет в ваших карточках.</p></div>` : '';
       body.innerHTML = `<div class="stack lesson">${wordsCard}${u.grammar.map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}
         <div class="row">${nextBtn('grammar')}</div></div>`;
       wireSay(body); wireComplete();
@@ -1563,7 +1563,29 @@
   }
   const WF_TARGETS = '.lesson .card, .mini-q, .ex-q, .tq-q, .feedback .right, .tense-formula, .tense-hero';
   const WF_SKIP = 'button, input, textarea, select, a, .lw, .blank, .tq-gap, .mini-o, .options, .chips, .ipa, svg';
+  // Какие слова ученик уже видел: карточки, «знаю», слова пройденных уроков и самые служебные слова
+  const BASIC_WORDS = new Set('a an the i you he she it we they me him her us them my your his its our their is am are was were be been do does did not no yes and or but to of in on at for with from by this that these those there here what who where when why how can will would have has had get got go ok hi hello'.split(' '));
+  function knownWordSet() {
+    const set = new Set(BASIC_WORDS);
+    Object.keys(S.cards).forEach((k) => set.add(k));
+    Object.keys(S.known).forEach((k) => set.add(k));
+    const m = location.hash.match(/^#\/unit\/([^/]+)/); const cur = m && unitById(m[1]);
+    const ci = cur ? mainUnits.indexOf(cur) : -1;
+    units.forEach((u) => { const i = mainUnits.indexOf(u); if ((cur && u !== cur && ((i >= 0 && i < ci) || (u.track === 'games' && passed(u.id)))) || (!cur && passed(u.id))) (u.words || []).forEach((w) => w[0].toLowerCase().split(/\s*[—–-]\s*|\s*\/\s*/).forEach((x) => set.add(x.trim()))); });
+    return set;
+  }
+  function isNewWord(w, set) {
+    let lw = w.toLowerCase().replace(/’/g, "'");
+    if (/^[a-z]{1,3}-/.test(lw)) return false; // разбивка слова по слогам в объяснении
+    if (lw.includes("'")) lw = lw.replace(/n't$/, '').replace(/'.*$/, '') || lw; // I'm, isn't, they're → I, is, they
+    if (lw === 'ca' || lw === 'wo' || lw === 'ai') return false; // can't, won't, ain't
+    if (lw.length < 3 || set.has(lw)) return false;
+    if (EngLookup.candidates(lw).some((c) => set.has(c))) return false;
+    if (lookup(lw).some((r) => set.has(r.word))) return false;
+    return true;
+  }
   function wordify(root) {
+    const known = knownWordSet();
     $$(WF_TARGETS, root).forEach((box) => {
       const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (!/[A-Za-z]/.test(n.nodeValue) || (n.parentElement && n.parentElement.closest(WF_SKIP)) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT) });
       const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
@@ -1571,7 +1593,7 @@
         const frag = document.createDocumentFragment();
         n.nodeValue.split(/([A-Za-z][A-Za-z'’]*(?:-[A-Za-z]+)*)/).forEach((part, i) => {
           if (!part) return;
-          if (i % 2) { const sp = document.createElement('span'); sp.className = 'lw'; sp.textContent = part; frag.appendChild(sp); } else frag.appendChild(document.createTextNode(part));
+          if (i % 2) { const sp = document.createElement('span'); sp.className = isNewWord(part, known) && !(/^[A-Z]/.test(part) && i > 1) ? 'lw nw' : 'lw'; sp.textContent = part; frag.appendChild(sp); } else frag.appendChild(document.createTextNode(part));
         });
         n.parentNode.replaceChild(frag, n);
       });
