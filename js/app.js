@@ -83,7 +83,9 @@
     if (!opts.queue) speechSynthesis.cancel();
     if (S && S.stats) S.stats.speaks = (S.stats.speaks || 0) + 1;
     const u = new SpeechSynthesisUtterance(text);
-    const v = pickVoice(); if (v) u.voice = v;
+    let v = pickVoice();
+    if (opts.speaker != null && opts.speaker >= 0 && voices.length > 1) { const alt = voices.filter((x) => x !== v); v = opts.speaker % 2 ? (alt.find((x) => x.lang === (v || {}).lang) || alt[0]) : v; u.pitch = [1, 0.95, 1.12, 0.88][opts.speaker % 4]; }
+    if (v) u.voice = v;
     u.lang = v ? v.lang : 'en-US';
     u.rate = opts.rate || S.settings.rate;
     if (opts.onend) u.onend = opts.onend;
@@ -239,23 +241,32 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', cards: 'cards', review: 'cards', deck: 'cards', achievements: 'achievements', account: 'account', stats: 'stats', settings: 'settings' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     window.scrollTo(0, 0);
     if (!r) return renderToday();
     if (r === 'course') return renderCourse();
     if (r === 'unit') return renderUnit(a, b || 'grammar');
-    if (r === 'library') return renderLibrary();
+    if (r === 'library') {
+      if (a === 'all') { if (b) { lsSet('ep.libCat', b); lsSet('ep.libLevel', 'all'); } return renderLibrary(); }
+      if (a === 'new') { renderLibrary(); const bx = $('#ut-box'); bx.hidden = false; $('#ut-title').focus(); return; }
+      if (a === 'find') { renderLibrary(); const i = $('#lib-q'); i.focus(); return; }
+      if (a === 'books') return renderBooks();
+      return renderLibraryHome();
+    }
     if (r === 'read') return renderReader(a);
+    if (r === 'book') return renderBook(a, b);
+    if (r === 'profile') return renderProfile();
     if (r === 'cards') return renderCards();
     if (r === 'review') return renderReview();
     if (r === 'deck') return renderDeck(a);
-    if (r === 'achievements') return renderAch();
-    if (r === 'account') return renderAuth();
-    if (r === 'stats') return renderStats();
-    if (r === 'settings') return renderSettings();
+    if (r === 'achievements') return withBack(renderAch);
+    if (r === 'account') return withBack(renderAuth);
+    if (r === 'stats') return withBack(renderStats);
+    if (r === 'settings') return withBack(renderSettings);
     renderToday();
   }
+  function withBack(fn) { fn(); if (!$('.backlink', view())) view().insertAdjacentHTML('afterbegin', '<a href="#/profile" class="backlink" title="Профиль"><i class="ph ph-caret-left"></i></a>'); }
   window.addEventListener('hashchange', route);
 
   // ───────────── Сегодня ─────────────
@@ -278,61 +289,38 @@
     const lessonToday = (act.exercises || 0) > 0 || !ns;
     const readToday = (act.reads || 0) > 0;
     const planDone = [reviewsDone, lessonToday, readToday].filter(Boolean).length;
-    const eng = engagement();
-    const R = 52, CIRC = 2 * Math.PI * R;
+    const forYou = LIB.filter((t) => !S.textsRead[t.id] && t.kind !== 'dialogue' && t.level === u.level).slice(0, 10);
+    const dlgs = LIB.filter((t) => t.kind === 'dialogue' && !S.textsRead[t.id] && LEVEL_ORDER[t.level] <= LEVEL_ORDER[u.level] + 1).slice(0, 10);
+    const books = (window.BOOKS || []).filter((b) => LEVEL_ORDER[b.level] <= LEVEL_ORDER[u.level] + 1);
+    const p = Math.round(unitProgress(u) * 100);
+    const task = (done, ico, title, sub, href, btn) => `<a class="task ${done ? 'done' : ''}" href="${href}"><div class="num">${done ? '<i class="ph ph-check"></i>' : `<i class="ph ${ico}"></i>`}</div><div class="body"><b>${title}</b><span class="muted small">${sub}</span></div>${btn && !done ? `<span class="pill-btn sm">${btn}</span>` : '<i class="ph ph-caret-right muted"></i>'}</a>`;
     view().innerHTML = `
-      <section class="hero">
-        <div style="flex:1;min-width:0">
-          <div class="eyebrow">${new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
-          <h1>${hello}!</h1>
-          <p>${planDone === 3 ? 'План на сегодня выполнен. Отличная работа — завтра продолжим.' : 'Около 40–60 минут сегодня. Регулярность важнее длительности.'}</p>
-          <div class="hero-chips">
-            <span class="hchip"><i class="ph ph-flame"></i> ${st} ${plural(st, 'день', 'дня', 'дней')} подряд</span>
-            <span class="hchip"><i class="ph ph-trophy"></i> Уровень ${eng.lvl} · ${eng.rank}</span>
-            <span class="hchip"><i class="ph ph-book-open"></i> ${u.level}, юнит ${u.num}</span>
-          </div>
-        </div>
-        <div class="ring">
-          <svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="${R}" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="10"/>
-          <circle cx="60" cy="60" r="${R}" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-dasharray="${CIRC}" stroke-dashoffset="${CIRC * (1 - planDone / 3)}" style="transition:stroke-dashoffset .8s"/></svg>
-          <div class="ring-label"><div><b>${planDone}/3</b><span>плана</span></div></div>
-        </div>
-      </section>
-      <div class="grid-4" style="margin-bottom:26px">
-        <div class="stat"><div class="chip-ico"><i class="ph ph-cards"></i></div><b>${due + nw}</b><span>карточек на сегодня</span></div>
-        <div class="stat"><div class="chip-ico"><i class="ph ph-brain"></i></div><b>${total}</b><span>слов в работе</span></div>
-        <div class="stat"><div class="chip-ico"><i class="ph ph-seal-check"></i></div><b>${learned}</b><span>выучено надолго</span></div>
-        <div class="stat"><div class="chip-ico"><i class="ph ph-medal"></i></div><b>${Object.keys(S.ach).length}</b><span>достижений</span></div>
-      </div>
+      ${topbar(hello, rbtn('#/library/find', 'magnifying-glass', 'Поиск по статьям') + avatarBtn(), new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, (c) => c.toUpperCase()) + (planDone === 3 ? ' · план выполнен' : ''))}
+      <a class="continue-card" href="#/unit/${u.id}/${ns ? ns.k : 'grammar'}">
+        <div class="cc-ill"><i class="ph-fill ph-graduation-cap"></i></div>
+        <div class="cc-body"><div class="cc-eyebrow">Курс · ${u.level} · юнит ${u.num}</div>
+          <div class="cc-title">${esc(u.title)}</div>
+          <div class="cc-sub">${ns ? 'Дальше: ' + esc(ns.label) : 'Юнит пройден'} · ${p}%</div>
+          <div class="cc-bar"><i style="width:${p}%"></i></div></div>
+        <span class="pill-btn light">${p ? 'ПРОДОЛЖИТЬ' : 'НАЧАТЬ'}</span></a>
+      ${goalCard()}
       ${cloudOn() && !Cloud.status().user && !(() => { try { return localStorage.getItem('ep.hideAuthBanner'); } catch (e) { return false; } })() ? `
       <div class="auth-banner"><div class="auth-banner-ico"><i class="ph ph-cloud"></i></div><div style="flex:1;min-width:0"><b>Сохраните прогресс в облаке</b><div class="small muted">Бесплатный аккаунт — и занятия будут одинаковыми на Mac и iPhone.</div></div>
         <a class="btn small primary" href="#/account">Создать аккаунт</a><button class="icon-btn" id="hide-banner" title="Скрыть"><i class="ph ph-x"></i></button></div>` : ''}
-      <div class="row" style="margin-bottom:12px"><h2 style="margin:0">План на сегодня</h2></div>
+      <section class="sec"><div class="sec-head"><h2>План на сегодня</h2><span class="see-all muted">${planDone}/3</span></div>
       <div class="stack">
-        <div class="task ${reviewsDone ? 'done' : ''}">
-          <div class="num">${reviewsDone ? '<i class="ph ph-check"></i>' : '<i class="ph ph-cards"></i>'}</div>
-          <div class="body"><b>Карточки</b><span class="muted small">${due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Пока пусто. Карточки появятся после шага «Слова» в уроке'}</span></div>
-          ${due + nw ? '<a class="btn primary" href="#/review">Начать</a>' : ''}
-        </div>
-        <div class="task ${lessonToday ? 'done' : ''}">
-          <div class="num">${lessonToday ? '<i class="ph ph-check"></i>' : '<i class="ph ph-book-open"></i>'}</div>
-          <div class="body"><b>Урок ${u.num}: ${esc(u.title)}</b><span class="muted small">${ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден'}</span>
-            <div class="progress" style="margin-top:8px"><i style="width:${Math.round(unitProgress(u) * 100)}%"></i></div></div>
-          ${ns ? `<a class="btn ${due + nw ? '' : 'primary'}" href="#/unit/${u.id}/${ns.k}">Продолжить</a>` : ''}
-        </div>
-        <div class="task ${(act.reads || 0) > 0 ? 'done' : ''}">
-          <div class="num">${readToday ? '<i class="ph ph-check"></i>' : '<i class="ph ph-headphones"></i>'}</div>
-          <div class="body"><b>Чтение и аудирование</b><span class="muted small">${suggest ? 'Текст: «' + esc(suggest.title) + '». Прочитайте, потом прослушайте и повторите вслух' : 'Все тексты прочитаны. Добавьте свой в «Чтение» или перечитайте любимый'}</span></div>
-          <a class="btn" href="${suggest ? '#/read/' + suggest.id : '#/library'}">Читать</a>
-        </div>
-        <div class="task">
-          <div class="num"><i class="ph ph-globe-hemisphere-west"></i></div>
-          <div class="body"><b>Вне сайта: 20+ минут английского</b><span class="muted small">${esc(tipOfDay())}</span></div>
-        </div>
-      </div>
+        ${task(reviewsDone, 'ph-cards', 'Карточки', due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Слова появятся после шага «Слова» в уроке', due + nw ? '#/review' : '#/cards', due + nw ? 'НАЧАТЬ' : '')}
+        ${task(lessonToday, 'ph-book-open', `Урок ${u.num}: ${esc(u.title)}`, ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден', `#/unit/${u.id}/${ns ? ns.k : 'grammar'}`, ns ? 'УРОК' : '')}
+        ${task(readToday, 'ph-headphones', 'Чтение и аудирование', suggest ? '«' + esc(suggest.title) + '» — прочитайте, прослушайте, повторите вслух' : 'Выберите статью или книгу в библиотеке', suggest ? '#/read/' + suggest.id : '#/library', 'ЧИТАТЬ')}
+        <div class="task"><div class="num"><i class="ph ph-globe-hemisphere-west"></i></div><div class="body"><b>Вне сайта: 20+ минут английского</b><span class="muted small">${esc(tipOfDay())}</span></div></div>
+      </div></section>
+      ${section('Для вас', '#/library', forYou.map(textPoster).join(''), `Статьи уровня ${u.level} о сериалах, играх и мультфильмах`)}
+      ${section('<i class="ph ph-chat-circle-dots"></i> Диалоги из игр', '#/library/all/' + encodeURIComponent('Диалоги из игр'), dlgs.map(textPoster).join(''))}
+      ${section('<i class="ph ph-books"></i> Книги', '#/library/books', books.map(bookPoster).join(''))}
       ${(() => { const near = nearAch(); const e = engagement(); return `
-      <div class="row" style="margin:28px 0 10px"><h2 style="margin:0">Ближайшие достижения</h2><span class="spacer"></span><a class="small" href="#/achievements">Уровень ${e.lvl} · ${Object.keys(S.ach).length}/${ACH.list.length} <i class="ph ph-arrow-right"></i></a></div>
-      <div class="ach-list">${near.length ? near.map(({ a }) => achCard(a, achCtx())).join('') : ACH.list.filter((a) => !S.ach[a.id] && !a.hidden).slice(0, 3).map((a) => achCard(a, achCtx())).join('')}</div>`; })()}`;
+      <section class="sec"><div class="sec-head"><h2>Ближайшие награды</h2><a class="see-all" href="#/achievements">Уровень ${e.lvl} · ${Object.keys(S.ach).length}/${ACH.list.length}</a></div>
+      <div class="ach-list">${near.length ? near.map(({ a }) => achCard(a, achCtx())).join('') : ACH.list.filter((a) => !S.ach[a.id] && !a.hidden).slice(0, 3).map((a) => achCard(a, achCtx())).join('')}</div></section>`; })()}`;
+    paintCovers(view());
     const hb = $('#hide-banner'); if (hb) hb.addEventListener('click', () => { try { localStorage.setItem('ep.hideAuthBanner', '1'); } catch (e) {} hb.closest('.auth-banner').remove(); });
   }
   function tipOfDay() {
@@ -364,8 +352,8 @@
       </div>`;
     }).join('');
     view().innerHTML = `
-      <h1>Программа</h1>
-      <p class="muted">От нуля до B2: чтобы играть в любые игры, читать и общаться. Каждый юнит — грамматика, слова, текст, практика и тест. Следующий юнит открывается после теста на 80%+.</p>
+      ${topbar('Курс', avatarBtn())}
+      <p class="page-sub">От нуля до B2: чтобы играть в любые игры, читать и общаться. Каждый юнит — грамматика, слова, текст, практика и тест. Следующий юнит открывается после теста на 80%+.</p>
       <hr>${lvlHtml}`;
   }
   function unitRow(u) {
@@ -614,7 +602,7 @@
   const LIB = (window.LIBRARY || []).slice();
   const LEVEL_ORDER = { A1: 1, A2: 2, B1: 3, B2: 4 };
   LIB.sort((a, b) => (LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level]) || a.title.localeCompare(b.title));
-  const CAT_ICON = { 'Сериалы': '<i class="ph ph-television-simple"></i>', 'Мультфильмы': '<i class="ph ph-palette"></i>', 'Игры': '<i class="ph ph-game-controller"></i>', 'Аниме': '<i class="ph ph-flower-lotus"></i>', 'Кино': '<i class="ph ph-film-slate"></i>', 'Про экран': '<i class="ph ph-popcorn"></i>' };
+  const CAT_ICON = { 'Сериалы': '<i class="ph ph-television-simple"></i>', 'Мультфильмы': '<i class="ph ph-palette"></i>', 'Игры': '<i class="ph ph-game-controller"></i>', 'Аниме': '<i class="ph ph-flower-lotus"></i>', 'Кино': '<i class="ph ph-film-slate"></i>', 'Про экран': '<i class="ph ph-popcorn"></i>', 'Диалоги из игр': '<i class="ph ph-chat-circle-dots"></i>' };
   const wordsIn = (t) => t.text.split(/\s+/).filter(Boolean).length;
   const minsIn = (t) => Math.max(1, Math.round(wordsIn(t) / 90));
   const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } };
@@ -622,10 +610,12 @@
   // Обложки статей: картинки по теме из Википедии / Wikimedia Commons (только ссылки, кешируются на 30 дней)
   const LIB_WIKI = {'lib-a1-shrek':'Shrek','lib-a1-peppa-pig':'Peppa Pig','lib-a2-ted-lasso':'Ted Lasso','lib-b1-speedrunning':'Speedrunning','lib-a2-sherlock':'Sherlock (TV series)','lib-a2-futurama':'Futurama','lib-a2-ratatouille':'Ratatouille (film)','lib-a1-minions':'Minions (film)','lib-a1-finding-nemo':'Finding Nemo','lib-b1-elden-ring':'Elden Ring','lib-a1-kung-fu-panda':'Kung Fu Panda (film)','lib-b1-dota-2':'Dota 2','lib-a1-tetris':'Tetris','lib-a1-pokemon':'Pokémon','lib-a1-lion-king':'The Lion King','lib-a2-zootopia':'Zootopia','lib-a2-coco':'Coco (2017 film)','lib-b2-chernobyl':'Chernobyl (miniseries)','lib-b1-witcher-3':'The Witcher 3: Wild Hunt','lib-b2-villains':'Villain','lib-a1-winnie-the-pooh':'Winnie-the-Pooh','lib-a1-frozen':'Frozen (2013 film)','lib-a1-cars':'Cars (film)','lib-a2-shrek-2':'Shrek 2','lib-b2-voice-actors':'Voice acting','lib-a1-the-sims':'The Sims','lib-b2-disco-elysium':'Disco Elysium','lib-a1-spongebob':'SpongeBob SquarePants','lib-b1-naruto':'Naruto','lib-a2-the-witcher':'The Witcher (TV series)','lib-a1-mr-bean':'Mr. Bean','lib-b2-streaming-wars':'Netflix','lib-b1-skyrim':'The Elder Scrolls V: Skyrim','lib-b1-arcane':'League of Legends','lib-b2-binge-watching':'Binge-watching','lib-b2-anime-west':'Anime','lib-b1-spirited-away':'Spirited Away','lib-b1-squid-game':'Squid Game','lib-b1-one-piece':'One Piece','lib-b1-attack-on-titan':'Attack on Titan','lib-b2-game-storytelling':'Video game','lib-b2-baldurs-gate-3':"Baldur's Gate 3",'lib-b1-indie-games':'Stardew Valley','lib-a2-brooklyn-99':'Brooklyn Nine-Nine','lib-a2-big-bang-theory':'The Big Bang Theory','lib-b2-cyberpunk-2077':'Cyberpunk 2077','lib-a2-inside-out':'Inside Out (2015 film)','lib-b1-pixar-story':'Pixar','lib-b1-peaky-blinders':'Peaky Blinders','lib-b1-gta-v':'Grand Theft Auto V','lib-a2-gravity-falls':'Gravity Falls','lib-b2-better-call-saul':'Better Call Saul','lib-b1-breaking-bad':'Breaking Bad','lib-b2-fandoms':'Fandom','lib-a1-toy-story':'Toy Story','lib-a2-only-murders':'Only Murders in the Building','lib-b2-true-detective':'True Detective','lib-a1-simpsons':'The Simpsons','lib-a2-spider-verse':'Spider-Man: Into the Spider-Verse','lib-a1-super-mario':'Mario','lib-a1-doctor-who':'Doctor Who','lib-b2-bojack-horseman':'BoJack Horseman','lib-b2-animated-film':'Animation','lib-a2-himym':'How I Met Your Mother','lib-b1-game-of-thrones':'Game of Thrones','lib-a2-avatar-tla':'Avatar: The Last Airbender','lib-a2-adventure-time':'Adventure Time','lib-b2-learning-with-tv':'Subtitles','lib-a2-up':'Up (2009 film)','lib-a1-among-us':'Among Us','lib-a2-httyd':'How to Train Your Dragon (2010 film)','lib-b2-dubbing-subtitles':'Dubbing','lib-a1-stranger-things':'Stranger Things','lib-b1-the-crown':'The Crown (TV series)','lib-b2-red-dead-redemption-2':'Red Dead Redemption 2','lib-b1-lost':'Lost (TV series)','lib-a2-stranger-things-80s':'Stranger Things'};
   const LIB_COMMONS = {'lib-a2-mandalorian':'Cosplay of Blue Mandalorian','lib-a1-minecraft':'Minecraft Skeleton','lib-a1-tom-and-jerry':'cat chasing','lib-b1-black-mirror':'Broken Samsung Galaxy','lib-a2-the-office':'Dunder Mifflin','lib-b1-dark':'Fermes de la Forêt-Noire','lib-b2-rick-and-morty':'Rick and Morty opening credits','lib-b2-succession':'SuccessionTV','lib-a1-friends':'Friends Central Perk couch','lib-b2-sitcoms':'WUTV television studios','lib-b1-money-heist':'Money Heist Berlin character','lib-b1-the-last-of-us':'Cosplay of Ellie and Joel from The Last of Us','lib-a1-wednesday':'Wednesday Addams at FlameCon','lib-a2-modern-family':'Cast of Modern Family Golden Globes','lib-a2-friends-central-perk':'Central Perk NYC couch','lib-b1-house-md':'Gregory House dry brush portrait','lib-b2-spoilers':'SPOILER.png','lib-b2-mr-robot':'Elliot alderson','lib-b2-severance':'Office Corridor Basilica'};
+  Object.assign(LIB_WIKI, {'dlg-a1-tavern':'Tavern','dlg-a1-weapon-shop':'Blacksmith','dlg-a1-quest-giver':'Village','dlg-a1-character-select':'Cosplay','dlg-a1-farm':'Farm','dlg-a1-skin-shop':'Esports','dlg-a1-training':'Obstacle course','dlg-a1-gate-guard':'City gate','dlg-a2-lobby':'LAN party','dlg-a2-racing':'Pit stop','dlg-a2-coop-puzzle':'Ta Prohm','dlg-a2-mmo-first-day':'Massively multiplayer online role-playing game','dlg-a2-boss':'Throne','dlg-a2-lost-pet':'Beagle','dlg-a2-spaceport':'Spaceport','dlg-a2-find-key':'Haunted house','dlg-b1-squad-voice':'Headset (audio)','dlg-b1-radio-night':'Walkie-talkie','dlg-b1-docking':'International Space Station','dlg-b1-support-bug':'Software bug','dlg-b1-coach-halftime':'Manager (association football)','dlg-b1-smuggler':'Smuggling','dlg-b1-raid-night':'Dragon','dlg-b1-scientist-puzzle':'Crystal','dlg-b2-faction-talks':'Diplomacy','dlg-b2-interrogation':'Interrogation','dlg-b2-moba-draft':'Multiplayer online battle arena','dlg-b2-moral-choice':'Trolley problem','dlg-b2-streamer-chat':'Live streaming','dlg-b2-final-boss':'Boss (video games)','dlg-b2-post-match':'Esports','dlg-b2-strategy-deal':'Salt'});
+  (window.BOOKS || []).concat(window.BOOK_INDEX || []).forEach((b) => { if (b.wiki) LIB_WIKI[b.id] = b.wiki; });
   let libImgMap = null, libImgLoading = null;
   function libImages() {
     if (libImgMap) return Promise.resolve(libImgMap);
-    try { const c = JSON.parse(localStorage.getItem('ep.libimg.v2') || 'null'); if (c && Date.now() - c.t < 30 * DAY && Object.keys(c.m).length > 50) { libImgMap = c.m; return Promise.resolve(libImgMap); } } catch (e) {}
+    try { const c = JSON.parse(localStorage.getItem('ep.libimg.v3') || 'null'); if (c && Date.now() - c.t < 30 * DAY && Object.keys(c.m).length > 50) { libImgMap = c.m; return Promise.resolve(libImgMap); } } catch (e) {}
     if (libImgLoading) return libImgLoading;
     const m = {};
     const ids = Object.keys(LIB_WIKI);
@@ -640,7 +630,7 @@
       .then((r) => r.json()).then((j) => { const p = Object.values((j.query || {}).pages || {}).sort((a, b) => a.index - b.index).find((x) => x.imageinfo && /jpeg|png/.test(x.imageinfo[0].mime)); if (p) m[k] = p.imageinfo[0].thumburl; }).catch(() => {})));
     libImgLoading = Promise.all([wiki, commons]).then(() => {
       libImgMap = m; libImgLoading = null;
-      if (Object.keys(m).length > 50) { try { localStorage.setItem('ep.libimg.v2', JSON.stringify({ t: Date.now(), m })); } catch (e) {} }
+      if (Object.keys(m).length > 50) { try { localStorage.setItem('ep.libimg.v3', JSON.stringify({ t: Date.now(), m })); } catch (e) {} }
       return m;
     });
     return libImgLoading;
@@ -668,8 +658,9 @@
     const readN = LIB.filter((t) => S.textsRead[t.id]).length;
     const unitGroups = units.filter(isUnlocked).map((u) => ({ u, texts: u.texts }));
     view().innerHTML = `
-      <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:220px"><h1 style="margin-bottom:4px">Чтение</h1>
-        <p class="muted" style="margin:0">${LIB.length} статей о сериалах, мультфильмах и играх · прочитано ${readN}</p></div>
+      <a href="#/library" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:220px"><h1 class="page-title" style="margin-bottom:4px">Все статьи</h1>
+        <p class="muted" style="margin:0">${LIB.length} статей и диалогов · прочитано ${readN}</p></div>
         <button class="btn small" id="ut-toggle"><i class="ph ph-plus"></i> Свой текст</button></div>
       <div class="card" id="ut-box" style="margin-top:16px" hidden>
         <h3>Свой текст</h3>
@@ -679,7 +670,7 @@
       <div class="lib-filters">
         <div class="seg lib-lvl">${['all', 'A1', 'A2', 'B1', 'B2'].map((l) => `<button data-lvl="${l}" class="${lvl === l ? 'on' : ''}">${l === 'all' ? 'Все' : l}${l === myLevel() ? ' •' : ''}</button>`).join('')}</div>
         <div class="chips-row">${cats.map((c) => `<button class="fchip ${cat === c ? 'on' : ''}" data-cat="${esc(c)}">${c === 'all' ? 'Все темы' : CAT_ICON[c] + ' ' + esc(c)}</button>`).join('')}</div>
-        <div class="row" style="gap:10px"><input class="input lib-search" id="lib-q" placeholder="Поиск: Shrek, аниме, Witcher…" value="${esc(q)}">
+        <div class="row" style="gap:10px"><input class="input lib-search" id="lib-q" placeholder="Поиск: Shrek, таверна, Witcher…" value="${esc(q)}">
           <label class="row small" style="gap:8px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="lib-hide" ${hideRead ? 'checked' : ''}> Скрыть прочитанные</label></div>
       </div>
       <p class="tiny muted" style="margin:6px 0 12px">${lvl === 'all' ? 'Все уровни' : 'Уровень ' + lvl} · ${list.length} ${plural(list.length, 'статья', 'статьи', 'статей')}. Точка • — ваш текущий уровень. Читать чуть выше своего уровня полезно, но не больше чем на шаг.</p>
@@ -725,33 +716,261 @@
       ${user ? `<button class="icon-btn" data-del="${t.id}" title="Удалить"><i class="ph ph-x"></i></button>` : ''}</a>`;
   }
 
+  // ───────────── Общие блоки нового интерфейса ─────────────
+  function userInitial() { const st = cloudOn() ? Cloud.status() : {}; return st.user && st.user.email ? esc(st.user.email[0].toUpperCase()) : ''; }
+  function topbar(title, right = '', sub = '') {
+    const st = streak(); const on = !!S.activity[today()];
+    return `<div class="topbar"><a class="streak-pill ${on ? 'on' : ''}" href="#/profile" title="Дней подряд"><i class="ph-fill ph-flame"></i><b>${st}</b></a><span class="spacer"></span>${right}</div>
+      <h1 class="page-title">${title}</h1>${sub ? `<p class="page-sub">${sub}</p>` : ''}`;
+  }
+  const rbtn = (href, ico, title, id = '') => `<a class="rbtn" href="${href}" title="${title}" aria-label="${title}"${id ? ` id="${id}"` : ''}><i class="ph ph-${ico}"></i></a>`;
+  const avatarBtn = () => { const i = userInitial(); return `<a class="rbtn av" href="#/profile" title="Профиль">${i || '<i class="ph ph-user"></i>'}</a>`; };
+  function section(title, href, inner, sub = '') {
+    if (!inner) return '';
+    return `<section class="sec"><div class="sec-head"><h2>${title}</h2>${href ? `<a class="see-all" href="${href}">См. все</a>` : ''}</div>${sub ? `<p class="sec-sub">${sub}</p>` : ''}<div class="carousel">${inner}</div></section>`;
+  }
+  const catIdx = (c) => Object.keys(CAT_ICON).indexOf(c);
+  function poster({ href, img, title, band, cap, icon, cls = '', done, progress }) {
+    return `<a class="poster" href="${href}"><div class="poster-img lib-cover ${cls}" data-img="${img}"><span>${icon}</span>
+      ${done ? '<b class="lib-done"><i class="ph-fill ph-check"></i></b>' : ''}
+      <div class="poster-band"><b>${esc(title)}</b><span>${band}</span></div>
+      ${progress ? `<i class="poster-prog" style="width:${Math.round(progress * 100)}%"></i>` : ''}</div>
+      <div class="poster-cap">${cap}</div></a>`;
+  }
+  const dlgLines = (t) => t.text.split(/\n+/).filter((l) => /^[A-Z][\w .'’-]{0,24}:/.test(l.trim())).length;
+  function textPoster(t) {
+    const dlg = t.kind === 'dialogue';
+    return poster({ href: '#/read/' + t.id, img: t.id, title: t.title, band: `${esc(t.cat)} · ${t.level}`, cls: 'cat-' + catIdx(t.cat), icon: CAT_ICON[t.cat] || '<i class="ph ph-book-open-text"></i>', done: S.textsRead[t.id],
+      cap: dlg ? `<i class="ph ph-chat-circle-dots"></i> Диалог · ${dlgLines(t)} реплик` : `<i class="ph ph-article"></i> Статья · ${minsIn(t)} мин` });
+  }
+  // ───────────── Книги ─────────────
+  const allBooks = () => (window.BOOKS || []).concat(window.BOOK_INDEX || []);
+  const chapN = (b) => (Array.isArray(b.chapters) ? b.chapters.length : b.chapters || 0);
+  const bookDone = (b) => { let n = 0; for (let i = 0; i < chapN(b); i++) if (S.textsRead[b.id + '#' + i]) n++; return n; };
+  function bookPoster(b) {
+    const n = chapN(b), d = bookDone(b);
+    return poster({ href: '#/book/' + b.id, img: b.id, title: b.title, band: `${esc(b.author)} · ${b.level}`, cls: 'book' + (b.kind === 'original' ? ' orig' : ''), icon: '<i class="ph ph-book"></i>',
+      done: n && d >= n, progress: d && d < n ? d / n : 0,
+      cap: `<i class="ph ph-book-open"></i> ${b.kind === 'original' ? 'Оригинал' : 'Адаптация'} · ${n} ${plural(n, 'глава', 'главы', 'глав')}` });
+  }
+  const APP_VER = ((document.querySelector('script[src*="js/app.js"]') || {}).src || '').split('?v=')[1] || '';
+  const bookWait = {}, bookProm = {}, bookFull = {};
+  window.BOOK_LOADED = (b) => { if (b && b.id) { bookFull[b.id] = b; if (bookWait[b.id]) bookWait[b.id](b); } };
+  function loadBook(id) {
+    const ad = (window.BOOKS || []).find((x) => x.id === id); if (ad) return Promise.resolve(ad);
+    if (bookFull[id]) return Promise.resolve(bookFull[id]);
+    if (!(window.BOOK_INDEX || []).some((x) => x.id === id)) return Promise.resolve(null);
+    if (bookProm[id]) return bookProm[id];
+    bookProm[id] = new Promise((res) => {
+      bookWait[id] = res;
+      const sc = document.createElement('script');
+      sc.src = 'data/books/' + id + '.js' + (APP_VER ? '?v=' + APP_VER : '');
+      sc.onerror = () => { delete bookProm[id]; res(null); };
+      document.head.appendChild(sc);
+    });
+    return bookProm[id];
+  }
+  function renderBooks() {
+    const ad = window.BOOKS || [], or = window.BOOK_INDEX || [];
+    view().innerHTML = `<a href="#/library" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <h1 class="page-title">Книги</h1><p class="page-sub">Адаптированные версии написаны простым языком под уровень. Оригиналы — полные тексты классики из Project Gutenberg (общественное достояние), с переводом по тапу.</p>
+      <h2 class="sec-h">Адаптированные</h2><div class="poster-grid">${ad.map(bookPoster).join('')}</div>
+      <h2 class="sec-h">Классика в оригинале</h2><div class="poster-grid">${or.map(bookPoster).join('')}</div>`;
+    paintCovers(view());
+  }
+  function renderBook(id, ch) {
+    const meta = allBooks().find((b) => b.id === id);
+    if (!meta) return renderLibraryHome();
+    const hash = location.hash;
+    if (!Array.isArray(meta.chapters) && !bookFull[id]) view().innerHTML = `<a href="#/library" class="backlink"><i class="ph ph-caret-left"></i></a><div class="empty"><div class="big"><i class="ph ph-book-open"></i></div>Открываю книгу «${esc(meta.title)}»…</div>`;
+    loadBook(id).then((b) => {
+      if (location.hash !== hash) return;
+      if (!b) { view().innerHTML = `<a href="#/library" class="backlink"><i class="ph ph-caret-left"></i></a><div class="empty"><div class="big"><i class="ph ph-wifi-slash"></i></div>Не удалось загрузить книгу. Проверьте интернет и обновите страницу.</div>`; return; }
+      b = Object.assign({}, meta, b);
+      const n = b.chapters.length;
+      if (ch != null && ch !== '') {
+        const i = Math.max(0, Math.min(n - 1, parseInt(ch, 10) || 0));
+        const c = b.chapters[i];
+        lsSet('ep.bookAt.' + id, String(i));
+        return renderReader(null, { id: id + '#' + i, title: c.title, text: c.text, level: b.level, book: b, chapter: i });
+      }
+      const d = bookDone(b);
+      const firstUnread = b.chapters.findIndex((c, i) => !S.textsRead[id + '#' + i]);
+      const at = Math.max(0, Math.min(n - 1, lsGet('ep.bookAt.' + id, '') !== '' ? +lsGet('ep.bookAt.' + id, 0) : firstUnread));
+      const words = b.chapters.reduce((s, c) => s + wordsIn(c), 0);
+      const orig = b.kind === 'original';
+      const pair = allBooks().find((x) => x.id !== b.id && x.wiki === b.wiki);
+      view().innerHTML = `
+        <a href="#/library" class="backlink"><i class="ph ph-caret-left"></i></a>
+        <div class="book-hero">
+          <div class="poster-img lib-cover book${orig ? ' orig' : ''}" data-img="${b.id}"><span><i class="ph ph-book"></i></span></div>
+          <div class="book-info">
+            <div class="lib-meta"><span class="pill accent">${b.level}</span><span class="pill">${orig ? 'Оригинал' : 'Адаптированная'}</span></div>
+            <h1>${esc(b.title)}</h1>
+            <div class="book-author">${esc(b.author)}</div>
+            <p class="muted">${esc(b.ru || '')}</p>
+            <div class="small muted">${n} ${plural(n, 'глава', 'главы', 'глав')} · ${words.toLocaleString('ru-RU')} слов · ≈ ${Math.max(1, Math.round(words / 90 / 60))} ч чтения</div>
+            <div class="progress" style="margin:12px 0 16px"><i style="width:${(d / n) * 100}%"></i></div>
+            <a class="pill-btn" href="#/book/${b.id}/${at}">${d || lsGet('ep.bookAt.' + id, '') ? 'ПРОДОЛЖИТЬ · гл. ' + (at + 1) : 'НАЧАТЬ ЧИТАТЬ'}</a>
+          </div>
+        </div>
+        ${orig ? `<div class="g-tip" style="margin:18px 0 0">Это полный оригинальный текст без упрощений — язык XIX века бывает непростым. ${pair ? `Если тяжело, начните с <a href="#/book/${pair.id}">адаптированной версии (${pair.level})</a>.` : 'Если тяжело — начните с адаптированных книг.'}</div>` : pair ? `<div class="g-tip" style="margin:18px 0 0">Когда дочитаете, попробуйте <a href="#/book/${pair.id}">оригинал этой книги</a> — вы удивитесь, сколько уже понимаете.</div>` : ''}
+        <h2 class="sec-h">Главы</h2>
+        <div class="chap-list">${b.chapters.map((c, i) => { const r = S.textsRead[b.id + '#' + i]; return `<a class="chap-row ${r ? 'done' : ''} ${i === at && !r ? 'cur' : ''}" href="#/book/${b.id}/${i}"><span class="chap-num">${r ? '<i class="ph ph-check"></i>' : i + 1}</span><span class="chap-title">${esc(c.title)}</span><span class="tiny muted">${minsIn(c)} мин</span><i class="ph ph-caret-right muted"></i></a>`; }).join('')}</div>`;
+      paintCovers(view());
+    });
+  }
+
+  // ───────────── Библиотека: витрина ─────────────
+  function renderLibraryHome() {
+    const lvl = myLevel(), LV = LEVEL_ORDER[lvl];
+    const dist = (t) => Math.abs(LEVEL_ORDER[t.level] - LV) + (LEVEL_ORDER[t.level] > LV + 1 ? 2 : 0);
+    const rank = (a, b) => ((S.textsRead[a.id] ? 1 : 0) - (S.textsRead[b.id] ? 1 : 0)) || (dist(a) - dist(b)) || (LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level]);
+    const arts = LIB.filter((t) => t.kind !== 'dialogue');
+    const forYou = arts.filter((t) => !S.textsRead[t.id] && (t.level === lvl || LEVEL_ORDER[t.level] === LV + 1)).slice(0, 12);
+    const byCat = (c) => LIB.filter((t) => t.cat === c).sort(rank).slice(0, 14);
+    const reading = allBooks().filter((b) => (S.bookPos || {})[b.id] || lsGet('ep.bookAt.' + b.id, '')).filter((b) => bookDone(b) < chapN(b));
+    const adapted = (window.BOOKS || []).slice().sort((a, b) => Math.abs(LEVEL_ORDER[a.level] - LV) - Math.abs(LEVEL_ORDER[b.level] - LV));
+    const catSec = (c, title, sub) => section(`${CAT_ICON[c] || ''} ${title}`, '#/library/all/' + encodeURIComponent(c), byCat(c).map(textPoster).join(''), sub);
+    const lvTiles = COURSE.levels.map((l, i) => { const us = mainUnits.filter((u) => u.level === l.id); const dn = us.filter((u) => passed(u.id)).length;
+      return `<a class="coll-tile t${i}" href="#/course"><div class="coll-ill"><i class="ph-fill ph-${['plant', 'tree-evergreen', 'mountains', 'rocket-launch'][i] || 'star'}"></i></div><b>${l.id}</b><span>${esc((l.title.split('— ')[1] || l.title))}</span><span class="coll-meta">${us.length ? dn + ' из ' + us.length + ' юнитов' : 'скоро'}</span></a>`; }).join('');
+    view().innerHTML = `
+      ${topbar('Библиотека', rbtn('#/library/new', 'plus', 'Свой текст') + rbtn('#/library/find', 'magnifying-glass', 'Поиск'), `${LIB.length} статей и диалогов · ${allBooks().length} книг · ваш уровень ${lvl}`)}
+      ${reading.length ? section('Продолжить чтение', '', reading.map(bookPoster).join('')) : ''}
+      ${section('Для вас', '#/library/all', forYou.map(textPoster).join(''), `Статьи уровня ${lvl} и на шаг выше — самое полезное для роста`)}
+      ${section('<i class="ph ph-books"></i> Адаптированные книги', '#/library/books', adapted.map(bookPoster).join(''), 'Классика, пересказанная простым языком под ваш уровень')}
+      ${catSec('Диалоги из игр', 'Диалоги из игр', 'Таверны, лобби, рейды и боссы — живая речь, которую вы услышите в играх. По ролям, с озвучкой разными голосами')}
+      ${catSec('Сериалы', 'Сериалы')}
+      ${catSec('Игры', 'Игры')}
+      ${catSec('Мультфильмы', 'Мультфильмы')}
+      ${catSec('Аниме', 'Аниме')}
+      ${catSec('Кино', 'Кино')}
+      ${catSec('Про экран', 'Про экран')}
+      ${section('<i class="ph ph-crown-simple"></i> Классика в оригинале', '#/library/books', (window.BOOK_INDEX || []).map(bookPoster).join(''), 'Полные тексты без упрощений — цель уровня B2')}
+      <section class="sec"><div class="sec-head"><h2>Грамматика по уровням</h2><a class="see-all" href="#/course">См. все</a></div><div class="coll-grid">${lvTiles}</div></section>
+      ${S.userTexts.length ? `<section class="sec"><div class="sec-head"><h2>Мои тексты</h2><a class="see-all" href="#/library/new">Добавить</a></div><div class="stack">${S.userTexts.map((t) => textRow(t, true)).join('')}</div></section>` : ''}
+      <a class="list-link" href="#/library/all"><i class="ph ph-list-magnifying-glass"></i><span><b>Все статьи списком</b><span class="small muted">Фильтры по уровню и теме, поиск, тексты из уроков</span></span><i class="ph ph-caret-right muted"></i></a>`;
+    paintCovers(view());
+    $$('[data-del]').forEach((b) => b.addEventListener('click', (ev) => {
+      ev.preventDefault(); ev.stopPropagation();
+      if (!confirm('Удалить текст?')) return;
+      S.userTexts = S.userTexts.filter((t) => t.id !== b.dataset.del); tomb('text:' + b.dataset.del); save(); renderLibraryHome();
+    }));
+  }
+
+  // ───────────── Цель на сегодня: три кольца ─────────────
+  function goalCard(title = 'Цель на сегодня') {
+    const act = S.activity[today()] || {};
+    const due = dueCards().length, nw = newAvailable();
+    const rv = act.reviews || 0, rvGoal = Math.max(10, rv + due + nw);
+    const ex = act.exercises || 0, exGoal = 20;
+    const rd = act.reads || 0, rdGoal = 1;
+    const rings = [
+      { r: 52, v: rv / rvGoal, c: 'var(--r1)', label: 'Карточки', val: `${rv}/${rvGoal}` },
+      { r: 39, v: ex / exGoal, c: 'var(--r2)', label: 'Упражнения', val: `${ex}/${exGoal}` },
+      { r: 26, v: rd / rdGoal, c: 'var(--r3)', label: 'Чтение', val: `${Math.min(rd, rdGoal)}/${rdGoal}` }
+    ];
+    const svg = rings.map((g) => { const C = 2 * Math.PI * g.r; return `<circle cx="64" cy="64" r="${g.r}" fill="none" stroke="${g.c}" stroke-opacity=".16" stroke-width="10"/><circle cx="64" cy="64" r="${g.r}" fill="none" stroke="${g.c}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - Math.min(1, g.v))}" transform="rotate(-90 64 64)" style="transition:stroke-dashoffset .8s"/>`; }).join('');
+    const done = rings.filter((g) => g.v >= 1).length;
+    return `<div class="goal-card"><div class="goal-text"><div class="goal-h">${title}</div>
+      ${rings.map((g) => `<div class="goal-row"><i style="background:${g.c}"></i><span>${g.label}</span><b>${g.val}</b></div>`).join('')}
+      <div class="small muted" style="margin-top:6px">${done === 3 ? 'Все три кольца закрыты — отличный день!' : 'Закройте все три кольца'}</div></div>
+      <svg class="goal-rings" viewBox="0 0 128 128" width="128" height="128">${svg}</svg></div>`;
+  }
+
+  // ───────────── Профиль ─────────────
+  function streakCal() {
+    const now = new Date(); const y = now.getFullYear(), m = now.getMonth();
+    const first = new Date(y, m, 1); const days = new Date(y, m + 1, 0).getDate();
+    const off = (first.getDay() + 6) % 7;
+    const key = (d) => y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    let cells = '';
+    for (let i = 0; i < off; i++) cells += '<span></span>';
+    for (let d = 1; d <= days; d++) {
+      const on = !!S.activity[key(d)], isT = d === now.getDate(), fut = d > now.getDate();
+      const prevOn = d > 1 && !!S.activity[key(d - 1)], nextOn = d < days && !!S.activity[key(d + 1)];
+      cells += `<span class="cal-d ${on ? 'on' : ''} ${on && prevOn && (off + d - 1) % 7 ? 'jl' : ''} ${on && nextOn && (off + d) % 7 ? 'jr' : ''} ${isT ? 'today' : ''} ${fut ? 'fut' : ''}"><b>${d}</b></span>`;
+    }
+    const active = Object.keys(S.activity).filter((k) => k.startsWith(y + '-' + String(m + 1).padStart(2, '0'))).length;
+    return `<div class="card cal-card"><div class="row" style="margin-bottom:12px"><div><div class="goal-h" style="margin:0">${now.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(/^./, (c) => c.toUpperCase())}</div><div class="small muted">${active} ${plural(active, 'день', 'дня', 'дней')} занятий в этом месяце</div></div><span class="spacer"></span><span class="streak-pill on big"><i class="ph-fill ph-flame"></i><b>${streak()}</b></span></div>
+      <div class="cal-grid">${['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((d) => `<em>${d}</em>`).join('')}${cells}</div></div>`;
+  }
+  function renderProfile() {
+    const st = cloudOn() ? Cloud.status() : {};
+    const email = st.user && st.user.email;
+    const e = engagement();
+    const cards = Object.values(S.cards);
+    const learned = cards.filter((c) => c.state === 'review' && c.ivl >= 21).length + Object.keys(S.known).length;
+    const days = Object.keys(S.activity).length;
+    const recent = ACH.list.filter((a) => S.ach[a.id]).sort((a, b) => S.ach[b.id] - S.ach[a.id]).slice(0, 3);
+    const medal = ['#C9853E', '#A7B1BE', '#E3B23C', '#4F6AF0', '#9A55F0', '#E8456B'][Math.min(5, Math.floor((e.lvl - 1) / 2))];
+    view().innerHTML = `
+      ${topbar('Профиль', rbtn('#/settings', 'gear-six', 'Настройки'))}
+      <a class="prof-head" href="#/account">
+        <div class="avatar big">${email ? esc(email[0].toUpperCase()) : '<i class="ph ph-user"></i>'}</div>
+        <div style="flex:1;min-width:0"><b class="acc-mail">${email ? esc(email) : 'Гость'}</b>
+          <div class="small muted">${email ? (st.lastError ? '<i class="ph ph-warning"></i> Нет связи — прогресс отправится позже' : '<i class="ph ph-cloud-check"></i> Прогресс сохранён в облаке') : '<i class="ph ph-cloud-slash"></i> Войдите, чтобы прогресс был на всех устройствах'}</div></div>
+        <i class="ph ph-caret-right muted"></i></a>
+      <a class="league" href="#/achievements" style="--m:${medal}">
+        <div class="league-medal"><i class="ph-fill ph-medal"></i><b>${e.lvl}</b></div>
+        <div style="flex:1;min-width:0"><div class="eyebrow" style="margin:0">Уровень ${e.lvl}</div><div class="league-rank">${esc(e.rank)}</div>
+          <div class="progress" style="margin:8px 0 4px"><i style="width:${(e.into / e.need) * 100}%"></i></div>
+          <div class="tiny muted">${e.into} / ${e.need} XP до уровня ${e.lvl + 1} · всего ${e.xp} XP</div></div></a>
+      <div class="tiles4">
+        <div class="tile t-orange"><i class="ph-fill ph-flame"></i><b>${streak()}</b><span>дней подряд</span></div>
+        <div class="tile t-blue"><i class="ph-fill ph-calendar-check"></i><b>${days}</b><span>${plural(days, 'день', 'дня', 'дней')} занятий</span></div>
+        <div class="tile t-green"><i class="ph-fill ph-seal-check"></i><b>${learned}</b><span>слов выучено</span></div>
+        <div class="tile t-yellow"><i class="ph-fill ph-trophy"></i><b>${Object.keys(S.ach).length}</b><span>наград из ${ACH.list.length}</span></div>
+      </div>
+      ${streakCal()}
+      ${recent.length ? `<section class="sec"><div class="sec-head"><h2>Последние награды</h2><a class="see-all" href="#/achievements">См. все</a></div><div class="ach-list">${recent.map((a) => achCard(a, achCtx())).join('')}</div></section>` : ''}
+      <div class="menu-list">
+        <a href="#/achievements"><span class="mi" style="--c:#E3A21A"><i class="ph-fill ph-trophy"></i></span><span>Достижения</span><em>${Object.keys(S.ach).length}/${ACH.list.length}</em><i class="ph ph-caret-right"></i></a>
+        <a href="#/stats"><span class="mi" style="--c:#4F6AF0"><i class="ph-fill ph-chart-bar"></i></span><span>Прогресс и статистика</span><i class="ph ph-caret-right"></i></a>
+        <a href="#/account"><span class="mi" style="--c:#1FA865"><i class="ph-fill ph-cloud"></i></span><span>${email ? 'Аккаунт и синхронизация' : 'Войти или создать аккаунт'}</span><i class="ph ph-caret-right"></i></a>
+        <a href="#/settings"><span class="mi" style="--c:#8E8E99"><i class="ph-fill ph-gear-six"></i></span><span>Настройки</span><i class="ph ph-caret-right"></i></a>
+      </div>`;
+  }
+
   let readerSentences = [];
-  function renderReader(id) {
-    const t = allTexts().find((x) => x.id === id);
-    if (!t) return renderLibrary();
-    readerSentences = [];
+  let readerSpeakers = [];
+  function renderReader(id, given) {
+    const t = given || allTexts().find((x) => x.id === id);
+    if (!t) return renderLibraryHome();
+    readerSentences = []; readerSpeakers = [];
+    const isDlg = t.kind === 'dialogue';
     const paras = t.text.split(/\n+/).map((p) => p.trim()).filter(Boolean);
     let sid = 0;
-    const html = paras.map((p) => {
+    const speakersOrder = [];
+    const sentHtml = (p, spk) => {
       const sents = p.match(/[^.!?…]+[.!?…]*["')\]”]*\s*/g) || [p];
-      return '<p>' + sents.map((s) => {
-        const i = sid++; readerSentences.push(s.trim());
+      return sents.map((s) => {
+        const i = sid++; readerSentences.push(s.trim()); readerSpeakers.push(spk);
         let first = true;
         const inner = s.replace(/([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’]*(?:-[A-Za-zÀ-ÿ]+)*)|([^A-Za-zÀ-ÿ]+)/g, (m, w, other) => {
           if (w) { const known = S.cards[EngLookup.clean(w)] || lookup(w).some((r) => S.cards[r.word]); const f = first; first = false; return `<span class="w${known ? ' known' : ''}" data-s="${i}"${f ? ' data-first="1"' : ''}>${esc(w)}</span>`; }
           return esc(other);
         });
         return `<span class="s" data-sid="${i}">${inner}</span>`;
-      }).join('') + '</p>';
+      }).join('');
+    };
+    const html = paras.map((p) => {
+      const m = isDlg && p.match(/^([A-Z][\w .'’-]{0,24}):\s*(.+)$/);
+      if (m) {
+        let k = speakersOrder.indexOf(m[1]); if (k < 0) { speakersOrder.push(m[1]); k = speakersOrder.length - 1; }
+        return `<div class="bub ${k % 2 ? 'right' : 'left'} spk-${k % 4}"><b class="who">${esc(m[1])}</b><p>${sentHtml(m[2], k)}</p></div>`;
+      }
+      return '<p>' + sentHtml(p, -1) + '</p>';
     }).join('');
-    const lib = !t.unit && !t.user;
-    const back = t.unit ? `#/unit/${t.unit.id}/reading` : '#/library';
-    const nextT = lib ? LIB.filter((x) => x.level === t.level && x.id !== t.id && !S.textsRead[x.id])[0] : null;
+    const lib = !t.unit && !t.user && !t.book;
+    const back = t.unit ? `#/unit/${t.unit.id}/reading` : t.book ? `#/book/${t.book.id}` : '#/library';
+    const nextT = lib ? LIB.filter((x) => x.level === t.level && x.id !== t.id && !S.textsRead[x.id] && x.cat === t.cat)[0] || LIB.filter((x) => x.level === t.level && x.id !== t.id && !S.textsRead[x.id])[0] : null;
     view().innerHTML = `
-      <a href="${back}" class="small"><i class="ph ph-arrow-left"></i> ${t.unit ? 'К уроку' : 'Все статьи'}</a>
+      <a href="${back}" class="backlink"><i class="ph ph-caret-left"></i></a>
+      ${t.book ? `<div class="reader-head"><div class="lib-cover sm book" data-img="${t.book.id}"><span><i class="ph ph-book"></i></span></div><div style="min-width:0"><div class="lib-meta"><span class="pill accent">${t.book.level}</span><span class="tiny muted">${esc(t.book.title)} · ${esc(t.book.author)} · глава ${t.chapter + 1} из ${t.book.chapters.length}</span></div><h1 style="margin:6px 0 2px">${esc(t.title)}</h1></div></div>` : ''}
       ${lib ? `<div class="reader-head"><div class="lib-cover sm cat-${Object.keys(CAT_ICON).indexOf(t.cat)}" data-img="${t.id}"><span>${CAT_ICON[t.cat] || '<i class="ph ph-book-open-text"></i>'}</span></div>
         <div style="min-width:0"><div class="lib-meta"><span class="pill accent">${t.level}</span><span class="tiny muted">${CAT_ICON[t.cat] || ''} ${esc(t.cat)} · ${esc(t.about)} · ${minsIn(t)} мин</span></div>
-        <h1 style="margin:6px 0 2px">${esc(t.title)}</h1><div class="muted small">${esc(t.ru)}</div></div></div>` : `<h1 style="margin-top:14px">${esc(t.title)}</h1>`}
+        <h1 style="margin:6px 0 2px">${esc(t.title)}</h1><div class="muted small">${esc(t.ru)}</div></div></div>` : t.book ? '' : `<h1 style="margin-top:14px">${esc(t.title)}</h1>`}
       <div class="reader-bar">
         <button class="btn small primary" id="rd-play"><i class="ph-fill ph-play"></i> Слушать</button>
         <button class="btn small" id="rd-stop" hidden><i class="ph-fill ph-stop"></i> Стоп</button>
@@ -759,7 +978,8 @@
         <span class="spacer"></span>
         <button class="btn small" id="rd-done">${S.textsRead[t.id] ? '<i class="ph ph-check"></i> Прочитано' : 'Отметить прочитанным'}</button>
       </div>
-      <div class="card reader-text" id="rd-text">${html}</div>
+      <div class="card reader-text ${isDlg ? 'dialog' : ''}" id="rd-text">${html}</div>
+      ${t.book ? `<div class="chap-nav">${t.chapter > 0 ? `<a class="btn" href="#/book/${t.book.id}/${t.chapter - 1}"><i class="ph ph-caret-left"></i> Назад</a>` : '<span></span>'}<a class="btn ghost" href="#/book/${t.book.id}">Все главы</a>${t.chapter < t.book.chapters.length - 1 ? `<a class="btn primary" href="#/book/${t.book.id}/${t.chapter + 1}" id="chap-next">Следующая глава <i class="ph ph-caret-right"></i></a>` : '<span></span>'}</div>` : ''}
       <p class="muted small" style="margin-top:12px"><i class="ph ph-hand-tap"></i> Нажмите на слово — перевод и «+ В карточки». Чтобы перевести фразу целиком, выделите несколько слов${window.matchMedia('(hover: none)').matches ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
       ${t.questions && t.questions.length ? `<div class="card quiz" id="quiz"><h3>Проверьте понимание</h3>${t.questions.map((qq, qi) => `
         <div class="qz" data-q="${qi}"><div class="qz-q">${qi + 1}. ${esc(qq.q)}</div><div class="qz-o">${qq.o.map((o, oi) => `<button class="qz-btn" data-o="${oi}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
@@ -773,12 +993,13 @@
       if (playing && i >= readerSentences.length && i > 0) { S.stats.listened++; save(); }
       if (!playing || i >= readerSentences.length) { stop(); return; }
       const el = $(`.s[data-sid="${i}"]`); if (el) { el.classList.add('speaking'); el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
-      speak(readerSentences[i], { rate: +rate.value, onend: () => playFrom(i + 1) });
+      speak(readerSentences[i], { rate: +rate.value, onend: () => playFrom(i + 1), speaker: readerSpeakers[i] });
     };
     const stop = () => { playing = false; if (window.speechSynthesis) speechSynthesis.cancel(); $$('.s.speaking').forEach((x) => x.classList.remove('speaking')); $('#rd-play').hidden = false; $('#rd-stop').hidden = true; };
     $('#rd-play').addEventListener('click', () => { playing = true; $('#rd-play').hidden = true; $('#rd-stop').hidden = false; playFrom(0); });
     $('#rd-stop').addEventListener('click', stop);
     const markRead = () => {
+      if (t.book) { S.bookPos = S.bookPos || {}; S.bookPos[t.book.id] = Math.max(S.bookPos[t.book.id] || 0, t.chapter + 1); }
       if (!S.textsRead[t.id]) { S.textsRead[t.id] = today(); track('reads'); }
       if (t.unit && t.unit.texts.every((x) => S.textsRead[x.id])) unitState(t.unit.id).steps.reading = true;
       save(); $('#rd-done').innerHTML = '<i class="ph ph-check"></i> Прочитано';
@@ -961,25 +1182,37 @@
     const nw = newAvailable();
     const q = (location.hash.split('?')[1] || '');
     view().innerHTML = `
-      <h1>Карточки</h1>
-      <p class="muted">Интервальные повторения: каждое слово приходит ровно тогда, когда вы начинаете его забывать. 10–15 минут в день.</p>
-      <div class="card" style="margin:20px 0">
-        <div class="row">
-          <div><b style="font-size:22px">${due + nw}</b> <span class="muted">к повторению сейчас</span><div class="muted small">${due} повторить · ${nw} ${plural(nw, 'новая', 'новые', 'новых')} (лимит ${S.settings.newPerDay} в день)</div></div>
-          <span class="spacer"></span>
-          <a class="btn primary ${due + nw ? '' : 'disabled'}" href="#/review" ${due + nw ? '' : 'style="pointer-events:none;opacity:.45"'}>Начать повторение</a>
-        </div>
+      ${topbar('Словарь', `<button class="rbtn" id="d-add" title="Добавить слово"><i class="ph ph-plus"></i></button><button class="rbtn" id="d-find" title="Найти слово"><i class="ph ph-magnifying-glass"></i></button>`)}
+      <div class="now-card">
+        <div class="now-ill"><i class="ph-fill ph-cards"></i></div>
+        <div style="flex:1;min-width:0"><div class="eyebrow" style="margin:0 0 2px">Сейчас учу</div>
+          <b class="now-title">${(() => { const on = LEVELS.filter((l) => (S.settings.decks || {})[l]); return on.length ? 'Колоды ' + on.join(' · ') : 'Только мои слова'; })()}</b>
+          <div class="small muted">${due + nw ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : 'На сегодня всё повторено'}</div></div>
+        ${due + nw ? '<a class="pill-btn" href="#/review">НАЧАТЬ</a>' : '<span class="pill ok"><i class="ph ph-check"></i> Готово</span>'}
       </div>
-      <h2>Колоды по уровням</h2>
-      <p class="muted small">${DECK.length} самых нужных слов от A1 до B2. Новые слова приходят по порядку: сначала A1, потом A2 и дальше, а внутри уровня — от самых частых в живой речи к более редким. Выключите уровень, если он пока не нужен.</p>
-      <div class="stack" style="margin-bottom:28px">${LEVELS.map(deckRow).join('')}</div>
+      ${goalCard('Цель обучения на сегодня')}
+      ${(() => {
+        const cs = Object.values(S.cards);
+        const nNew = cs.filter((c) => c.state === 'new').length;
+        const nLearn = cs.filter((c) => c.state === 'learn' || (c.state === 'review' && c.ivl < 7)).length;
+        const nFam = cs.filter((c) => c.state === 'review' && c.ivl >= 7 && c.ivl < 21).length;
+        const nDone = cs.filter((c) => c.state === 'review' && c.ivl >= 21).length + Object.keys(S.known).length;
+        return `<div class="tiles4">
+          <div class="tile t-blue"><i class="ph-fill ph-sparkle"></i><b>${nNew}</b><span>Новые</span></div>
+          <div class="tile t-yellow"><i class="ph-fill ph-lightning"></i><b>${nLearn}</b><span>Изучаю</span></div>
+          <div class="tile t-orange"><i class="ph-fill ph-eye"></i><b>${nFam}</b><span>Знакомые</span></div>
+          <div class="tile t-green"><i class="ph-fill ph-seal-check"></i><b>${nDone}</b><span>Выученные</span></div></div>`; })()}
+      <section class="sec"><div class="sec-head"><h2>Мои коллекции</h2></div>
+      <p class="sec-sub">${DECK.length} самых нужных слов от A1 до B2 — по частоте в живой речи. Включённые колоды приходят в карточки по порядку.</p>
+      <div class="coll-grid">${LEVELS.map(deckTile).join('')}${deckTile('phr')}
+        <a class="coll-tile t5" href="#clist" id="my-words"><div class="coll-ill"><i class="ph-fill ph-bookmark-simple"></i></div><b>Мои слова</b><span>Добавленные из текстов и вручную</span><span class="coll-meta">${all.filter((c) => !DECK_BY_ID[c.id]).length} слов</span></a></div></section>
+      <div class="card" id="add-box" hidden style="margin-bottom:16px">
+        <div class="small" style="font-weight:650;margin-bottom:8px">Добавить слово вручную</div>
+        <div class="row"><input class="input" id="nc-en" placeholder="english" style="flex:1;min-width:120px;font-size:15px;padding:10px"><input class="input" id="nc-ru" placeholder="перевод" style="flex:1;min-width:120px;font-size:15px;padding:10px"><button class="btn small primary" id="nc-add">Добавить</button></div>
+      </div>
       <div class="card">
         <div class="row" style="margin-bottom:10px"><h3 style="margin:0">Все слова · ${all.length}</h3><span class="spacer"></span>
           <input class="input" id="cf" placeholder="Поиск" style="max-width:200px;padding:8px 12px;font-size:14px"></div>
-        <div class="card" style="box-shadow:none;background:var(--surface-2);border:0;padding:14px;margin-bottom:12px">
-          <div class="small" style="font-weight:600;margin-bottom:8px">Добавить слово вручную</div>
-          <div class="row"><input class="input" id="nc-en" placeholder="english" style="flex:1;min-width:120px;font-size:15px;padding:10px"><input class="input" id="nc-ru" placeholder="перевод" style="flex:1;min-width:120px;font-size:15px;padding:10px"><button class="btn small primary" id="nc-add">Добавить</button></div>
-        </div>
         <div class="word-list" id="clist"></div>
       </div>`;
     const listEl = $('#clist');
@@ -998,6 +1231,9 @@
     drawList();
     $$('[data-deck]').forEach((cb) => cb.addEventListener('change', () => { S.settings.decks = S.settings.decks || {}; S.settings.decks[cb.dataset.deck] = cb.checked; save(); renderCards(); }));
     $('#cf').addEventListener('input', (e) => drawList(e.target.value.toLowerCase().trim()));
+    $('#d-add').addEventListener('click', () => { const b = $('#add-box'); b.hidden = !b.hidden; if (!b.hidden) { b.scrollIntoView({ block: 'center', behavior: 'smooth' }); $('#nc-en').focus(); } });
+    $('#d-find').addEventListener('click', () => { const f = $('#cf'); f.scrollIntoView({ block: 'center', behavior: 'smooth' }); f.focus(); });
+    $('#my-words').addEventListener('click', (e) => { e.preventDefault(); $('#clist').scrollIntoView({ behavior: 'smooth' }); });
     $('#nc-en').addEventListener('blur', () => {
       const en = $('#nc-en').value.trim(); if (!en || $('#nc-ru').value.trim()) return;
       const hit = lookup(en)[0]; if (hit && !en.includes(' ')) { $('#nc-ru').value = hit.tr; return; }
@@ -1058,13 +1294,31 @@
       <div class="stack-bar"><i style="width:${pct(st.learned + st.known)}%"></i><i style="width:${pct(st.study)}%"></i></div>
     </div>`;
   }
+  function deckTile(lvl) {
+    const phr = lvl === 'phr';
+    const ws = phr ? DECK.filter((w) => w.pos === 'phr') : DECK.filter((w) => w.lvl === lvl);
+    let learned = 0, study = 0;
+    ws.forEach((w) => { const c = S.cards[w.id]; if (S.known[w.id] || (c && c.state === 'review' && c.ivl >= 21)) learned++; else if (c && c.state !== 'new') study++; });
+    const on = !phr && !!(S.settings.decks || {})[lvl];
+    const i = phr ? 4 : LEVELS.indexOf(lvl);
+    const lv = COURSE.levels.find((l) => l.id === lvl);
+    const bars = [1, 2, 3, 4].map((k) => `<i class="${k <= (phr ? 2 : i + 1) ? 'on' : ''}" style="height:${k * 25}%"></i>`).join('');
+    return `<a class="coll-tile t${i}" href="#/deck/${lvl}"><div class="coll-ill"><i class="ph-fill ph-${phr ? 'puzzle-piece' : ['plant', 'tree-evergreen', 'mountains', 'rocket-launch'][i]}"></i></div>
+      <div class="coll-top"><b>${phr ? 'Фразовые глаголы' : lvl}</b><span class="sig">${bars}</span></div>
+      <span>${phr ? 'give up, look for, get on…' : esc(lv ? lv.title.split('— ')[1] || '' : '')}</span>
+      <span class="coll-meta">${learned} / ${ws.length} выучено${study ? ' · учу ' + study : ''}${phr ? '' : on ? ' · <i class="ph-fill ph-check-circle"></i> учу' : ' · выключена'}</span>
+      <div class="coll-bar"><i style="width:${(learned / Math.max(1, ws.length)) * 100}%"></i><i style="width:${(study / Math.max(1, ws.length)) * 100}%"></i></div></a>`;
+  }
   function renderDeck(lvl) {
-    if (!LEVELS.includes(lvl)) return renderCards();
-    const ws = DECK.filter((w) => w.lvl === lvl);
+    const phr = lvl === 'phr';
+    if (!LEVELS.includes(lvl) && !phr) return renderCards();
+    const ws = phr ? DECK.filter((w) => w.pos === 'phr') : DECK.filter((w) => w.lvl === lvl);
     let shown = 150;
     view().innerHTML = `
-      <a href="#/cards" class="small"><i class="ph ph-arrow-left"></i> Карточки</a>
-      <h1 style="margin-top:14px">Колода ${lvl}</h1>
+      <a href="#/cards" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <div class="row" style="align-items:center"><h1 class="page-title" style="margin:0;flex:1">${phr ? 'Фразовые глаголы' : 'Колода ' + lvl}</h1>
+        ${phr ? '' : `<label class="switch-row"><input type="checkbox" id="deck-on" ${(S.settings.decks || {})[lvl] ? 'checked' : ''}><span class="switch"></span> Учить</label>`}</div>
+      ${phr ? '<p class="muted">Глагол + маленькое слово (up, out, on…) = новое значение: give up — сдаваться, look for — искать. В играх и сериалах они повсюду. Все они уже входят в колоды по уровням.</p>' : ''}
       <p class="muted">Слова, которые вы уже знаете, отметьте «Знаю» — они не будут приходить в карточки. Слова идут от самых частых к более редким (частота по английским субтитрам фильмов и сериалов) — в этом же порядке они будут приходить в карточки.</p>
       <div class="row" style="margin:16px 0"><input class="input" id="dq" placeholder="Поиск по слову или переводу" style="flex:1;font-size:15px;padding:10px 14px">
         <select class="input" id="df"><option value="all">Все</option><option value="todo">Ещё не начаты</option><option value="cards">В карточках</option><option value="known">Отмечены «знаю»</option></select></div>
@@ -1092,6 +1346,7 @@
     $('#dq').addEventListener('input', () => { shown = 150; draw(); });
     $('#df').addEventListener('change', () => { shown = 150; draw(); });
     $('#dmore').addEventListener('click', () => { shown += 300; draw(); });
+    const don = $('#deck-on'); if (don) don.addEventListener('change', () => { S.settings.decks = S.settings.decks || {}; S.settings.decks[lvl] = don.checked; save(); toast(don.checked ? 'Слова этой колоды будут приходить в карточки' : 'Колода выключена'); });
     draw();
   }
 
@@ -1111,7 +1366,7 @@
 
     const mode = S.settings.cardMode;
     view().innerHTML = `
-      <div class="row"><a href="#/cards" class="small"><i class="ph ph-arrow-left"></i> Карточки</a><span class="spacer"></span>
+      <div class="row"><a href="#/cards" class="backlink" style="margin:0"><i class="ph ph-caret-left"></i></a><span class="spacer"></span>
         <select class="input" id="rv-mode"><option value="en-ru">англ <i class="ph ph-arrow-right"></i> рус</option><option value="ru-en">рус <i class="ph ph-arrow-right"></i> англ</option><option value="mix">вперемешку</option></select></div>
       <div class="ex-head" style="margin-top:16px"><div class="progress"><i id="rv-bar" style="width:0"></i></div><span class="tiny muted" id="rv-left"></span></div>
       <div id="rv"></div>`;
@@ -1452,7 +1707,7 @@
       </div>
       ${cats.map((cat) => { const items = all.filter((a) => a.cat === cat && pass(a)); if (!items.length) return ''; const g = all.filter((a) => a.cat === cat && S.ach[a.id]).length;
         return `<div class="eyebrow" style="margin-top:20px">${cat} · ${g}/${all.filter((a) => a.cat === cat).length}</div><div class="ach-list">${items.map((a) => achCard(a, c)).join('')}</div>`; }).join('')}`;
-    $$('[data-f]').forEach((b) => b.addEventListener('click', () => { try { sessionStorage.setItem('achFilter', b.dataset.f); } catch (e) {} renderAch(); }));
+    $$('[data-f]').forEach((b) => b.addEventListener('click', () => { try { sessionStorage.setItem('achFilter', b.dataset.f); } catch (e) {} withBack(renderAch); }));
   }
   function nearAch(n = 3) {
     const c = achCtx();
@@ -1713,7 +1968,7 @@
         if (!/^#\/(review|unit\/[^/]+\/(practice|test)|read\/)/.test(location.hash)) route();
       }
     });
-    Cloud.onChange(() => { renderAccount(); if (location.hash === '#/achievements') renderAch(); if (location.hash === '' || location.hash === '#/') { let hidden = false; try { hidden = !!localStorage.getItem('ep.hideAuthBanner'); } catch (e) {} if (!!$('.auth-banner') !== (!Cloud.status().user && !hidden)) renderToday(); } });
+    Cloud.onChange(() => { renderAccount(); if (location.hash === '#/profile') renderProfile(); if (location.hash === '#/achievements') withBack(renderAch); if (location.hash === '' || location.hash === '#/') { let hidden = false; try { hidden = !!localStorage.getItem('ep.hideAuthBanner'); } catch (e) {} if (!!$('.auth-banner') !== (!Cloud.status().user && !hidden)) renderToday(); } });
     const ev0 = Cloud.peekAuthEvent && Cloud.peekAuthEvent();
     if (ev0 === 'recovery' || (ev0 && ev0.startsWith('link-error'))) setTimeout(() => { location.hash = '#/account'; }, 50);
     else if (ev0 === 'confirmed') setTimeout(() => { Cloud.takeAuthEvent(); toast('Почта подтверждена — вы вошли в аккаунт'); location.hash = '#/'; }, 800);

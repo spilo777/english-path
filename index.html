@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0b10" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FBF7F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,53 +17,55 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
-<link rel="stylesheet" href="css/style.css?v=1790588120">
+<link rel="stylesheet" href="css/style.css?v=1790589453">
 </head>
 <body>
 <div class="app">
   <aside class="nav" id="nav">
     <a class="brand" href="#/" title="На главную"><span class="brand-mark">E</span><span class="brand-name">English Path</span></a>
-    <a href="#/" data-nav="today"><span class="ico"><i class="ph ph-house i-reg"></i><i class="ph-fill ph-house i-fill"></i></span><span>Сегодня</span></a>
+    <a href="#/" data-nav="today"><span class="ico"><i class="ph ph-house i-reg"></i><i class="ph-fill ph-house i-fill"></i></span><span>Главная</span></a>
     <a href="#/course" data-nav="course"><span class="ico"><i class="ph ph-graduation-cap i-reg"></i><i class="ph-fill ph-graduation-cap i-fill"></i></span><span>Курс</span></a>
-    <a href="#/library" data-nav="library"><span class="ico"><i class="ph ph-book-open-text i-reg"></i><i class="ph-fill ph-book-open-text i-fill"></i></span><span>Чтение</span></a>
-    <a href="#/cards" data-nav="cards"><span class="ico"><i class="ph ph-cards i-reg"></i><i class="ph-fill ph-cards i-fill"></i></span><span>Карточки</span><b class="badge" id="due-badge" hidden></b></a>
-    <a href="#/achievements" data-nav="achievements"><span class="ico"><i class="ph ph-trophy i-reg"></i><i class="ph-fill ph-trophy i-fill"></i></span><span>Награды</span></a>
-    <a href="#/stats" data-nav="stats"><span class="ico"><i class="ph ph-chart-bar i-reg"></i><i class="ph-fill ph-chart-bar i-fill"></i></span><span>Прогресс</span></a>
-    <a href="#/account" data-nav="account" class="nav-account" id="nav-account"><span class="ico"><i class="ph ph-cloud i-reg"></i><i class="ph-fill ph-cloud i-fill"></i></span><span>Войти</span></a>
-    <a href="#/settings" data-nav="settings" class="nav-settings"><span class="ico"><i class="ph ph-gear-six i-reg"></i><i class="ph-fill ph-gear-six i-fill"></i></span><span>Настройки</span></a>
+    <a href="#/library" data-nav="library"><span class="ico"><i class="ph ph-books i-reg"></i><i class="ph-fill ph-books i-fill"></i></span><span>Библиотека</span></a>
+    <a href="#/cards" data-nav="cards"><span class="ico"><i class="ph ph-cards i-reg"></i><i class="ph-fill ph-cards i-fill"></i></span><span>Словарь</span><b class="badge" id="due-badge" hidden></b></a>
+    <a href="#/profile" data-nav="profile" id="nav-profile"><span class="ico"><i class="ph ph-user-circle i-reg"></i><i class="ph-fill ph-user-circle i-fill"></i></span><span>Профиль</span></a>
   </aside>
   <main class="main" id="view"></main>
 </div>
 <div class="popover" id="popover" hidden></div>
 <div class="toast" id="toast" hidden></div>
 
-<script src="data/dict.js?v=1790588120"></script>
-<script src="data/course.js?v=1790588120"></script>
-<script src="data/units-a1-5-6.js?v=1790588120"></script>
-<script src="data/units-a1-7-8.js?v=1790588120"></script>
-<script src="data/units-a1-9-10.js?v=1790588120"></script>
-<script src="data/units-games-2-3.js?v=1790588120"></script>
-<script src="data/words.js?v=1790588120"></script>
-<script src="data/grammar/a1-0.js?v=1790588120"></script>
-<script src="data/grammar/a1-1.js?v=1790588120"></script>
-<script src="data/grammar/a1-2-3.js?v=1790588120"></script>
-<script src="data/grammar/a1-4-5.js?v=1790588120"></script>
-<script src="data/grammar/a1-6-7.js?v=1790588120"></script>
-<script src="data/grammar/a1-8-10.js?v=1790588120"></script>
-<script src="data/grammar/games.js?v=1790588120"></script>
-<script src="data/library/a1-cartoons.js?v=1790588120"></script>
-<script src="data/library/a1-series-games.js?v=1790588120"></script>
-<script src="data/library/a2-animation.js?v=1790588120"></script>
-<script src="data/library/a2-series.js?v=1790588120"></script>
-<script src="data/library/b1-games-anime.js?v=1790588120"></script>
-<script src="data/library/b1-series.js?v=1790588120"></script>
-<script src="data/library/b2-deepdives.js?v=1790588120"></script>
-<script src="data/library/b2-essays.js?v=1790588120"></script>
-<script src="js/lookup.js?v=1790588120"></script>
-<script src="js/achievements.js?v=1790588120"></script>
-<script src="js/config.js?v=1790588120"></script>
+<script src="data/dict.js?v=1790589453"></script>
+<script src="data/course.js?v=1790589453"></script>
+<script src="data/units-a1-5-6.js?v=1790589453"></script>
+<script src="data/units-a1-7-8.js?v=1790589453"></script>
+<script src="data/units-a1-9-10.js?v=1790589453"></script>
+<script src="data/units-games-2-3.js?v=1790589453"></script>
+<script src="data/words.js?v=1790589453"></script>
+<script src="data/grammar/a1-0.js?v=1790589453"></script>
+<script src="data/grammar/a1-1.js?v=1790589453"></script>
+<script src="data/grammar/a1-2-3.js?v=1790589453"></script>
+<script src="data/grammar/a1-4-5.js?v=1790589453"></script>
+<script src="data/grammar/a1-6-7.js?v=1790589453"></script>
+<script src="data/grammar/a1-8-10.js?v=1790589453"></script>
+<script src="data/grammar/games.js?v=1790589453"></script>
+<script src="data/library/a1-cartoons.js?v=1790589453"></script>
+<script src="data/library/a1-series-games.js?v=1790589453"></script>
+<script src="data/library/a2-animation.js?v=1790589453"></script>
+<script src="data/library/a2-series.js?v=1790589453"></script>
+<script src="data/library/b1-games-anime.js?v=1790589453"></script>
+<script src="data/library/b1-series.js?v=1790589453"></script>
+<script src="data/library/b2-deepdives.js?v=1790589453"></script>
+<script src="data/library/b2-essays.js?v=1790589453"></script>
+<script src="data/library/dialogs-a1-a2.js?v=1790589453"></script>
+<script src="data/library/dialogs-b1-b2.js?v=1790589453"></script>
+<script src="data/books/index.js?v=1790589453"></script>
+<script src="data/books/adapted-a1-a2.js?v=1790589453"></script>
+<script src="data/books/adapted-b1.js?v=1790589453"></script>
+<script src="js/lookup.js?v=1790589453"></script>
+<script src="js/achievements.js?v=1790589453"></script>
+<script src="js/config.js?v=1790589453"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="js/cloud.js?v=1790588120"></script>
-<script src="js/app.js?v=1790588120"></script>
+<script src="js/cloud.js?v=1790589453"></script>
+<script src="js/app.js?v=1790589453"></script>
 </body>
 </html>
