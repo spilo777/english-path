@@ -264,8 +264,21 @@
   }
 
   // ───────────── Курс: доступность ─────────────
+  const LVL_N = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
   const units = COURSE.units;
-  const mainUnits = units.filter((u) => u.track === 'main');
+  const mainUnits = units.filter((u) => u.track === 'main').sort((a, b) => (LVL_N[a.level] - LVL_N[b.level]) || (a.num - b.num));
+  const SYL = window.SYLLABUS || { books: {}, lessons: [] };
+  const SYL_BY = {}; SYL.lessons.forEach((l) => { SYL_BY[l.id] = l; });
+  if (!COURSE.levels.some((l) => l.id === 'C1')) COURSE.levels.push({ id: 'C1', title: 'C1 — Продвинутый', goal: 'Бонус сверх цели: тонкости грамматики по «Advanced Grammar in Use» — для текстов любой сложности' });
+  COURSE.levels.forEach((l) => { l.soon = !mainUnits.some((u) => u.level === l.id); });
+  const BOOK_KEYS = ['red', 'blue', 'green'];
+  const BOOK_COL = { red: '#E0453C', blue: '#3B6FE0', green: '#1FA865' };
+  const unitBooks = (u) => u.books || (SYL_BY[u.id] ? { red: SYL_BY[u.id].red, blue: SYL_BY[u.id].blue, green: SYL_BY[u.id].green } : {});
+  const rangeTxt = (a) => { const r = []; a.slice().sort((x, y) => x - y).forEach((n) => { const l = r[r.length - 1]; if (l && n === l[1] + 1) l[1] = n; else r.push([n, n]); }); return r.map(([x, y]) => (x === y ? x : x + '–' + y)).join(', '); };
+  function bookChips(u) {
+    const b = unitBooks(u);
+    return BOOK_KEYS.filter((k) => b[k] && b[k].length).map((k) => `<a class="book-chip" href="#/books/${k}" style="--bc:${BOOK_COL[k]}"><i class="ph-fill ph-book-bookmark"></i> ${esc((SYL.books[k] || {}).short || k)}: ${b[k].length > 1 ? 'юниты' : 'юнит'} ${rangeTxt(b[k])}</a>`).join('');
+  }
   const unitById = (id) => units.find((u) => u.id === id);
   const passed = (id) => { const s = S.units[id]; return !!(s && s.testBest != null && s.testBest >= PASS); };
   function isUnlocked(u) {
@@ -346,7 +359,7 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', books: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     window.scrollTo(0, 0);
     if (!r) return renderToday();
@@ -362,6 +375,7 @@
     if (r === 'read') return renderReader(a);
     if (r === 'book') return renderBook(a, b);
     if (r === 'profile') return renderProfile();
+    if (r === 'books') return renderBooksMap(a);
     if (r === 'tenses') return a === 'train' ? renderTenseTrain() : a ? renderTense(a, b) : renderTenses();
     if (r === 'cards') return renderCards();
     if (r === 'review') return renderReview();
@@ -453,8 +467,9 @@
       <div class="level-block">
         <div class="row" style="margin-bottom:6px"><h2 style="margin:0">${l.title}</h2>${us.length ? `<span class="pill ${done === us.length ? 'ok' : 'accent'}">${done}/${us.length}</span>` : ''}</div>
         <p class="muted small">${esc(l.goal)}</p>
-        ${l.soon && !us.length ? `<div class="soon">Этот уровень добавим, когда вы дойдёте до него. Программа строится блоками по мере прохождения.</div>` : ''}
+        ${l.soon && !us.length ? `<div class="soon">Уроки этого уровня готовятся — план ниже, по учебникам.</div>` : ''}
         ${us.map(unitRow).join('')}
+        ${SYL.lessons.filter((x) => x.level === l.id && !unitById(x.id)).map((x) => `<div class="unit-row locked planned"><div class="unit-num"><i class="ph ph-hourglass-medium"></i></div><div class="body"><div class="title">${esc(x.title)}</div><div class="muted small">Готовится · ${BOOK_KEYS.filter((k) => x[k] && x[k].length).map((k) => SYL.books[k].short + ' ' + rangeTxt(x[k])).join(' · ')}</div></div></div>`).join('')}
         ${games.length ? `<div class="eyebrow" style="margin-top:18px"><i class="ph ph-game-controller"></i> Игровой трек</div>` + games.map(unitRow).join('') : ''}
       </div>`;
     }).join('');
@@ -463,8 +478,27 @@
       <a class="continue-card tenses-cta" href="#/tenses"><div class="cc-ill"><i class="ph-fill ph-clock-countdown"></i></div>
         <div class="cc-body"><div class="cc-eyebrow">Отдельный раздел</div><div class="cc-title">Все времена английского</div><div class="cc-sub">${(window.TENSES || []).length} времён: карта, объяснения, упражнения и тренажёр «выбери время»</div></div>
         <span class="pill-btn light">ОТКРЫТЬ</span></a>
-      <p class="page-sub">От нуля до B2: чтобы играть в любые игры, читать и общаться. Каждый юнит — грамматика, слова, текст, практика и тест. Следующий юнит открывается после теста на 80%+.</p>
+      <a class="list-link" href="#/books/red" style="margin:0 0 18px"><i class="ph ph-books"></i><span><b>Программа по учебникам Мерфи</b><span class="small muted">Красный, синий и зелёный: все ${Object.values(SYL.books).reduce((a, b) => a + Object.keys(b.units || {}).length, 0)} юнитов книг → уроки сайта, что уже пройдено</span></span><i class="ph ph-caret-right muted"></i></a>
+      <p class="page-sub">От нуля до B2 (и бонусом C1) строго по трём учебникам. Каждый урок — грамматика, слова, текст, практика и тест. Следующий урок открывается после теста на 80%+.</p>
       <hr>${lvlHtml}`;
+  }
+  function renderBooksMap(key) {
+    if (!SYL.books[key]) key = 'red';
+    const bk = SYL.books[key];
+    const byUnit = {}; SYL.lessons.forEach((l) => (l[key] || []).forEach((n) => { byUnit[n] = l; }));
+    const nums = Object.keys(bk.units).map(Number).sort((a, b) => a - b);
+    const st = (l) => { const u = unitById(l.id); if (!u) return 'soon'; if (passed(u.id)) return 'done'; return isUnlocked(u) ? 'open' : 'locked'; };
+    const doneN = nums.filter((n) => byUnit[n] && st(byUnit[n]) === 'done').length;
+    view().innerHTML = `
+      <a href="#/course" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <h1 class="page-title">По учебникам</h1>
+      <p class="page-sub">Весь курс идёт по трём книгам. Каждый юнит книги закрыт уроком сайта — объяснения и упражнения на сайте свои, книгу можно решать параллельно.</p>
+      <div class="seg wl-seg">${BOOK_KEYS.map((k) => `<a href="#/books/${k}" class="${k === key ? 'on' : ''}" style="--bc:${BOOK_COL[k]}"><i class="ph-fill ph-book" style="color:${k === key ? '#fff' : BOOK_COL[k]}"></i> ${esc(SYL.books[k].short)} · ${SYL.books[k].level}</a>`).join('')}</div>
+      <div class="book-head" style="--bc:${BOOK_COL[key]}"><i class="ph-fill ph-book-open-text"></i><div><b>${esc(bk.name)}</b><div class="small muted">${esc(bk.author)} · ${nums.length} юнитов · закрыто вами ${doneN}</div></div>
+        <div class="progress" style="flex-basis:100%"><i style="width:${(doneN / nums.length) * 100}%;background:${BOOK_COL[key]}"></i></div></div>
+      <div class="bm-list">${nums.map((n) => { const l = byUnit[n]; const s0 = l ? st(l) : 'soon'; const u = l && unitById(l.id);
+        return `<a class="bm-row ${s0}" ${u && s0 !== 'locked' ? `href="#/unit/${u.id}"` : ''}><span class="bm-n" style="--bc:${BOOK_COL[key]}">${n}</span><span class="bm-t"><b>${esc(bk.units[n])}</b><span class="small muted">${l ? `${l.level} · ${esc(l.title)}` : ''}</span></span>
+          <span class="bm-s">${s0 === 'done' ? '<i class="ph-fill ph-check-circle"></i>' : s0 === 'open' ? '<i class="ph ph-play-circle"></i>' : s0 === 'locked' ? '<i class="ph ph-lock-simple"></i>' : '<span class="tiny">готовится</span>'}</span></a>`; }).join('')}</div>`;
   }
   function unitRow(u) {
     const unlocked = isUnlocked(u);
@@ -492,6 +526,7 @@
       <a href="#/course" class="small"><i class="ph ph-arrow-left"></i> Программа</a>
       <div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? 'Игровой трек' : 'Юнит ' + u.num} · ${u.level}</div>
       <h1>${esc(u.title)}</h1>
+      ${bookChips(u) ? `<div class="book-chips">${bookChips(u)}</div>` : ''}
       <div class="steps">${stepsHtml}</div>
       <div id="unit-body"></div>`;
     const body = $('#unit-body');
@@ -684,8 +719,8 @@
       const ans = displayAnswer(e);
       const fb = $('#ex-fb', root);
       fb.innerHTML = ok
-        ? `<div class="feedback ok"><b>${typo ? 'Верно, но с опечаткой' : pick(['Верно!', 'Отлично!', 'Так держать!', 'Правильно!'])}</b>${typo ? `<div class="right">Правильно пишется: <b>${esc(typo)}</b></div>` : ''}</div>`
-        : `<div class="feedback bad"><b>Не совсем.</b><div class="right">Правильный ответ: <b>${esc(ans)}</b></div></div>`;
+        ? `<div class="feedback ok"><b>${typo ? 'Верно, но с опечаткой' : pick(['Верно!', 'Отлично!', 'Так держать!', 'Правильно!'])}</b>${typo ? `<div class="right">Правильно пишется: <b>${esc(typo)}</b></div>` : ''}${e.why ? `<div class="why">${esc(e.why)}</div>` : ''}</div>`
+        : `<div class="feedback bad"><b>Не совсем.</b><div class="right">Правильный ответ: <b>${esc(ans)}</b></div>${e.why ? `<div class="why">${esc(e.why)}</div>` : ''}</div>`;
       if (e.t === 'listen' || e.t === 'tr' || e.t === 'order') { const say = e.t === 'listen' ? e.say : ans; setTimeout(() => speak(say), 200); }
       if (!ok && mode === 'practice' && !retried.has(e)) { retried.add(e); queue.push({ e, retry: true }); }
       const acts = $('#ex-actions', root);

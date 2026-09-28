@@ -1199,3 +1199,23 @@ a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
   .tenses-cta .pill-btn { width: 100%; }
 }
 .wl-seg a .tt-score { margin: 0 0 0 4px; } .wl-seg a.on .tt-score { color: #fff; } .wl-seg a .ph { vertical-align: -2px; }
+
+/* ── Учебники */
+.book-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 6px; }
+.book-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 650; padding: 5px 11px; border-radius: 99px; color: var(--bc); background: color-mix(in srgb, var(--bc) 12%, transparent); }
+.feedback .why { color: var(--text-2); font-weight: 400; margin-top: 6px; font-size: 14.5px; line-height: 1.45; }
+.unit-row.planned { opacity: .55; }
+.unit-row.planned .unit-num { background: var(--surface-2); color: var(--muted); }
+.book-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); margin: 14px 0; }
+.book-head > .ph { font-size: 30px; color: var(--bc); }
+.bm-list { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.bm-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--line); color: var(--text); }
+.bm-row:first-child { border-top: 0; }
+a.bm-row[href]:hover { background: var(--surface-2); }
+.bm-n { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: var(--bc); background: color-mix(in srgb, var(--bc) 12%, transparent); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.bm-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.bm-t b { font-weight: 650; font-size: 15px; }
+.bm-s { color: var(--muted); font-size: 20px; flex-shrink: 0; }
+.bm-row.done .bm-s { color: var(--ok); } .bm-row.open .bm-s { color: var(--accent); }
+.bm-row.soon { opacity: .6; }
+.wl-seg a.on[style*="--bc"] { background: var(--bc); }
