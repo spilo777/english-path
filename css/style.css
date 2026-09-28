@@ -1155,3 +1155,47 @@ a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .ipa em { font-style: normal; font-size: 11.5px; font-weight: 700; color: var(--ok); background: var(--ok-soft); padding: 2px 8px; border-radius: 99px; display: inline-flex; gap: 4px; align-items: center; }
 .fc .ipa { justify-content: center; margin: 6px 0 4px; font-size: 16px; }
 .popover .ipa { margin: 2px 0 2px; }
+
+/* ── Времена */
+.tt-present { --tc: #4F6AF0; --tbg: var(--pastel-0); }
+.tt-past { --tc: #F08A24; --tbg: var(--pastel-2); }
+.tt-future { --tc: #1FA865; --tbg: var(--pastel-1); }
+.tense-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 12px; }
+.tense-tile { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 16px; border-radius: 22px; background: var(--tbg); color: var(--text); transition: transform .15s; }
+.tense-tile:hover { transform: translateY(-2px); }
+.tense-tile .tl { color: var(--text); margin: 4px 0 6px; max-width: 100%; }
+.tense-tile b { font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+.tt-ru { font-size: 13px; color: var(--text-2); }
+.tt-one { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.tt-top { display: flex; align-items: center; justify-content: space-between; }
+.tt-top .pill { background: rgba(255,255,255,.7); color: var(--text-2); }
+@media (prefers-color-scheme: dark) { .tt-top .pill { background: rgba(255,255,255,.1); } }
+.tt-score { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 700; color: var(--warn); margin-top: 8px; }
+.tt-score.ok { color: var(--ok); }
+.steps .tt-score { margin: 0 0 0 4px; }
+.freq { display: inline-flex; gap: 3px; vertical-align: middle; }
+.freq i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .18; }
+.freq i.on { opacity: 1; background: var(--tc, var(--accent)); }
+.tense-hero { display: flex; align-items: center; gap: 18px; padding: 18px 20px; border-radius: 24px; background: var(--tbg); margin-bottom: 4px; }
+.tense-hero .tl { width: 150px; height: 52px; flex-shrink: 0; color: var(--text); }
+.tense-hero h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.025em; }
+.tense-formula .tf-row { display: flex; gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.tf-k { width: 26px; height: 26px; border-radius: 8px; display: inline-grid; place-items: center; font-weight: 800; flex-shrink: 0; }
+.tf-k.plus { background: var(--ok-soft); color: var(--ok); } .tf-k.minus { background: var(--bad-soft); color: var(--bad); } .tf-k.q { background: var(--accent-soft); color: var(--accent-text); }
+.tf-markers { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; }
+.tf-markers .mk { font-size: 14px; }
+.tense-how { margin: 0 0 4px; }
+.tq-gap { color: var(--accent-text); font-weight: 800; }
+.tq-v { font-size: .8em; }
+.say-inline { cursor: pointer; font-weight: 600; }
+.tenses-cta { background: linear-gradient(135deg, #1FA865, #4F6AF0); }
+@media (max-width: 760px) {
+  .tense-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tense-tile { padding: 12px 12px 14px; }
+  .tense-tile .tl { width: 100%; height: auto; }
+  .tense-tile b { font-size: 16px; }
+  .tense-hero { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .tense-hero h1 { font-size: 26px; }
+  .tenses-cta .pill-btn { width: 100%; }
+}
+.wl-seg a .tt-score { margin: 0 0 0 4px; } .wl-seg a.on .tt-score { color: #fff; } .wl-seg a .ph { vertical-align: -2px; }

@@ -346,7 +346,7 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     window.scrollTo(0, 0);
     if (!r) return renderToday();
@@ -362,6 +362,7 @@
     if (r === 'read') return renderReader(a);
     if (r === 'book') return renderBook(a, b);
     if (r === 'profile') return renderProfile();
+    if (r === 'tenses') return a === 'train' ? renderTenseTrain() : a ? renderTense(a, b) : renderTenses();
     if (r === 'cards') return renderCards();
     if (r === 'review') return renderReview();
     if (r === 'deck') return renderDeck(a);
@@ -459,6 +460,9 @@
     }).join('');
     view().innerHTML = `
       ${topbar('Курс', avatarBtn())}
+      <a class="continue-card tenses-cta" href="#/tenses"><div class="cc-ill"><i class="ph-fill ph-clock-countdown"></i></div>
+        <div class="cc-body"><div class="cc-eyebrow">Отдельный раздел</div><div class="cc-title">Все времена английского</div><div class="cc-sub">${(window.TENSES || []).length} времён: карта, объяснения, упражнения и тренажёр «выбери время»</div></div>
+        <span class="pill-btn light">ОТКРЫТЬ</span></a>
       <p class="page-sub">От нуля до B2: чтобы играть в любые игры, читать и общаться. Каждый юнит — грамматика, слова, текст, практика и тест. Следующий юнит открывается после теста на 80%+.</p>
       <hr>${lvlHtml}`;
   }
@@ -953,7 +957,7 @@
       ${catSec('Кино', 'Кино')}
       ${catSec('Про экран', 'Про экран')}
       ${section('<i class="ph ph-crown-simple"></i> Классика в оригинале', '#/library/books', (window.BOOK_INDEX || []).map(bookPoster).join(''), 'Полные тексты без упрощений — цель уровня B2')}
-      <section class="sec"><div class="sec-head"><h2>Грамматика по уровням</h2><a class="see-all" href="#/course">См. все</a></div><div class="coll-grid">${lvTiles}</div></section>
+      <section class="sec"><div class="sec-head"><h2>Грамматика по уровням</h2><a class="see-all" href="#/course">См. все</a></div><div class="coll-grid">${lvTiles}<a class="coll-tile t5" href="#/tenses"><div class="coll-ill"><i class="ph-fill ph-clock-countdown"></i></div><b>Времена</b><span>Все ${(window.TENSES || []).length} времён: карта и тренажёр</span><span class="coll-meta">${(window.TENSES || []).filter((t) => (((S.tenses || {})[t.id] || {}).best || 0) >= 0.8).length} освоено</span></a></div></section>
       ${S.userTexts.length ? `<section class="sec"><div class="sec-head"><h2>Мои тексты</h2><a class="see-all" href="#/library/new">Добавить</a></div><div class="stack">${S.userTexts.map((t) => textRow(t, true)).join('')}</div></section>` : ''}
       <a class="list-link" href="#/library/all"><i class="ph ph-list-magnifying-glass"></i><span><b>Все статьи списком</b><span class="small muted">Фильтры по уровню и теме, поиск, тексты из уроков</span></span><i class="ph ph-caret-right muted"></i></a>`;
     paintCovers(view());
@@ -1037,6 +1041,143 @@
         <a href="#/account"><span class="mi" style="--c:#1FA865"><i class="ph-fill ph-cloud"></i></span><span>${email ? 'Аккаунт и синхронизация' : 'Войти или создать аккаунт'}</span><i class="ph ph-caret-right"></i></a>
         <a href="#/settings"><span class="mi" style="--c:#8E8E99"><i class="ph-fill ph-gear-six"></i></span><span>Настройки</span><i class="ph ph-caret-right"></i></a>
       </div>`;
+  }
+
+  // ───────────── Времена: карта, страница времени, тренажёр ─────────────
+  const TENSES = window.TENSES || [];
+  const TENSE_BY = {}; TENSES.forEach((t) => { TENSE_BY[t.id] = t; });
+  const TIME_RU = { present: 'Настоящее', past: 'Прошедшее', future: 'Будущее' };
+  const TIME_ICO = { present: 'clock', past: 'clock-counter-clockwise', future: 'clock-clockwise' };
+  function tlSvg(t) {
+    const perf = /perfect/.test(t.aspect); const ref = t.time === 'past' ? (perf ? 50 : 34) : t.time === 'future' ? (perf ? 108 : 96) : 65;
+    const c = 'var(--tc)';
+    let g = '';
+    if (t.aspect === 'simple') g = t.time === 'present' ? [22, 40, 58, 76, 94, 112].map((x) => `<circle cx="${x}" cy="22" r="4" fill="${c}"/>`).join('') : `<circle cx="${ref}" cy="22" r="6" fill="${c}"/>`;
+    else if (t.aspect === 'continuous') g = `<path d="M${ref - 22} 22 q5.5 -8 11 0 t11 0 t11 0 t11 0" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+    else if (t.aspect === 'perfect') g = `<circle cx="${ref - 34}" cy="22" r="5" fill="${c}"/><path d="M${ref - 28} 22 H${ref - 4}" stroke="${c}" stroke-width="3" stroke-dasharray="4 4"/><path d="M${ref - 8} 16 l7 6 -7 6" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`;
+    else if (t.aspect === 'perfect-continuous') g = `<path d="M${ref - 40} 22 q5 -8 10 0 t10 0 t10 0 t10 0" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/><path d="M${ref - 6} 15 l6 7 -6 7" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`;
+    else if (t.aspect === 'going-to') g = `<path d="M65 22 H${ref - 10}" stroke="${c}" stroke-width="3" stroke-dasharray="4 4"/><circle cx="${ref}" cy="22" r="6" fill="${c}"/>`;
+    const refMark = t.time !== 'present' && t.aspect !== 'simple' && t.aspect !== 'going-to' ? `<line x1="${ref}" y1="10" x2="${ref}" y2="34" stroke="${c}" stroke-width="2" opacity=".5"/>` : '';
+    return `<svg class="tl" viewBox="0 0 130 44" width="130" height="44" aria-hidden="true"><line x1="6" y1="22" x2="124" y2="22" stroke="currentColor" stroke-opacity=".22" stroke-width="2"/><path d="M118 17 l6 5 -6 5" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>
+      <line x1="65" y1="12" x2="65" y2="32" stroke="currentColor" stroke-opacity=".45" stroke-width="2"/><text x="65" y="42" font-size="8" text-anchor="middle" fill="currentColor" opacity=".55">сейчас</text>${refMark}${g}</svg>`;
+  }
+  const freqDots = (n) => `<span class="freq" title="Как часто встречается">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+  const tenseBest = (id) => ((S.tenses || {})[id] || {}).best;
+  function tenseTile(t) {
+    const b = tenseBest(t.id);
+    return `<a class="tense-tile tt-${t.time}" href="#/tenses/${t.id}">
+      <div class="tt-top"><span class="pill">${t.level}</span>${freqDots(t.freq)}</div>
+      ${tlSvg(t)}
+      <b>${esc(t.name)}</b><span class="tt-ru">${esc(t.ru)}</span><span class="tt-one">${esc(t.one)}</span>
+      ${b != null ? `<span class="tt-score ${b >= 0.8 ? 'ok' : ''}"><i class="ph${b >= 0.8 ? '-fill' : ''} ph-${b >= 0.8 ? 'check-circle' : 'target'}"></i> ${Math.round(b * 100)}%</span>` : ''}</a>`;
+  }
+  function renderTenses() {
+    const done = TENSES.filter((t) => (tenseBest(t.id) || 0) >= 0.8).length;
+    view().innerHTML = `
+      <a href="#/course" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <h1 class="page-title">Времена</h1>
+      <p class="page-sub">Все ${TENSES.length} времён английского: когда какое нужно, как строится, чем отличается от соседнего. Освоено ${done} из ${TENSES.length}.</p>
+      <a class="continue-card" href="#/tenses/train"><div class="cc-ill"><i class="ph-fill ph-target"></i></div>
+        <div class="cc-body"><div class="cc-eyebrow">Тренажёр</div><div class="cc-title">Выбери правильное время</div><div class="cc-sub">20 вопросов вперемешку — главное умение: по ситуации понять, какое время нужно</div></div>
+        <span class="pill-btn light">НАЧАТЬ</span></a>
+      <div class="card lesson tense-how"><h3 style="margin-top:0">Как выбрать время за 3 вопроса</h3>
+        <div class="g-steps"><ol>
+          <li><b>Когда?</b> Сейчас/обычно → <b>Present</b>, было → <b>Past</b>, будет → <b>Future</b>.</li>
+          <li><b>Процесс или факт?</b> Идёт, длится в какой-то момент → <b>Continuous</b> (be + -ing). Просто факт, привычка → <b>Simple</b>.</li>
+          <li><b>Важен результат к какому-то моменту?</b> «Уже сделал», «к тому времени» → <b>Perfect</b> (have + 3-я форма).</li>
+        </ol></div>
+        <div class="g-tip">В речи и играх 90% времени — это Present Simple, Present Continuous, Past Simple, will / going to и Present Perfect. Начните с них — у них 4–5 точек частоты.</div>
+      </div>
+      ${['present', 'past', 'future'].map((tm) => `<section class="sec"><div class="sec-head"><h2><i class="ph ph-${TIME_ICO[tm]}"></i> ${TIME_RU[tm]}</h2></div>
+        <div class="tense-grid">${TENSES.filter((t) => t.time === tm).map(tenseTile).join('')}</div></section>`).join('')}`;
+  }
+  function renderTense(id, tab) {
+    const t = TENSE_BY[id];
+    if (!t) return renderTenses();
+    const i = TENSES.indexOf(t), prev = TENSES[i - 1], next = TENSES[i + 1];
+    const blocks = t.html.split(/(?=<h3>)/).map((h) => h.trim()).filter(Boolean);
+    const b = tenseBest(t.id);
+    view().innerHTML = `
+      <a href="#/tenses" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <div class="tense-hero tt-${t.time}">
+        ${tlSvg(t)}
+        <div style="min-width:0;flex:1"><div class="lib-meta"><span class="pill">${t.level}</span><span class="tiny muted">${TIME_RU[t.time]} · встречается ${freqDots(t.freq)}</span></div>
+        <h1 style="margin:6px 0 0">${esc(t.name)}</h1><div class="muted">${esc(t.ru)} — ${esc(t.one)}</div></div>
+      </div>
+      <div class="seg wl-seg" style="margin:16px 0"><a href="#/tenses/${t.id}" class="${tab !== 'practice' ? 'on' : ''}"><i class="ph ph-book-open"></i> Объяснение</a><a href="#/tenses/${t.id}/practice" class="${tab === 'practice' ? 'on' : ''}"><i class="ph ph-pencil-simple-line"></i> Упражнения · ${t.ex.length}${b != null ? ` <b class="tt-score ${b >= 0.8 ? 'ok' : ''}">${Math.round(b * 100)}%</b>` : ''}</a></div>
+      <div id="tense-body"></div>
+      <div class="chap-nav">${prev ? `<a class="btn" href="#/tenses/${prev.id}"><i class="ph ph-caret-left"></i> ${esc(prev.name)}</a>` : '<span></span>'}${next ? `<a class="btn" href="#/tenses/${next.id}">${esc(next.name)} <i class="ph ph-caret-right"></i></a>` : '<span></span>'}</div>`;
+    const body = $('#tense-body');
+    if (tab === 'practice') return tenseQuiz(body, t.ex.map((e) => Object.assign({ tid: t.id }, e)), (score) => {
+      S.tenses = S.tenses || {}; const r = S.tenses[t.id] = S.tenses[t.id] || {};
+      r.best = Math.max(r.best || 0, score); r.at = Date.now(); save();
+    }, `#/tenses/${t.id}`);
+    body.innerHTML = `<div class="stack lesson">
+      <div class="card tense-formula"><h3 style="margin-top:0">Формула</h3>
+        <div class="tf-row"><span class="tf-k plus">+</span><div>${t.formula.plus}</div></div>
+        <div class="tf-row"><span class="tf-k minus">−</span><div>${t.formula.minus}</div></div>
+        <div class="tf-row"><span class="tf-k q">?</span><div>${t.formula.q}</div></div>
+        <div class="tf-markers"><span class="tiny muted">Слова-подсказки:</span> ${t.markers.map((m) => `<span class="say mk">${esc(m)}</span>`).join('')}</div>
+        ${t.compare && t.compare.length ? `<div class="tf-markers"><span class="tiny muted">Не путать с:</span> ${t.compare.filter((c) => TENSE_BY[c]).map((c) => `<a class="pill accent" href="#/tenses/${c}">${esc(TENSE_BY[c].name)}</a>`).join(' ')}</div>` : ''}
+      </div>
+      ${blocks.map((h) => `<div class="card">${h}</div>`).join('')}
+      <a class="pill-btn" href="#/tenses/${t.id}/practice" style="align-self:flex-start">К УПРАЖНЕНИЯМ · ${t.ex.length}</a></div>`;
+    wireSay(body);
+  }
+  // общий движок вопросов «выбери форму»
+  function tenseQuiz(root, qs, onDone, backHref, shuffleOpts) {
+    let n = 0, right = 0; const wrongBy = {};
+    const draw = () => {
+      if (n >= qs.length) {
+        const sc = right / qs.length; onDone && onDone(sc);
+        const weak = Object.entries(wrongBy).sort((a, b) => b[1] - a[1]).slice(0, 3).filter(([id]) => TENSE_BY[id]);
+        root.innerHTML = `<div class="card result"><div class="big"><i class="ph ${sc >= 0.8 ? 'ph-confetti' : 'ph-target'}"></i></div><h2>${right} из ${qs.length}</h2>
+          <p class="muted">${sc >= 0.8 ? 'Отлично! Это время у вас в руках.' : sc >= 0.5 ? 'Хорошо, но есть над чем поработать. Перечитайте объяснение и попробуйте ещё раз.' : 'Пока сложновато — перечитайте объяснение, особенно блок «Не путать».'}</p>
+          ${weak.length ? `<p class="small">Чаще всего ошибки в: ${weak.map(([id]) => `<a href="#/tenses/${id}">${esc(TENSE_BY[id].name)}</a>`).join(', ')}</p>` : ''}
+          <div class="row" style="justify-content:center"><button class="btn primary" id="tq-again">Ещё раз</button><a class="btn" href="${backHref}">Готово</a></div></div>`;
+        $('#tq-again').addEventListener('click', () => { n = 0; right = 0; Object.keys(wrongBy).forEach((k) => delete wrongBy[k]); if (shuffleOpts) qs = shuffle(qs); draw(); });
+        return;
+      }
+      const q = qs[n];
+      let opts = q.o.map((o, i) => ({ o, i }));
+      if (shuffleOpts) opts = shuffle(opts);
+      const tt = TENSE_BY[q.tid];
+      root.innerHTML = `<div class="card">
+        <div class="row small muted" style="margin-bottom:8px"><span>Вопрос ${n + 1} из ${qs.length}</span><span class="spacer"></span><span>верно ${right}</span></div>
+        <div class="progress" style="margin-bottom:18px"><i style="width:${(n / qs.length) * 100}%"></i></div>
+        <div class="ex-q tq-q">${esc(q.q).replace('___', '<span class="tq-gap">___</span>')}${q.v ? ` <span class="muted tq-v">(${esc(q.v)})</span>` : ''}</div>
+        <div class="stack" style="gap:10px;margin-top:16px">${opts.map((x) => `<button class="option" data-i="${x.i}">${esc(x.o)}</button>`).join('')}</div>
+        <div id="tq-fb"></div></div>`;
+      $$('.option', root).forEach((btn) => btn.addEventListener('click', () => {
+        if (root.dataset.lock === String(n)) return; root.dataset.lock = String(n);
+        const ok = +btn.dataset.i === q.a;
+        $$('.option', root).forEach((x) => { x.disabled = true; if (+x.dataset.i === q.a) x.classList.add('correct'); });
+        if (!ok) { btn.classList.add('wrong'); wrongBy[q.tid] = (wrongBy[q.tid] || 0) + 1; } else right++;
+        const full = q.q.replace('___', q.o[q.a]);
+        track('exercises'); S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
+        $('#tq-fb').innerHTML = `<div class="feedback ${ok ? 'ok' : 'bad'}"><b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(q.why || '')}
+          <div class="right"><span class="say-inline" data-speak="${esc(full)}"><i class="ph ph-speaker-high"></i> ${esc(full)}</span>${tt && shuffleOpts ? ` · <a href="#/tenses/${tt.id}">${esc(tt.name)}</a>` : ''}</div></div>
+          <div class="ex-actions" style="margin-top:14px"><button class="btn primary" id="tq-next" style="width:100%">${n + 1 < qs.length ? 'Дальше' : 'Результат'}</button></div>`;
+        wireSay($('#tq-fb'));
+        if (ok) speakTTS(full, { rate: S.settings.rate });
+        $('#tq-next').addEventListener('click', () => { n++; draw(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        $('#tq-next').focus({ preventScroll: true });
+      }));
+    };
+    draw();
+  }
+  function renderTenseTrain() {
+    const lv = lsGet('ep.tenseLvl', LEVEL_ORDER[myLevel()] >= 2 ? myLevel() : 'A2');
+    const pool = TENSES.filter((t) => LEVEL_ORDER[t.level] <= LEVEL_ORDER[lv]);
+    view().innerHTML = `
+      <a href="#/tenses" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <h1 class="page-title">Тренажёр времён</h1>
+      <p class="page-sub">Вопросы из ${pool.length} ${plural(pool.length, 'времени', 'времён', 'времён')} вперемешку. Выберите, до какого уровня брать времена:</p>
+      <div class="seg wl-seg" style="margin-bottom:16px">${LEVELS.map((l) => `<a href="#/tenses/train" data-tl="${l}" class="${l === lv ? 'on' : ''}">до ${l} · ${TENSES.filter((t) => LEVEL_ORDER[t.level] <= LEVEL_ORDER[l]).length}</a>`).join('')}</div>
+      <div id="tt-body"></div>`;
+    $$('[data-tl]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lsSet('ep.tenseLvl', a.dataset.tl); renderTenseTrain(); }));
+    const qs = shuffle(pool.flatMap((t) => t.ex.map((e) => Object.assign({ tid: t.id }, e)))).slice(0, 20);
+    tenseQuiz($('#tt-body'), qs, (sc) => { S.stats.tenseTrain = (S.stats.tenseTrain || 0) + 1; S.stats.tenseBest = Math.max(S.stats.tenseBest || 0, sc); save(); }, '#/tenses', true);
   }
 
   let readerSentences = [];
