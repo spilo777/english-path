@@ -1105,3 +1105,33 @@ a.task .pill-btn { margin-left: 4px; }
 }
 @media (max-width: 380px) { .goal-rings { width: 96px; height: 96px; } .page-title { font-size: 28px; } .coll-grid { grid-template-columns: 1fr 1fr; } }
 .sec + .card, .sec + #add-box { margin-top: 24px; }
+
+/* фиксы словаря: кликабельные плитки, коллекции без наложений, понятные цели */
+a.tile { color: var(--text); transition: transform .15s, box-shadow .2s; }
+a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.tile-go { position: absolute; right: 14px; top: 16px; font-size: 16px; color: var(--muted); }
+.goal-row span em { display: block; font-style: normal; font-size: 12px; color: var(--muted); line-height: 1.2; }
+.goal-row b { white-space: nowrap; }
+.goal-ok { color: var(--ok); }
+.coll-tile { min-height: 0; padding: 16px 16px 14px; gap: 4px; }
+.coll-ill { right: 12px; top: 12px; bottom: auto; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.6); display: grid; place-items: center; font-size: 26px; opacity: 1; }
+@media (prefers-color-scheme: dark) { .coll-ill { background: rgba(255,255,255,.08); } }
+.coll-tile > b, .coll-top { padding-right: 52px; }
+.coll-top b { font-size: 19px; line-height: 1.15; }
+.coll-tile > span { max-width: none; padding-right: 0; }
+.coll-tile > span:not(.coll-meta) { padding-right: 52px; min-height: 2.4em; }
+.coll-tile .coll-meta { margin-top: 8px; padding-top: 0; }
+.off-tag { font-weight: 700; color: var(--bad); }
+.coll-bar { margin-top: 6px; }
+.wl-seg { display: flex; flex-wrap: wrap; gap: 6px; background: none; padding: 0; }
+.wl-seg a { padding: 8px 14px; border-radius: 99px; background: var(--surface); box-shadow: var(--shadow-sm); color: var(--text-2); font-weight: 600; font-size: 14px; }
+.wl-seg a.on { background: var(--accent); color: #fff; }
+@media (max-width: 760px) {
+  .coll-ill { width: 38px; height: 38px; font-size: 22px; border-radius: 12px; right: 10px; top: 10px; }
+  .coll-tile > b, .coll-top, .coll-tile > span:not(.coll-meta) { padding-right: 44px; }
+  .coll-top b { font-size: 17px; }
+  .coll-tile { padding: 14px 12px 12px; }
+  .wl-seg { width: auto; }
+  .wl-seg a { flex: 0 0 auto; font-size: 13px; padding: 7px 12px; }
+}
+.wl-seg { margin-bottom: 14px; } .wl-seg + .input { margin-top: 0 !important; }

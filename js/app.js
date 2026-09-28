@@ -241,7 +241,7 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
-    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
+    const navKey = { '': 'today', course: 'course', unit: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     window.scrollTo(0, 0);
     if (!r) return renderToday();
@@ -260,6 +260,7 @@
     if (r === 'cards') return renderCards();
     if (r === 'review') return renderReview();
     if (r === 'deck') return renderDeck(a);
+    if (r === 'words') return renderWords(a);
     if (r === 'achievements') return withBack(renderAch);
     if (r === 'account') return withBack(renderAuth);
     if (r === 'stats') return withBack(renderStats);
@@ -862,18 +863,19 @@
   function goalCard(title = 'Цель на сегодня') {
     const act = S.activity[today()] || {};
     const due = dueCards().length, nw = newAvailable();
-    const rv = act.reviews || 0, rvGoal = Math.max(10, rv + due + nw);
+    const rv = act.reviews || 0, rvGoal = rv + due + nw;
     const ex = act.exercises || 0, exGoal = 20;
     const rd = act.reads || 0, rdGoal = 1;
     const rings = [
-      { r: 52, v: rv / rvGoal, c: 'var(--r1)', label: 'Карточки', val: `${rv}/${rvGoal}` },
-      { r: 39, v: ex / exGoal, c: 'var(--r2)', label: 'Упражнения', val: `${ex}/${exGoal}` },
-      { r: 26, v: rd / rdGoal, c: 'var(--r3)', label: 'Чтение', val: `${Math.min(rd, rdGoal)}/${rdGoal}` }
+      { r: 52, v: rvGoal ? rv / rvGoal : 1, c: 'var(--r1)', label: 'Карточки', n: rv, goal: rvGoal, hint: rvGoal ? 'повторить всё на сегодня' : 'сегодня нечего повторять' },
+      { r: 39, v: ex / exGoal, c: 'var(--r2)', label: 'Упражнения', n: ex, goal: exGoal, hint: '20 ответов в упражнениях' },
+      { r: 26, v: rd / rdGoal, c: 'var(--r3)', label: 'Чтение', n: rd, goal: rdGoal, hint: 'прочитать 1 текст' }
     ];
+    rings.forEach((g) => { g.val = g.v >= 1 ? `<span class="goal-ok"><i class="ph ph-check"></i> ${g.n}</span>` : `${g.n} из ${g.goal}`; });
     const svg = rings.map((g) => { const C = 2 * Math.PI * g.r; return `<circle cx="64" cy="64" r="${g.r}" fill="none" stroke="${g.c}" stroke-opacity=".16" stroke-width="10"/><circle cx="64" cy="64" r="${g.r}" fill="none" stroke="${g.c}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - Math.min(1, g.v))}" transform="rotate(-90 64 64)" style="transition:stroke-dashoffset .8s"/>`; }).join('');
     const done = rings.filter((g) => g.v >= 1).length;
     return `<div class="goal-card"><div class="goal-text"><div class="goal-h">${title}</div>
-      ${rings.map((g) => `<div class="goal-row"><i style="background:${g.c}"></i><span>${g.label}</span><b>${g.val}</b></div>`).join('')}
+      ${rings.map((g) => `<div class="goal-row"><i style="background:${g.c}"></i><span>${g.label}<em>${g.hint}</em></span><b>${g.val}</b></div>`).join('')}
       <div class="small muted" style="margin-top:6px">${done === 3 ? 'Все три кольца закрыты — отличный день!' : 'Закройте все три кольца'}</div></div>
       <svg class="goal-rings" viewBox="0 0 128 128" width="128" height="128">${svg}</svg></div>`;
   }
@@ -1192,20 +1194,17 @@
       </div>
       ${goalCard('Цель обучения на сегодня')}
       ${(() => {
-        const cs = Object.values(S.cards);
-        const nNew = cs.filter((c) => c.state === 'new').length;
-        const nLearn = cs.filter((c) => c.state === 'learn' || (c.state === 'review' && c.ivl < 7)).length;
-        const nFam = cs.filter((c) => c.state === 'review' && c.ivl >= 7 && c.ivl < 21).length;
-        const nDone = cs.filter((c) => c.state === 'review' && c.ivl >= 21).length + Object.keys(S.known).length;
+        const cnt = (k) => wordsOf(k).length;
+        const nNew = cnt('new'), nLearn = cnt('learn'), nFam = cnt('fam'), nDone = cnt('done');
         return `<div class="tiles4">
-          <div class="tile t-blue"><i class="ph-fill ph-sparkle"></i><b>${nNew}</b><span>Новые</span></div>
-          <div class="tile t-yellow"><i class="ph-fill ph-lightning"></i><b>${nLearn}</b><span>Изучаю</span></div>
-          <div class="tile t-orange"><i class="ph-fill ph-eye"></i><b>${nFam}</b><span>Знакомые</span></div>
-          <div class="tile t-green"><i class="ph-fill ph-seal-check"></i><b>${nDone}</b><span>Выученные</span></div></div>`; })()}
+          <a class="tile t-blue" href="#/words/new"><i class="ph-fill ph-sparkle"></i><b>${nNew}</b><span>Новые</span><i class="ph ph-caret-right tile-go"></i></a>
+          <a class="tile t-yellow" href="#/words/learn"><i class="ph-fill ph-lightning"></i><b>${nLearn}</b><span>Изучаю</span><i class="ph ph-caret-right tile-go"></i></a>
+          <a class="tile t-orange" href="#/words/fam"><i class="ph-fill ph-eye"></i><b>${nFam}</b><span>Знакомые</span><i class="ph ph-caret-right tile-go"></i></a>
+          <a class="tile t-green" href="#/words/done"><i class="ph-fill ph-seal-check"></i><b>${nDone}</b><span>Выученные</span><i class="ph ph-caret-right tile-go"></i></a></div>`; })()}
       <section class="sec"><div class="sec-head"><h2>Мои коллекции</h2></div>
       <p class="sec-sub">${DECK.length} самых нужных слов от A1 до B2 — по частоте в живой речи. Включённые колоды приходят в карточки по порядку.</p>
       <div class="coll-grid">${LEVELS.map(deckTile).join('')}${deckTile('phr')}
-        <a class="coll-tile t5" href="#clist" id="my-words"><div class="coll-ill"><i class="ph-fill ph-bookmark-simple"></i></div><b>Мои слова</b><span>Добавленные из текстов и вручную</span><span class="coll-meta">${all.filter((c) => !DECK_BY_ID[c.id]).length} слов</span></a></div></section>
+        <a class="coll-tile t5" href="#/words/mine"><div class="coll-ill"><i class="ph-fill ph-bookmark-simple"></i></div><b>Мои слова</b><span>Добавленные из текстов и вручную</span><span class="coll-meta">${(() => { const n = all.filter((c) => !DECK_BY_ID[c.id]).length; return n + ' ' + plural(n, 'слово', 'слова', 'слов'); })()}</span></a></div></section>
       <div class="card" id="add-box" hidden style="margin-bottom:16px">
         <div class="small" style="font-weight:650;margin-bottom:8px">Добавить слово вручную</div>
         <div class="row"><input class="input" id="nc-en" placeholder="english" style="flex:1;min-width:120px;font-size:15px;padding:10px"><input class="input" id="nc-ru" placeholder="перевод" style="flex:1;min-width:120px;font-size:15px;padding:10px"><button class="btn small primary" id="nc-add">Добавить</button></div>
@@ -1233,7 +1232,6 @@
     $('#cf').addEventListener('input', (e) => drawList(e.target.value.toLowerCase().trim()));
     $('#d-add').addEventListener('click', () => { const b = $('#add-box'); b.hidden = !b.hidden; if (!b.hidden) { b.scrollIntoView({ block: 'center', behavior: 'smooth' }); $('#nc-en').focus(); } });
     $('#d-find').addEventListener('click', () => { const f = $('#cf'); f.scrollIntoView({ block: 'center', behavior: 'smooth' }); f.focus(); });
-    $('#my-words').addEventListener('click', (e) => { e.preventDefault(); $('#clist').scrollIntoView({ behavior: 'smooth' }); });
     $('#nc-en').addEventListener('blur', () => {
       const en = $('#nc-en').value.trim(); if (!en || $('#nc-ru').value.trim()) return;
       const hit = lookup(en)[0]; if (hit && !en.includes(' ')) { $('#nc-ru').value = hit.tr; return; }
@@ -1306,8 +1304,45 @@
     return `<a class="coll-tile t${i}" href="#/deck/${lvl}"><div class="coll-ill"><i class="ph-fill ph-${phr ? 'puzzle-piece' : ['plant', 'tree-evergreen', 'mountains', 'rocket-launch'][i]}"></i></div>
       <div class="coll-top"><b>${phr ? 'Фразовые глаголы' : lvl}</b><span class="sig">${bars}</span></div>
       <span>${phr ? 'give up, look for, get on…' : esc(lv ? lv.title.split('— ')[1] || '' : '')}</span>
-      <span class="coll-meta">${learned} / ${ws.length} выучено${study ? ' · учу ' + study : ''}${phr ? '' : on ? ' · <i class="ph-fill ph-check-circle"></i> учу' : ' · выключена'}</span>
+      <span class="coll-meta">${learned} / ${ws.length} выучено${study ? ` · в процессе ${study}` : ''}${!phr && !on ? ' · <b class="off-tag">выключена</b>' : ''}</span>
       <div class="coll-bar"><i style="width:${(learned / Math.max(1, ws.length)) * 100}%"></i><i style="width:${(study / Math.max(1, ws.length)) * 100}%"></i></div></a>`;
+  }
+  // Слова по статусу: новые / изучаю / знакомые / выученные / мои
+  const cardKind = (c) => c.state === 'new' ? 'new' : c.state === 'learn' || c.ivl < 7 ? 'learn' : c.ivl < 21 ? 'fam' : 'done';
+  function wordsOf(kind) {
+    const cs = Object.values(S.cards);
+    if (kind === 'mine') return cs.filter((c) => !DECK_BY_ID[c.id]);
+    const list = cs.filter((c) => cardKind(c) === kind);
+    if (kind === 'done') Object.keys(S.known).forEach((id) => { if (!S.cards[id]) { const w = DECK_BY_ID[id]; list.push({ id, en: w ? w.en : id, ru: w ? w.ru : '', known: true, added: S.known[id] }); } });
+    return list;
+  }
+  const WL = {
+    new: ['Новые', 'Слова в очереди: ещё ни разу не приходили в карточки. Они появятся в повторении по лимиту новых слов в день.'],
+    learn: ['Изучаю', 'Слова, которые вы только начали учить: повторяются часто — через минуты, часы и первые дни.'],
+    fam: ['Знакомые', 'Вы их уже неплохо помните: следующее повторение через неделю-две.'],
+    done: ['Выученные', 'Интервал больше 3 недель — слово в долгой памяти. Сюда же попадают слова, отмеченные «Знаю».'],
+    mine: ['Мои слова', 'Слова, добавленные вручную и из текстов (не из колод).']
+  };
+  function renderWords(kind) {
+    if (!WL[kind]) return renderCards();
+    const items = wordsOf(kind).sort((a, b) => (b.added || 0) - (a.added || 0));
+    view().innerHTML = `
+      <a href="#/cards" class="backlink"><i class="ph ph-caret-left"></i></a>
+      <h1 class="page-title">${WL[kind][0]} · ${items.length}</h1>
+      <p class="page-sub">${WL[kind][1]}</p>
+      <div class="seg wl-seg">${Object.keys(WL).map((k) => `<a href="#/words/${k}" class="${k === kind ? 'on' : ''}">${WL[k][0]}</a>`).join('')}</div>
+      ${items.length ? `<input class="input" id="wq" placeholder="Поиск по слову или переводу" style="margin:14px 0">` : ''}
+      <div class="card"><div class="word-list" id="wl"></div></div>
+      ${kind === 'new' || kind === 'learn' ? `<div style="margin-top:16px"><a class="pill-btn" href="#/review">ПОВТОРИТЬ СЕЙЧАС</a></div>` : ''}`;
+    const draw = (q = '') => {
+      const f = items.filter((c) => !q || c.en.toLowerCase().includes(q) || (c.ru || '').toLowerCase().includes(q));
+      $('#wl').innerHTML = f.slice(0, 400).map((c) => `<div class="word-item"><button class="icon-btn" data-speak="${esc(c.en)}"><i class="ph ph-speaker-high"></i></button>
+        <div style="flex:1;min-width:0"><span class="w">${esc(c.en)}</span> — ${esc(c.ru)}<div class="ex">${c.known ? 'отмечено «Знаю»' : c.state === 'new' ? 'ещё не повторялось' : 'следующее повторение ' + (c.due <= Date.now() ? 'сейчас' : 'через ' + fmtIvl(c.due - Date.now()))}</div></div></div>`).join('')
+        || `<div class="empty"><div class="big"><i class="ph ph-cards"></i></div>${items.length ? 'Ничего не найдено' : 'Здесь пока пусто'}</div>`;
+      wireSay($('#wl'));
+    };
+    draw();
+    const q = $('#wq'); if (q) q.addEventListener('input', () => draw(q.value.toLowerCase().trim()));
   }
   function renderDeck(lvl) {
     const phr = lvl === 'phr';
