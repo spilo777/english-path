@@ -5,3 +5,4 @@
 .place-txt { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .place-note { margin: 0 0 14px; }
 .place-note .ph { color: var(--accent-text); margin-right: 4px; }
+.place-card { width: 100%; border: 0; text-align: left; font: inherit; cursor: pointer; }

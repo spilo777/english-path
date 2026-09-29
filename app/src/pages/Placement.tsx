@@ -1,6 +1,6 @@
 // Тест на уровень: ступени A1 → A2 → B1 → B2 по 10 вопросов. Ступень сдана (≥ 7 из 10) — идём выше,
 // нет — останавливаемся: с этого уровня и стоит начинать. Ответы не подсвечиваются, чтобы не подсказывать.
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar, shuffle } from '../components/ui';
@@ -26,7 +26,16 @@ interface Item { q: PlacementQ; order: number[] } // order — перемеша�
 const pick = (bank: PlacementBank, st: Stage): Item[] =>
   shuffle(bank[st]).slice(0, PER_STAGE).map((q) => ({ q, order: shuffle(q.o.map((_, i) => i)) }));
 
-export default function Placement(_props: PageProps) {
+// обёртка: страница или содержимое модального окна (на уровне модуля — чтобы не пересоздавать при каждом рендере)
+function Wrap({ modal, children }: { modal?: boolean; children: ReactNode }) {
+  return modal ? <div className="place-page place-in-modal">{children}</div> : <Page className="place-page">{children}</Page>;
+}
+
+/** Страница #/placement */
+export default function Placement(_props: PageProps) { return <PlacementFlow />; }
+
+/** Сам тест: на странице или внутри модального окна (modal — без «Назад», onClose — закрыть окно) */
+export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: () => void }) {
   const { data: bank, error } = useJSON<PlacementBank>(paths.placement);
   const s = useProgress();
   const [stage, setStage] = useState(-1); // -1 — вступление
@@ -36,9 +45,9 @@ export default function Placement(_props: PageProps) {
   const [scores, setScores] = useState<Partial<Record<Level, number>>>({});
   const [result, setResult] = useState<{ level: Stage; top: boolean } | null>(null);
 
-  const back = <BackLink href="#/course" label="Курс" />;
-  if (error) return <Page>{back}<LoadError error={error} /></Page>;
-  if (!bank) return <Page>{back}<Loading /></Page>;
+  const back = modal ? null : <BackLink href="#/course" label="Курс" />;
+  if (error) return <Wrap modal={modal}>{back}<LoadError error={error} /></Wrap>;
+  if (!bank) return <Wrap modal={modal}>{back}<Loading /></Wrap>;
 
   const begin = () => { setStage(0); setItems(pick(bank, 'A1')); setQi(0); setRight(0); setScores({}); setResult(null); };
 
@@ -66,6 +75,7 @@ export default function Placement(_props: PageProps) {
       x.settings.startLevel = lvl;
       x.settings.decks = { ...(x.settings.decks || {}), [lvl]: true };
     });
+    onClose?.();
     go('#/course');
   };
 
@@ -73,7 +83,7 @@ export default function Placement(_props: PageProps) {
   if (stage < 0) {
     const prev = s.settings.placement;
     return (
-      <Page className="place-page">
+      <Wrap modal={modal}>
         {back}
         <div className="card place-intro stack">
           <div className="place-big"><Icon name="target" /></div>
@@ -87,7 +97,7 @@ export default function Placement(_props: PageProps) {
           {prev ? <p className="small muted">Прошлый результат: <b>{prev.level}</b> ({new Date(prev.at).toLocaleDateString('ru-RU')})</p> : null}
           <button type="button" className="btn primary block" onClick={begin}>Начать тест <Icon name="arrow-right" /></button>
         </div>
-      </Page>
+      </Wrap>
     );
   }
 
@@ -95,7 +105,7 @@ export default function Placement(_props: PageProps) {
   if (result) {
     const a = ABOUT[result.level];
     return (
-      <Page className="place-page">
+      <Wrap modal={modal}>
         {back}
         <div className="card place-result stack">
           <div className="eyebrow">Ваш уровень</div>
@@ -119,14 +129,14 @@ export default function Placement(_props: PageProps) {
           )}
           <button type="button" className="btn ghost small" onClick={begin}><Icon name="arrow-counter-clockwise" /> Пройти тест ещё раз</button>
         </div>
-      </Page>
+      </Wrap>
     );
   }
 
   // ───── вопрос ─────
   const it = items[qi];
   return (
-    <Page className="place-page">
+    <Wrap modal={modal}>
       {back}
       <div className="place-head">
         <span className={'place-stage lv-' + STAGES[stage]}>{STAGES[stage]}</span>
@@ -134,7 +144,7 @@ export default function Placement(_props: PageProps) {
       </div>
       <Bar value={(qi) / items.length} />
       <Question key={stage + '-' + qi} it={it} onAnswer={answer} />
-    </Page>
+    </Wrap>
   );
 }
 

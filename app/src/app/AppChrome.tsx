@@ -1,6 +1,7 @@
 // Всё, что живёт поверх страниц: счётчик карточек в меню, всплывающие достижения, синхронизация
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
 import { PopoverHost } from '../components/Popover';
+import { PlacementModalHost } from '../components/Modal';
 import { Cloud, hasSession, useCloud } from '../lib/cloud';
 import { touchLeague } from '../lib/league';
 import { loadJSON, paths, useDeck } from '../lib/data';
@@ -42,5 +43,5 @@ export function AppChrome({ children }: { children: (badge: number) => ReactNode
   // вошли — записаться в лигу этой недели (если имя для лиги уже выбрано), чтобы очки считались без захода на страницу лиги
   const cloud = useCloud();
   useEffect(() => { if (idle && cloud.user) touchLeague(); }, [idle, cloud.user]);
-  return <>{children(badge)}{idle ? <Suspense fallback={null}><AchPopups /></Suspense> : null}<PopoverHost /></>;
+  return <>{children(badge)}{idle ? <Suspense fallback={null}><AchPopups /></Suspense> : null}<PopoverHost /><PlacementModalHost /></>;
 }

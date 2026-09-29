@@ -6,6 +6,7 @@ import { go } from '../app/router';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
 import { Reminders } from '../components/Reminders';
+import { openPlacement } from '../components/Modal';
 import { CloudBackups } from '../components/CloudBackups';
 import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
 import { Cloud, useCloud, type CloudStatus } from '../lib/cloud';
@@ -98,7 +99,7 @@ function SettingsPage() {
               toast(l === 'A1' ? 'Уроки идут по порядку с самого начала' : `Уроки до ${l} открыты`);
             }} />
           </div>
-          <p className="muted small">Уроки ниже выбранного уровня открываются сразу — их можно проходить для повторения в любом порядке. Выбранный уровень начинается с первого урока, дальше — по порядку, после теста на 80%. Не уверены, какой выбрать? <a href="#/placement">Пройдите тест на уровень</a>{st.placement ? ` (прошлый результат — ${st.placement.level})` : ''}.</p>
+          <p className="muted small">Уроки ниже выбранного уровня открываются сразу — их можно проходить для повторения в любом порядке. Выбранный уровень начинается с первого урока, дальше — по порядку, после теста на 80%. Не уверены, какой выбрать? <button type="button" className="linkish" onClick={openPlacement}>Пройдите тест на уровень</button>{st.placement ? ` (прошлый результат — ${st.placement.level})` : ''}.</p>
         </div>
 
         <Reminders />
