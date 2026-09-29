@@ -48,9 +48,9 @@ test('профиль → награды → статистика', async ({ page
   await page.locator('.pf-engbtn').click();
   await expect(page.locator('.pf-step')).toHaveCount(10);
   await expect(page.locator('.pf-step.now')).toHaveCount(1);
-  const got = Object.keys((await saved(page)).ach).length;
   await page.locator('.seg button', { hasText: 'Получены' }).click();
-  await expect(page.locator('.ach')).toHaveCount(got);
+  // награды сохраняются с небольшой задержкой — сверяем, пока число не совпадёт
+  await expect.poll(async () => (await page.locator('.ach').count()) === Object.keys((await saved(page)).ach).length).toBe(true);
   await page.locator('.seg button', { hasText: 'Впереди' }).click();
   await expect(page.locator('.ach.got')).toHaveCount(0);
   expect(await noHScroll(page)).toBe(true);
