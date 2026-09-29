@@ -56,8 +56,8 @@ jobs:
           git config user.name ci && git config user.email ci@users.noreply.github.com
           git fetch -q origin main && git checkout -q -B main origin/main
           # в корне — только собранный сайт; исходники в app/, архив в legacy/
-          rm -rf index.html assets data img manifest.webmanifest next
+          rm -rf index.html assets data img manifest.webmanifest
           cp -r app/dist/. . && touch .nojekyll
-          git add -A index.html assets data img manifest.webmanifest next .nojekyll
+          git add -A index.html assets data img manifest.webmanifest .nojekyll
           git commit -qm "deploy: сайт из $GITHUB_SHA" || exit 0
           for i in 1 2 3; do git push -q origin main && break; git pull -q --rebase origin main; done
