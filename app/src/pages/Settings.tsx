@@ -309,14 +309,15 @@ function AuthForms({ mode, setMode, linkErr, st }: { mode: AuthMode; setMode: (m
     </label>
   );
   const passField = (label: ReactNode, placeholder: string, auto: string, focus: boolean) => (
-    <label className="fld"><span>{label}</span>
+    // div, а не label: внутри кнопки («Забыли пароль?», глазик) — label привязался бы к ним, а не к полю
+    <div className="fld"><span>{label}</span>
       <div className="pw">
-        <input ref={passRef} className="input" type={showPw ? 'text' : 'password'} autoComplete={auto} placeholder={placeholder} value={pass}
+        <input ref={passRef} className="input" aria-label={placeholder} type={showPw ? 'text' : 'password'} autoComplete={auto} placeholder={placeholder} value={pass}
           onChange={(e) => setPass(e.target.value)} autoFocus={focus} required />
         <button type="button" className={'pw-eye' + (showPw ? ' on' : '')} aria-label={showPw ? 'Скрыть пароль' : 'Показать пароль'}
           onClick={() => { setShowPw(!showPw); passRef.current?.focus(); }}><Icon name={showPw ? 'eye-slash' : 'eye'} /></button>
       </div>
-    </label>
+    </div>
   );
 
   let body: ReactNode = null;

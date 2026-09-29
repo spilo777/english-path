@@ -158,6 +158,8 @@ function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
   // #/library/all/<тема> — запомнить тему, уровень «все»
   const [cat, setCat] = useState(() => {
     if (catParam) { lsSet('ep.libCat', catParam); lsSet('ep.libLevel', 'all'); }
+    // поиск ищет по всей библиотеке, а не внутри последней открытой темы
+    if (mode === 'find') { lsSet('ep.libCat', 'all'); lsSet('ep.libLevel', 'all'); }
     return lsGet('ep.libCat', 'all');
   });
   const [lvlSaved, setLvl] = useState(() => lsGet('ep.libLevel', ''));

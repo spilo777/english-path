@@ -18,7 +18,7 @@ test('витрина, все статьи с фильтрами и поиско�
   await expect(page.locator('.lib-card').first()).toBeVisible();
   await page.goto('#/library/find');
   await page.locator('.lib-search').fill('Shrek');
-  await expect(page.locator('.lib-card')).toHaveCount(1);
+  await expect(page.locator('.lib-card').first()).toContainText(/Shrek/i);
   await page.locator('.lib-search').fill('');
   await page.goto('#/library/books');
   await expect(page.locator('.poster-grid .poster').first()).toBeVisible();
