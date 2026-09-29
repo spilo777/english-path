@@ -1,0 +1,3 @@
+-- Резервные копии прогресса (миграция progress_snapshots):
+-- progress_snapshots — снимок за день (kind 'daily', последнее состояние дня по Москве) и 'restore' (состояние перед восстановлением), 30 дней;
+-- триггер progress_snapshot на public.progress; RPC progress_snapshots_list() — список со сводкой; progress_restore(id) — восстановление.

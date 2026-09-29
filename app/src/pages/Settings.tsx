@@ -6,6 +6,7 @@ import { go } from '../app/router';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
 import { Reminders } from '../components/Reminders';
+import { CloudBackups } from '../components/CloudBackups';
 import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
 import { Cloud, useCloud, type CloudStatus } from '../lib/cloud';
 import { ding } from '../lib/sfx';
@@ -146,8 +147,10 @@ function SettingsPage() {
           <p className="muted small">На Mac самые живые голоса — Samantha, Ava, Zoe (можно скачать в Системных настройках <Icon name="arrow-right" /> Универсальный доступ <Icon name="arrow-right" /> Устный контент).</p>
         </div>
 
+        <CloudBackups />
+
         <div className="card stack">
-          <h3>Резервная копия</h3>
+          <h3>Копия в файле</h3>
           <p className="muted small">Прогресс хранится в этом браузере. Периодически сохраняйте копию в файл — так его можно перенести на другое устройство или восстановить.</p>
           <div className="row">
             <button type="button" className="btn" onClick={exportBackup}><Icon name="download-simple" /> Скачать копию</button>
