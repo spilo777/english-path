@@ -11,6 +11,7 @@ import { LEVEL_ORDER, type CourseIndex, type LessonText, type Progress } from '.
 import { AchCard } from '../components/AchCard';
 import { GoalCard } from '../components/GoalCard';
 import { PlacementHint } from '../components/PlacementHint';
+import { openPlacement } from '../components/Modal';
 import { BookPoster, TextPoster } from '../components/Posters';
 import { Icon, LoadError, Loading, Page, plural, RoundBtn, Section, TopBar } from '../components/ui';
 import { AvatarBtn } from './course-head';
@@ -99,7 +100,7 @@ export default function Home(_props: PageProps) {
 
   const h = new Date().getHours();
   const hello = h < 5 ? 'Доброй ночи' : h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
-  const right = <><RoundBtn href="#/library/find" icon="magnifying-glass" title="Поиск по статьям" /><AvatarBtn /></>;
+  const right = <><RoundBtn icon="target" title="Тест на уровень" onClick={openPlacement} /><RoundBtn href="#/library/find" icon="magnifying-glass" title="Поиск по статьям" /><AvatarBtn /></>;
   const date = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, (c) => c.toUpperCase());
 
   if (error) return <Page><TopBar title={hello} right={right} sub={date} /><LoadError error={error} /></Page>;

@@ -6,14 +6,20 @@ import { openPlacement } from './Modal';
 import { Icon } from './ui';
 import './PlacementHint.css';
 
-/** offerOnly — только предложение теста (для главной), без напоминания о выбранном уровне */
+/** offerOnly — только большая карточка для новичка (для главной), без строки-ссылки */
 export function PlacementHint({ s, offerOnly }: { s: Progress; offerOnly?: boolean }) {
   const anyPassed = Object.values(s.units).some((u) => u.testBest != null && u.testBest >= PASS);
   const lvl = startLevel(s);
   if (!offerOnly && s.settings.startLevel && s.settings.startLevel !== 'A1') {
     return <p className="small muted place-note"><Icon name="flag" /> Вы начинаете с уровня <b>{lvl}</b> — уроки ниже открыты для повторения. <a href="#/settings">Изменить</a> · <button type="button" className="linkish" onClick={openPlacement}>Пройти тест ещё раз</button></p>;
   }
-  if (anyPassed || s.settings.placement || s.settings.startLevel) return null;
+/** Новичок: ещё не сдал ни одного урока, не проходил тест и не выбирал уровень */
+  const newbie = !anyPassed && !s.settings.placement && !s.settings.startLevel;
+  if (!newbie) {
+    if (offerOnly) return null;
+    const last = s.settings.placement;
+    return <p className="small muted place-note"><Icon name="target" /> {last ? <>Тест на уровень показал <b>{last.level}</b>. </> : null}<button type="button" className="linkish" onClick={openPlacement}>{last ? 'Пройти тест ещё раз' : 'Пройти тест на уровень'}</button></p>;
+  }
   return (
     <button type="button" className="card place-card" onClick={openPlacement}>
       <span className="place-ico"><Icon name="target" /></span>
