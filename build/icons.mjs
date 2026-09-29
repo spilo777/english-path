@@ -40,10 +40,13 @@ const svgUrl = (file) => {
 };
 
 const names = usedIcons(app, all);
+// иконки, которые рисуются из CSS (::before) — отдельными переменными --i-<имя> (заливка)
+const CSS_ONLY = ['check-circle', 'x-circle', 'lightbulb'];
 let css = `/* Сгенерировано build/icons.mjs — не править руками. Иконок: ${names.length} */
 .ph, .ph-fill { display: inline-block; width: 1em; height: 1em; vertical-align: -0.125em; flex-shrink: 0; font-style: normal; line-height: 1; }
 .ph::before, .ph-fill::before { content: ""; display: block; width: 100%; height: 100%; background: currentColor; -webkit-mask: var(--ph) center / contain no-repeat; mask: var(--ph) center / contain no-repeat; }
 `;
+css += ':root {\n' + CSS_ONLY.map((n) => `  --i-${n}: ${svgUrl(path.join(core, 'assets/fill', n + '-fill.svg'))};`).join('\n') + '\n}\n';
 for (const n of names) {
   css += `.ph-${n}{--ph:${svgUrl(path.join(core, 'assets/regular', n + '.svg'))}}\n`;
   const fill = path.join(core, 'assets/fill', n + '-fill.svg');

@@ -56,7 +56,9 @@
 
 /* уровень вовлечённости: раскрывается лестница званий */
 .pf-engbtn { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; }
-.pf-caret { font-size: 15px; color: var(--muted); vertical-align: -2px; margin-left: 4px; }
+.pf-rank { display: inline-flex; align-items: center; gap: 8px; }
+.pf-caret { font-size: 14px; color: var(--muted); width: 26px; height: 26px; padding: 6px; border-radius: 50%; background: var(--surface-2); flex-shrink: 0; }
+.pf-engbtn:hover .pf-caret { background: var(--accent-soft); color: var(--accent-text); }
 .pf-ladder { list-style: none; margin: 14px 0 4px; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .pf-step { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 12px; }
 .pf-step.now { background: var(--accent-soft); }
