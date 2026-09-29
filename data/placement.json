@@ -1,0 +1,62 @@
+{
+  "A1": [
+    { "q": "She ___ a doctor.", "ru": "Она врач.", "o": ["is", "are", "am", "be"], "a": 0 },
+    { "q": "I ___ like coffee.", "ru": "Я не люблю кофе.", "o": ["don't", "doesn't", "not", "am not"], "a": 0 },
+    { "q": "___ you from Moscow?", "ru": "Вы из Москвы?", "o": ["Are", "Do", "Is", "Does"], "a": 0 },
+    { "q": "He ___ football every Sunday.", "ru": "Он играет в футбол каждое воскресенье.", "o": ["plays", "play", "playing", "is play"], "a": 0 },
+    { "q": "There ___ two cats in the garden.", "ru": "В саду две кошки.", "o": ["are", "is", "am", "be"], "a": 0 },
+    { "q": "Yesterday we ___ to the cinema.", "ru": "Вчера мы ходили в кино.", "o": ["went", "go", "goes", "going"], "a": 0 },
+    { "q": "This is ___ phone.", "ru": "Это мой телефон.", "o": ["my", "me", "I", "mine"], "a": 0 },
+    { "q": "I get up ___ 7 o'clock.", "ru": "Я встаю в 7 часов.", "o": ["at", "in", "on", "to"], "a": 0 },
+    { "q": "Что значит «kitchen»?", "o": ["кухня", "спальня", "окно", "магазин"], "a": 0 },
+    { "q": "Look! It ___.", "ru": "Смотри! Идёт дождь.", "o": ["is raining", "rains", "rain", "raining"], "a": 0 },
+    { "q": "I have ___ umbrella.", "ru": "У меня есть зонт.", "o": ["an", "a", "much", "many"], "a": 0 },
+    { "q": "Can you ___ the door, please?", "ru": "Можешь открыть дверь, пожалуйста?", "o": ["open", "opens", "opening", "to open"], "a": 0 },
+    { "q": "Что значит «tired»?", "o": ["уставший", "голодный", "счастливый", "занятой"], "a": 0 }
+  ],
+  "A2": [
+    { "q": "I have never ___ sushi.", "ru": "Я никогда не ел суши.", "o": ["eaten", "ate", "eat", "eating"], "a": 0 },
+    { "q": "I ___ TV when the phone rang.", "ru": "Я смотрел телевизор, когда зазвонил телефон.", "o": ["was watching", "am watching", "watching", "were watching"], "a": 0 },
+    { "q": "She is ___ than her sister.", "ru": "Она выше своей сестры.", "o": ["taller", "more tall", "tallest", "the tallest"], "a": 0 },
+    { "q": "You ___ smoke here. It's not allowed.", "ru": "Здесь нельзя курить. Это запрещено.", "o": ["mustn't", "don't have to", "needn't", "can"], "a": 0 },
+    { "q": "I'm going ___ my grandma tomorrow.", "ru": "Завтра я собираюсь навестить бабушку.", "o": ["to visit", "visit", "visiting", "visited"], "a": 0 },
+    { "q": "If it rains, we ___ at home.", "ru": "Если пойдёт дождь, мы останемся дома.", "o": ["will stay", "would stay", "stayed", "staying"], "a": 0 },
+    { "q": "I've lived here ___ 2015.", "ru": "Я живу здесь с 2015 года.", "o": ["since", "for", "from", "ago"], "a": 0 },
+    { "q": "Do you know where ___?", "ru": "Ты знаешь, где он живёт?", "o": ["he lives", "does he live", "he does live", "lives he"], "a": 0 },
+    { "q": "The bridge ___ in 1990.", "ru": "Мост построили в 1990 году.", "o": ["was built", "built", "is build", "was build"], "a": 0 },
+    { "q": "I enjoy ___ books.", "ru": "Я люблю читать книги.", "o": ["reading", "to read", "read", "reads"], "a": 0 },
+    { "q": "I used to ___ in London.", "ru": "Раньше я жил в Лондоне.", "o": ["live", "living", "lived", "lives"], "a": 0 },
+    { "q": "Что значит «borrow»?", "o": ["взять взаймы", "дать взаймы", "вернуть", "купить"], "a": 0 },
+    { "q": "There isn't ___ milk in the fridge.", "ru": "В холодильнике нет молока.", "o": ["any", "some", "no", "many"], "a": 0 }
+  ],
+  "B1": [
+    { "q": "I ___ here for three hours, and I'm tired.", "ru": "Я жду здесь уже три часа и устал.", "o": ["have been waiting", "am waiting", "wait", "waited"], "a": 0 },
+    { "q": "If I ___ rich, I would travel the world.", "ru": "Если бы я был богат, я бы путешествовал по миру.", "o": ["were", "am", "will be", "would be"], "a": 0 },
+    { "q": "By the time we arrived, the film ___.", "ru": "К тому времени, как мы пришли, фильм уже начался.", "o": ["had started", "has started", "starts", "will start"], "a": 0 },
+    { "q": "She asked me where I ___.", "ru": "Она спросила меня, где я живу.", "o": ["lived", "do live", "did I live", "live I"], "a": 0 },
+    { "q": "He's used to ___ early.", "ru": "Он привык рано вставать.", "o": ["getting up", "get up", "got up", "gets up"], "a": 0 },
+    { "q": "The man ___ car was stolen called the police.", "ru": "Мужчина, у которого угнали машину, позвонил в полицию.", "o": ["whose", "who", "which", "who's"], "a": 0 },
+    { "q": "You ___ have told me! I would have helped.", "ru": "Тебе следовало сказать мне! Я бы помог.", "o": ["should", "must", "will", "can"], "a": 0 },
+    { "q": "He told me ___ late.", "ru": "Он сказал мне не опаздывать.", "o": ["not to be", "don't be", "not be", "not being"], "a": 0 },
+    { "q": "He denied ___ the money.", "ru": "Он отрицал, что взял деньги.", "o": ["taking", "to take", "take", "took"], "a": 0 },
+    { "q": "Unless you ___ harder, you'll fail the exam.", "ru": "Если ты не будешь заниматься усерднее, ты провалишь экзамен.", "o": ["work", "don't work", "will work", "worked"], "a": 0 },
+    { "q": "I wish I ___ speak French.", "ru": "Жаль, что я не умею говорить по-французски.", "o": ["could", "can", "will", "would"], "a": 0 },
+    { "q": "Что значит «reliable»?", "o": ["надёжный", "доступный", "удобный", "заметный"], "a": 0 },
+    { "q": "The more you practise, ___ you get.", "ru": "Чем больше практикуешься, тем лучше получается.", "o": ["the better", "better", "the best", "more better"], "a": 0 }
+  ],
+  "B2": [
+    { "q": "If I had known, I ___ you.", "ru": "Если бы я знал, я бы тебе сказал.", "o": ["would have told", "would tell", "will tell", "had told"], "a": 0 },
+    { "q": "If I had taken that job, I ___ in Paris now.", "ru": "Если бы я тогда согласился на ту работу, я бы сейчас жил в Париже.", "o": ["would be living", "would have lived", "will live", "had lived"], "a": 0 },
+    { "q": "She must ___ the train — she's not here yet.", "ru": "Она, должно быть, опоздала на поезд — её ещё нет.", "o": ["have missed", "miss", "missed", "be missed"], "a": 0 },
+    { "q": "I'd like to have my hair ___.", "ru": "Я хотел бы подстричься (в парикмахерской).", "o": ["cut", "cutting", "to cut", "cuts"], "a": 0 },
+    { "q": "He is said ___ very rich.", "ru": "Говорят, что он очень богат.", "o": ["to be", "being", "be", "that he is"], "a": 0 },
+    { "q": "Not only ___ late, but he also forgot the tickets.", "ru": "Он не только опоздал, но и забыл билеты.", "o": ["was he", "he was", "he is", "did he"], "a": 0 },
+    { "q": "By the time you get home, I ___ dinner.", "ru": "К тому времени, как ты вернёшься домой, я уже приготовлю ужин.", "o": ["will have cooked", "have cooked", "cooked", "had cooked"], "a": 0 },
+    { "q": "___ the rain, we went for a walk.", "ru": "Несмотря на дождь, мы пошли гулять.", "o": ["Despite", "Although", "Despite of", "However"], "a": 0 },
+    { "q": "It's high time you ___ a job.", "ru": "Тебе давно пора найти работу.", "o": ["found", "find", "will find", "have found"], "a": 0 },
+    { "q": "Что значит «reluctant»?", "o": ["неохотный", "решительный", "равнодушный", "жадный"], "a": 0 },
+    { "q": "She suggested ___ a taxi.", "ru": "Она предложила взять такси.", "o": ["taking", "to take", "us take", "that we taking"], "a": 0 },
+    { "q": "No sooner had we left ___ it started to rain.", "ru": "Не успели мы выйти, как пошёл дождь.", "o": ["than", "when", "then", "as"], "a": 0 },
+    { "q": "He apologised ___ late.", "ru": "Он извинился за опоздание.", "o": ["for being", "to be", "being", "for be"], "a": 0 }
+  ]
+}
