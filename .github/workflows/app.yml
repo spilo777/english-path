@@ -5,7 +5,7 @@ name: app
 on:
   push:
     branches: [main]
-    paths: ['app/**', '.github/workflows/app.yml']
+    paths: ['app/**', 'build/covers.mjs', '.github/workflows/app.yml']
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,6 +20,10 @@ jobs:
         with: { node-version: 22 }
       - name: install
         run: npm install --no-audit --no-fund 2>&1 | tee ../install.log
+      - name: covers
+        # обложки статей и книг: подбираются здесь (есть интернет) и вписываются в данные сайта
+        continue-on-error: true
+        run: node ../build/covers.mjs
       - name: typecheck
         id: tsc
         continue-on-error: true
@@ -44,7 +48,7 @@ jobs:
         run: |
           mkdir -p /tmp/report && cd /tmp/report
           { echo "commit: $GITHUB_SHA"; echo "tsc: ${{ steps.tsc.outcome }}"; echo "unit: ${{ steps.unit.outcome }}"; echo "build: ${{ steps.build.outcome }}"; echo "e2e: ${{ steps.e2e.outcome }}"; } > status.txt
-          for f in install tsc unit build e2e; do [ -f $GITHUB_WORKSPACE/$f.log ] && tail -c 60000 $GITHUB_WORKSPACE/$f.log > $f.log; done
+          for f in install covers tsc unit build e2e; do [ -f $GITHUB_WORKSPACE/$f.log ] && tail -c 60000 $GITHUB_WORKSPACE/$f.log > $f.log; done
           [ -d $GITHUB_WORKSPACE/app/shots ] && cp -r $GITHUB_WORKSPACE/app/shots . || true
           git init -q && git checkout -q -b ci-report && git add -A
           git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "report $GITHUB_SHA"

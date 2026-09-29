@@ -44,3 +44,9 @@
   .reader-bar .seg button { flex: 1; padding: 8px 6px; font-size: 14px; }
   .qz-o { flex-direction: column; }
 }
+
+/* конец текста: куда дальше */
+.read-end { display: flex; flex-direction: column; gap: 12px; margin-top: var(--s-4, 24px); }
+.read-end-btns { gap: 10px; flex-wrap: wrap; }
+.read-end-btns .btn { flex: 1 1 auto; justify-content: center; }
+.read-end.chap-nav { flex-direction: row; }

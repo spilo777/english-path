@@ -11,7 +11,7 @@ import { useBookIndex, useCourse, useLessons, useLibrary, useTenses } from '../l
 import { tomb, update, useProgress } from '../lib/store';
 import { LEVEL_ORDER, type BookMeta, type CourseIndex, type Level, type Progress, type LessonText, type TextItem, type UserText } from '../lib/types';
 import { lsGet, lsSet } from './reader-core';
-import { CHANNELS } from '../lib/listen';
+import { channelsFor } from '../lib/listen';
 import './Library.css';
 
 const myLevel = (s: Progress, course?: CourseIndex): Level => (course && currentUnit(s, course)?.level) || 'A1';
@@ -88,7 +88,7 @@ function LibraryHome() {
         </Section>
       ) : null}
       <Section title={<><Icon name="headphones" /> Слушать</>} href="#/listen" sub="YouTube-каналы с понятной живой речью — от медленных диалогов до подкаста">
-        {CHANNELS.map((ch) => <ChannelCard key={ch.id} ch={ch} />)}
+        {channelsFor(lvl).map((ch) => <ChannelCard key={ch.id} ch={ch} />)}
       </Section>
       {adapted.length ? (
         <Section title={<><Icon name="books" /> Адаптированные книги</>} href="#/library/books" sub="Классика, пересказанная простым языком под ваш уровень">

@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const noHScroll = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+
 // Библиотека, чтение и книги: ключевые сценарии + нет ошибок в консоли
 function watchErrors(page: Page): string[] {
   const errors: string[] = [];
@@ -68,13 +70,18 @@ test('книга: главы, чтение главы, прогресс', async 
   expect(errors).toEqual([]);
 });
 
-test('слушать: три канала и переход из библиотеки', async ({ page }) => {
+test('слушать: каналы по уровням и переход из библиотеки', async ({ page }) => {
   const errors = watchErrors(page);
   await page.goto('#/library');
-  await expect(page.locator('.ls-card')).toHaveCount(3);
+  await expect(page.locator('.ls-card')).toHaveCount(16);
+  await expect(page.locator('.ls-card img.ch-ava').first()).toHaveAttribute('src', /yt3\.googleusercontent\.com/);
   await page.locator('.ls-card').first().click();
   await expect(page.locator('main .page-title')).toHaveText('Слушать');
+  await expect(page.locator('.ls-groups button')).toHaveCount(3);
   await expect(page.locator('.ls-ch')).toHaveCount(3);
+  await page.locator('.ls-groups button').nth(2).click();
+  await expect(page.locator('.ls-ch')).toHaveCount(8);
+  expect(await noHScroll(page)).toBe(true);
   expect(errors).toEqual([]);
 });
 

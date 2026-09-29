@@ -91,6 +91,22 @@ for (const id of ['a1-3', 'a2-4', 'b1-4']) {
   });
 }
 
+test('чтение в уроке: внизу — следующий текст и переход к практике', async ({ page }) => {
+  const errors = watchErrors(page);
+  await unlockUpTo(page, 'a1-3');
+  await page.goto('#/unit/a1-3/reading');
+  const n = await page.locator('.ut-texts .unit-row').count();
+  await page.locator('.ut-texts .unit-row').first().click();
+  for (let i = 0; i < n - 1; i++) {
+    await page.locator('.read-end .next-read').click();
+    await expect(page.locator('.read-end')).toBeVisible();
+  }
+  await page.locator('.read-end a.btn.primary', { hasText: 'Практика' }).click();
+  await expect(page).toHaveURL(/#\/unit\/a1-3\/practice$/);
+  await expect(page.locator('.steps a', { hasText: 'Чтение' }).locator('.ph-check')).toHaveCount(1);
+  expect(errors).toEqual([]);
+});
+
 test('закрытый и готовящийся урок', async ({ page }) => {
   const errors = watchErrors(page);
   await page.goto('#/unit/a1-5');

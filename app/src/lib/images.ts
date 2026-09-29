@@ -2,6 +2,8 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { DAY, getState, update } from './store';
 import { LIB_COMMONS, LIB_WIKI } from './images-map';
+import { paths, peekJSON } from './data';
+import type { BookMeta, TextItem } from './types';
 
 // ───────── обложки ─────────
 const COVER_KEY = 'ep.libimg.v3';
@@ -83,11 +85,27 @@ function need(id: string, wiki?: string, commons?: string) {
   if (wanted && !flushT) flushT = setTimeout(flush, 0);
 }
 
+// Обложки, подобранные при сборке (поле img в library.json и books/index.json) — есть сразу, без запросов
+let bakedFrom: [unknown, unknown] = [null, null];
+let baked: Record<string, string> = {};
+function bakedImg(id: string): string | undefined {
+  const lib = peekJSON<TextItem[]>(paths.library);
+  const bi = peekJSON<BookMeta[]>(paths.bookIndex);
+  if (bakedFrom[0] !== lib || bakedFrom[1] !== bi) {
+    bakedFrom = [lib, bi];
+    baked = {};
+    (lib || []).forEach((t) => { if (t.img) baked[t.id] = t.img; });
+    (bi || []).forEach((b) => { if (b.img) baked[b.id] = b.img; });
+  }
+  return baked[id];
+}
+
 /** Ссылка на обложку статьи/книги (или undefined, пока нет или не нашлась) */
-export function useCover(id: string, wikiTitle?: string, commons?: string): string | undefined {
+export function useCover(id: string, wikiTitle?: string, commons?: string, img?: string): string | undefined {
   useSyncExternalStore(subscribe, () => version, () => version);
-  useEffect(() => { need(id, wikiTitle, commons); }, [id, wikiTitle, commons]);
-  return covers[id];
+  const ready = img || bakedImg(id);
+  useEffect(() => { if (!ready) need(id, wikiTitle, commons); }, [id, wikiTitle, commons, ready]);
+  return ready || covers[id];
 }
 
 // ───────── картинка-ассоциация для карточки ─────────

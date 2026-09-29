@@ -26,6 +26,8 @@ export interface TextItem {
   kind?: 'dialogue' | string;
   /** обложка: статья английской Википедии (главное фото) или поиск в Wikimedia Commons */
   wiki?: string;
+  /** обложка, подобранная при сборке (build/covers.mjs) */
+  img?: string;
   commons?: string;
 }
 
@@ -79,7 +81,7 @@ export interface SyllabusBook { name: string; short: string; author: string; lev
 export interface SyllabusLesson { id: string; level: Level; title: string; red: number[]; blue: number[]; green: number[] }
 export interface Syllabus { books: Record<'red' | 'blue' | 'green', SyllabusBook>; lessons: SyllabusLesson[] }
 
-export interface BookMeta { id: string; title: string; author: string; level: Level; kind: 'adapted' | 'original'; wiki?: string; ru?: string; chapters: number; words: number }
+export interface BookMeta { id: string; title: string; author: string; level: Level; kind: 'adapted' | 'original'; wiki?: string; img?: string; ru?: string; chapters: number; words: number }
 export interface Book extends Omit<BookMeta, 'chapters'> { chapters: { title: string; text: string }[] }
 
 export interface TopicCat { id: string; title: string; tone: string }

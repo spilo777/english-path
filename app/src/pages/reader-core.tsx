@@ -197,7 +197,7 @@ export function ReaderView({ ctx }: { ctx: ReadCtx }) {
         </div>
       ) : lib ? (
         <div className="reader-head">
-          <Cover id={t.id} wiki={t.wiki} commons={t.commons} cls={'sm cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} />
+          <Cover id={t.id} wiki={t.wiki} commons={t.commons} img={t.img} cls={'sm cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} />
           <div className="reader-head-body">
             <div className="lib-meta"><span className="pill accent">{t.level}</span><span className="tiny muted">{CAT_ICON[t.cat || ''] ? <Icon name={CAT_ICON[t.cat || '']} /> : null} {t.cat} · {t.about} · {minsIn(t)} мин</span></div>
             <h1>{t.title}</h1>
@@ -223,22 +223,63 @@ export function ReaderView({ ctx }: { ctx: ReadCtx }) {
 
       <div ref={textRef} className={'card reader-text' + (isDlg ? ' dialog' : '')} onClick={onClick} onMouseUp={onSel} onTouchEnd={onSel}>{body}</div>
 
-      {book ? (
-        <div className="chap-nav">
-          {ch > 0 ? <a className="btn" href={`#/book/${book.id}/${ch - 1}`}><Icon name="caret-left" /> Назад</a> : <span />}
-          <a className="btn ghost" href={`#/book/${book.id}`}>Все главы</a>
-          {ch < nCh - 1 ? <a className="btn primary" href={`#/book/${book.id}/${ch + 1}`}>Следующая глава <Icon name="caret-right" /></a> : <span />}
-        </div>
-      ) : null}
 
       <p className="muted small reader-tip"><Icon name="hand-tap" /> Нажмите на слово — перевод и «+ В карточки». Кнопка «Всё предложение» в подсказке (или режим «Предложение» сверху) — перевод и озвучка целого предложения. Чтобы перевести фразу целиком, выделите несколько слов{hoverNone() ? ' (долгое нажатие и протянуть)' : ' мышкой'}.</p>
 
       {t.questions && t.questions.length ? <Quiz key={t.id} ctx={ctx} /> : null}
 
-      {nextT ? (
-        <a className="next-read" href={'#/read/' + nextT.id}><span className="muted small">Следующая статья {nextT.level}</span><b>{nextT.title} <Icon name="arrow-right" /></b></a>
-      ) : null}
+      <ReadEnd ctx={ctx} nextLib={nextT} />
     </Page>
+  );
+}
+
+/** Конец текста: куда дальше. Переход вперёд отмечает текст прочитанным — не нужно листать наверх */
+function ReadEnd({ ctx, nextLib }: { ctx: ReadCtx; nextLib?: TextItem }) {
+  const s = useProgress();
+  const { t, book, unit } = ctx;
+  const done = () => update((st) => markReadIn(st, ctx));
+  if (book) {
+    const ch = ctx.chapter || 0;
+    const n = book.chapters;
+    return (
+      <div className="read-end chap-nav">
+        {ch > 0 ? <a className="btn" href={`#/book/${book.id}/${ch - 1}`}><Icon name="caret-left" /> Назад</a> : <span />}
+        <a className="btn ghost" href={`#/book/${book.id}`}>Все главы</a>
+        {ch < n - 1
+          ? <a className="btn primary" href={`#/book/${book.id}/${ch + 1}`} onClick={done}>Следующая глава <Icon name="caret-right" /></a>
+          : <a className="btn primary" href={`#/book/${book.id}`} onClick={() => { done(); toast('Книга прочитана!'); }}>Закончить книгу <Icon name="check" /></a>}
+      </div>
+    );
+  }
+  if (unit) {
+    const i = unit.texts.findIndex((x) => x.id === t.id);
+    const next = unit.texts.slice(i + 1).find((x) => !s.textsRead[x.id]) || unit.texts.find((x) => x.id !== t.id && !s.textsRead[x.id]);
+    const finish = () => update((st) => { markReadIn(st, ctx); unitState(st, unit.id).steps.reading = true; });
+    return (
+      <div className="read-end">
+        {next ? (
+          <a className="next-read" href={'#/read/' + encodeURIComponent(next.id)} onClick={done}>
+            <span className="muted small">Следующий текст урока</span><b>{next.title} <Icon name="arrow-right" /></b>
+          </a>
+        ) : null}
+        <div className="row read-end-btns">
+          <a className="btn" href={`#/unit/${unit.id}/reading`} onClick={done}><Icon name="list-bullets" /> Все тексты</a>
+          {next
+            ? <a className="btn ghost" href={`#/unit/${unit.id}/practice`} onClick={finish}>Пропустить — к практике</a>
+            : <a className="btn primary" href={`#/unit/${unit.id}/practice`} onClick={finish}>Дальше: Практика <Icon name="arrow-right" /></a>}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="read-end">
+      {nextLib ? (
+        <a className="next-read" href={'#/read/' + nextLib.id} onClick={done}><span className="muted small">Следующая статья {nextLib.level}</span><b>{nextLib.title} <Icon name="arrow-right" /></b></a>
+      ) : null}
+      <div className="row read-end-btns">
+        <a className={'btn' + (nextLib ? '' : ' primary')} href="#/library" onClick={done}><Icon name="check" /> {s.textsRead[t.id] ? 'В библиотеку' : 'Прочитано — в библиотеку'}</a>
+      </div>
+    </div>
   );
 }
 

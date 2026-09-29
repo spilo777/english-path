@@ -25,3 +25,8 @@
   .carousel.ls-row { grid-auto-columns: 200px; }
   .ls-wtitle { font-size: 21px; }
 }
+.ls-groups { margin-top: 14px; }
+.ls-gsub { margin: 10px 0 0; }
+.seg.ls-groups { display: flex; max-width: 560px; }
+.seg.ls-groups button { flex: 1; white-space: nowrap; }
+@media (max-width: 760px) { .seg.ls-groups button { padding: 7px 6px; font-size: 13px; } }

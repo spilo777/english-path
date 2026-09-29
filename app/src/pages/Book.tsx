@@ -64,7 +64,7 @@ function BookCard({ meta, b, all }: { meta: BookMeta; b: BookT; all: BookMeta[] 
     <Page className="book-page">
       <BackLink href="#/library" />
       <div className="book-hero">
-        <Cover id={b.id} wiki={meta.wiki} cls={'poster-img book' + (orig ? ' orig' : '')} icon="book" />
+        <Cover id={b.id} wiki={meta.wiki} img={meta.img} cls={'poster-img book' + (orig ? ' orig' : '')} icon="book" />
         <div className="book-info">
           <div className="lib-meta"><span className="pill accent">{meta.level}</span><span className="pill">{orig ? 'Оригинал' : 'Адаптированная'}</span></div>
           <h1>{meta.title}</h1>

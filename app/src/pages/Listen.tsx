@@ -1,9 +1,14 @@
 // «Слушать»: YouTube-каналы для аудирования.
 // #/listen — каналы и их свежие видео; #/listen/<videoId> — просмотр на сайте с английскими субтитрами
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import type { PageProps } from '../app/App';
 import { BackLink, Icon, Loading, Page, toast } from '../components/ui';
 import { ChannelBanner } from '../components/ChannelArt';
+import { Seg } from '../components/Seg';
+import { currentUnit } from '../lib/course';
+import { useCourse } from '../lib/data';
+import type { Level } from '../lib/types';
+import { lsGet, lsSet } from './reader-core';
 import { ago, CHANNELS, findVideo, thumb, useFeed, type Channel, type Video } from '../lib/listen';
 import { ding } from '../lib/sfx';
 import { track, update, useProgress } from '../lib/store';
@@ -29,33 +34,50 @@ function VideoCard({ v, ch, watched }: { v: Video; ch: Channel; watched: boolean
   );
 }
 
+const GROUPS: [Level, string, string][] = [
+  ['A1', 'Начинающим', 'Медленная и очень чёткая речь, простые темы — с первых недель'],
+  ['A2', 'Средний', 'Разговорные фразы и повседневные темы в спокойном темпе'],
+  ['B1', 'Продвинутым', 'Живая речь носителей, подкасты, произношение и сленг'],
+];
+const groupOf = (c: Channel): Level => (c.levels[0] === 'A1' ? 'A1' : c.levels[0] === 'A2' ? 'A2' : 'B1');
+const groupFor = (lvl: Level): Level => (lvl === 'A1' ? 'A1' : lvl === 'A2' ? 'A2' : 'B1');
+
 function Channels() {
   const s = useProgress();
+  const { data: course } = useCourse();
   const feed = useFeed();
   const w = s.watched || {};
+  const mine = groupFor((course && currentUnit(s, course)?.level) || 'A1');
+  const [g, setG] = useState<Level | ''>(() => (lsGet('ep.listenGroup', '') as Level | '') || '');
+  const cur = g || mine;
+  const pick = (k: Level) => { setG(k); lsSet('ep.listenGroup', k); };
+  const list = CHANNELS.filter((c) => groupOf(c) === cur);
+  const info = GROUPS.find((x) => x[0] === cur);
   return (
     <Page className="ls-page">
       <BackLink href="#/library" label="Библиотека" />
       <h1 className="page-title">Слушать</h1>
-      <p className="page-sub">Живая английская речь с YouTube — от медленных диалогов до подкаста для продвинутых. 20–30 минут в день с английскими субтитрами дают столько же, сколько урок: мозг привыкает к звучанию и связкам слов.</p>
-      {CHANNELS.map((ch) => {
-        const list = feed ? feed[ch.id] || [] : null;
-        const seen = list ? list.filter((v) => w[v.id]).length : 0;
+      <p className="page-sub">{CHANNELS.length} лучших YouTube-каналов и подкастов для изучающих английский — от медленных уроков до живых разговоров носителей. 20–30 минут в день с английскими субтитрами дают столько же, сколько урок: мозг привыкает к звучанию и связкам слов.</p>
+      <Seg className="ls-groups" items={GROUPS.map(([k, t]) => [k, `${t} · ${CHANNELS.filter((c) => groupOf(c) === k).length}`] as [Level, string])} value={cur} onChange={pick} />
+      {info ? <p className="small muted ls-gsub">{info[2]}{cur === mine ? ' · подходит вашему уровню' : ''}</p> : null}
+      {list.map((ch) => {
+        const vids = feed ? feed[ch.id] || [] : null;
+        const seen = vids ? vids.filter((v) => w[v.id]).length : 0;
         return (
           <section key={ch.id} className="sec ls-ch" style={cv(ch)}>
             <div className="card ls-head">
               <ChannelBanner ch={ch} />
               <div className="ls-info">
-                <div className="row ls-name"><b>{ch.name}</b><span className="pill">{ch.levels[0]}–{ch.levels[1]}</span><span className="pill">{ch.accent}</span></div>
+                <div className="row ls-name"><b>{ch.name}</b><span className="pill">{ch.levels[0]}–{ch.levels[1]}</span><span className="pill">{ch.accent}</span>{ch.podcast ? <span className="pill"><Icon name="microphone" /> подкаст</span> : null}</div>
                 <p className="small">{ch.about}</p>
                 <p className="small muted"><Icon name="lightbulb" /> {ch.how}</p>
                 <a className="small ls-yt" href={'https://www.youtube.com/@' + ch.handle} target="_blank" rel="noopener">Канал на YouTube <Icon name="arrow-square-out" /></a>
               </div>
             </div>
-            {list === null ? <Loading what="Загружаю видео…" /> : !list.length ? <p className="muted small">Не удалось загрузить видео — проверьте интернет.</p> : (
+            {vids === null ? <Loading what="Загружаю видео…" /> : !vids.length ? <p className="muted small">Не удалось загрузить видео — проверьте интернет.</p> : (
               <>
-                {seen ? <p className="tiny muted ls-seen">Посмотрено {seen} из {list.length} последних</p> : null}
-                <div className="carousel ls-row">{list.map((v) => <VideoCard key={v.id} v={v} ch={ch} watched={!!w[v.id]} />)}</div>
+                {seen ? <p className="tiny muted ls-seen">Посмотрено {seen} из {vids.length} последних</p> : null}
+                <div className="carousel ls-row">{vids.map((v) => <VideoCard key={v.id} v={v} ch={ch} watched={!!w[v.id]} />)}</div>
               </>
             )}
           </section>
