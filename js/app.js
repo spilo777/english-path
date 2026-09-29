@@ -539,6 +539,74 @@
   }
 
   // ───────────── Юнит ─────────────
+  // ───────────── Грамматика по шагам: одна мысль → пример → сразу проверка ─────────────
+  // u.walk = [ { title, steps: [ { t:'idea', text, ex:[[en,ru]], lit?, rows?:[[a,b]], bad?, good?, tip?, opt? }, { t:'check', q, o, a, why, ru? } ] } ]
+  const walkState = (u) => { const s = unitState(u.id); s.walk = s.walk || { part: 0, step: 0, done: false }; return s.walk; };
+  function renderWalk(body, u, nextBtn, wireComplete) {
+    const s = unitState(u.id);
+    const w = walkState(u);
+    const parts = u.walk;
+    const total = parts.reduce((a, p) => a + p.steps.length, 0);
+    const doneSteps = () => parts.slice(0, w.part).reduce((a, p) => a + p.steps.length, 0) + w.step;
+    const stepHtml = (st, pi, si, active) => {
+      if (st.t === 'check') {
+        return `<div class="wk-step wk-check ${active ? 'active' : 'past'}" data-pi="${pi}" data-si="${si}">
+          <div class="wk-tag"><i class="ph ph-question"></i> Попробуйте</div>
+          <div class="wk-q">${esc(st.q).replace(/_{2,}/g, '<span class="blank">&nbsp;</span>')}${st.ru ? `<span class="wk-qru">${esc(st.ru)}</span>` : ''}</div>
+          <div class="mini-o">${st.o.map((o, i) => `<button class="qz-btn" data-i="${i}" ${active ? '' : 'disabled'}>${esc(o)}</button>`).join('')}</div>
+          <div class="mini-why"></div></div>`;
+      }
+      return `<div class="wk-step wk-idea ${active ? 'active' : 'past'} ${st.opt ? 'opt' : ''}" data-pi="${pi}" data-si="${si}">
+        ${st.opt ? '<div class="wk-tag muted"><i class="ph ph-star"></i> Редко встречается — можно пропустить</div>' : ''}
+        <div class="wk-text">${st.text}</div>
+        ${st.lit ? `<div class="wk-lit">${st.lit.map(([en, ru]) => `<span><b>${esc(en)}</b><i>${esc(ru)}</i></span>`).join('')}</div>` : ''}
+        ${st.ex && st.ex.length ? `<div class="wk-ex">${st.ex.map(([en, ru]) => `<div><span class="say">${esc(en)}</span><span class="wk-ru">${esc(ru)}</span></div>`).join('')}</div>` : ''}
+        ${st.rows ? `<table class="wk-rows">${st.rows.map((r) => `<tr>${r.map((c, i) => `<td>${i === 0 ? '<b>' + c + '</b>' : c}</td>`).join('')}</tr>`).join('')}</table>` : ''}
+        ${st.bad ? `<div class="g-bad">${st.bad}</div><div class="g-good">${st.good || ''}</div>` : ''}
+        ${st.tip ? `<div class="g-tip">${st.tip}</div>` : ''}
+        ${active ? `<div class="wk-actions"><button class="btn primary" id="wk-next">${si + 1 >= parts[pi].steps.length ? (pi + 1 >= parts.length ? 'Готово' : 'Дальше: ' + esc(parts[pi + 1].title)) : 'Понятно, дальше'} <i class="ph ph-arrow-right"></i></button></div>` : ''}
+      </div>`;
+    };
+    const draw = () => {
+      if (w.part >= parts.length) { w.done = true; s.steps.grammar = true; save(); }
+      const pct = Math.round((Math.min(doneSteps(), total) / total) * 100);
+      const partChips = parts.map((p, i) => `<button class="wk-part ${i === w.part ? 'on' : ''} ${i < w.part || w.done ? 'done' : ''}" data-part="${i}">${i < w.part || w.done ? '<i class="ph ph-check"></i>' : i + 1}<span>${esc(p.title)}</span></button>`).join('');
+      const cur = parts[w.part];
+      const shown = cur ? cur.steps.slice(0, w.step + 1).map((st, si) => stepHtml(st, w.part, si, si === w.step)).join('') : '';
+      body.innerHTML = `
+        <div class="wk-head"><div class="progress"><i style="width:${pct}%"></i></div><span class="tiny muted">${Math.min(doneSteps(), total)}/${total} шагов</span></div>
+        <div class="wk-parts">${partChips}</div>
+        ${w.done ? `<div class="card result"><div class="big"><i class="ph ph-confetti"></i></div><h2>Грамматика урока пройдена</h2><p class="muted">Ниже — шпаргалка по всему уроку. К ней можно вернуться в любой момент.</p>
+            <div class="row" style="justify-content:center"><button class="btn" id="wk-restart"><i class="ph ph-arrow-counter-clockwise"></i> Пройти заново</button>${nextBtn('grammar')}</div></div>
+          <details class="wk-cheat" open><summary><h3 style="display:inline">Шпаргалка</h3></summary><div class="stack lesson" style="margin-top:12px">${(u.grammar || []).map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}</div></details>`
+        : `<div class="wk-flow">${shown}</div>
+          ${(u.grammar || []).length ? `<details class="wk-cheat"><summary><i class="ph ph-list-magnifying-glass"></i> Шпаргалка по всему уроку (для тех, кто уже знает тему)</summary><div class="stack lesson" style="margin-top:12px">${u.grammar.map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}</div></details>` : ''}`}`;
+      wireSay(body); wireComplete();
+      const act = $('.wk-step.active', body); if (act && w.step > 0) act.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const advance = () => { w.step++; if (w.step >= cur.steps.length) { w.part++; w.step = 0; } save(); draw(); };
+      const nx = $('#wk-next', body); if (nx) nx.addEventListener('click', advance);
+      $$('.wk-part', body).forEach((b) => b.addEventListener('click', () => { const i = +b.dataset.part; if (i <= w.part || w.done) { w.part = i; w.step = 0; w.done = false; save(); draw(); } else toast('Сначала пройдите текущую часть'); }));
+      const rs = $('#wk-restart', body); if (rs) rs.addEventListener('click', () => { w.part = 0; w.step = 0; w.done = false; save(); draw(); });
+      const chk = $('.wk-check.active', body);
+      if (chk) {
+        const st = cur.steps[w.step];
+        $$('.qz-btn', chk).forEach((b) => b.addEventListener('click', () => {
+          if (chk.dataset.done) return; chk.dataset.done = 1;
+          const ok = +b.dataset.i === st.a;
+          $$('.qz-btn', chk).forEach((x, i) => { x.disabled = true; if (i === st.a) x.classList.add('right'); });
+          if (!ok) b.classList.add('wrong');
+          const why = $('.mini-why', chk); why.innerHTML = `<b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(st.why || '')}`; why.className = 'mini-why ' + (ok ? 'ok' : 'bad');
+          if (ok) speak(st.o[st.a].replace(/_/g, '')); track('exercises');
+          S.stats.mini = (S.stats.mini || 0) + 1; if (ok) S.stats.miniRight = (S.stats.miniRight || 0) + 1;
+          S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
+          chk.insertAdjacentHTML('beforeend', `<div class="wk-actions"><button class="btn primary" id="wk-next">${w.step + 1 >= cur.steps.length ? (w.part + 1 >= parts.length ? 'Готово' : 'Дальше: ' + esc(parts[w.part + 1].title)) : 'Дальше'} <i class="ph ph-arrow-right"></i></button></div>`);
+          $('#wk-next', chk).addEventListener('click', advance);
+          $('#wk-next', chk).focus({ preventScroll: true });
+        }));
+      }
+    };
+    draw();
+  }
   function renderUnit(id, tab) {
     const u = unitById(id);
     if (!u) return renderCourse();
@@ -568,6 +636,13 @@
       const wordsCard = wl.length ? `<div class="card words-mini"><div class="row" style="margin-bottom:10px"><h3 style="margin:0"><i class="ph ph-cards"></i> Слова этого урока</h3><span class="spacer"></span><a class="small" href="#/unit/${u.id}/words">Все ${wl.length} с примерами</a></div>
         <div class="wm-list">${wl.map((w, i) => `<button type="button" class="wm-chip ${i >= 12 ? 'more' : ''}" data-speak="${esc(w[0])}"><b>${esc(w[0])}</b> <span>${esc(w[1].split(/[,;]/)[0])}</span></button>`).join('')}${wl.length > 12 ? `<button type="button" class="wm-toggle">ещё ${wl.length - 12}</button>` : ''}</div>
         <p class="tiny muted" style="margin:10px 0 0">Нажмите на слово — прозвучит. Любое английское слово ниже тоже нажимается и показывает перевод, а <span class="lw nw">пунктиром</span> подчёркнуты слова, которых ещё нет в ваших карточках.</p></div>` : '';
+      if (u.walk && u.walk.length) {
+        body.innerHTML = `<div class="stack lesson">${wordsCard}<div id="wk"></div></div>`;
+        wireSay(body);
+        const wt0 = $('.wm-toggle', body); if (wt0) wt0.addEventListener('click', () => { $('.wm-list', body).classList.add('all'); wt0.remove(); });
+        renderWalk($('#wk', body), u, nextBtn, wireComplete);
+        return;
+      }
       body.innerHTML = `<div class="stack lesson">${wordsCard}${u.grammar.map((g) => `<div class="card"><h3>${esc(g.title)}</h3>${g.html}</div>`).join('')}
         <div class="row">${nextBtn('grammar')}</div></div>`;
       wireSay(body); wireComplete();
