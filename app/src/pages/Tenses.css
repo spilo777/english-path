@@ -1,0 +1,12 @@
+/* Времена: страница времени и движок вопросов (плитки, герой, формула — в ui.css) */
+.tense-how h3, .tense-formula h3 { margin-top: 0; }
+.tense-hero .th-body { min-width: 0; flex: 1; }
+.tense-hero .th-title h1 { margin: 6px 0 0; }
+.tense-seg { margin: 16px 0; }
+.tq-go { align-self: flex-start; }
+.tq-head { margin-bottom: 8px; }
+.tq-prog { margin-bottom: 18px; }
+.tq-opts { gap: 10px; margin-top: 16px; }
+.tq-next { margin-top: 14px; }
+.tq-next .btn { width: 100%; }
+.tq-actions { justify-content: center; }

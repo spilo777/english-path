@@ -1,7 +1,299 @@
-// Страница «Profile» — в разработке
+// Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
-import { Page, TopBar } from '../components/ui';
+import { AchCard } from '../components/AchCard';
+import { Avatar } from '../components/Avatar';
+import { Seg } from '../components/Seg';
+import { BackLink, Icon, Page, RoundBtn, TopBar, plural } from '../components/ui';
+import { ACH_LIST, deckStats, engagement, pctOf, pctReal, useAchCtx } from '../lib/achievements';
+import { Cloud, useCloud } from '../lib/cloud';
+import { mainUnits, passed } from '../lib/course';
+import { useCourse, useDeck } from '../lib/data';
+import { DAY, streak, useProgress } from '../lib/store';
+import { LEVELS, type Progress } from '../lib/types';
+import './Profile.css';
 
 export default function Profile({ params }: PageProps) {
-  return <Page><TopBar title="Profile" sub={'Раздел переносится на новую версию сайта · ' + params.join('/')} /></Page>;
+  if (params[0] === 'achievements') return <Achievements />;
+  if (params[0] === 'stats') return <Stats />;
+  return <ProfileHome />;
+}
+
+const dayKey = (x: Date) => x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+/** Выучено надолго: интервал 3+ недели */
+const learnedCards = (s: Progress) => Object.values(s.cards).filter((c) => c.state === 'review' && c.ivl >= 21).length;
+const MEDALS = ['#C9853E', '#A7B1BE', '#E3B23C', '#4F6AF0', '#9A55F0', '#E8456B'];
+const BackToProfile = () => <BackLink href="#/profile" label="Профиль" />;
+const cssVar = (name: string, v: string) => ({ [name]: v }) as unknown as CSSProperties;
+
+// ───────── профиль ─────────
+function ProfileHome() {
+  const s = useProgress();
+  const st = useCloud();
+  const ctx = useAchCtx();
+  const email = Cloud.enabled && st.user ? st.user.email || '' : '';
+  const e = engagement(s);
+  const learned = learnedCards(s) + Object.keys(s.known).length;
+  const days = Object.keys(s.activity).length;
+  const achN = Object.keys(s.ach).length;
+  const recent = ACH_LIST.filter((a) => s.ach[a.id]).sort((a, b) => s.ach[b.id] - s.ach[a.id]).slice(0, 3);
+  const medal = MEDALS[Math.min(5, Math.floor((e.lvl - 1) / 2))];
+  return (
+    <Page className="profile">
+      <TopBar title="Профиль" right={<RoundBtn href="#/settings" icon="gear-six" title="Настройки" />} />
+      <div className="duo">
+        <a className="prof-head" href="#/account">
+          <Avatar email={email} size="big" />
+          <div className="pf-grow">
+            <b className="acc-mail">{email || 'Гость'}</b>
+            <div className="small muted">
+              {email
+                ? (st.lastError ? <><Icon name="warning" /> Нет связи — прогресс отправится позже</> : <><Icon name="cloud-check" /> Прогресс сохранён в облаке</>)
+                : <><Icon name="cloud-slash" /> Войдите, чтобы прогресс был на всех устройствах</>}
+            </div>
+          </div>
+          <Icon name="caret-right" className="muted" />
+        </a>
+        <a className="league" href="#/achievements" style={cssVar('--m', medal)}>
+          <div className="league-medal"><Icon name="medal" fill /><b>{e.lvl}</b></div>
+          <div className="pf-grow">
+            <div className="eyebrow">Уровень {e.lvl}</div>
+            <div className="league-rank">{e.rank}</div>
+            <div className="progress pf-league-bar"><i style={{ width: (e.into / e.need) * 100 + '%' }} /></div>
+            <div className="tiny muted">{e.into} / {e.need} XP до уровня {e.lvl + 1} · всего {e.xp} XP</div>
+          </div>
+        </a>
+      </div>
+      <div className="tiles4">
+        <div className="tile t-orange"><Icon name="flame" fill /><b>{streak(s)}</b><span>дней подряд</span></div>
+        <div className="tile t-blue"><Icon name="calendar-check" fill /><b>{days}</b><span>{plural(days, 'день', 'дня', 'дней')} занятий</span></div>
+        <div className="tile t-green"><Icon name="seal-check" fill /><b>{learned}</b><span>слов выучено</span></div>
+        <div className="tile t-yellow"><Icon name="trophy" fill /><b>{achN}</b><span>наград из {ACH_LIST.length}</span></div>
+      </div>
+      <StreakCal s={s} />
+      {recent.length && ctx ? (
+        <section className="sec">
+          <div className="sec-head"><h2>Последние награды</h2><a className="see-all" href="#/achievements">См. все</a></div>
+          <div className="ach-list">{recent.map((a) => <AchCard key={a.id} a={a} ctx={ctx} />)}</div>
+        </section>
+      ) : null}
+      <div className="menu-list">
+        <a href="#/achievements"><span className="mi" style={cssVar('--c', '#E3A21A')}><Icon name="trophy" fill /></span><span>Достижения</span><em>{achN}/{ACH_LIST.length}</em><Icon name="caret-right" /></a>
+        <a href="#/stats"><span className="mi" style={cssVar('--c', '#4F6AF0')}><Icon name="chart-bar" fill /></span><span>Прогресс и статистика</span><Icon name="caret-right" /></a>
+        <a href="#/account"><span className="mi" style={cssVar('--c', '#1FA865')}><Icon name="cloud" fill /></span><span>{email ? 'Аккаунт и синхронизация' : 'Войти или создать аккаунт'}</span><Icon name="caret-right" /></a>
+        <a href="#/settings"><span className="mi" style={cssVar('--c', '#8E8E99')}><Icon name="gear-six" fill /></span><span>Настройки</span><Icon name="caret-right" /></a>
+      </div>
+    </Page>
+  );
+}
+
+/** Календарь текущего месяца: дни занятий, соседние соединены полосой */
+function StreakCal({ s }: { s: Progress }) {
+  const now = new Date(); const y = now.getFullYear(), m = now.getMonth();
+  const days = new Date(y, m + 1, 0).getDate();
+  const off = (new Date(y, m, 1).getDay() + 6) % 7;
+  const key = (d: number) => dayKey(new Date(y, m, d));
+  const cells: ReactNode[] = [];
+  for (let i = 0; i < off; i++) cells.push(<span key={'e' + i} />);
+  for (let d = 1; d <= days; d++) {
+    const on = !!s.activity[key(d)];
+    const prevOn = d > 1 && !!s.activity[key(d - 1)], nextOn = d < days && !!s.activity[key(d + 1)];
+    const cls = ['cal-d', on && 'on', on && prevOn && (off + d - 1) % 7 && 'jl', on && nextOn && (off + d) % 7 && 'jr', d === now.getDate() && 'today', d > now.getDate() && 'fut'].filter(Boolean).join(' ');
+    cells.push(<span key={d} className={cls}><b>{d}</b></span>);
+  }
+  const prefix = y + '-' + String(m + 1).padStart(2, '0');
+  const active = Object.keys(s.activity).filter((k) => k.startsWith(prefix)).length;
+  const month = now.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(/^./, (c) => c.toUpperCase());
+  return (
+    <div className="card cal-card">
+      <div className="row pf-cal-head">
+        <div><div className="goal-h pf-cal-month">{month}</div><div className="small muted">{active} {plural(active, 'день', 'дня', 'дней')} занятий в этом месяце</div></div>
+        <span className="spacer" />
+        <span className="streak-pill on big"><Icon name="flame" fill /><b>{streak(s)}</b></span>
+      </div>
+      <div className="cal-grid">{['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((d) => <em key={d}>{d}</em>)}{cells}</div>
+    </div>
+  );
+}
+
+// ───────── награды ─────────
+type AchFilter = 'all' | 'got' | 'todo';
+const readFilter = (): AchFilter => { try { const f = sessionStorage.getItem('achFilter'); return f === 'got' || f === 'todo' ? f : 'all'; } catch { return 'all'; } };
+
+function Achievements() {
+  const s = useProgress();
+  useCloud();
+  const c = useAchCtx();
+  const [filter, setFilter] = useState<AchFilter>(readFilter);
+  const all = ACH_LIST;
+  const got = all.filter((a) => s.ach[a.id]);
+  const e = engagement(s);
+  const rarest = got.slice().sort((a, b) => pctOf(a) - pctOf(b))[0];
+  const cats = [...new Set(all.map((a) => a.cat))];
+  const pass = (id: string) => filter === 'all' || (filter === 'got' ? !!s.ach[id] : !s.ach[id]);
+  const pick = (f: AchFilter) => { try { sessionStorage.setItem('achFilter', f); } catch { /* приватный режим */ } setFilter(f); };
+  return (
+    <Page className="profile">
+      <BackToProfile />
+      <h1 className="page-title">Награды</h1>
+      <div className="pf-grid2">
+        <div className="card">
+          <div className="eyebrow">Уровень вовлечённости</div>
+          <div className="row pf-eng">
+            <div className="pf-lvl">{e.lvl}</div>
+            <div className="pf-grow">
+              <b className="pf-rank">{e.rank}</b>
+              <div className="progress pf-mt8"><i style={{ width: (e.into / e.need) * 100 + '%' }} /></div>
+              <div className="tiny muted pf-mt4">{e.into} / {e.need} очков до уровня {e.lvl + 1} · всего {e.xp}</div>
+            </div>
+          </div>
+          <p className="tiny muted pf-note">Очки даются за каждое достижение: чем оно реже, тем больше очков.</p>
+        </div>
+        <div className="card">
+          <div className="eyebrow">Коллекция</div>
+          <b className="pf-big">{got.length}</b> <span className="muted">из {all.length}</span>
+          <div className="progress pf-my8"><i style={{ width: (got.length / all.length) * 100 + '%' }} /></div>
+          <div className="small muted">
+            {rarest ? <>Самое редкое: <Icon name={rarest.icon} fill /> <b>{rarest.title}</b> ({pctOf(rarest)}%)</> : 'Пока ни одного. Первое совсем близко!'}
+          </div>
+        </div>
+      </div>
+      <div className="row pf-filter">
+        <Seg<AchFilter> items={[['all', 'Все'], ['got', 'Получены'], ['todo', 'Впереди']]} value={filter} onChange={pick} />
+        <span className="spacer" />
+        <span className="tiny muted">{pctReal() ? 'Процент — реальная доля учеников сайта с этим достижением' : 'Процент — примерная доля учеников. Реальная статистика появится, когда учеников с аккаунтом станет 10+'}</span>
+      </div>
+      {!c ? <div className="empty">Загружаю…</div> : cats.map((cat) => {
+        const items = all.filter((a) => a.cat === cat && pass(a.id));
+        if (!items.length) return null;
+        const inCat = all.filter((a) => a.cat === cat);
+        return (
+          <div key={cat} className="pf-cat">
+            <div className="eyebrow pf-cat-h">{cat} · {inCat.filter((a) => s.ach[a.id]).length}/{inCat.length}</div>
+            <div className="ach-list">{items.map((a) => <AchCard key={a.id} a={a} ctx={c} />)}</div>
+          </div>
+        );
+      })}
+      {c && !all.some((a) => pass(a.id)) ? (
+        <div className="empty">{filter === 'got' ? 'Пока ни одного. Первое совсем близко!' : 'Все достижения получены!'}</div>
+      ) : null}
+    </Page>
+  );
+}
+
+// ───────── статистика ─────────
+interface DayBar { k: string; d: Date; v: number; a: { reviews: number; exercises: number; reads: number } }
+
+function Stats() {
+  const s = useProgress();
+  const { data: course } = useCourse();
+  const deck = useDeck();
+  const cards = Object.values(s.cards);
+  const learned = learnedCards(s);
+  const inProgress = cards.filter((c) => c.state !== 'new' && !(c.state === 'review' && c.ivl >= 21)).length;
+  const newN = cards.filter((c) => c.state === 'new').length;
+  const known = Object.keys(s.known).length;
+  const days: DayBar[] = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(Date.now() - i * DAY);
+    const k = dayKey(d);
+    const x = s.activity[k];
+    const a = { reviews: x?.reviews || 0, exercises: x?.exercises || 0, reads: x?.reads || 0 };
+    days.push({ k, d, a, v: a.reviews + a.exercises + a.reads * 10 });
+  }
+  const activeDays = Object.keys(s.activity).length;
+  const units = course ? mainUnits(course) : [];
+  const passedN = units.filter((u) => passed(s, u.id)).length;
+  const totalReviews = Object.values(s.activity).reduce((n, a) => n + (a.reviews || 0), 0);
+  const words = learned + known;
+  return (
+    <Page className="profile">
+      <BackToProfile />
+      <div className="pf-stats-head">
+        <h1 className="page-title">Прогресс</h1>
+        <div className="row pf-head-btns">
+          <a className="btn small" href="#/achievements"><Icon name="trophy" /> Достижения</a>
+          <a className="btn small" href="#/settings"><Icon name="gear-six" /> Настройки</a>
+        </div>
+      </div>
+      <div className="pf-grid3">
+        <div className="pf-stat"><div className="pf-chip"><Icon name="flame" /></div><b>{streak(s)}</b><span>дней подряд</span></div>
+        <div className="pf-stat"><div className="pf-chip"><Icon name="calendar-check" /></div><b>{activeDays}</b><span>дней занятий</span></div>
+        <div className="pf-stat"><div className="pf-chip"><Icon name="book-open" /></div><b>{course ? `${passedN}/${units.length}` : '…'}</b><span>юнитов пройдено</span></div>
+      </div>
+      <ActivityChart days={days} />
+      <div className="pf-grid2">
+        <div className="card">
+          <h3>Слова</h3>
+          <div className="pf-list">
+            <div><span>Выучено надолго <span className="muted small">(интервал 3+ недели)</span></span><b>{learned}</b></div>
+            <div><span>В процессе</span><b>{inProgress}</b></div>
+            <div><span>Новые, ещё не начаты</span><b>{newN}</b></div>
+            <div><span>Всего повторений</span><b>{totalReviews}</b></div>
+          </div>
+        </div>
+        <div className="card">
+          <h3>Путь до B2</h3>
+          <p className="muted small">Для B2 нужно около 4000 слов в активном запасе. Для комфортной игры в большинство игр хватает 2000–2500 (это B1).</p>
+          <div className="progress pf-b2"><i style={{ width: Math.min(100, (words / 4000) * 100) + '%' }} /></div>
+          <div className="small muted">{words} / 4000 слов выучено (включая отмеченные «знаю»)</div>
+          <hr className="pf-hr" />
+          <div className="eyebrow pf-mb8">Колоды слов</div>
+          {LEVELS.map((l) => {
+            const d = deck ? deckStats(s, deck, l) : null;
+            const n = d ? d.learned + d.known : 0;
+            return <LevelRow key={l} label={l} value={d ? n / Math.max(1, d.total) : 0} text={d ? `${n}/${d.total}` : '…'} />;
+          })}
+          <hr className="pf-hr" />
+          <div className="eyebrow pf-mb8">Юниты курса</div>
+          {(course ? course.levels : []).map((l) => {
+            const us = units.filter((u) => u.level === l.id);
+            const d = us.filter((u) => passed(s, u.id)).length;
+            return <LevelRow key={l.id} label={l.id} value={us.length ? d / us.length : 0} text={us.length ? `${d}/${us.length}` : 'скоро'} />;
+          })}
+        </div>
+      </div>
+    </Page>
+  );
+}
+
+function LevelRow({ label, value, text }: { label: string; value: number; text: string }) {
+  return (
+    <div className="pf-lrow small">
+      <span>{label}</span>
+      <div className="progress"><i style={{ width: Math.min(1, value) * 100 + '%' }} /></div>
+      <span className="muted tiny">{text}</span>
+    </div>
+  );
+}
+
+/** Столбики активности за 30 дней (CSS, без библиотек) с подсказкой при наведении/касании */
+function ActivityChart({ days }: { days: DayBar[] }) {
+  const [hover, setHover] = useState<number | null>(null);
+  const max = Math.max(1, ...days.map((d) => d.v));
+  const fmt = (d: Date) => d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  const h = hover != null ? days[hover] : null;
+  const total = days.reduce((n, d) => n + d.v, 0);
+  const active = days.filter((d) => d.v).length;
+  return (
+    <div className="card pf-act">
+      <div className="row pf-act-head">
+        <h3>Активность за 30 дней</h3>
+        <span className="spacer" />
+        <span className="tiny muted">{active} {plural(active, 'день', 'дня', 'дней')} · {total} очков</span>
+      </div>
+      <div className="pf-tip small" aria-live="polite">
+        {h ? <><b>{fmt(h.d)}</b> · {h.v ? `${h.a.reviews} карт. · ${h.a.exercises} упр. · ${h.a.reads} чт.` : 'нет занятий'}</> : <span className="muted">Карточки + упражнения + чтение × 10. Наведите на столбик</span>}
+      </div>
+      <div className="pf-bars" role="img" aria-label={`Активность за 30 дней: ${active} активных дней`} onMouseLeave={() => setHover(null)}>
+        {days.map((d, i) => (
+          <span key={d.k} className={'pf-bar' + (hover === i ? ' on' : '')} title={`${d.k}: ${d.v}`}
+            onMouseEnter={() => setHover(i)} onClick={() => setHover(i)}>
+            <i className={d.v ? '' : 'zero'} style={{ height: (d.v ? Math.max(6, (d.v / max) * 100) : 4) + '%' }} />
+          </span>
+        ))}
+      </div>
+      <div className="row pf-axis tiny muted"><span>{fmt(days[0].d)}</span><span className="spacer" /><span>сегодня</span></div>
+    </div>
+  );
 }
