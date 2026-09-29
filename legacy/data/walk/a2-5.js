@@ -127,7 +127,7 @@
     { title: 'Проверьте себя: типичные ошибки', steps: [
       { t: 'check', q: 'Скажите: «Завтра я встречаюсь с друзьями»', o: ['I meet my friends tomorrow.', 'I’m meeting my friends tomorrow.', 'I meeting my friends tomorrow.'], a: 1,
         why: 'Договорились → am + meeting, не форма «как всегда».' },
-      { t: 'check', q: 'Скажите: «Ты идёшь гулять сегодня вечером?»', o: ['Do you go out tonight?', 'Are you going out tonight?', 'You are going out tonight?'], a: 1,
+      { t: 'check', q: 'Скажите: «Ты идёшь гулять сегодня вечером?»', o: ['Do you go out tonight?', 'Are you going out tonight?', 'Are you go out tonight?'], a: 1,
         why: 'Вопрос о плане: are встаёт перед you, никакого do.' },
       { t: 'check', q: 'The film ___ at 9.', ru: 'Фильм начинается в 9. (по программе кино)', o: ['start', 'starts', 'is start'], a: 1,
         why: 'Программа → форма «как всегда», фильм — один → starts.' },

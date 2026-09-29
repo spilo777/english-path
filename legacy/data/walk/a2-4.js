@@ -65,7 +65,7 @@
         rows: [['1. Есть «когда»? (ago, yesterday, When…?)', '→ Past Simple'], ['2. Есть «до сих пор»? (ever, yet, since, today)', '→ have done'], ['3. Подсказок нет: сейчас или история?', 'сейчас → have done, история → Past Simple']] },
       { t: 'check', q: 'I ___ my room, and then I went to the gym.', ru: 'Я убрал комнату, а потом пошёл в спортзал.', o: ['have cleaned', 'cleaned', 'have clean'], a: 1,
         why: 'Рассказ по порядку (then I went) — это история → Past Simple.' },
-      { t: 'check', q: '___ Max? I need him right now.', ru: 'Ты не видел Макса? Он мне нужен прямо сейчас.', o: ['Have you seen', 'Did you see', 'You have seen'], a: 0,
+      { t: 'check', q: '___ Max? I need him right now.', ru: 'Ты не видел Макса? Он мне нужен прямо сейчас.', o: ['Have you seen', 'Have you saw', 'You have seen'], a: 0,
         why: 'Подсказок нет, важно, где он сейчас → Have you seen…?' },
       { t: 'idea', text: `Итог: не угадывайте — задайте три вопроса по порядку. Коротко всё сводится к этому:`,
         rows: [['есть точка в прошлом', 'Past Simple'], ['точки нет, важно «сейчас» или «до сих пор»', 'have / has + третья форма']] }
@@ -126,7 +126,7 @@
         why: 'in 2018 — есть «когда» → went. Have been — только без даты.' },
       { t: 'check', q: 'I ___ here for five years.', ru: 'Я живу здесь пять лет.', o: ['live', 'have lived', 'lived'], a: 1,
         why: 'Живу до сих пор + for → have lived. Русское «живу» тянет к live — это ловушка.' },
-      { t: 'check', q: '___ your homework yet?', ru: 'Ты уже сделал домашку?', o: ['Did you finish', 'Have you finished', 'Do you finish'], a: 1,
+      { t: 'check', q: '___ your homework yet?', ru: 'Ты уже сделал домашку?', o: ['Did you finished', 'Have you finished', 'Do you finish'], a: 1,
         why: 'yet — «уже?» в вопросе, время до сих пор → Have you finished.' },
       { t: 'check', q: 'I’ve had three coffees today, but yesterday I ___ only one.', ru: 'Сегодня я выпил три кофе, а вчера — только один.', o: ['have had', 'had', 'have'], a: 1,
         why: 'today идёт → have had; yesterday закончился → had.' },

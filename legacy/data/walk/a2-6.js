@@ -47,14 +47,14 @@
         why: 'Прогноз о будущем → will + pass.' },
       { t: 'idea', text: `«Думаю, что <b>не</b>…» по-английски говорят иначе: «не» переезжает в начало — <b>I don’t think</b> … will.`,
         lit: [['I', 'я'], ['don’t think', 'не думаю'], ['it', '(оно)'], ['will rain', 'будет дождь']],
-        bad: 'I think it won’t rain today.', good: 'I <b>don’t think</b> it <b>will</b> rain today.',
+        bad: 'I think it not will rain today.', good: 'I <b>don’t think</b> it <b>will</b> rain today.',
         tip: `По-английски говорят «Я не думаю, что будет дождь». Так звучит естественно.` },
-      { t: 'check', q: 'Скажите: «Думаю, Кейт не придёт»', o: ['I think Kate won’t come.', 'I don’t think Kate will come.', 'I don’t think Kate won’t come.'], a: 1,
+      { t: 'check', q: 'Скажите: «Думаю, Кейт не придёт»', o: ['I think Kate not will come.', 'I don’t think Kate will come.', 'I don’t think Kate won’t come.'], a: 1,
         why: '«Думаю, что не…» → I don’t think + will.' },
       { t: 'idea', text: `<b>probably</b> — «наверное». Если «да» — ставим после will. Если «нет» — перед won’t.`,
         rows: [['да', 'We’ll probably win.'], ['нет', 'I probably won’t come.']],
         ex: [['We’ll probably go out tonight.', 'Мы, наверное, пойдём куда-нибудь вечером.'], ['I probably won’t buy it.', 'Я, наверное, не куплю это.']] },
-      { t: 'check', q: 'We ___ finish the project on time.', ru: 'Мы, наверное, закончим проект вовремя.', o: ['probably will', 'will probably', 'probably'], a: 1,
+      { t: 'check', q: 'We ___ finish the project on time.', ru: 'Мы, наверное, закончим проект вовремя.', o: ['will probably to', 'will probably', 'probably'], a: 1,
         why: 'В «да»-фразе probably стоит после will.' },
       { t: 'idea', text: `Итог: думаю / уверен → will. «Думаю, что не» → I don’t think … will.`,
         rows: [['думаю, да', 'I think we’ll win.'], ['думаю, нет', 'I don’t think we’ll win.'], ['наверное', 'We’ll probably win.']] }
@@ -118,7 +118,7 @@
     // ───────────── 7. Типичные ошибки ─────────────
     { title: 'Типичные ошибки — проверьте себя', steps: [
       { t: 'idea', text: `Соберём места, где русскоговорящие ошибаются чаще всего. Не переживайте — пройдём их по одному.`,
-        rows: [['I will to help you.', 'I will help you.'], ['She wills be happy.', 'She will be happy.'], ['I think he won’t win.', 'I don’t think he will win.']] },
+        rows: [['I will to help you.', 'I will help you.'], ['She wills be happy.', 'She will be happy.'], ['I think he not will win.', 'I don’t think he will win.']] },
       { t: 'check', q: 'Скажите: «Я помогу тебе»', o: ['I will to help you.', 'I will help you.', 'I will helping you.'], a: 1,
         why: 'После will — простое слово-действие, без to.' },
       { t: 'check', q: 'Скажите: «Закрыть дверь?» (предлагаете сами)', o: ['Do I close the door?', 'Shall I close the door?', 'Will I close the door?'], a: 1,

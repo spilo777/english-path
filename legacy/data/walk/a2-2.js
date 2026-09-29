@@ -101,9 +101,9 @@
         why: 'just — между has и третьей формой; the bus → has.' },
       { t: 'idea', text: `«Уже» — <b>already</b>: случилось раньше, чем ждали. Место то же — между have и третьей формой.`,
         ex: [['It’s only nine, and Kate has already gone to bed.', 'Только девять, а Кейт уже легла.'], ['— This is Emma. — I know. We’ve already met.', '— Это Эмма. — Знаю, мы уже знакомы.'], ['Sorry, I’ve already watched it.', 'Извини, я уже посмотрел.']],
-        bad: 'I have finished already it. / She already has gone.', good: 'I have <b>already</b> finished it. / She has <b>already</b> gone.',
+        bad: 'I have finished already it. / She has gone already home.', good: 'I have <b>already</b> finished it. / She has <b>already</b> gone home.',
         tip: `just — как лента «1 минуту назад». already — «опа, уже!», быстрее, чем думали.` },
-      { t: 'check', q: 'Выберите правильный порядок: «Я уже закончил это»', o: ['I have finished already it.', 'I have already finished it.', 'I already have finished it.'], a: 1,
+      { t: 'check', q: 'Выберите правильный порядок: «Я уже закончил это»', o: ['I have finished already it.', 'I have already finished it.', 'I have already finish it.'], a: 1,
         why: 'already стоит между have и третьей формой.' },
       { t: 'idea', text: `Итог: just и already — в середине.`,
         rows: [['только что', 'have / has + just + третья форма'], ['уже', 'have / has + already + третья форма']] }
@@ -120,8 +120,8 @@
       { t: 'check', q: '— Have you paid the bill ___? — No, not yet.', ru: '— Ты уже оплатил счёт? — Нет, ещё нет.', o: ['already', 'yet', 'just'], a: 1,
         why: 'Обычный вопрос «уже?» → yet в конце.' },
       { t: 'idea', text: `yet бывает только с <b>не</b> или в <b>вопросе</b>, и только в конце. И обратите внимание: с yet здесь нужен have, а не did из A1.`,
-        bad: 'I didn’t decide yet. / Did you finish yet? / I haven’t yet finished.', good: 'I <b>haven’t decided</b> yet. / <b>Have</b> you <b>finished</b> yet? / I haven’t finished <b>yet</b>.' },
-      { t: 'check', q: 'Скажите: «Я ещё не решил»', o: ['I didn’t decide yet.', 'I haven’t decided yet.', 'I have decided yet.'], a: 1,
+        bad: 'I have decided yet. / I haven’t finished yet it.', good: 'I <b>haven’t</b> decided yet. / I haven’t finished it <b>yet</b>.' },
+      { t: 'check', q: 'Скажите: «Я ещё не решил»', o: ['I haven’t decide yet.', 'I haven’t decided yet.', 'I have decided yet.'], a: 1,
         why: '«Ещё не» к сейчас → haven’t + третья форма, yet в конце. Без not yet не ставим.' },
       { t: 'idea', text: `Итог: yet — в конце, только с «не» или в вопросе.`,
         rows: [['ещё не', 'I haven’t finished yet.'], ['уже?', 'Have you finished yet?'], ['ещё нет', 'Not yet.']] }

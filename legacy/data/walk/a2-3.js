@@ -13,7 +13,7 @@
         why: 'Началось в прошлом и длится до сих пор → have lived.' },
       { t: 'idea', text: `Второй такой случай — <b>опыт</b>: было ли это хоть раз в жизни. Жизнь ещё не закончилась — значит, тоже have + третья форма.`,
         ex: [['Have you ever been to Japan?', 'Ты когда-нибудь был в Японии?'], ['I have never played Dota.', 'Я никогда не играл в Dota.']] },
-      { t: 'check', q: 'Скажите: «Я никогда не играл в шахматы онлайн»', o: ['I never played chess online.', 'I have never played chess online.', 'I don’t never play chess online.'], a: 1,
+      { t: 'check', q: 'Скажите: «Я никогда не играл в шахматы онлайн»', o: ['I have never play chess online.', 'I have never played chess online.', 'I don’t never play chess online.'], a: 1,
         why: 'Опыт за всю жизнь → have + never + played.' },
       { t: 'idea', text: `Итог: время ещё открыто (вся жизнь или «уже столько-то») → have / has + третья форма.`,
         rows: [['опыт в жизни', 'Have you ever been to Japan?'], ['сколько уже длится', 'I have lived here for three years.']] }
@@ -31,7 +31,7 @@
         lit: [['I', 'я'], ['have', '(have)'], ['never', 'никогда (не)'], ['been', 'был'], ['to Paris', 'в Париже']],
         bad: 'I haven’t never been to Paris.', good: 'I have <b>never</b> been to Paris.',
         tip: `Русское «никогда не» — два отрицания. Английское never — одно слово на всё. Либо never, либо haven’t ever — но не вместе.` },
-      { t: 'check', q: 'Скажите: «Я никогда не летал на самолёте»', o: ['I haven’t never flown on a plane.', 'I have never flown on a plane.', 'I never have flown on a plane.'], a: 1,
+      { t: 'check', q: 'Скажите: «Я никогда не летал на самолёте»', o: ['I haven’t never flown on a plane.', 'I have never flown on a plane.', 'I have never fly on a plane.'], a: 1,
         why: 'Одно отрицание: have + never + flown.' },
       { t: 'idea', text: `«Сколько раз» — тоже опыт: <b>once</b> (один раз), <b>twice</b> (два раза), <b>three times</b>, <b>many times</b>. Слово <b>before</b> — «раньше».`,
         ex: [['I’ve finished it twice.', 'Я прошёл её два раза.'], ['How many times have you watched Friends?', 'Сколько раз ты смотрел «Друзей»?'], ['I’ve seen this actor before.', 'Я видел этого актёра раньше.']] },

@@ -114,7 +114,7 @@
     // ───────────── 7. Все три формы разные ─────────────
     { title: 'Где все три формы разные', steps: [
       { t: 'idea', text: `У этих слов третья форма своя, и часто она кончается на <b>-n / -en</b>. Учите их группами — они похожи.`,
-        rows: [['speak — spoke — spoken', 'break, choose, steal, forget, wake, drive, ride, write'], ['know — knew — known', 'grow, throw, fly, draw, show, wear'], ['take — took — taken', 'give, see, eat, fall']],
+        rows: [['speak — spoke — spoken', 'break, choose, steal, forget, wake, drive, ride, write, wear'], ['know — knew — known', 'grow, throw, fly, draw'], ['take — took — taken', 'give, see, eat, fall']],
         tip: `Например: broke — broken, wrote — written, drew — drawn, fell — fallen.` },
       { t: 'check', q: 'Someone has ___ my password!', ru: 'Кто-то украл мой пароль!', o: ['stole', 'stolen', 'steal'], a: 1,
         why: 'has + третья форма: steal — stole — stolen.' },
@@ -133,7 +133,7 @@
     { title: 'Проверьте себя: весь урок', steps: [
       { t: 'check', q: 'Did you ___ to live here?', ru: 'Ты раньше жил здесь?', o: ['used', 'use', 'using'], a: 1,
         why: 'После did — use без d.' },
-      { t: 'check', q: 'Скажите: «Ты любишь суши?»', o: ['Are you like sushi?', 'Do you like sushi?', 'You like sushi?'], a: 1,
+      { t: 'check', q: 'Скажите: «Ты любишь суши?»', o: ['Are you like sushi?', 'Do you like sushi?', 'Do you likes sushi?'], a: 1,
         why: 'like — обычное слово-действие, вопрос через do.' },
       { t: 'check', q: 'I have ___ this series.', ru: 'Я смотрел этот сериал.', o: ['saw', 'seen', 'see'], a: 1,
         why: 'После have — третья форма: see — saw — seen.' },

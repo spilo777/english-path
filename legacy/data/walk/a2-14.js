@@ -105,7 +105,7 @@
       { t: 'idea', text: `Четвёртое — транспорт. В машину и такси «залезаем внутрь»: <b>get in / get out of</b>. На автобус, поезд, самолёт «заходим как на платформу»: <b>get on / get off</b>. А просто «поехал на автобусе» — got the bus.`,
         rows: [['машина, такси', 'get in — сесть', 'get out of — выйти'], ['автобус, поезд, самолёт', 'get on — сесть', 'get off — выйти']],
         bad: 'I got off the car.', good: 'I got <b>out of</b> the car.' },
-      { t: 'check', q: 'We got ___ the train in Tver.', ru: 'Мы вышли из поезда в Твери.', o: ['out', 'off', 'out of'], a: 1,
+      { t: 'check', q: 'We got ___ the train in Tver.', ru: 'Мы вышли из поезда в Твери.', o: ['out', 'off', 'from'], a: 1,
         why: 'Поезд → get off (выйти).' },
       { t: 'idea', text: `Итог: get = «было не так — стало так».`,
         rows: [['get + вещь', 'получить, купить: get a message'], ['get + описание', 'стать: get hungry, get lost'], ['get to + место / get home', 'добраться; in/out of — машина, on/off — автобус']] }
