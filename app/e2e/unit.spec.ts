@@ -98,7 +98,9 @@ test('чтение в уроке: внизу — следующий текст �
   const n = await page.locator('.ut-texts .unit-row').count();
   await page.locator('.ut-texts .unit-row').first().click();
   for (let i = 0; i < n - 1; i++) {
+    const url = page.url();
     await page.locator('.read-end .next-read').click();
+    await expect(page).not.toHaveURL(url);
     await expect(page.locator('.read-end')).toBeVisible();
   }
   await page.locator('.read-end a.btn.primary', { hasText: 'Практика' }).click();
