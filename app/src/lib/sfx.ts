@@ -7,19 +7,33 @@ function audioCtx(): AudioContext | null {
     const Ctor = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!Ctor) return null;
     actx = actx || new Ctor();
-    if (actx.state === 'suspended') void actx.resume();
+    // iOS переводит звук в 'interrupted' после озвучки/звонка — будим из любого состояния, кроме 'running'
+    if (actx.state !== 'running') void actx.resume().catch(() => undefined);
     return actx;
   } catch { return null; }
 }
-// iOS: контекст нужно создать/разбудить в ответ на касание
-if (typeof document !== 'undefined') {
-  document.addEventListener('touchend', audioCtx, { once: true, capture: true });
-  document.addEventListener('click', audioCtx, { once: true, capture: true });
+// iOS: звуки сайта как у медиа — играют и при беззвучном режиме (как озвучка слов)
+try {
+  const nav = navigator as unknown as { audioSession?: { type: string } };
+  if (nav.audioSession) nav.audioSession.type = 'playback';
+} catch { /* старые браузеры */ }
+// будим звук на каждом касании, пока он не заработает (не один раз: iOS может снова его приостановить)
+function unlock() {
+  const ctx = audioCtx();
+  if (!ctx || ctx.state === 'running') return;
+  try { const src = ctx.createBufferSource(); src.buffer = ctx.createBuffer(1, 1, 22050); src.connect(ctx.destination); src.start(0); } catch { /* ничего */ }
 }
+if (typeof document !== 'undefined') ['touchend', 'click', 'keydown'].forEach((ev) => document.addEventListener(ev, unlock, { capture: true, passive: true }));
 
 export function ding(kind: 'ok' | 'bad' | 'done') {
   if (getState().settings.sfx === false) return;
   const ctx = audioCtx(); if (!ctx) return;
+  // звук ещё просыпается — сыграть, как только проснётся
+  if (ctx.state !== 'running') { void ctx.resume().then(() => play(ctx, kind)).catch(() => undefined); return; }
+  play(ctx, kind);
+}
+
+function play(ctx: AudioContext, kind: 'ok' | 'bad' | 'done') {
   const t0 = ctx.currentTime;
   const tone = (f: number, at: number, dur: number, vol: number, type: OscillatorType = 'sine') => {
     const o = ctx.createOscillator(), g = ctx.createGain();
