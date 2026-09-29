@@ -1,10 +1,10 @@
 // Повторение карточек: #/review (все карточки) и #/review/topic/<id> (одна коллекция)
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
-import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar } from '../components/ui';
+import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar, toast } from '../components/ui';
 import { useDeck, useTopics } from '../lib/data';
 import { addCard, countNew, dueCards, newLeftToday, schedule, takeNew } from '../lib/srs';
-import { getState, track, update, useProgress } from '../lib/store';
+import { getState, tomb, track, update, useProgress } from '../lib/store';
 import type { DeckWord, Settings, TopicCol } from '../lib/types';
 import { exMark, wid } from './cards-util';
 import { FlashCard, prefetchCard, type Grade, type Side } from './review-card';
@@ -94,6 +94,20 @@ function Session({ deck, tc }: { deck: DeckWord[]; tc?: TopicCol }) {
     next();
   };
 
+  // «Уже знаю»: слово — в выученные, из карточек убираем, на его место в сессию — следующее новое слово
+  const onKnown = () => {
+    if (!x || !head) return;
+    const id = head.id;
+    x.queue.shift();
+    update((st) => {
+      st.known[id] = Date.now(); delete st.cards[id]; tomb(st, 'card:' + id);
+      const more = takeNew(st, deck, 1).filter((k) => !x.queue.includes(k));
+      x.queue.push(...more);
+    });
+    toast('Отмечено как выученное');
+    next();
+  };
+
   const side: Side = useMemo(() => {
     const mode = getState().settings.cardMode;
     return mode === 'mix' ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en') : mode;
@@ -115,7 +129,7 @@ function Session({ deck, tc }: { deck: DeckWord[]; tc?: TopicCol }) {
       </div>
     );
   } else {
-    body = <FlashCard key={turn} c={head} pos={byId.get(head.id)?.pos} side={side} onGrade={onGrade} />;
+    body = <FlashCard key={turn} c={head} pos={byId.get(head.id)?.pos} side={side} onGrade={onGrade} onKnown={onKnown} />;
   }
 
   return (

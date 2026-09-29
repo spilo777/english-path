@@ -70,3 +70,20 @@ test('повторение: несколько карточек и итог', as
   await expect(page.locator('.now-card')).toContainText('На сегодня всё повторено');
   expect(errors).toEqual([]);
 });
+
+test('«Уже знаю это слово» на любой карточке: в выученные, дальше следующее', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('#/review');
+  const front = page.locator('.fc .front');
+  await expect(front).toBeVisible();
+  const first = (await front.innerText()).trim();
+  await page.getByRole('button', { name: 'Уже знаю это слово' }).click();
+  await expect(front).not.toHaveText(first);
+  const s = await page.evaluate(() => JSON.parse(localStorage.getItem('englishpath.v1') || '{}'));
+  expect(s.known[first]).toBeTruthy();
+  expect(s.cards[first]).toBeUndefined();
+  // кнопка есть и после «Показать ответ»
+  await page.locator('.fc-show').click();
+  await expect(page.getByRole('button', { name: 'Уже знаю это слово' })).toBeVisible();
+  expect(errors).toEqual([]);
+});

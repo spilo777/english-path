@@ -76,3 +76,5 @@
   .fc .back { margin-top: 10px; padding-top: 10px; font-size: 19px; }
   .grades .btn { min-height: 46px; }
 }
+.fc-known { display: flex; margin: 12px auto 0; color: var(--muted); }
+.fc-known:hover { color: var(--ok); }

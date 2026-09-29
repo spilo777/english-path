@@ -40,10 +40,11 @@ interface Props {
   c: Card;
   pos?: string;
   side: Side;
+  onKnown: () => void;
   onGrade: (g: Grade, side: Side) => void;
 }
 
-export function FlashCard({ c, pos, side: m, onGrade }: Props) {
+export function FlashCard({ c, pos, side: m, onGrade, onKnown }: Props) {
   const id = c.id;
   const [shown, setShown] = useState(false);
   const graded = useRef(false);
@@ -171,6 +172,7 @@ export function FlashCard({ c, pos, side: m, onGrade }: Props) {
             </p>
           </>
         )}
+        <button type="button" className="btn ghost small fc-known" onClick={onKnown}><Icon name="check-circle" /> Уже знаю это слово</button>
       </div>
     </>
   );
