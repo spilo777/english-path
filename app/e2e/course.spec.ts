@@ -52,14 +52,13 @@ test('курс: уровни сворачиваются, пройденные и
   expect(errors).toEqual([]);
 });
 
-test('по учебнику: переключение книг', async ({ page }) => {
+test('«По учебнику» объединён с «Уроками»: старая ссылка ведёт в курс', async ({ page }) => {
   const errors = watch(page);
   await page.goto('#/books/red');
   await page.reload();
-  await expect(page.locator('.bm-row.done').first()).toBeVisible();
-  await page.locator('.wl-seg a').nth(2).click();
-  await expect(page).toHaveURL(/#\/books\/green/);
-  await expect(page.locator('.book-head')).toBeVisible();
+  await expect(page.locator('main .page-title')).toHaveText('Курс');
+  await expect(page.locator('.tabs a')).toHaveCount(2);
+  await expect(page.locator('.tabs a').first()).toContainText('Уроки');
   expect(errors).toEqual([]);
 });
 
