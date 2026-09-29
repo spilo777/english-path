@@ -1,0 +1,55 @@
+/* Дизайн-токены: цвета, радиусы, тени, отступы. Тёмная тема — через prefers-color-scheme. */
+:root {
+  --bg: #FBF7F3;
+  --surface: #ffffff;
+  --surface-2: #F5F0EA;
+  --surface-3: #ECE5DD;
+  --line: rgba(60, 40, 20, .07);
+  --line-strong: rgba(60, 40, 20, .13);
+  --text: #1B1B1F;
+  --text-2: #3d3d4a;
+  --muted: #86817B;
+
+  --accent: #4F6AF0;
+  --accent-soft: #E9EDFF;
+  --accent-text: #3B55DC;
+  --grad: linear-gradient(135deg, #4F6AF0 0%, #6D86FF 100%);
+  --ok: #16a36a;
+  --ok-soft: #e4f7ee;
+  --bad: #e0453c;
+  --bad-soft: #fdecea;
+  --warn: #c7861a;
+  --warn-soft: #fdf3e0;
+  --flame: #FF7A2F;
+
+  --pastel-0: #E7ECFF; --pastel-1: #E2F5EA; --pastel-2: #FFF0D9; --pastel-3: #FDE4EC; --pastel-4: #EFE6FF; --pastel-5: #DFF2FA;
+  --r1: #4F6AF0; --r2: #FF8A3D; --r3: #22B573;
+  --t-common: #8e8e99; --t-uncommon: #1fa865; --t-rare: #2f7cf0; --t-epic: #9a55f0; --t-legend: #e3a21a;
+
+  --radius: 22px; --radius-md: 16px; --radius-sm: 12px;
+  --shadow-sm: 0 1px 2px rgba(60, 40, 20, .05);
+  --shadow: 0 1px 2px rgba(60, 40, 20, .04), 0 8px 24px -10px rgba(60, 40, 20, .10);
+  --shadow-lg: 0 2px 4px rgba(60, 40, 20, .04), 0 24px 48px -18px rgba(60, 40, 20, .22);
+
+  /* ритм отступов */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --s-block: var(--s-4); --s-section: var(--s-6);
+
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121214; --surface: #1C1C21; --surface-2: #24242A; --surface-3: #2E2E35;
+    --line: rgba(255, 255, 255, .07); --line-strong: rgba(255, 255, 255, .13);
+    --text: #f2f2f7; --text-2: #c9c9d4; --muted: #8d8d9b;
+    --accent: #7088FF; --accent-soft: #1F2647; --accent-text: #A3B3FF;
+    --ok: #3fd18e; --ok-soft: #10281e; --bad: #ff6b61; --bad-soft: #321614; --warn: #f0b457; --warn-soft: #2e2413;
+    --pastel-0: #1F2647; --pastel-1: #16302A; --pastel-2: #33291A; --pastel-3: #3A2029; --pastel-4: #2A2144; --pastel-5: #172E38;
+    --r1: #7088FF; --r2: #FF9A55; --r3: #3FD18E;
+    --shadow-sm: none; --shadow: 0 0 0 1px rgba(255,255,255,.02), 0 12px 32px -12px rgba(0,0,0,.6); --shadow-lg: 0 24px 60px -20px rgba(0,0,0,.8);
+    color-scheme: dark;
+  }
+}
+@media (max-width: 760px) { :root { --s-section: 28px; --s-block: 14px; } }
