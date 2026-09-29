@@ -1,0 +1,171 @@
+window.BOOKS = (window.BOOKS || []).concat([
+  {
+    id: 'bk-a2-canterville', title: 'The Canterville Ghost', author: 'Oscar Wilde', level: 'A2', kind: 'adapted',
+    wiki: 'The Canterville Ghost',
+    ru: 'Американская семья покупает английский замок с привидением — и привидению становится страшнее, чем им',
+    chapters: [
+      { title: 'Chapter 1. A House with a Ghost', text: `Mr Hiram B. Otis was an American. He worked for his country in London, and he wanted to buy an old English house. He liked a big house called Canterville Chase, so he went to see the owner, Lord Canterville.
+
+Lord Canterville was an honest man. “I must tell you something,” he said. “There is a ghost in the house. It lives there. My family saw it many times. My great-aunt saw two skeleton hands on her shoulders one evening, and she was never well again after that.”
+
+Mr Otis smiled. “My Lord,” he said, “I come from a modern country. We have everything in America. If there was a real ghost in Europe, somebody in America was going to buy it and put it in a museum.”
+
+“The ghost is real,” said Lord Canterville. “It always appears before a death in our family.”
+
+“Doctors appear before a death too,” answered Mr Otis. “There are no ghosts, sir. Nature does not change for the English lords.”
+
+So Mr Otis bought the house, and the ghost came with it.
+
+The Otis family was a large one. Mrs Otis was a pretty woman with good health. People said she was very English in many ways, but she had a strong American voice. Their eldest son was called Washington. He danced better than anyone in London. Then there was Virginia. She was fifteen, and she was small and lovely, with big blue eyes. She rode a horse faster than most men. The last two children were twin boys. Everybody called them “the Stars and Stripes” because they were never quiet. They were the noisiest boys in England.
+
+At the end of summer, the family travelled to Canterville Chase. It was a beautiful evening. But when they came near the house, the sky suddenly became dark, and big black birds flew over their heads.` },
+      { title: 'Chapter 2. The Red Stain', text: `An old woman in a black dress was waiting at the door. This was Mrs Umney, the housekeeper. “Welcome to Canterville Chase,” she said in a quiet voice.
+
+She took the family into the library for tea. It was a long, dark room with old wooden walls and a big coloured window. While they were drinking their tea, Mrs Otis looked down at the floor. There was a dark red stain near the fireplace.
+
+“Oh dear,” she said. “Something is dirty here. Mrs Umney, please clean it.”
+
+“It is blood, madam,” said the old woman. “It is the blood of Lady Eleanore de Canterville. Her husband, Sir Simon de Canterville, killed her on that spot in 1575. Nine years later, Sir Simon disappeared, and nobody ever found his body. But his ghost still walks in this house. The stain is always there. Nobody can remove it.”
+
+“Pinkerton’s Champion Stain Remover can clean anything!” said Washington. He took a small black stick out of his pocket and rubbed the floor with it. In a minute the stain was gone.
+
+“I knew it,” he said happily. “Pinkerton is the best!”
+
+At that moment there was a terrible flash of lightning and a loud crash of thunder. The whole room shook, and Mrs Umney fell to the floor in a faint.
+
+“What a bad climate!” said Mr Otis calmly. “There are too many people in this old country, so there is not enough good weather for everybody.”
+
+Mrs Umney opened her eyes. “Please be careful, sir,” she said. “I saw terrible things in this house.”
+
+The next morning the family came down to breakfast. The red stain was back on the library floor.
+
+“It is not the Paragon Detergent,” said Washington. “I tried it on many things. It must be the ghost.” He cleaned the stain again. The next morning it was there again.` },
+      { title: 'Chapter 3. The Ghost Meets the Family', text: `Now the family was interested. Mr Otis locked the library door every night and took the key upstairs. But every morning the stain was there again.
+
+That night, at one o’clock, Mr Otis woke up. He heard a strange noise in the corridor. It sounded like old metal chains. He got up, put on his slippers, and took a small bottle from his bag. Then he opened the door.
+
+In the moonlight stood an old man. His eyes were red like fire, and his long grey hair fell over his dirty old clothes. Heavy chains hung from his hands and feet.
+
+“My dear sir,” said Mr Otis politely, “your chains are very noisy. Please use this. It is Tammany Rising Sun Lubricator. It is excellent for old metal. I am going to leave the bottle here on the table, and I can give you more if you need it.” Then he went back to bed.
+
+For a moment the ghost did not move. He was very angry. Then he threw the bottle on the floor and ran along the corridor. He made a terrible green light and a deep, low cry. But at the top of the stairs a door opened, and the twins came out. A big pillow flew past his head!
+
+The ghost quickly disappeared through the wall.
+
+In his secret room he sat down and thought. He was a ghost for three hundred years, and nobody ever laughed at him before. He remembered his great successes. He frightened a duchess in her diamonds. He made a cook scream for a week. He laughed so terribly behind a young lord that the man never slept again. He was the most famous ghost in England!
+
+“And now,” he said, “these modern Americans offer me oil for my chains and throw pillows at my head! I am going to have my revenge.”` },
+      { title: 'Chapter 4. Bad Nights for Sir Simon', text: `For the next few days the ghost stayed in his room. But every morning the stain in the library was back, and every morning it was a different colour. One day it was dull red, then it was bright red, then purple. One morning it was bright green!
+
+“How very strange,” said Mrs Otis. The twins made bets on the colour at breakfast. Only little Virginia did not laugh. She looked sad, and nobody knew why.
+
+On Sunday night the family heard a terrible crash in the hall. They ran downstairs. An old suit of armour lay on the floor, and the Canterville ghost sat next to it. He was rubbing his knees with a look of pain on his face. He wanted to put on the armour and walk in it, but it was too heavy for him now.
+
+The twins shot little balls at him with their toy guns. Mr Otis pointed his gun at him and said, “Hands up!” The ghost jumped up with an angry scream and flew through them like a cold mist. At the top of the stairs he stopped and began his most famous laugh. It was a laugh that once turned a lord’s hair white in a night.
+
+A door opened, and Mrs Otis came out in her blue dressing gown.
+
+“I am afraid you are not well,” she said kindly. “I brought you a bottle of Dr Dobell’s medicine. It is very good for stomach problems.”
+
+The ghost looked at her with great anger. He wanted to turn into a big black dog, but he heard the twins coming, so he just disappeared with a sad, quiet sound.
+
+In his room he felt very ill. He stayed in bed for days. He only went out to repair the blood stain.` },
+      { title: 'Chapter 5. The Other Ghost', text: `After some time the ghost felt better. He decided to frighten the twins. He planned to go into their bedroom and put his cold hand on their faces. For this big night he chose his best costume, “Reckless Rupert, or the Headless Earl”. It took him three hours to get ready.
+
+At a quarter past two he went out. The house was quiet. He moved slowly along the corridor with a smile on his face. He was going to be terrible!
+
+But when he turned the corner, he stopped and screamed. In front of him stood a horrible ghost! It was white and very big. Its head was round and bald, and its face had a huge, stupid smile. A strange light came out of its eyes and mouth. On its chest there was a paper with old words on it.
+
+Sir Simon never saw a ghost before. He was so frightened that he ran back to his room as fast as he could. On the way he dropped his long knife into the boots of Mr Otis.
+
+In the morning he felt braver. “Two ghosts are stronger than one,” he thought. “Perhaps my new friend can help me with those twins.” So he went back to the corner.
+
+But the other ghost was not a ghost now. Its light was out, and it was lying on the floor. Sir Simon took it in his arms, and the head fell off. It was a big vegetable! The white body was only a bed sheet, and there was a kitchen brush and a knife on the floor. He read the paper on the chest:
+
+YE OTIS GHOSTE.
+Ye Onlie True and Originale Spook.
+Beware of Ye Imitationes.
+
+The twins made it! Sir Simon was angrier than ever. He shook his fist in the air and made a terrible promise. But in the morning he stayed in his room again.` },
+      { title: 'Chapter 6. A Tired Ghost', text: `For five days the ghost did not leave his room. He felt old and tired. He even stopped repairing the blood stain. “If the Otis family does not want it,” he thought, “they do not deserve it.”
+
+But he was a ghost, and a ghost has duties. Every Saturday he still walked along the corridors between midnight and three o’clock. But now he was very careful. He walked without shoes on the old wooden floors. He wore a big black coat so nobody could see him. He even used the Tammany Rising Sun Lubricator on his chains. He did not like to use it, but it helped. Now his chains were quiet.
+
+The twins did not stop. They put strings across the dark corridors, and he fell over them. One night they put butter on the stairs, and he slid all the way down to the bottom. After that he was really angry. He decided to visit the twins one last time as “Reckless Rupert, or the Headless Earl”.
+
+He dressed carefully and went to their room. The door was a little open. He pushed it hard, ready to scream. But a big jug of cold water fell on his head from the top of the door! He was wet from head to foot. Behind the door the twins were laughing and laughing.
+
+The ghost ran back to his room. The next day he stayed in bed with a bad cold. “It was lucky that I did not wear my head,” he thought. “I could be very ill now.”
+
+After that he stopped trying to frighten the Otis family. He only walked in the corridors in his soft slippers, with a thick red scarf around his neck because he was afraid of the cold.` },
+      { title: 'Chapter 7. Virginia and the Ghost', text: `That summer the young Duke of Cheshire came to stay at Canterville Chase. He was in love with Virginia, and she liked him too. One afternoon Virginia came home by the back stairs and passed the Tapestry Room. The door was open.
+
+Inside, the Canterville ghost sat by the window. He looked very sad. He was watching the yellow leaves fall.
+
+Virginia felt sorry for him. “My brothers are going back to school tomorrow. Then nobody is going to be unkind to you. But you must be good too.”
+
+“I must walk and make noises,” said the ghost. “That is my job.”
+
+“And you took my paints!” said Virginia. “You used all my red paint for the blood stain, and then my green paint too. Blood is not green!”
+
+“What could I do?” said the ghost. “Real blood is very hard to find these days.”
+
+Then he told her the truth. “I have not slept for three hundred years,” he said. “I am so tired. Far away in a pine forest there is a little garden. It is the Garden of Death. The grass is long and soft there, and the nightingale sings all night. I want to sleep there. But I cannot go alone.”
+
+“Do you know the old words on the library window?” She knew them:
+
+When a golden girl can win
+Prayer from out the lips of sin,
+When the barren almond bears,
+And a little child gives away its tears,
+Then shall all the house be still
+And peace come to Canterville.
+
+“You must cry for my sins,” said the ghost, “and pray for my soul. Then the Angel of Death is going to be kind to me. Are you afraid?”
+
+“No,” said Virginia. “I am going to help you.”
+
+He kissed her hand with his cold lips. Then the wall opened, and they went into the darkness together.` },
+      { title: 'Chapter 8. Where Is Virginia?', text: `At tea time Virginia did not come downstairs. Mrs Otis sent a servant to her room, but she was not there. The family looked everywhere in the house and in the garden. There was no Virginia.
+
+Mr Otis remembered some gypsies in the fields near the house. He rode out with Washington to find them, but the gypsies were gone. The young Duke of Cheshire rode after them too, with a pale face. “I cannot eat or sleep without Virginia,” he said. Mr Otis sent messages to the police in every town. Nobody found her.
+
+The family came home late and sat at dinner in silence. Nobody ate much. Even the twins were quiet, because they loved their sister.
+
+Just at midnight, the clock began to strike. There was a crash and a strange sad song, and a door in the wall opened. Virginia came out. She was very pale, and she was holding a little box in her hands.
+
+Everyone ran to her. “Where were you?” cried Mr Otis.
+
+“Papa,” said Virginia quietly, “I was with the ghost. He is dead now, and you must come and see him. He was bad, but he was really sorry. Before he died, he gave me this box of beautiful jewels.”
+
+She took them through the secret door, along a narrow corridor, to a little room with a very low ceiling. On the floor lay a skeleton with an iron chain on its leg. Near it was an empty old plate and a jug. For many years the poor man was hungry and thirsty here, and he died in this room.
+
+Virginia knelt down and began to pray. At that moment one of the twins looked out of the window. “Look!” he cried. “The old dry almond tree has flowers! I can see them in the moonlight!”
+
+“God has forgiven him,” said Virginia. Her face was bright and beautiful.` },
+      { title: 'Chapter 9. Peace at Canterville', text: `Four days later there was a funeral at night. Sir Simon lay in a coffin, and eight black horses pulled it through the dark. The whole family walked behind it. They put the ghost in a quiet grave under an old tree in the corner of the churchyard. Virginia put a cross of white and pink almond flowers on it. The moon came out, and a nightingale began to sing.
+
+The next morning Mr Otis spoke to Lord Canterville about the jewels. “They are very valuable,” he said. “They belong to your family. Please take them.”
+
+Lord Canterville smiled. “No, my dear sir,” he said. “Your daughter was very brave. She helped my old uncle Simon, and my family owes her a lot. The jewels are hers. And do not forget: you bought the house with the ghost, so everything of his is yours now.”
+
+Mr Otis was not happy about it, but Virginia kept the jewels.
+
+In the spring of 1890 Virginia married the young Duke of Cheshire. She was the loveliest bride in London.
+
+After the wedding the Duke and Duchess came to Canterville Chase. One afternoon they walked to the little churchyard. Virginia put some roses on the old grave.
+
+“Virginia,” said the Duke, “you never told me what happened when you were with the ghost.”
+
+“Please do not ask me, Cecil,” she answered. “I cannot tell you. But I owe him a lot. He showed me what Life is, and what Death means, and why Love is stronger than both.”
+
+The Duke kissed his wife. “You can keep your secret,” he said, “but only if I always have your heart.”
+
+“You always had it, Cecil,” she said.
+
+“And will you tell our children one day?”
+
+Virginia smiled, and her face turned pink.` }
+    ]
+  }
+]);

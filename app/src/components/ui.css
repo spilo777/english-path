@@ -49,6 +49,7 @@
 .poster-prog { position: absolute; left: 0; bottom: 0; height: 4px; background: var(--accent); z-index: 3; }
 .poster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px 14px; }
 .lib-cover.cat-6, .cat-6 .lib-cover { background: linear-gradient(145deg, #3a3f58, #1d2033); } /* диалоги из игр */
+.lib-cover.cat-7, .cat-7 .lib-cover { background: linear-gradient(145deg, #4a2b4f, #1f1426); } /* диалоги из фильмов и сериалов */
 .lib-cover.book { background: linear-gradient(150deg, #5F7BFF, #3346B8); }
 .lib-cover.book.orig { background: linear-gradient(150deg, #8C5A3C, #4E2F20); }
 .lib-cover img { z-index: 1; }

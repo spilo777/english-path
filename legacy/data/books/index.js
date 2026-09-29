@@ -175,5 +175,82 @@ window.BOOK_INDEX = [
 "ru": "Элизабет Беннет и мистер Дарси",
 "chapters": 61,
 "words": 121439
+},
+{
+"id": "bk-o-baskervilles",
+"title": "The Hound of the Baskervilles",
+"author": "Arthur Conan Doyle",
+"level": "B2",
+"kind": "original",
+"wiki": "The Hound of the Baskervilles",
+"ru": "Шерлок Холмс и проклятие рода Баскервилей — оригинал",
+"chapters": 15,
+"words": 59032
+},
+{
+"id": "bk-o-tom-sawyer",
+"title": "The Adventures of Tom Sawyer",
+"author": "Mark Twain",
+"level": "B2",
+"kind": "original",
+"wiki": "The Adventures of Tom Sawyer",
+"ru": "Проделки Тома Сойера на берегах Миссисипи — оригинал",
+"chapters": 35,
+"words": 69807
+},
+{
+"id": "bk-o-canterville",
+"title": "The Canterville Ghost",
+"author": "Oscar Wilde",
+"level": "B1",
+"kind": "original",
+"wiki": "The Canterville Ghost",
+"ru": "Американская семья и привидение, которое они не боятся, — оригинал",
+"chapters": 7,
+"words": 11297
+},
+{
+"id": "bk-o-secret-garden",
+"title": "The Secret Garden",
+"author": "Frances Hodgson Burnett",
+"level": "B2",
+"kind": "original",
+"wiki": "The Secret Garden",
+"ru": "Мэри находит запертый сад и возвращает его к жизни — оригинал",
+"chapters": 27,
+"words": 80360
+},
+{
+"id": "bk-o-black-beauty",
+"title": "Black Beauty",
+"author": "Anna Sewell",
+"level": "B1",
+"kind": "original",
+"wiki": "Black Beauty",
+"ru": "История лошади, рассказанная ею самой, — оригинал",
+"chapters": 49,
+"words": 59503
+},
+{
+"id": "bk-o-80-days",
+"title": "Around the World in Eighty Days",
+"author": "Jules Verne",
+"level": "B2",
+"kind": "original",
+"wiki": "Around the World in Eighty Days",
+"ru": "Филеас Фогг спорит, что объедет мир за 80 дней, — полный текст (английский перевод)",
+"chapters": 37,
+"words": 62202
+},
+{
+"id": "bk-o-anne",
+"title": "Anne of Green Gables",
+"author": "L. M. Montgomery",
+"level": "B2",
+"kind": "original",
+"wiki": "Anne of Green Gables",
+"ru": "Рыжая фантазёрка Энн попадает на ферму Зелёные Мезонины — оригинал",
+"chapters": 38,
+"words": 101994
 }
 ];

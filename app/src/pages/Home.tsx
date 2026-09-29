@@ -118,7 +118,9 @@ export default function Home(_props: PageProps) {
   const readToday = (act.reads || 0) > 0;
   const planDone = [reviewsDone, lessonToday, readToday].filter(Boolean).length;
   const forYou = library.filter((t) => !s.textsRead[t.id] && t.kind !== 'dialogue' && t.level === u.level).slice(0, 10);
-  const dlgs = library.filter((t) => t.kind === 'dialogue' && !s.textsRead[t.id] && (LEVEL_ORDER[t.level] || 0) <= LEVEL_ORDER[u.level] + 1).slice(0, 10);
+  const fits = (t: { level: string; id: string }) => !s.textsRead[t.id] && (LEVEL_ORDER[t.level] || 0) <= LEVEL_ORDER[u.level] + 1;
+  const dlgs = library.filter((t) => t.kind === 'dialogue' && t.cat === 'Диалоги из игр' && fits(t)).slice(0, 10);
+  const scenes = library.filter((t) => t.kind === 'dialogue' && t.cat === 'Диалоги из фильмов и сериалов' && fits(t)).slice(0, 10);
   const bookList = (books || []).filter((b) => b.kind === 'adapted' && LEVEL_ORDER[b.level] <= LEVEL_ORDER[u.level] + 1);
   const p = Math.round(unitProgress(s, u.id) * 100);
   const unitHref = `#/unit/${u.id}/${ns ? ns.k : 'words'}`;
@@ -164,6 +166,11 @@ export default function Home(_props: PageProps) {
       <Section title={<><Icon name="chat-circle-dots" /> Диалоги из игр</>} href={'#/library/all/' + encodeURIComponent('Диалоги из игр')}>
         {dlgs.map((t) => <TextPoster key={t.id} t={t} />)}
       </Section>
+      {scenes.length ? (
+        <Section title={<><Icon name="film-reel" /> Сцены из кино и сериалов</>} href={'#/library/all/' + encodeURIComponent('Диалоги из фильмов и сериалов')}>
+          {scenes.map((t) => <TextPoster key={t.id} t={t} />)}
+        </Section>
+      ) : null}
       <Section title={<><Icon name="books" /> Книги</>} href="#/library/books">
         {bookList.map((b) => <BookPoster key={b.id} b={b} />)}
       </Section>

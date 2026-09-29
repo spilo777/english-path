@@ -1,0 +1,178 @@
+window.BOOKS = (window.BOOKS || []).concat([
+  {
+    id: 'bk-a1-robin-hood', title: 'Robin Hood', author: 'Howard Pyle', level: 'A1', kind: 'adapted',
+    wiki: 'Robin Hood',
+    ru: 'Английская легенда о благородном разбойнике Робин Гуде и его весёлых друзьях из Шервудского леса.',
+    chapters: [
+      { title: 'Chapter 1. Robin Goes to the Forest', text: `This is a story from old England. The king of England is Richard. But Richard is not at home. He is far away, at a war.
+
+Robin is a young man. He is eighteen years old. He is tall and strong. He lives near a big forest. The name of the forest is Sherwood.
+
+Robin has a long bow and many arrows. He is very good with his bow. He can hit a small bird far away.
+
+One day Robin walks to the town of Nottingham. There is a big contest there. The best archer gets a prize.
+
+In the forest Robin meets fifteen men. They are the king's foresters. They are sitting under a tree and drinking.
+
+“Where are you going, boy?” one man asks.
+
+“I am going to Nottingham,” Robin says. “I want to win the prize.”
+
+The men laugh. “You are a baby! You cannot shoot!”
+
+Robin is angry. He shoots an arrow. It hits a deer very far away. But the deer is the king's deer. Now the foresters want to catch Robin.
+
+Robin runs deep into the forest. He cannot go home now. Sherwood is his new home.` },
+
+      { title: 'Chapter 2. The Merry Men', text: `Robin lives in Sherwood Forest now. The forest is big and green. There are tall oak trees and small rivers. There are many deer.
+
+Robin is not alone for long. Other men come to the forest too. They are poor men. Some have no money. Some have no home. Some are hungry. The rich men and the Sheriff of Nottingham are bad to them.
+
+“Stay with me,” Robin says. “Here we are free.”
+
+Soon Robin has many friends. They wear green clothes. Green is good in the forest. Nobody can see them between the trees.
+
+They call themselves the Merry Men. Merry means happy. They sing songs and tell stories. They eat deer meat and drink good ale by the fire.
+
+Robin is their leader. He has a horn. When he blows the horn, the Merry Men come fast.
+
+Robin has one big rule. “We take money from rich men,” he says. “Rich men with bad hearts. And we give it to poor people. We never hurt women or children. We never hurt poor people.”
+
+The poor people love Robin. But the Sheriff of Nottingham hates him.` },
+
+      { title: 'Chapter 3. Little John on the Bridge', text: `One morning Robin is walking in the forest alone. He comes to a river. Over the river there is a bridge. The bridge is very narrow. Only one man can walk on it.
+
+A big man is coming from the other side. He is very tall and very strong. He has a long wooden staff in his hand.
+
+“Go back,” Robin says. “I want to cross.”
+
+“No,” says the big man. “You go back. I am crossing first.”
+
+Robin laughs. He takes a staff from a tree. The two men meet in the middle of the bridge. They fight with their staffs. Bang! Bang! Bang! They fight for a long time.
+
+Then the big man hits Robin very hard. Robin falls into the river! Splash!
+
+Robin sits in the cold water. He is wet, but he is laughing. “You are a good fighter!” he says.
+
+Robin blows his horn. The Merry Men come running.
+
+“Who are you?” Robin asks the big man.
+
+“My name is John Little.”
+
+“Stay with us,” Robin says.
+
+The man says yes. The Merry Men laugh. He is so big! They give him a new name: Little John.` },
+
+      { title: 'Chapter 4. Friar Tuck', text: `Little John is Robin's best friend now. He is always next to Robin.
+
+One day Will Scarlet, another Merry Man, says, “There is a friar near the river. He is a very good fighter.”
+
+A friar is a man of the church. Robin wants to meet him. He goes to the river. There he sees a fat man in a brown robe. The man is sitting under a tree. He is eating meat and singing.
+
+“Hello, friar,” Robin says. “Please carry me over the river. I don't want wet feet.”
+
+The friar smiles. He puts Robin on his back and walks into the water. At the other side Robin says thank you.
+
+“Now you carry me back,” says the friar.
+
+Robin carries the heavy friar. It is very hard. In the middle of the river the friar says, “Now carry me again!”
+
+This time Robin is tired. He drops the friar in the water! Then they fight with swords. They fight for a long time. Nobody wins.
+
+“You are a good man,” Robin says. “What is your name?”
+
+“I am Friar Tuck.”
+
+“Come to Sherwood with us!”
+
+Friar Tuck is happy. Now he is a Merry Man too.` },
+
+      { title: 'Chapter 5. The Sheriff of Nottingham', text: `The Sheriff of Nottingham is a rich man. He is also a bad man. He takes money from poor people. He wants more and more gold.
+
+The Sheriff hates Robin Hood. “Robin is a thief,” he says. “I want him in my prison.”
+
+But the Sheriff cannot find Robin. The forest is too big. The Merry Men are too clever.
+
+One day the Sheriff is riding through Sherwood. He has a big bag of gold with him. Suddenly there are men in green all around him.
+
+“Good morning, Sheriff,” says Robin. “Please come and eat with us.”
+
+The Sheriff is afraid. He cannot say no. The Merry Men take him to their big tree. They give him meat, bread and ale. They sing songs. The Sheriff is not happy. He is very angry.
+
+After dinner Robin says, “Now you must pay for your dinner.”
+
+Little John opens the Sheriff's bag. There is a lot of gold in it.
+
+“This is a very expensive dinner!” Robin says. Everyone laughs.
+
+Robin takes the gold. Later he gives it to poor families in the villages. The Sheriff rides home with an empty bag and a red face.` },
+
+      { title: 'Chapter 6. Maid Marian', text: `There is a beautiful young woman in this story. Her name is Maid Marian. She has long hair and kind eyes. She is from a good family.
+
+Marian and Robin know each other from long ago. They love each other. But Robin lives in the forest now. He cannot visit her in town. The Sheriff is always watching.
+
+Marian is sad without Robin. One day she has an idea. She puts on boy's clothes. She takes a sword and a bow. She walks into Sherwood Forest alone.
+
+In the forest she meets a man in green. She does not see his face well. He does not see her face well.
+
+“Stop!” he says. “Who are you?”
+
+Marian takes out her sword. The man takes out his sword. They fight. The woman is very brave and very good with a sword.
+
+Then the man laughs. Marian knows that laugh! It is Robin!
+
+“Robin!” she says.
+
+“Marian!” he says.
+
+They are very happy. Robin takes Marian to the Merry Men. They have a big dinner under the trees. Marian is Robin's love, and she is the friend of all the Merry Men.` },
+
+      { title: 'Chapter 7. The Golden Arrow', text: `The Sheriff has a new plan. “Robin loves archery,” he says. “I can make a big contest. The prize is a golden arrow. Robin is going to come. Then my soldiers can catch him.”
+
+The Merry Men hear about the contest. “It is a trap,” Little John says. “Don't go, Robin.”
+
+But Robin wants the golden arrow. “I am going,” he says. “But I am not going as Robin Hood.”
+
+Robin puts on old red clothes. He puts a patch over one eye. Now he looks like a poor old man. The Merry Men go too. They wear different clothes. Nobody can see green.
+
+Many archers are at the contest. They shoot at a target. The target is very far away. Some arrows miss. Some arrows hit the target.
+
+At the end, there are two men: the best archer of the Sheriff, and the old man in red. The Sheriff's archer shoots. His arrow is in the middle of the target.
+
+Then the old man shoots. His arrow hits the other arrow and splits it!
+
+Everyone is shouting. The Sheriff gives the golden arrow to the old man. He does not know. It is Robin Hood!` },
+
+      { title: 'Chapter 8. A Letter for the Sheriff', text: `The Sheriff is waiting for Robin. He is looking at every face. But he cannot see Robin. “Where is he?” he says. “Where is Robin Hood?”
+
+The old man in red is walking out of the town. He has the golden arrow in his hand. The Merry Men are walking behind him. Nobody stops them.
+
+Back in Sherwood, everyone is laughing. They are eating and singing by the fire. Marian is laughing too.
+
+“But the Sheriff doesn't know,” Robin says. “I want him to know.”
+
+He writes a short letter. The letter says: “Thank you for the golden arrow. The old man in red is Robin Hood.” Little John puts the letter on an arrow. That night Robin shoots the arrow into the Sheriff's window.
+
+In the morning the Sheriff finds the letter. He reads it. He is very, very angry. He shouts and throws his cup on the floor.
+
+Now the Sheriff wants Robin more than ever. He sends many soldiers into the forest. But the Merry Men know every tree and every path. The soldiers get lost. The Sheriff cannot catch Robin.` },
+
+      { title: 'Chapter 9. The King Comes Home', text: `Years go by. One day there is big news. King Richard is back in England! The war is over.
+
+The king hears many stories about Robin Hood. Some people say Robin is a thief. Poor people say Robin is a good man. The king wants to see Robin with his own eyes.
+
+He puts on the robe of a monk. He rides into Sherwood Forest with a few knights. They are all dressed as monks.
+
+The Merry Men stop them. “Come and eat with us,” Robin says. They eat and drink and shoot arrows. The tall monk is strong and kind. Robin likes him.
+
+Then the monk takes off his hood. Robin sees his face. It is King Richard!
+
+Robin and all his men go down on their knees. “My king!” Robin says. “We are your men.”
+
+The king smiles. “You are brave and honest,” he says. “You help the poor. England needs men like you. You are free now. Come and work for me.”
+
+Robin is very happy. He marries Maid Marian. Friar Tuck marries them under the old oak tree. And the name of Robin Hood lives on in songs and stories to this day.` }
+    ]
+  }
+]);

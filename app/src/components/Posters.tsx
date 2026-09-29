@@ -8,7 +8,7 @@ import { Icon, plural } from './ui';
 /** Категория статьи → иконка; порядок задаёт цвет обложки (cat-0…cat-6) */
 export const CAT_ICON: Record<string, string> = {
   'Сериалы': 'television-simple', 'Мультфильмы': 'palette', 'Игры': 'game-controller', 'Аниме': 'flower-lotus',
-  'Кино': 'film-slate', 'Про экран': 'popcorn', 'Диалоги из игр': 'chat-circle-dots',
+  'Кино': 'film-slate', 'Про экран': 'popcorn', 'Диалоги из игр': 'chat-circle-dots', 'Диалоги из фильмов и сериалов': 'film-reel',
 };
 export const catIdx = (c?: string) => Object.keys(CAT_ICON).indexOf(c || '');
 export const catIcon = (c?: string) => CAT_ICON[c || ''] || 'book-open-text';

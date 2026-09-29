@@ -77,3 +77,12 @@ test('слушать: три канала и переход из библиот�
   await expect(page.locator('.ls-ch')).toHaveCount(3);
   expect(errors).toEqual([]);
 });
+
+test('библиотека: новая полка «Диалоги из фильмов и сериалов» и книги B2', async ({ page }) => {
+  const errors = watchErrors(page);
+  await page.goto('#/library');
+  await expect(page.locator('.sec-head', { hasText: 'Диалоги из фильмов и сериалов' })).toBeVisible();
+  await page.goto('#/book/bk-b2-dracula');
+  await expect(page.locator('main')).toContainText('Dracula');
+  expect(errors).toEqual([]);
+});
