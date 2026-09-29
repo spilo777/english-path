@@ -80,7 +80,7 @@ for (const id of ['a1-3', 'a2-4', 'b1-4']) {
     await unlockUpTo(page, id);
     await page.goto(`#/unit/${id}/grammar`);
     await expect(page.locator('.steps a.active')).toContainText('Грамматика');
-    if (/^a[12]-/.test(id)) await expect(page.locator('.walk')).toBeVisible(); // A1–A2 — грамматика по шагам
+    if (/^(a[12]|b1)-/.test(id)) await expect(page.locator('.walk')).toBeVisible(); // A1–B1 — грамматика по шагам
     else await expect(page.locator('.lesson .stack .card').first()).toBeVisible();
     await page.goto(`#/unit/${id}/reading`);
     await expect(page.locator('.ut-texts .unit-row').first()).toBeVisible();
