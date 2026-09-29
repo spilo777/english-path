@@ -30,7 +30,7 @@ jobs:
         run: npx vitest run 2>&1 | tee ../unit.log; exit ${PIPESTATUS[0]}
       - name: build
         id: build
-        run: BASE=/english-path/ npx vite build 2>&1 | tee ../build.log; exit ${PIPESTATUS[0]}
+        run: BASE=/english-path/ VITE_BUILD=$GITHUB_SHA npx vite build 2>&1 | tee ../build.log; exit ${PIPESTATUS[0]}
       - name: e2e
         id: e2e
         continue-on-error: true

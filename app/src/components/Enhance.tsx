@@ -5,13 +5,13 @@
 // новом объекте {__html}, поэтому Html держит объект стабильным — иначе обёртка и мини-проверки слетают.
 import { createElement, useEffect, useMemo, useState, type DependencyList, type RefObject } from 'react';
 import { mainUnits, passed } from '../lib/course';
-import { loadJSON, paths, useCourse } from '../lib/data';
+import { paths, useCourse, useJSON } from '../lib/data';
 import { candidates, ensureDict, isDictReady, lookup } from '../lib/lookup';
 import { ding } from '../lib/sfx';
 import { speak } from '../lib/speech';
 import { recordAnswer, update, useProgress } from '../lib/store';
 import { autoTranslate } from '../lib/translate';
-import { LEVEL_ORDER, type CourseIndex, type Level, type Progress, type Unit } from '../lib/types';
+import { LEVEL_ORDER, type CourseIndex, type LessonUnit, type Level, type Progress } from '../lib/types';
 import { Icon } from './ui';
 import { openWord } from './Popover';
 import './Enhance.css';
@@ -55,7 +55,10 @@ export function TrBox({ text }: { text: string }) {
 const BASIC_WORDS = 'a an the i you he she it we they me him her us them my your his its our their is am are was were be been do does did not no yes and or but to of in on at for with from by this that these those there here what who where when why how can will would have has had get got go ok hi hello'.split(' ');
 
 /** Карточки, «знаю», слова предыдущих уроков (и пройденных игровых), служебные слова */
-export function knownWordSet(s: Progress, course: CourseIndex | undefined, units: Unit[], unitId?: string): Set<string> {
+/** Что нужно knownWordSet от юнита: id, трек и английские слова урока (как в lessons.json) */
+export type KnownWordsUnit = Pick<LessonUnit, 'id' | 'track' | 'words'>;
+
+export function knownWordSet(s: Progress, course: CourseIndex | undefined, units: KnownWordsUnit[], unitId?: string): Set<string> {
   const set = new Set(BASIC_WORDS);
   Object.keys(s.cards).forEach((k) => set.add(k));
   Object.keys(s.known).forEach((k) => set.add(k));
@@ -67,7 +70,7 @@ export function knownWordSet(s: Progress, course: CourseIndex | undefined, units
     const take = unitId
       ? u.id !== unitId && ((i >= 0 && ci >= 0 && i < ci) || (u.track === 'games' && passed(s, u.id)))
       : passed(s, u.id);
-    if (take) (u.words || []).forEach((w) => w[0].toLowerCase().split(/\s*[—–-]\s*|\s*\/\s*/).forEach((x) => set.add(x.trim())));
+    if (take) (u.words || []).forEach((w) => w.toLowerCase().split(/\s*[—–-]\s*|\s*\/\s*/).forEach((x) => set.add(x.trim())));
   });
   return set;
 }
@@ -87,7 +90,6 @@ export function isNewWord(w: string, set: Set<string>): boolean {
 export function useKnownWords(unitId?: string): Set<string> {
   const s = useProgress();
   const { data: course } = useCourse();
-  const [units, setUnits] = useState<Unit[]>([]);
   // состояние мутируется на месте — зависимости считаем по «подписи»
   const passedSig = Object.keys(s.units).filter((id) => passed(s, id)).join(',');
   const sig = Object.keys(s.cards).length + '|' + Object.keys(s.known).length + '|' + passedSig;
@@ -102,13 +104,13 @@ export function useKnownWords(unitId?: string): Set<string> {
     return [...lv].sort().join(',');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course, unitId, passedSig]);
-  useEffect(() => {
-    if (!levels) { setUnits([]); return; }
-    let alive = true;
-    Promise.all(levels.split(',').map((l) => loadJSON<Unit[]>(paths.units(l as Level)).catch((): Unit[] => [])))
-      .then((all) => { if (alive) setUnits(all.flat()); });
-    return () => { alive = false; };
-  }, [levels]);
+  // слова уроков — из компактного индекса; грузим, только если есть нужные уровни
+  const { data: lessons } = useJSON<LessonUnit[]>(levels ? paths.lessons : null);
+  const units = useMemo(() => {
+    if (!levels || !lessons) return [];
+    const lv = new Set(levels.split(','));
+    return lessons.filter((u) => lv.has(u.level));
+  }, [levels, lessons]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => knownWordSet(s, course, units, unitId), [sig, course, units, unitId]);
 }

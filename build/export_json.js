@@ -16,7 +16,22 @@ const meta = units.map((u) => ({ id: u.id, level: u.level, num: u.num, track: u.
 const levels = COURSE.levels.map((l) => ({ id: l.id, title: l.title, goal: l.goal }));
 if (!levels.some((l) => l.id === 'C1')) levels.push({ id: 'C1', title: 'C1 — Продвинутый', goal: 'Бонус сверх цели: тонкости грамматики по «Advanced Grammar in Use»' });
 w('course.json', { levels, units: meta });
-for (const L of Object.keys(LV)) { const us = units.filter((u) => u.level === L); if (us.length) w(`units/${L}.json`, us); }
+// уроки: по файлу на юнит + компактный индекс lessons.json (слова и метаданные текстов, без тел)
+fs.rmSync(out + '/units', { recursive: true, force: true });
+const wordsIn = (t) => t.split(/\s+/).filter(Boolean).length; // как wordsIn в Posters.tsx
+const dlgLines = (t) => t.split(/\n+/).filter((l) => /^[A-Z][\w .'’-]{0,24}:/.test(l.trim())).length; // как dlgLines
+const lessons = [];
+for (const L of Object.keys(LV)) {
+  units.filter((u) => u.level === L).forEach((u) => {
+    w(`units/${u.id}.json`, u);
+    lessons.push({
+      id: u.id, level: u.level, track: u.track,
+      words: (u.words || []).map((x) => x[0]),
+      texts: (u.texts || []).map((t) => ({ id: t.id, title: t.title, level: t.level || u.level, words: wordsIn(t.text), lines: dlgLines(t.text), q: (t.questions || []).length })),
+    });
+  });
+}
+w('lessons.json', lessons);
 w('syllabus.json', SYLLABUS);
 w('words.json', WORDS);
 w('dict.json', DICT);

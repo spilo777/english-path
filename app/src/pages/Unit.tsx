@@ -9,7 +9,7 @@ import { dlgLines, minsIn, wordsIn } from '../components/Posters';
 import { Walk } from '../components/Walk';
 import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle, toast } from '../components/ui';
 import { isUnlocked, mainUnits, nextStep, passed, STEPS, unitBooksParts, type StepKey } from '../lib/course';
-import { useCourse, useSyllabus, useUnits } from '../lib/data';
+import { useCourse, useSyllabus, useUnit } from '../lib/data';
 import { speak } from '../lib/speech';
 import { addCard, cardId } from '../lib/srs';
 import { getState, PASS, tomb, track, unitState, update, useProgress } from '../lib/store';
@@ -32,9 +32,9 @@ function UnitHead({ level, eyebrow, title, meta, syllabus }: HeadProps) {
       {parts.length ? (
         <div className="book-chips">
           {parts.map((p) => (
-            <a key={p.key} className="book-chip" href={'#/books/' + p.key} style={{ '--bc': p.color } as CSSProperties}>
+            <span key={p.key} className="book-chip" title="Какие юниты учебника проходим" style={{ '--bc': p.color } as CSSProperties}>
               <Icon name="book-bookmark" fill /> {p.text}
-            </a>
+            </span>
           ))}
         </div>
       ) : null}
@@ -308,11 +308,16 @@ export default function Unit({ params }: PageProps) {
   const { data: course, error: cErr } = useCourse();
   const { data: syllabus } = useSyllabus();
   const meta: UnitMeta | undefined = course?.units.find((u) => u.id === id);
-  const { data: units, error: uErr } = useUnits(meta ? meta.level : null);
-  const unit = units?.find((u) => u.id === id);
+  const unlocked = !!(meta && course && isUnlocked(s, meta, course));
+  // файл юнита грузим, только когда урок открыт
+  const { data: uData, error: uLoadErr } = useUnit(meta && unlocked ? id : null);
+  // при переходе между уроками хук ещё отдаёт прошлый юнит — не показываем его
+  const unit = uData?.id === id ? uData : undefined;
+  // файла нет (404) — как раньше «юнита нет в файле уровня»: «Готовится»
+  const missing = !!uLoadErr && /: 404$/.test(uLoadErr.message);
+  const uErr = missing ? null : uLoadErr;
   const [confirm, setConfirm] = useState(false);
 
-  const unlocked = !!(meta && course && isUnlocked(s, meta, course));
   const urlTab = isStep(params[2]) ? params[2] : undefined;
   const tab: StepKey = urlTab || nextStep(s, id)?.k || 'words';
 
@@ -371,7 +376,7 @@ export default function Unit({ params }: PageProps) {
   }
 
   if (uErr) return <Page className="unit-page">{head}<LoadError error={uErr} /></Page>;
-  if (!units) return <Page className="unit-page">{head}<Loading /></Page>;
+  if (!unit && !missing) return <Page className="unit-page">{head}<Loading /></Page>;
   if (!unit) {
     return (
       <Page className="unit-page">

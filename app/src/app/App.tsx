@@ -13,7 +13,6 @@ const P = {
   course: lazy(() => import('../pages/Course')),
   unit: lazy(() => import('../pages/Unit')),
   tenses: lazy(() => import('../pages/Tenses')),
-  books: lazy(() => import('../pages/BooksMap')),
   library: lazy(() => import('../pages/Library')),
   reader: lazy(() => import('../pages/Reader')),
   book: lazy(() => import('../pages/Book')),
@@ -30,7 +29,7 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
     case 'course': return [P.course, 'course', false];
     case 'unit': return [P.unit, 'course', true];
     case 'tenses': return [P.tenses, 'course', !!parts[1] && parts[1] !== 'train'];
-    case 'books': return [P.books, 'course', false];
+    case 'books': return [P.course, 'course', false]; // раздел «По учебнику» объединён с «Уроками»
     case 'library': return [P.library, 'library', false];
     case 'read': return [P.reader, 'library', true];
     case 'book': return [P.book, 'library', parts[2] != null];

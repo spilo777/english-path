@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Cloud, useCloud } from './cloud';
 import { loadJSON, paths, useCourse, useDeck, useLibrary } from './data';
 import { bestStreak, DAY, PASS, useProgress } from './store';
-import type { CourseIndex, DeckWord, Level, Progress, TextItem, Unit, UnitMeta } from './types';
+import type { CourseIndex, DeckWord, LessonUnit, Level, Progress, TextItem, UnitMeta } from './types';
 import { LEVELS, LEVEL_ORDER } from './types';
 
 /** Значения, от которых зависят достижения */
@@ -392,9 +392,10 @@ export function useAchContextData(): AchExtra | null {
   useEffect(() => {
     if (!wantTexts || !course || courseTexts) return;
     let alive = true;
-    const lvls = [...new Set(course.units.map((u) => u.level))];
-    Promise.all(lvls.map((l) => loadJSON<Unit[]>(paths.units(l))))
-      .then((all) => { if (alive) setCourseTexts(all.flat().flatMap((u) => u.texts.map((t) => t.id))); })
+    // id текстов — из компактного индекса lessons.json (юниты курса)
+    const ids = new Set(course.units.map((u) => u.id));
+    loadJSON<LessonUnit[]>(paths.lessons)
+      .then((all) => { if (alive) setCourseTexts(all.filter((u) => ids.has(u.id)).flatMap((u) => u.texts.map((t) => t.id))); })
       .catch(() => { /* нет сети — проверим позже */ });
     return () => { alive = false; };
   }, [wantTexts, course, courseTexts]);

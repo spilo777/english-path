@@ -6,9 +6,9 @@ import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
 import { BackLink, Icon, LoadError, Loading, Page, plural, RoundBtn, Section, toast, TopBar } from '../components/ui';
 import { currentUnit, isUnlocked, mainUnits, passed } from '../lib/course';
-import { loadJSON, paths, useBookIndex, useCourse, useLibrary, useTenses } from '../lib/data';
+import { useBookIndex, useCourse, useLessons, useLibrary, useTenses } from '../lib/data';
 import { tomb, update, useProgress } from '../lib/store';
-import { LEVEL_ORDER, type BookMeta, type CourseIndex, type Level, type Progress, type TextItem, type Unit, type UserText } from '../lib/types';
+import { LEVEL_ORDER, type BookMeta, type CourseIndex, type Level, type Progress, type LessonText, type TextItem, type UserText } from '../lib/types';
 import { lsGet, lsSet } from './reader-core';
 import './Library.css';
 
@@ -23,12 +23,12 @@ function delUserText(id: string) {
 }
 
 /** Строка текста: свой текст (с крестиком) или текст из урока */
-function TextRow({ t, user }: { t: TextItem | UserText; user?: boolean }) {
+function TextRow({ t, user }: { t: TextItem | UserText | LessonText; user?: boolean }) {
   const s = useProgress();
   return (
     <a className="unit-row" href={'#/read/' + t.id}>
       <div className="unit-num">{s.textsRead[t.id] ? <Icon name="check" /> : <Icon name="book-open-text" />}</div>
-      <div className="body"><div className="title">{t.title}</div><div className="muted small">{wordsIn(t)} слов{t.level ? ' · ' + t.level : ''}</div></div>
+      <div className="body"><div className="title">{t.title}</div><div className="muted small">{'text' in t ? wordsIn(t) : t.words} слов{t.level ? ' · ' + t.level : ''}</div></div>
       {user ? (
         <button type="button" className="icon-btn" title="Удалить" aria-label="Удалить" onClick={(e) => { e.preventDefault(); e.stopPropagation(); delUserText(t.id); }}><Icon name="x" /></button>
       ) : null}
@@ -133,20 +133,6 @@ function LibraryHome() {
 }
 
 // ───────── все статьи ─────────
-/** Полные уроки нужных уровней (для «Тексты из уроков») */
-function useUnitsOf(levels: Level[]): Unit[] {
-  const key = levels.join(',');
-  const [units, setUnits] = useState<Unit[]>([]);
-  useEffect(() => {
-    if (!key) { setUnits([]); return; }
-    let alive = true;
-    Promise.all(key.split(',').map((l) => loadJSON<Unit[]>(paths.units(l as Level)).catch((): Unit[] => [])))
-      .then((all) => { if (alive) setUnits(all.flat()); });
-    return () => { alive = false; };
-  }, [key]);
-  return units;
-}
-
 const ssGet = (k: string) => { try { return sessionStorage.getItem(k) || ''; } catch { return ''; } };
 const ssSet = (k: string, v: string) => { try { sessionStorage.setItem(k, v); } catch { /* приватный режим */ } };
 
@@ -177,8 +163,9 @@ function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
   useEffect(() => { if (formOpen && ready) titleRef.current?.focus(); }, [formOpen, ready]);
 
   const unlocked = course ? course.units.filter((u) => isUnlocked(s, u, course)) : [];
-  const levels = [...new Set(unlocked.map((u) => u.level))].sort();
-  const units = useUnitsOf(levels);
+  // тексты уроков — из индекса lessons.json (без тел текстов)
+  const lessons = useLessons().data;
+  const units = unlocked.length && lessons ? lessons : [];
 
   if (lib.error) return <Page><LoadError error={lib.error} /></Page>;
   if (!lib.data) return <Page><Loading /></Page>;

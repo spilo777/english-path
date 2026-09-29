@@ -11,7 +11,7 @@ await build({
   entryPoints: [app + '/src/main.tsx'], bundle: true, splitting: true, format: 'esm', outdir: out + '/assets',
   jsx: 'automatic', target: 'es2022', sourcemap: 'inline', logLevel: 'warning',
   nodePaths: ['/home/claude/.npm-global/lib/node_modules'],
-  define: { 'process.env.NODE_ENV': '"development"', 'import.meta.env.DEV': 'true', 'import.meta.env.BASE_URL': '"./"' },
+  define: { 'process.env.NODE_ENV': '"development"', 'import.meta.env.DEV': 'true', 'import.meta.env.BASE_URL': '"./"', 'import.meta.env.VITE_BUILD': '"local"', 'import.meta.env.PROD': 'true' },
   loader: { '.svg': 'file', '.png': 'file' },
 });
 let html = fs.readFileSync(app + '/index.html', 'utf8')

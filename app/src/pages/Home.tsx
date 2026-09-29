@@ -1,13 +1,13 @@
 // Главная: продолжить урок, цель на день, план на сегодня, подборки статей/диалогов/книг, ближайшие награды
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { PageProps } from '../app/App';
 import { ACH_LIST, engagement, nearAch, useAchCtx } from '../lib/achievements';
 import { Cloud, useCloud } from '../lib/cloud';
 import { currentUnit, isUnlocked, nextStep, unitProgress } from '../lib/course';
-import { loadJSON, paths, useBookIndex, useCourse, useDeck, useLibrary } from '../lib/data';
+import { useBookIndex, useCourse, useDeck, useLessons, useLibrary } from '../lib/data';
 import { dueCards, newAvailable } from '../lib/srs';
 import { today, useProgress } from '../lib/store';
-import { LEVEL_ORDER, type CourseIndex, type Progress, type TextItem, type Unit } from '../lib/types';
+import { LEVEL_ORDER, type CourseIndex, type LessonText, type Progress } from '../lib/types';
 import { AchCard } from '../components/AchCard';
 import { GoalCard } from '../components/GoalCard';
 import { BookPoster, TextPoster } from '../components/Posters';
@@ -30,36 +30,24 @@ const HIDE_BANNER = 'ep.hideAuthBanner';
 const bannerHidden = () => { try { return !!localStorage.getItem(HIDE_BANNER); } catch { return false; } };
 
 /**
- * Первый непрочитанный текст из открытых уроков (по порядку курса).
- * Уроки грузятся по уровням, пока не найдётся текст; undefined — ещё ищем или нет такого.
+ * Первый непрочитанный текст из открытых уроков (по порядку курса) — по индексу lessons.json.
+ * undefined — ещё грузится или такого нет.
  */
-function useUnreadUnitText(s: Progress, course: CourseIndex | undefined): TextItem | undefined {
-  const [found, setFound] = useState<TextItem | undefined>(undefined);
-  const readSig = Object.keys(s.textsRead).length;
-  const unlockedSig = course ? course.units.filter((u) => isUnlocked(s, u, course)).map((u) => u.id).join(',') : '';
-  useEffect(() => {
-    if (!course) return;
-    let alive = true;
-    const open = new Set(unlockedSig.split(','));
-    const levels = [...new Set(course.units.filter((u) => open.has(u.id)).map((u) => u.level))]
-      .sort((a, b) => (LEVEL_ORDER[a] || 0) - (LEVEL_ORDER[b] || 0));
-    (async () => {
-      for (const l of levels) {
-        let units: Unit[];
-        try { units = await loadJSON<Unit[]>(paths.units(l)); } catch { continue; }
-        if (!alive) return;
-        for (const u of units) {
-          if (!open.has(u.id)) continue;
-          const t = u.texts.find((x) => !s.textsRead[x.id]);
-          if (t) { setFound(t); return; }
-        }
-      }
-      if (alive) setFound(undefined);
-    })();
-    return () => { alive = false; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [course, readSig, unlockedSig]);
-  return found;
+function useUnreadUnitText(s: Progress, course: CourseIndex | undefined): LessonText | undefined {
+  const { data: lessons } = useLessons();
+  if (!course || !lessons) return undefined;
+  const open = new Set(course.units.filter((u) => isUnlocked(s, u, course)).map((u) => u.id));
+  // уровни по порядку, внутри уровня — порядок индекса (как в старых файлах уровней)
+  const levels = [...new Set(course.units.filter((u) => open.has(u.id)).map((u) => u.level))]
+    .sort((a, b) => (LEVEL_ORDER[a] || 0) - (LEVEL_ORDER[b] || 0));
+  for (const l of levels) {
+    for (const u of lessons) {
+      if (u.level !== l || !open.has(u.id)) continue;
+      const t = u.texts.find((x) => !s.textsRead[x.id]);
+      if (t) return t;
+    }
+  }
+  return undefined;
 }
 
 function Task({ done, icon, title, sub, href, btn }: { done: boolean; icon: string; title: string; sub: string; href: string; btn?: string }) {

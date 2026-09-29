@@ -4,7 +4,7 @@ import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
-import { BackLink, Icon, Page, plural, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
 import { Cloud, useCloud, type CloudStatus } from '../lib/cloud';
 import { ding } from '../lib/sfx';
 import { listVoices, speak } from '../lib/speech';
@@ -202,6 +202,7 @@ const wide = () => typeof window !== 'undefined' && window.innerWidth > 760;
 
 function Account() {
   const st = useCloud();
+  useEffect(() => { Cloud.init(); }, []); // страница аккаунта — облако нужно сразу
   const [mode, setModeRaw] = useState<AuthMode>(savedMode);
   const [linkErr, setLinkErr] = useState('');
   const setMode = (m: AuthMode) => { savedMode = m; setModeRaw(m); };
@@ -213,6 +214,7 @@ function Account() {
     if (ev && ev.startsWith('link-error:')) setLinkErr(ev.slice(11));
   }, []);
 
+  if (!Cloud.enabled && st.loading) return <Loading what="Подключаюсь к облаку…" />;
   if (!Cloud.enabled) {
     return (
       <div className="auth-wrap">

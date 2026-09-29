@@ -1,4 +1,4 @@
-// Общие части раздела «Курс»: шапка с вкладками (Уроки / Времена / По учебнику) и кнопка-аватар
+// Общие части раздела «Курс»: шапка с вкладками (Уроки / Времена) и кнопка-аватар
 import { useCloud } from '../lib/cloud';
 import { Icon, Tabs, TopBar } from '../components/ui';
 
@@ -13,11 +13,10 @@ export function AvatarBtn() {
   );
 }
 
-export type CourseTab = 'lessons' | 'tenses' | 'books';
+export type CourseTab = 'lessons' | 'tenses';
 const TABS: { key: CourseTab; href: string; icon: string; label: string }[] = [
   { key: 'lessons', href: '#/course', icon: 'graduation-cap', label: 'Уроки' },
   { key: 'tenses', href: '#/tenses', icon: 'clock-countdown', label: 'Времена' },
-  { key: 'books', href: '#/books/red', icon: 'books', label: 'По учебнику' },
 ];
 
 /** Верх раздела «Курс»: заголовок + переключатель подразделов + пояснение */

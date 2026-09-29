@@ -43,8 +43,7 @@ test('урок a1-0: слова, грамматика, тест, сброс', as
   await expect(page.locator('.walk')).toBeVisible();
 
   // тест: ответы берём из данных урока
-  const units = (await (await page.request.get('data/units/A1.json')).json()) as UnitJson[];
-  const list = units.find((u) => u.id === 'a1-0')!.test;
+  const list = ((await (await page.request.get('data/units/a1-0.json')).json()) as UnitJson).test;
   await page.goto('#/unit/a1-0/test');
   await page.getByRole('button', { name: 'Начать тест' }).click();
   for (let i = 0; i < 40 && !(await page.locator('.ex-wrap.result').count()); i++) {

@@ -1,11 +1,13 @@
 // Загрузка контента из public/data/*.json: кеш в памяти + React-хук
 import { useEffect, useState } from 'react';
-import type { Book, BookMeta, CourseIndex, DeckWord, DeckWordRow, Level, Syllabus, Tense, TextItem, TopicCat, TopicCol, Unit } from './types';
+import type { Book, BookMeta, CourseIndex, DeckWord, DeckWordRow, LessonUnit, Syllabus, Tense, TextItem, TopicCat, TopicCol, Unit } from './types';
 
 const cache = new Map<string, Promise<unknown>>();
 const ready = new Map<string, unknown>();
 
-export const dataUrl = (path: string) => new URL('data/' + path, document.baseURI).toString();
+// версия сборки в адресе: данные одной выкладки кешируются навсегда (service worker), новая выкладка — свежие файлы
+const BUILD = (import.meta.env.VITE_BUILD as string | undefined) || '';
+export const dataUrl = (path: string) => new URL('data/' + path + (BUILD ? '?v=' + BUILD.slice(0, 10) : ''), document.baseURI).toString();
 
 export function loadJSON<T>(path: string): Promise<T> {
   if (!cache.has(path)) {
@@ -41,7 +43,8 @@ export function useJSON<T>(path: string | null): Loaded<T> {
 // ───────── типизированные пути ─────────
 export const paths = {
   course: 'course.json',
-  units: (lvl: Level) => `units/${lvl}.json`,
+  unit: (id: string) => `units/${id}.json`,
+  lessons: 'lessons.json',
   syllabus: 'syllabus.json',
   words: 'words.json',
   dict: 'dict.json',
@@ -54,7 +57,10 @@ export const paths = {
 };
 
 export const useCourse = () => useJSON<CourseIndex>(paths.course);
-export const useUnits = (lvl: Level | null) => useJSON<Unit[]>(lvl ? paths.units(lvl) : null);
+/** Один юнит целиком (грамматика, упражнения, тексты) */
+export const useUnit = (id: string | null) => useJSON<Unit>(id ? paths.unit(id) : null);
+/** Компактный индекс всех юнитов: слова и метаданные текстов */
+export const useLessons = () => useJSON<LessonUnit[]>(paths.lessons);
 export const useSyllabus = () => useJSON<Syllabus>(paths.syllabus);
 export const useLibrary = () => useJSON<TextItem[]>(paths.library);
 export const useTopics = () => useJSON<{ cats: TopicCat[]; cols: TopicCol[] }>(paths.topics);
@@ -66,7 +72,7 @@ let deckCache: DeckWord[] | null = null;
 export const toDeck = (rows: DeckWordRow[]): DeckWord[] =>
   (deckCache = deckCache || rows.map((w) => ({ id: w[0].toLowerCase(), en: w[0], ru: w[1], ex: w[2], exRu: w[3], lvl: w[4], pos: w[5], rank: w[6] })));
 /** Частотная колода ~4000 слов */
-export function useDeck(): DeckWord[] | undefined {
-  const { data } = useJSON<DeckWordRow[]>(paths.words);
+export function useDeck(enabled = true): DeckWord[] | undefined {
+  const { data } = useJSON<DeckWordRow[]>(enabled ? paths.words : null);
   return data ? toDeck(data) : undefined;
 }

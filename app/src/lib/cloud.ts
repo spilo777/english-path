@@ -1,6 +1,7 @@
 // Синхронизация с Supabase: аккаунт, слияние прогресса между устройствами, реальная редкость достижений.
 // Сайт работает и без неё: всё хранится локально, облако — надстройка.
-// Клиент supabase-js берётся из window.supabase (UMD-скрипт из CDN, может загрузиться позже модуля).
+// Клиент supabase-js берётся из window.supabase: UMD-скрипт из CDN подгружается сам после первого экрана (init),
+// чтобы не задерживать открытие сайта.
 import { useSyncExternalStore } from 'react';
 import { getState, onSave, replaceState } from './store';
 import type { Card, DayActivity, Progress, UserText } from './types';
@@ -53,9 +54,22 @@ let lastSync: Date | null = null, lastError: string | null = null;
 let inited = false;
 const listeners = new Set<() => void>();
 
-export interface CloudStatus { enabled: boolean; user: CloudUser | null; lastSync: Date | null; lastError: string | null; pushing: boolean; pulling: boolean }
+const SB_SRC = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+let libLoading = false;
+/** Подгрузить UMD-скрипт supabase-js; по готовности — колбэк */
+function loadLib(done: () => void): void {
+  if (sbLib()) { done(); return; }
+  libLoading = true;
+  const el = document.createElement('script');
+  el.src = SB_SRC; el.async = true;
+  el.onload = () => { libLoading = false; done(); emit(); };
+  el.onerror = () => { libLoading = false; emit(); };
+  document.head.appendChild(el);
+}
+
+export interface CloudStatus { enabled: boolean; loading: boolean; user: CloudUser | null; lastSync: Date | null; lastError: string | null; pushing: boolean; pulling: boolean }
 let snap: CloudStatus = mkStatus();
-function mkStatus(): CloudStatus { return { enabled: !!sb, user, lastSync, lastError, pushing, pulling }; }
+function mkStatus(): CloudStatus { return { enabled: !!sb, loading: libLoading || !inited, user, lastSync, lastError, pushing, pulling }; }
 const emit = () => { snap = mkStatus(); listeners.forEach((f) => { try { f(); } catch { /* подписчик упал — не мешаем остальным */ } }); };
 
 // что пришло по ссылке из письма (Supabase кладёт это в #hash)
@@ -308,12 +322,8 @@ function start(c: SbClient) {
 function init(): void {
   if (inited) return;
   inited = true;
-  const c = client();
-  if (c) { start(c); return; }
-  // UMD-скрипт ещё не загрузился — ждём окончания загрузки страницы
-  const retry = () => { const x = client(); if (x) start(x); };
-  if (document.readyState === 'complete') setTimeout(retry, 0);
-  else window.addEventListener('load', retry, { once: true });
+  loadLib(() => { const c = client(); if (c) start(c); });
+  emit();
 }
 
 // ───────── перевод через Яндекс (edge-функция translate, только для вошедших) ─────────
@@ -337,6 +347,9 @@ async function yandex(q: string, mode?: 'word' | 'text'): Promise<YandexResult |
     return yaCache[k];
   } catch { return null; }
 }
+
+/** Есть сохранённый вход — облако нужно сразу, а не «когда-нибудь потом» */
+export const hasSession = (): boolean => { try { return !!localStorage.getItem('englishpath.auth'); } catch { return false; } };
 
 export const Cloud = {
   /** Облако доступно (клиент supabase загружен) */
