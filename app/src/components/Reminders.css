@@ -1,0 +1,5 @@
+/* Настройки → Напоминания */
+.rem-btns { gap: 8px; }
+.rem-ios p { margin: 0 0 6px; }
+.rem-ios ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.rem-ios .ph { vertical-align: -2px; }

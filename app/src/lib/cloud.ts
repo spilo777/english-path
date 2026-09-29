@@ -20,6 +20,7 @@ interface SbSession { user: CloudUser }
 type SbRes<T = unknown> = { data: T; error: SbError | null };
 interface SbTable {
   select(cols: string): { eq(col: string, v: string): { maybeSingle(): PromiseLike<SbRes<unknown>> } };
+  delete(): { eq(col: string, v: string): PromiseLike<{ error: SbError | null }> };
   upsert(rows: object | object[], opts: { onConflict: string; ignoreDuplicates?: boolean }): PromiseLike<{ error: SbError | null }>;
 }
 interface SbAuth {
@@ -32,11 +33,11 @@ interface SbAuth {
   resend(a: { type: 'signup'; email: string; options?: { emailRedirectTo?: string } }): Promise<{ error: SbError | null }>;
   updateUser(a: { password: string }): Promise<{ error: SbError | null }>;
 }
-interface SbClient {
+export interface SbClient {
   auth: SbAuth;
   from(table: string): SbTable;
-  rpc(fn: string): PromiseLike<SbRes<unknown>>;
-  functions: { invoke(name: string, opts: { body: unknown }): Promise<SbRes<unknown>> };
+  rpc(fn: string, args?: Record<string, unknown>): PromiseLike<SbRes<unknown>>;
+  functions: { invoke(name: string, opts: { body?: unknown; method?: 'GET' | 'POST' }): Promise<SbRes<unknown>> };
 }
 interface SbLib { createClient(url: string, key: string, opts: object): SbClient }
 
@@ -362,6 +363,9 @@ async function yandex(q: string, mode?: 'word' | 'text'): Promise<YandexResult |
     return yaCache[k];
   } catch { return null; }
 }
+
+/** Клиент облака для других модулей (напоминания и т. п.); null — облако не загружено */
+export const cloudClient = (): SbClient | null => client();
 
 /** Есть сохранённый вход — облако нужно сразу, а не «когда-нибудь потом» */
 export const hasSession = (): boolean => { try { return !!localStorage.getItem('englishpath.auth'); } catch { return false; } };

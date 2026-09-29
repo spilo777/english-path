@@ -1,0 +1,5 @@
+-- Напоминания (web push). Применено через миграции push_reminders и push_reminders_cron.
+-- Таблица подписок push_subs (RLS: только свои), push_subscribe() — подписка устройства,
+-- push_get_secret/push_set_secret — ключи VAPID и секрет расписания в Vault (только service_role),
+-- pg_cron 'push-reminders' каждые 15 минут вызывает функцию push с op=cron.
+-- Исходник функции: supabase/functions/push/index.ts (verify_jwt = false: своя проверка — секрет расписания / токен пользователя).

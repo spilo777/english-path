@@ -75,3 +75,26 @@ self.addEventListener('fetch', (e) => {
   if (rel.startsWith('data/') && url.searchParams.has('v')) { e.respondWith(versioned(req)); return; }
   if (rel.startsWith('data/') || rel.startsWith('img/') || rel === 'manifest.webmanifest') { e.respondWith(data(req, e)); return; }
 });
+
+// ───────── напоминания (web push) ─────────
+self.addEventListener('push', (e) => {
+  let m = { title: 'English Path', body: 'Пора позаниматься английским', url: scope.href, tag: 'daily' };
+  try { if (e.data) m = { ...m, ...e.data.json() }; } catch { /* не JSON — показываем стандартный текст */ }
+  e.waitUntil(self.registration.showNotification(m.title, {
+    body: m.body, tag: m.tag, renotify: false,
+    icon: new URL('img/icon-192.png', scope).href, badge: new URL('img/favicon-32.png', scope).href,
+    data: { url: m.url },
+  }));
+});
+
+// нажатие на уведомление: открыть уже открытую вкладку сайта (и перейти по ссылке) или новую
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || scope.href;
+  e.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const mine = wins.find((w) => w.url.startsWith(scope.href) && !w.url.includes('/legacy/'));
+    if (mine) { await mine.focus(); if ('navigate' in mine) await mine.navigate(url).catch(() => undefined); return; }
+    await self.clients.openWindow(url);
+  })());
+});
