@@ -116,3 +116,14 @@ test('аккаунт: форма проверяется без отправки 
   await page.screenshot({ path: `shots/${info.project.name}-account.png`, fullPage: true });
   expect(errors).toEqual([]);
 });
+
+test('лига и друзья: страница открывается из профиля', async ({ page }) => {
+  const errors = watchErrors(page);
+  await page.goto('#/profile');
+  await page.locator('.menu-list a[href="#/league"]').click();
+  await expect(page.locator('main .page-title')).toHaveText('Лига и друзья');
+  // гость видит приглашение войти (очки считаются по облачному прогрессу)
+  await expect(page.locator('main')).toContainText(/Войти|Лига|Друзья/);
+  expect(await noHScroll(page)).toBe(true);
+  expect(errors).toEqual([]);
+});

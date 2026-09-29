@@ -1,0 +1,5 @@
+-- Лиги и друзья (миграции leagues_friends, leagues_carry_over):
+-- profiles (имя для лиги, код друга, лига 0–9), league_members (неделя, лига, группа до 30), league_history, friends (взаимно).
+-- Очки недели: week_xp() из progress.state.activity — 1 за карточку, 2 за упражнение, 10 за текст; неделя пн–вс по Москве.
+-- RPC: profile_get, profile_set_name, league_join, league_board, league_last_result, friend_add, friend_remove, friends_list.
+-- pg_cron 'league-rollover' — вс 21:05 UTC (пн 00:05 МСК): места, повышение/понижение, перенос в группы новой недели.

@@ -117,6 +117,7 @@ function ProfileHome() {
       ) : null}
       <div className="menu-list">
         <a href="#/achievements"><span className="mi" style={cssVar('--c', '#E3A21A')}><Icon name="trophy" fill /></span><span>Достижения</span><em>{achN}/{ACH_LIST.length}</em><Icon name="caret-right" /></a>
+        <a href="#/league"><span className="mi" style={cssVar('--c', '#C0773A')}><Icon name="shield-star" fill /></span><span>Лига и друзья</span><Icon name="caret-right" /></a>
         <a href="#/stats"><span className="mi" style={cssVar('--c', '#4F6AF0')}><Icon name="chart-bar" fill /></span><span>Прогресс и статистика</span><Icon name="caret-right" /></a>
         <a href="#/account"><span className="mi" style={cssVar('--c', '#1FA865')}><Icon name="cloud" fill /></span><span>{email ? 'Аккаунт и синхронизация' : 'Войти или создать аккаунт'}</span><Icon name="caret-right" /></a>
         <a href="#/settings"><span className="mi" style={cssVar('--c', '#8E8E99')}><Icon name="gear-six" fill /></span><span>Настройки</span><Icon name="caret-right" /></a>
