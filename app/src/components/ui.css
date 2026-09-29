@@ -313,11 +313,6 @@ a.tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .stat .chip-ico i { font-size: 18px; }
 .hchip i { font-size: 14px; margin-right: 2px; }
 .unit-row .unit-num i { font-size: 20px; }
-.ach-icon i { font-size: 26px; color: var(--t-common); }
-.ach-icon.uncommon i { color: var(--t-uncommon); }
-.ach-icon.rare i { color: var(--t-rare); }
-.ach-icon.epic i { color: var(--t-epic); }
-.ach-icon.legend i { color: #b87700; }
 .ach-pop .ach-icon i { font-size: 24px; }
 .auth-ico i, .auth-banner-ico i { font-size: 26px; }
 .auth-big i { font-size: 56px; color: var(--accent); }
