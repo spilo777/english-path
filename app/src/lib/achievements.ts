@@ -364,6 +364,19 @@ export function engagement(s: Progress): Engagement {
   return { xp, lvl, into: xp - acc, need, rank: RANKS[Math.min(RANKS.length - 1, Math.floor((lvl - 1) / 2))] };
 }
 
+/** Сколько очков всего нужно, чтобы достичь уровня lvl (уровень 1 — с нуля) */
+export function levelStartXp(lvl: number): number {
+  let need = 60, acc = 0;
+  for (let l = 1; l < lvl; l++) { acc += need; need = Math.round(need * 1.25); }
+  return acc;
+}
+
+export interface RankStep { rank: string; from: number; to: number; xp: number }
+/** Лестница званий: каждое звание — два уровня; xp — сколько очков нужно для первого уровня звания */
+export function rankLadder(): RankStep[] {
+  return RANKS.map((rank, i) => ({ rank, from: i * 2 + 1, to: i * 2 + 2, xp: levelStartXp(i * 2 + 1) }));
+}
+
 /** Ближайшие к получению (для «Главной») */
 export function nearAch(s: Progress, c: AchCtx, n = 3): { a: Ach; p: number }[] {
   return ACH_LIST.filter((a) => !s.ach[a.id] && !a.hidden && a.need > 1)

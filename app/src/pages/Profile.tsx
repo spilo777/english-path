@@ -5,7 +5,7 @@ import { AchCard } from '../components/AchCard';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
 import { BackLink, Icon, Page, RoundBtn, TopBar, plural } from '../components/ui';
-import { ACH_LIST, deckStats, engagement, pctOf, pctReal, useAchCtx } from '../lib/achievements';
+import { ACH_LIST, deckStats, engagement, pctOf, pctReal, rankLadder, useAchCtx, type Engagement } from '../lib/achievements';
 import { Cloud, useCloud } from '../lib/cloud';
 import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
@@ -25,6 +25,44 @@ const learnedCards = (s: Progress) => Object.values(s.cards).filter((c) => c.sta
 const MEDALS = ['#C9853E', '#A7B1BE', '#E3B23C', '#4F6AF0', '#9A55F0', '#E8456B'];
 const BackToProfile = () => <BackLink href="#/profile" label="Профиль" />;
 const cssVar = (name: string, v: string) => ({ [name]: v }) as unknown as CSSProperties;
+
+// ───────── уровень вовлечённости и лестница званий ─────────
+function EngagementCard({ e }: { e: Engagement }) {
+  const [open, setOpen] = useState(false);
+  const ladder = rankLadder();
+  return (
+    <div className="card pf-engcard">
+      <button type="button" className="pf-engbtn" aria-expanded={open} onClick={() => setOpen(!open)}>
+        <div className="eyebrow">Уровень вовлечённости</div>
+        <div className="row pf-eng">
+          <div className="pf-lvl">{e.lvl}</div>
+          <div className="pf-grow">
+            <b className="pf-rank">{e.rank} <Icon name={open ? 'caret-up' : 'caret-down'} className="pf-caret" /></b>
+            <div className="progress pf-mt8"><i style={{ width: (e.into / e.need) * 100 + '%' }} /></div>
+            <div className="tiny muted pf-mt4">{e.into} / {e.need} очков до уровня {e.lvl + 1} · всего {e.xp}</div>
+          </div>
+        </div>
+      </button>
+      {open ? (
+        <ol className="pf-ladder">
+          {ladder.map((r) => {
+            const state = e.lvl > r.to ? 'done' : e.lvl >= r.from ? 'now' : 'next';
+            return (
+              <li key={r.rank} className={'pf-step ' + state}>
+                <span className="pf-step-ico"><Icon name={state === 'done' ? 'check' : state === 'now' ? 'star' : 'lock-simple'} fill /></span>
+                <span className="pf-step-name">
+                  <b>{r.rank}{state === 'now' ? <span className="pf-here"> · вы здесь</span> : null}</b>
+                  <span className="tiny muted">уровни {r.from}–{r.to} · {r.xp ? `от ${r.xp.toLocaleString('ru-RU')} очков` : 'с самого начала'}{state === 'next' ? ` · ещё ${(r.xp - e.xp).toLocaleString('ru-RU')}` : ''}</span>
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+      ) : null}
+      <p className="tiny muted pf-note">Очки даются за каждое достижение: чем оно реже, тем больше очков. {open ? '' : 'Нажмите, чтобы увидеть все звания.'}</p>
+    </div>
+  );
+}
 
 // ───────── профиль ─────────
 function ProfileHome() {
@@ -137,18 +175,7 @@ function Achievements() {
       <BackToProfile />
       <h1 className="page-title">Награды</h1>
       <div className="pf-grid2">
-        <div className="card">
-          <div className="eyebrow">Уровень вовлечённости</div>
-          <div className="row pf-eng">
-            <div className="pf-lvl">{e.lvl}</div>
-            <div className="pf-grow">
-              <b className="pf-rank">{e.rank}</b>
-              <div className="progress pf-mt8"><i style={{ width: (e.into / e.need) * 100 + '%' }} /></div>
-              <div className="tiny muted pf-mt4">{e.into} / {e.need} очков до уровня {e.lvl + 1} · всего {e.xp}</div>
-            </div>
-          </div>
-          <p className="tiny muted pf-note">Очки даются за каждое достижение: чем оно реже, тем больше очков.</p>
-        </div>
+        <EngagementCard e={e} />
         <div className="card">
           <div className="eyebrow">Коллекция</div>
           <b className="pf-big">{got.length}</b> <span className="muted">из {all.length}</span>

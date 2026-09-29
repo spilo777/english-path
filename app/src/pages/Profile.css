@@ -53,3 +53,16 @@
   .pf-stat b { font-size: 22px; }
   .pf-stat span { font-size: 12px; line-height: 1.3; display: block; }
 }
+
+/* уровень вовлечённости: раскрывается лестница званий */
+.pf-engbtn { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; }
+.pf-caret { font-size: 15px; color: var(--muted); vertical-align: -2px; margin-left: 4px; }
+.pf-ladder { list-style: none; margin: 14px 0 4px; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.pf-step { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 12px; }
+.pf-step.now { background: var(--accent-soft); }
+.pf-step-ico { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-size: 14px; background: var(--surface-2); color: var(--muted); }
+.pf-step.done .pf-step-ico { background: var(--ok-soft); color: var(--ok); }
+.pf-step.now .pf-step-ico { background: var(--grad); color: #fff; }
+.pf-step-name { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.pf-step.next .pf-step-name b { color: var(--muted); }
+.pf-here { font-weight: 600; font-size: 13px; color: var(--accent-text); }

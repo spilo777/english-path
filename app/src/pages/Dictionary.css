@@ -35,3 +35,4 @@
   .word-item .btn.small { padding: 6px 10px; }
   .deck-filter select.input { max-width: 44%; }
 }
+.now-extra { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-weight: 650; }

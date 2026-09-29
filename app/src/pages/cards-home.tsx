@@ -117,6 +117,7 @@ export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicC
             <div className="eyebrow">Сейчас учу</div>
             <b className="now-title">{onDecks.length ? 'Колоды ' + onDecks.join(' · ') : 'Только мои слова'}</b>
             <div className="small muted">{due + nw ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : 'На сегодня всё повторено'}</div>
+            <a className="now-extra small" href="#/review/extra"><Icon name="lightning" fill /> Занятие вне очереди</a>
           </div>
           {due + nw ? <a className="pill-btn" href="#/review">НАЧАТЬ</a> : <span className="pill ok"><Icon name="check" /> Готово</span>}
         </div>

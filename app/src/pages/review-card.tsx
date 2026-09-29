@@ -41,10 +41,12 @@ interface Props {
   pos?: string;
   side: Side;
   onKnown: () => void;
+  /** занятие вне очереди, карточке ещё не пора: «Хорошо/Легко» не меняют расписание */
+  early?: boolean;
   onGrade: (g: Grade, side: Side) => void;
 }
 
-export function FlashCard({ c, pos, side: m, onGrade, onKnown }: Props) {
+export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
   const id = c.id;
   const [shown, setShown] = useState(false);
   const graded = useRef(false);
@@ -144,7 +146,7 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown }: Props) {
     back = <div className="back">{c.en}<Ipa word={c.en} />{c.ex ? <div className="exru"><ExText text={c.ex} /></div> : null}{tools}</div>;
   }
   const exPlain = c.ex ? c.ex.replace(/\*\*/g, '') : '';
-  const lbl = (g: Grade) => { const n = schedule(c, g); return fmtIvl(Math.max(60000, n.due - Date.now())); };
+  const lbl = (g: Grade) => { if (early && g > 0) return 'как было'; const n = schedule(c, g); return fmtIvl(Math.max(60000, n.due - Date.now())); };
 
   return (
     <>

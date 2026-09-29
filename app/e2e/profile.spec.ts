@@ -44,6 +44,10 @@ test('профиль → награды → статистика', async ({ page
   await page.locator('.league').click();
   await expect(page.locator('main .page-title')).toHaveText('Награды');
   await expect(page.locator('.ach').first()).toBeVisible();
+  // лестница званий по нажатию на уровень
+  await page.locator('.pf-engbtn').click();
+  await expect(page.locator('.pf-step')).toHaveCount(10);
+  await expect(page.locator('.pf-step.now')).toHaveCount(1);
   const got = Object.keys((await saved(page)).ach).length;
   await page.locator('.seg button', { hasText: 'Получены' }).click();
   await expect(page.locator('.ach')).toHaveCount(got);

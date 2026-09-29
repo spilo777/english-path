@@ -87,3 +87,24 @@ test('«Уже знаю это слово» на любой карточке: в
   await expect(page.getByRole('button', { name: 'Уже знаю это слово' })).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('занятие вне очереди: знакомая карточка не меняет расписание, есть «Уже знаю»', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('#/cards');
+  await page.locator('.now-extra').click();
+  await expect(page.locator('.rv-topic')).toHaveText('Вне очереди');
+  // первыми идут «должники», затем ближайшие; ищем карточку, которой ещё не пора (cat — через 5 дней)
+  for (let i = 0; i < 12; i++) {
+    const w = (await page.locator('.fc .front').innerText()).trim();
+    if (w === 'cat') break;
+    await page.getByRole('button', { name: 'Уже знаю это слово' }).click();
+  }
+  await expect(page.locator('.fc .front')).toHaveText('cat');
+  const before = await page.evaluate(() => JSON.parse(localStorage.getItem('englishpath.v1') || '{}').cards.cat.due);
+  await page.locator('.fc-show').click();
+  await expect(page.locator('.grades .btn.good')).toContainText('как было');
+  await page.locator('.grades .btn.good').click();
+  const after = await page.evaluate(() => JSON.parse(localStorage.getItem('englishpath.v1') || '{}').cards.cat.due);
+  expect(after).toBe(before);
+  expect(errors).toEqual([]);
+});
