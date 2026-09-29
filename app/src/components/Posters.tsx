@@ -37,7 +37,7 @@ function Poster({ href, id, wiki, title, band, cap, icon, cls = '', done, progre
   return (
     <a className="poster" href={href}>
       <Cover id={id} wiki={wiki} cls={'poster-img' + (cls ? ' ' + cls : '')} icon={icon}>
-        {done ? <b className="lib-done"><Icon name="check" fill /></b> : null}
+        {done ? <b className="lib-done"><Icon name="check" /></b> : null}
         <div className="poster-band"><b>{title}</b><span>{band}</span></div>
         {progress ? <i className="poster-prog" style={{ width: Math.round(progress * 100) + '%' }} /> : null}
       </Cover>
@@ -78,7 +78,7 @@ export function LibCard({ t }: { t: TextItem }) {
   const qz = (s.quiz || {})[t.id];
   return (
     <a className={'lib-card cat-' + catIdx(t.cat)} href={'#/read/' + t.id}>
-      <Cover id={t.id} icon={catIcon(t.cat)}>{read ? <b className="lib-done"><Icon name="check" fill /></b> : null}</Cover>
+      <Cover id={t.id} icon={catIcon(t.cat)}>{read ? <b className="lib-done"><Icon name="check" /></b> : null}</Cover>
       <div className="lib-body">
         <div className="lib-meta"><span className="pill accent">{t.level}</span><span className="tiny muted">{CAT_ICON[t.cat || ''] ? <Icon name={CAT_ICON[t.cat || '']} /> : null} {t.cat}</span></div>
         <div className="lib-title">{t.title}</div>

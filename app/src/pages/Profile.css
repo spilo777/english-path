@@ -63,7 +63,7 @@
 .pf-step { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 12px; }
 .pf-step.now { background: var(--accent-soft); }
 .pf-step-ico { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-size: 14px; background: var(--surface-2); color: var(--muted); }
-.pf-step.done .pf-step-ico { background: var(--ok-soft); color: var(--ok); }
+.pf-step.done .pf-step-ico { background: var(--ok-soft); color: var(--ok); font-size: 16px; }
 .pf-step.now .pf-step-ico { background: var(--grad); color: #fff; }
 .pf-step-name { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .pf-step.next .pf-step-name b { color: var(--muted); }

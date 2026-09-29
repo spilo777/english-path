@@ -49,7 +49,7 @@ function EngagementCard({ e }: { e: Engagement }) {
             const state = e.lvl > r.to ? 'done' : e.lvl >= r.from ? 'now' : 'next';
             return (
               <li key={r.rank} className={'pf-step ' + state}>
-                <span className="pf-step-ico"><Icon name={state === 'done' ? 'check' : state === 'now' ? 'star' : 'lock-simple'} fill /></span>
+                <span className="pf-step-ico"><Icon name={state === 'done' ? 'check' : state === 'now' ? 'star' : 'lock-simple'} fill={state !== 'done'} /></span>
                 <span className="pf-step-name">
                   <b>{r.rank}{state === 'now' ? <span className="pf-here"> · вы здесь</span> : null}</b>
                   <span className="tiny muted">уровни {r.from}–{r.to} · {r.xp ? `от ${r.xp.toLocaleString('ru-RU')} очков` : 'с самого начала'}{state === 'next' ? ` · ещё ${(r.xp - e.xp).toLocaleString('ru-RU')}` : ''}</span>
