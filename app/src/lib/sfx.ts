@@ -47,5 +47,6 @@ function play(ctx: AudioContext, kind: 'ok' | 'bad' | 'done') {
   };
   if (kind === 'ok') { tone(880, 0, 0.16, 0.18, 'triangle'); tone(1318.5, 0.09, 0.28, 0.16, 'triangle'); tone(1760, 0.09, 0.2, 0.05, 'sine'); }
   else if (kind === 'done') { [659.3, 830.6, 987.8, 1318.5].forEach((f, i) => tone(f, i * 0.09, 0.32, 0.16, 'triangle')); }
-  else { tone(220, 0, 0.16, 0.12, 'sine'); tone(196, 0.1, 0.18, 0.1, 'sine'); }
+  // «ту-дут»: две ноты вниз, с паузой — слышно и на динамике телефона
+  else { tone(392, 0, 0.13, 0.17, 'triangle'); tone(784, 0, 0.1, 0.03, 'sine'); tone(262, 0.17, 0.26, 0.18, 'triangle'); tone(524, 0.17, 0.2, 0.03, 'sine'); }
 }

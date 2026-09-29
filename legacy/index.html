@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#FBF7F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="English Path">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Path</title>
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<link rel="stylesheet" href="css/style.css?v=1790670025">
+</head>
+<body>
+<div class="app">
+  <aside class="nav" id="nav">
+    <a class="brand" href="#/" title="На главную"><span class="brand-mark">E</span><span class="brand-name">English Path</span></a>
+    <a href="#/" data-nav="today"><span class="ico"><i class="ph ph-house i-reg"></i><i class="ph-fill ph-house i-fill"></i></span><span>Главная</span></a>
+    <a href="#/course" data-nav="course"><span class="ico"><i class="ph ph-graduation-cap i-reg"></i><i class="ph-fill ph-graduation-cap i-fill"></i></span><span>Курс</span></a>
+    <a href="#/library" data-nav="library"><span class="ico"><i class="ph ph-books i-reg"></i><i class="ph-fill ph-books i-fill"></i></span><span>Библиотека</span></a>
+    <a href="#/cards" data-nav="cards"><span class="ico"><i class="ph ph-cards i-reg"></i><i class="ph-fill ph-cards i-fill"></i></span><span>Словарь</span><b class="badge" id="due-badge" hidden></b></a>
+    <a href="#/profile" data-nav="profile" id="nav-profile"><span class="ico"><i class="ph ph-user-circle i-reg"></i><i class="ph-fill ph-user-circle i-fill"></i></span><span>Профиль</span></a>
+  </aside>
+  <main class="main" id="view"></main>
+</div>
+<div class="popover" id="popover" hidden></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="data/dict.js?v=1790670025"></script>
+<script src="data/course.js?v=1790670025"></script>
+<script src="data/units-a1-5-6.js?v=1790670025"></script>
+<script src="data/units-a1-7-8.js?v=1790670025"></script>
+<script src="data/units-a1-9-10.js?v=1790670025"></script>
+<script src="data/units-games-2-3.js?v=1790670025"></script>
+<script src="data/units-a1-11-12.js?v=1790670025"></script>
+<script src="data/units-a1-13-14.js?v=1790670025"></script>
+<script src="data/units-a1-15-16.js?v=1790670025"></script>
+<script src="data/units-a1-17-18.js?v=1790670025"></script>
+<script src="data/units-a2-1-2.js?v=1790670025"></script>
+<script src="data/units-a2-3-4.js?v=1790670025"></script>
+<script src="data/units-a2-5-6.js?v=1790670025"></script>
+<script src="data/units-a2-7-8.js?v=1790670025"></script>
+<script src="data/units-a2-9-10.js?v=1790670025"></script>
+<script src="data/units-a2-11-12.js?v=1790670025"></script>
+<script src="data/units-a2-13-14.js?v=1790670025"></script>
+<script src="data/units-a2-15-16.js?v=1790670025"></script>
+<script src="data/units-a2-17-18.js?v=1790670025"></script>
+<script src="data/units-a2-19-20.js?v=1790670025"></script>
+<script src="data/units-a2-21-22.js?v=1790670025"></script>
+<script src="data/units-b1-1-2.js?v=1790670025"></script>
+<script src="data/units-b1-3-4.js?v=1790670025"></script>
+<script src="data/units-b1-5-6.js?v=1790670025"></script>
+<script src="data/units-b1-7-8.js?v=1790670025"></script>
+<script src="data/units-b1-9-10.js?v=1790670025"></script>
+<script src="data/units-b1-11-12.js?v=1790670025"></script>
+<script src="data/units-b1-13-14.js?v=1790670025"></script>
+<script src="data/units-b1-15-16.js?v=1790670025"></script>
+<script src="data/units-b1-17-18.js?v=1790670025"></script>
+<script src="data/units-b1-19-20.js?v=1790670025"></script>
+<script src="data/units-b1-21-22.js?v=1790670025"></script>
+<script src="data/units-b1-23-24.js?v=1790670025"></script>
+<script src="data/units-b2-1-2.js?v=1790670025"></script>
+<script src="data/units-b2-3-4.js?v=1790670025"></script>
+<script src="data/units-b2-5-6.js?v=1790670025"></script>
+<script src="data/units-b2-9-10.js?v=1790670025"></script>
+<script src="data/units-b2-11-12.js?v=1790670025"></script>
+<script src="data/v2/a1-0-1.js?v=1790670025"></script>
+<script src="data/v2/a1-2-3.js?v=1790670025"></script>
+<script src="data/v2/a1-4-5.js?v=1790670025"></script>
+<script src="data/v2/a1-6-7.js?v=1790670025"></script>
+<script src="data/v2/a1-8-9.js?v=1790670025"></script>
+<script src="data/v2/a1-10-g1.js?v=1790670025"></script>
+<script src="data/v2/g-2-3.js?v=1790670025"></script>
+<script src="data/walk/a1-1.js?v=1790670025"></script>
+<script src="data/walk/a1-2.js?v=1790670025"></script>
+<script src="data/walk/a1-3.js?v=1790670025"></script>
+<script src="data/walk/a1-0.js?v=1790670025"></script>
+<script src="data/walk/a1-4.js?v=1790670025"></script>
+<script src="data/walk/a1-5.js?v=1790670025"></script>
+<script src="data/walk/a1-6.js?v=1790670025"></script>
+<script src="data/walk/a1-7.js?v=1790670025"></script>
+<script src="data/walk/a1-8.js?v=1790670025"></script>
+<script src="data/walk/a1-9.js?v=1790670025"></script>
+<script src="data/walk/a1-10.js?v=1790670025"></script>
+<script src="data/walk/g-1.js?v=1790670025"></script>
+<script src="data/walk/g-2.js?v=1790670025"></script>
+<script src="data/walk/g-3.js?v=1790670025"></script>
+<script src="data/walk/a1-11.js?v=1790670025"></script>
+<script src="data/walk/a1-12.js?v=1790670025"></script>
+<script src="data/walk/a1-13.js?v=1790670025"></script>
+<script src="data/walk/a1-14.js?v=1790670025"></script>
+<script src="data/walk/a1-15.js?v=1790670025"></script>
+<script src="data/walk/a1-16.js?v=1790670025"></script>
+<script src="data/walk/a1-17.js?v=1790670025"></script>
+<script src="data/walk/a1-18.js?v=1790670025"></script>
+<script src="data/syllabus.js?v=1790670025"></script>
+<script src="data/words.js?v=1790670025"></script>
+<script src="data/library/a1-cartoons.js?v=1790670025"></script>
+<script src="data/library/a1-series-games.js?v=1790670025"></script>
+<script src="data/library/a2-animation.js?v=1790670025"></script>
+<script src="data/library/a2-series.js?v=1790670025"></script>
+<script src="data/library/b1-games-anime.js?v=1790670025"></script>
+<script src="data/library/b1-series.js?v=1790670025"></script>
+<script src="data/library/b2-deepdives.js?v=1790670025"></script>
+<script src="data/library/b2-essays.js?v=1790670025"></script>
+<script src="data/library/dialogs-a1-a2.js?v=1790670025"></script>
+<script src="data/library/dialogs-b1-b2.js?v=1790670025"></script>
+<script src="data/books/index.js?v=1790670025"></script>
+<script src="data/books/adapted-a1-a2.js?v=1790670025"></script>
+<script src="data/books/adapted-b1.js?v=1790670025"></script>
+<script src="data/tenses/t1-present-past.js?v=1790670025"></script>
+<script src="data/tenses/t2-future-perfect.js?v=1790670025"></script>
+<script src="data/tenses/t3-advanced.js?v=1790670025"></script>
+<script src="data/topics/cats.js?v=1790670025"></script>
+<script src="data/topics/t1.js?v=1790670025"></script>
+<script src="data/topics/t2.js?v=1790670025"></script>
+<script src="data/topics/t3.js?v=1790670025"></script>
+<script src="data/topics/t4.js?v=1790670025"></script>
+<script src="js/lookup.js?v=1790670025"></script>
+<script src="js/achievements.js?v=1790670025"></script>
+<script src="js/config.js?v=1790670025"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/cloud.js?v=1790670025"></script>
+<script src="js/app.js?v=1790670025"></script>
+</body>
+</html>

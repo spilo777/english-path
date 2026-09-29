@@ -1,11 +1,12 @@
 // Экспорт всего контента старого сайта в JSON для нового приложения
 globalThis.window = globalThis;
 const fs = require('fs'), path = require('path');
-const root = '/home/claude/English';
+const root = '/home/claude/English/legacy'; // архив старого сайта — источник контента
+const appRoot = '/home/claude/English';
 const html = fs.readFileSync(root + '/index.html', 'utf8');
 const files = [...html.matchAll(/src="(data\/[^"?]+)/g)].map((m) => m[1]);
 files.forEach((f) => require(root + '/' + f));
-const out = root + '/app/public/data';
+const out = appRoot + '/app/public/data';
 const w = (p, o) => { fs.mkdirSync(path.dirname(out + '/' + p), { recursive: true }); fs.writeFileSync(out + '/' + p, JSON.stringify(o)); };
 // курс
 const LV = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
