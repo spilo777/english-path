@@ -584,8 +584,9 @@
     const draw = () => {
       if (w.part >= parts.length) { if (!w.done) ding('done'); w.done = true; s.steps.grammar = true; save(); }
       const pct = Math.round((Math.min(doneSteps(), total) / total) * 100);
-      const partChips = parts.map((p, i) => `<button class="wk-part ${i === w.part ? 'on' : ''} ${i < w.part || w.done ? 'done' : ''}" data-part="${i}">${i < w.part || w.done ? '<i class="ph ph-check"></i>' : i + 1}<span>${esc(p.title)}</span></button>`).join('');
       const cur = parts[w.part];
+      const partChips = parts.map((p, i) => `<button class="wk-part ${i === w.part ? 'on' : ''} ${i < w.part || w.done ? 'done' : ''}" data-part="${i}" title="${esc(p.title)}">${i < w.part || w.done ? '<i class="ph ph-check"></i>' : i + 1}</button>`).join('')
+        + (cur ? `<div class="wk-title"><span class="tiny muted">Часть ${w.part + 1} из ${parts.length}</span><b>${esc(cur.title)}</b></div>` : '');
       const shown = cur ? cur.steps.slice(0, w.step + 1).map((st, si) => stepHtml(st, w.part, si, si === w.step)).join('') : '';
       body.innerHTML = `
         <div class="wk-head"><div class="progress"><i style="width:${pct}%"></i></div><span class="tiny muted">${Math.min(doneSteps(), total)}/${total} шагов</span></div>
