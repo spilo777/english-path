@@ -95,12 +95,15 @@ test('чтение в уроке: внизу — следующий текст �
   const errors = watchErrors(page);
   await unlockUpTo(page, 'a1-3');
   await page.goto('#/unit/a1-3/reading');
+  await expect(page.locator('.ut-texts .unit-row').first()).toBeVisible(); // count() не ждёт отрисовки
   const n = await page.locator('.ut-texts .unit-row').count();
   await page.locator('.ut-texts .unit-row').first().click();
+  await expect(page).toHaveURL(/#\/read\/t-a1-3-/);
   for (let i = 0; i < n - 1; i++) {
-    const url = page.url();
-    await page.locator('.read-end .next-read').click();
-    await expect(page).not.toHaveURL(url);
+    const link = page.locator('.read-end .next-read');
+    const href = (await link.getAttribute('href')) || '';
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$'));
     await expect(page.locator('.read-end')).toBeVisible();
   }
   await page.locator('.read-end a.btn.primary', { hasText: 'Практика' }).click();
