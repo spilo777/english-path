@@ -182,6 +182,20 @@
     }
     return speakTTS(text, opts);
   }
+  // Звуки ответов: короткий синтезированный «трунь» (без файлов), выключается в настройках
+  let actx = null;
+  const audioCtx = () => { try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch (e) { return null; } };
+  document.addEventListener('touchend', audioCtx, { once: true, capture: true });
+  document.addEventListener('click', audioCtx, { once: true, capture: true });
+  function ding(kind) {
+    if (S.settings.sfx === false) return;
+    const ctx = audioCtx(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const tone = (f, at, dur, vol, type) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = type || 'sine'; o.frequency.setValueAtTime(f, t0 + at); g.gain.setValueAtTime(0.0001, t0 + at); g.gain.exponentialRampToValueAtTime(vol, t0 + at + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur); o.connect(g).connect(ctx.destination); o.start(t0 + at); o.stop(t0 + at + dur + 0.02); };
+    if (kind === 'ok') { tone(880, 0, 0.16, 0.18, 'triangle'); tone(1318.5, 0.09, 0.28, 0.16, 'triangle'); tone(1760, 0.09, 0.2, 0.05, 'sine'); }
+    else if (kind === 'done') { [659.3, 830.6, 987.8, 1318.5].forEach((f, i) => tone(f, i * 0.09, 0.32, 0.16, 'triangle')); }
+    else { tone(220, 0, 0.16, 0.12, 'sine'); tone(196, 0.1, 0.18, 0.1, 'sine'); }
+  }
   function speakTTS(text, opts = {}) {
     if (!('speechSynthesis' in window)) { toast('Браузер не поддерживает озвучку'); return null; }
     if (!opts.queue) speechSynthesis.cancel();
@@ -347,7 +361,7 @@
         $$('.qz-btn', el).forEach((x, i) => { x.disabled = true; if (i === right) x.classList.add('right'); });
         if (!ok) b.classList.add('wrong');
         const w = $('.mini-why', el); w.innerHTML = `<b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(el.dataset.why || '')}`; w.className = 'mini-why ' + (ok ? 'ok' : 'bad');
-        if (ok) speak(opts[right].replace(/[_]/g, '')); track('exercises');
+        ding(ok ? 'ok' : 'bad'); if (ok) setTimeout(() => speak(opts[right].replace(/[_]/g, '')), 350); track('exercises');
         S.stats.mini = (S.stats.mini || 0) + 1; if (ok) S.stats.miniRight = (S.stats.miniRight || 0) + 1;
         S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
       }));
@@ -568,7 +582,7 @@
       </div>`;
     };
     const draw = () => {
-      if (w.part >= parts.length) { w.done = true; s.steps.grammar = true; save(); }
+      if (w.part >= parts.length) { if (!w.done) ding('done'); w.done = true; s.steps.grammar = true; save(); }
       const pct = Math.round((Math.min(doneSteps(), total) / total) * 100);
       const partChips = parts.map((p, i) => `<button class="wk-part ${i === w.part ? 'on' : ''} ${i < w.part || w.done ? 'done' : ''}" data-part="${i}">${i < w.part || w.done ? '<i class="ph ph-check"></i>' : i + 1}<span>${esc(p.title)}</span></button>`).join('');
       const cur = parts[w.part];
@@ -596,7 +610,7 @@
           $$('.qz-btn', chk).forEach((x, i) => { x.disabled = true; if (i === st.a) x.classList.add('right'); });
           if (!ok) b.classList.add('wrong');
           const why = $('.mini-why', chk); why.innerHTML = `<b>${ok ? 'Верно!' : 'Не совсем.'}</b> ${esc(st.why || '')}`; why.className = 'mini-why ' + (ok ? 'ok' : 'bad');
-          if (ok) speak(st.o[st.a].replace(/_/g, '')); track('exercises');
+          ding(ok ? 'ok' : 'bad'); if (ok) setTimeout(() => speak(st.o[st.a].replace(/_/g, '')), 350); track('exercises');
           S.stats.mini = (S.stats.mini || 0) + 1; if (ok) S.stats.miniRight = (S.stats.miniRight || 0) + 1;
           S.stats.exStreak = ok ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); save();
           chk.insertAdjacentHTML('beforeend', `<div class="wk-actions"><button class="btn primary" id="wk-next">${w.step + 1 >= cur.steps.length ? (w.part + 1 >= parts.length ? 'Готово' : 'Дальше: ' + esc(parts[w.part + 1].title)) : 'Дальше'} <i class="ph ph-arrow-right"></i></button></div>`);
@@ -621,9 +635,13 @@
       <div class="eyebrow" style="margin-top:14px">${u.track === 'games' ? 'Игровой трек' : 'Юнит ' + u.num} · ${u.level}</div>
       <h1>${esc(u.title)}</h1>
       ${bookChips(u) ? `<div class="book-chips">${bookChips(u)}</div>` : ''}
-      <div class="steps">${stepsHtml}</div>
+      <div class="row steps-row"><div class="steps" style="margin:0">${stepsHtml}</div><span class="spacer"></span><button class="btn ghost small" id="unit-restart" title="Сбросить прогресс этого урока"><i class="ph ph-arrow-counter-clockwise"></i> Заново</button></div>
       <div id="unit-body"></div>`;
     const body = $('#unit-body');
+    $('#unit-restart').addEventListener('click', () => {
+      if (!confirm('Начать урок заново? Отметки шагов и результат теста этого урока сбросятся. Слова в карточках останутся.')) return;
+      S.units[u.id] = { steps: {}, testBest: null }; save(); toast('Урок сброшен'); location.hash = '#/unit/' + u.id + '/words'; if (tab === 'words') renderUnit(u.id, 'words');
+    });
     const nextBtn = (k) => {
       const i = STEPS.findIndex(([x]) => x === k);
       const nx = STEPS[i + 1];
@@ -835,6 +853,7 @@
 
     function result(ok, typo) {
       const item = queue[idx];
+      ding(ok ? 'ok' : 'bad');
       if (!item.retry) { answered++; if (ok) firstTryRight++; }
       if (ok) { S.stats.exStreak++; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak); } else S.stats.exStreak = 0;
       if (!ok) hadMistake = true;
@@ -857,6 +876,7 @@
     }
     function finish() {
       const score = total ? firstTryRight / total : 1;
+      ding(score >= 0.8 ? 'done' : 'ok');
       if (mode === 'practice' && !hadMistake) S.stats.flawless = 1;
       const extra = onFinish ? onFinish(score) : '';
       root.innerHTML = `<div class="card ex-wrap result">
@@ -1312,7 +1332,7 @@
       wireTr(root);
       $$('.option', root).forEach((btn) => btn.addEventListener('click', () => {
         if (root.dataset.lock === String(n)) return; root.dataset.lock = String(n);
-        const ok = +btn.dataset.i === q.a;
+        const ok = +btn.dataset.i === q.a; ding(ok ? 'ok' : 'bad');
         $$('.option', root).forEach((x) => { x.disabled = true; if (+x.dataset.i === q.a) x.classList.add('correct'); });
         if (!ok) { btn.classList.add('wrong'); wrongBy[q.tid] = (wrongBy[q.tid] || 0) + 1; } else right++;
         const full = q.q.replace('___', q.o[q.a]);
@@ -1421,7 +1441,7 @@
     const answers = {};
     $$('.qz-btn').forEach((b) => b.addEventListener('click', () => {
       const box = b.closest('.qz'); const qi = +box.dataset.q; if (qi in answers) return;
-      const qq = t.questions[qi]; const oi = +b.dataset.o; answers[qi] = oi === qq.a;
+      const qq = t.questions[qi]; const oi = +b.dataset.o; answers[qi] = oi === qq.a; ding(answers[qi] ? 'ok' : 'bad');
       $$('.qz-btn', box).forEach((x, k) => { x.disabled = true; if (k === qq.a) x.classList.add('right'); });
       if (oi !== qq.a) b.classList.add('wrong');
       track('exercises'); S.stats.exStreak = oi === qq.a ? S.stats.exStreak + 1 : 0; S.stats.exStreakBest = Math.max(S.stats.exStreakBest, S.stats.exStreak);
@@ -2072,6 +2092,7 @@
       function grade(g) {
         if (!shown || gradedThis) return;
         gradedThis = true;
+        if (g >= 2) ding('ok'); else if (g === 0) ding('bad');
         const wasNew = c.state === 'new';
         const n = schedule(c, g);
         n.mod = Date.now();
@@ -2512,6 +2533,7 @@
         </div>
         <div class="card stack">
           <h3 style="margin:0">Озвучка</h3>
+          <label class="row small" style="gap:10px;cursor:pointer"><input type="checkbox" id="st-sfx" ${S.settings.sfx !== false ? 'checked' : ''}> Звук при правильном ответе</label>
           <label class="row small" style="gap:10px;cursor:pointer"><input type="checkbox" id="st-live" ${S.settings.liveVoice !== false ? 'checked' : ''}> Живое произношение слов — записи носителей из Викисловаря</label>
           <label class="field">Акцент для живых записей
             <select class="input" id="st-accent"><option value="us" ${S.settings.accent !== 'uk' ? 'selected' : ''}>Американский</option><option value="uk" ${S.settings.accent === 'uk' ? 'selected' : ''}>Британский</option></select></label>
@@ -2537,6 +2559,7 @@
     renderAccount();
     $('#st-img').addEventListener('change', (e) => { S.settings.autoImg = e.target.checked; save(); toast('Сохранено'); });
     $('#st-new').addEventListener('change', (e) => { S.settings.newPerDay = +e.target.value; save(); toast('Сохранено'); });
+    $('#st-sfx').addEventListener('change', (e) => { S.settings.sfx = e.target.checked; save(); if (e.target.checked) ding('ok'); });
     $('#st-live').addEventListener('change', (e) => { S.settings.liveVoice = e.target.checked; save(); toast('Сохранено'); });
     $('#st-accent').addEventListener('change', (e) => { S.settings.accent = e.target.value; save(); speak('water'); });
     $('#st-live-test').addEventListener('click', () => speak('water'));

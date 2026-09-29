@@ -1411,3 +1411,4 @@ a.bm-row[href]:hover { background: var(--surface-2); }
 @media (max-width: 760px) { .wk-step { padding: 16px; border-radius: 18px; } .wk-text { font-size: 16.5px; } .wk-actions .btn { width: 100%; } }
 .wk-part span { white-space: nowrap; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
 .wk-step.past .wk-actions { display: none; }
+.steps-row { gap: 10px; align-items: center; margin: 18px 0 22px; } .steps-row .steps { flex: 1; min-width: 0; } @media (max-width: 760px) { .steps-row { flex-wrap: wrap; } .steps-row .btn { margin-left: auto; } }
