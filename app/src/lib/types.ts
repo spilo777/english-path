@@ -138,6 +138,8 @@ export interface Progress {
   cards: Record<string, Card>;
   units: Record<string, UnitProgress>;
   textsRead: Record<string, string>;
+  /** просмотренные видео раздела «Слушать»: id → время */
+  watched?: Record<string, number>;
   userTexts: UserText[];
   activity: Record<string, DayActivity>;
   newToday: { date: string; count: number };

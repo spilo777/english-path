@@ -143,6 +143,7 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
   });
   out.units = units;
   out.textsRead = Object.assign({}, b.textsRead || {}, a.textsRead || {});
+  out.watched = Object.assign({}, b.watched || {}, a.watched || {});
   // свои тексты: объединяем по id, минус удалённые
   const texts: Record<string, UserText> = {};
   [...(b.userTexts || []), ...(a.userTexts || [])].forEach((t) => { if (t && t.id && !deleted['text:' + t.id]) texts[t.id] = t; });

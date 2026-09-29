@@ -67,3 +67,13 @@ test('книга: главы, чтение главы, прогресс', async 
   await expect(page.locator('.book-info .pill-btn')).toContainText('ПРОДОЛЖИТЬ');
   expect(errors).toEqual([]);
 });
+
+test('слушать: три канала и переход из библиотеки', async ({ page }) => {
+  const errors = watchErrors(page);
+  await page.goto('#/library');
+  await expect(page.locator('.ls-card')).toHaveCount(3);
+  await page.locator('.ls-card').first().click();
+  await expect(page.locator('main .page-title')).toHaveText('Слушать');
+  await expect(page.locator('.ls-ch')).toHaveCount(3);
+  expect(errors).toEqual([]);
+});

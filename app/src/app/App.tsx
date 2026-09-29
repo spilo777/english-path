@@ -22,6 +22,7 @@ const P = {
   settings: lazy(() => import('../pages/Settings')),
   placement: lazy(() => import('../pages/Placement')),
   league: lazy(() => import('../pages/League')),
+  listen: lazy(() => import('../pages/Listen')),
 };
 
 /** Какая страница, какой пункт меню подсвечен и узкая ли колонка */
@@ -31,6 +32,7 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
     case 'course': return [P.course, 'course', false];
     case 'placement': return [P.placement, 'course', true];
     case 'league': return [P.league, 'profile', true];
+    case 'listen': return [P.listen, 'library', !!parts[1]];
     case 'unit': return [P.unit, 'course', true];
     case 'tenses': return [P.tenses, 'course', !!parts[1] && parts[1] !== 'train'];
     case 'books': return [P.course, 'course', false]; // раздел «По учебнику» объединён с «Уроками»

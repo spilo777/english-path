@@ -1,6 +1,6 @@
 // Библиотека: #/library — витрина; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
@@ -10,6 +10,7 @@ import { useBookIndex, useCourse, useLessons, useLibrary, useTenses } from '../l
 import { tomb, update, useProgress } from '../lib/store';
 import { LEVEL_ORDER, type BookMeta, type CourseIndex, type Level, type Progress, type LessonText, type TextItem, type UserText } from '../lib/types';
 import { lsGet, lsSet } from './reader-core';
+import { CHANNELS } from '../lib/listen';
 import './Library.css';
 
 const myLevel = (s: Progress, course?: CourseIndex): Level => (course && currentUnit(s, course)?.level) || 'A1';
@@ -85,6 +86,15 @@ function LibraryHome() {
           {forYou.map((t) => <TextPoster key={t.id} t={t} />)}
         </Section>
       ) : null}
+      <Section title={<><Icon name="headphones" /> Слушать</>} href="#/listen" sub="YouTube-каналы с понятной живой речью — от медленных диалогов до подкаста">
+        {CHANNELS.map((ch) => (
+          <a key={ch.id} className="ls-card" href="#/listen" style={{ '--cc': ch.color } as CSSProperties}>
+            <span className="ls-card-ava">{ch.short[0]}</span>
+            <b>{ch.short}</b>
+            <span className="tiny muted">{ch.levels[0]}–{ch.levels[1]} · {ch.accent}</span>
+          </a>
+        ))}
+      </Section>
       {adapted.length ? (
         <Section title={<><Icon name="books" /> Адаптированные книги</>} href="#/library/books" sub="Классика, пересказанная простым языком под ваш уровень">
           {adapted.map((b) => <BookPoster key={b.id} b={b} />)}
