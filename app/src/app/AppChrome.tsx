@@ -1,6 +1,7 @@
 // Всё, что живёт поверх страниц: счётчик карточек в меню, всплывающие достижения, синхронизация
 import { useEffect, type ReactNode } from 'react';
 import { AchPopups } from '../components/AchPopups';
+import { PopoverHost } from '../components/Popover';
 import { Cloud } from '../lib/cloud';
 import { useDeck } from '../lib/data';
 import { dueCards, newAvailable } from '../lib/srs';
@@ -11,5 +12,5 @@ export function AppChrome({ children }: { children: (badge: number) => ReactNode
   const deck = useDeck();
   const badge = deck ? dueCards(s).length + newAvailable(s, deck) : 0;
   useEffect(() => { Cloud.init(); }, []); // повторные вызовы игнорируются
-  return <>{children(badge)}<AchPopups /></>;
+  return <>{children(badge)}<AchPopups /><PopoverHost /></>;
 }
