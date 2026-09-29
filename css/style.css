@@ -1350,3 +1350,22 @@ a.bm-row[href]:hover { background: var(--surface-2); }
 /* новые (ещё не пройденные) слова — пунктир */
 .lw.nw { text-decoration: underline dotted; text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .lw.nw.sel { text-decoration: none; }
+
+/* ── Широкие экраны: контент по центру свободной области и тянется до разумной ширины */
+@media (min-width: 761px) {
+  .main { margin-inline: auto; width: 100%; max-width: 1180px; padding-left: 48px; padding-right: 48px; }
+  body[data-w="narrow"] .main { max-width: 900px; }
+}
+@media (min-width: 1600px) { .main { max-width: 1320px; } body[data-w="narrow"] .main { max-width: 940px; } }
+@media (min-width: 761px) and (max-width: 1100px) { .main { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 1101px) { .tiles4 { gap: 16px; } .carousel { grid-auto-columns: 172px; } .topic-row { grid-auto-columns: 184px; } }
+/* пары карточек: на телефоне столбиком, на широком экране рядом */
+.duo { display: flex; flex-direction: column; gap: var(--s-block); }
+.duo > * { margin: 0 !important; }
+@media (min-width: 1101px) {
+  .duo { display: grid; grid-template-columns: 1.25fr 1fr; align-items: stretch; }
+  .duo > .continue-card, .duo > .now-card { flex-wrap: wrap; align-content: center; }
+  .duo .goal-card { height: 100%; }
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-block); }
+  .plan-grid .task { height: 100%; }
+}

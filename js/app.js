@@ -362,6 +362,8 @@
     hidePopover();
     const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
     const [r, a, b] = parts;
+    // узкая колонка для чтения и уроков, широкая — для витрин и списков
+    document.body.dataset.w = /^(unit|read|review|settings|account)$/.test(r || '') || (r === 'tenses' && a && a !== 'train') || (r === 'book' && b != null) ? 'narrow' : 'wide';
     const navKey = { '': 'today', course: 'course', unit: 'course', tenses: 'course', books: 'course', library: 'library', read: 'library', book: 'library', cards: 'cards', review: 'cards', deck: 'cards', words: 'cards', topic: 'cards', profile: 'profile', achievements: 'profile', account: 'profile', stats: 'profile', settings: 'profile' }[r || ''] || 'today';
     $$('.nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === navKey));
     const y = window.scrollY;
@@ -422,19 +424,19 @@
     const task = (done, ico, title, sub, href, btn) => `<a class="task ${done ? 'done' : ''}" href="${href}"><div class="num">${done ? '<i class="ph ph-check"></i>' : `<i class="ph ${ico}"></i>`}</div><div class="body"><b>${title}</b><span class="muted small">${sub}</span></div>${btn && !done ? `<span class="pill-btn sm">${btn}</span>` : '<i class="ph ph-caret-right muted"></i>'}</a>`;
     view().innerHTML = `
       ${topbar(hello, rbtn('#/library/find', 'magnifying-glass', 'Поиск по статьям') + avatarBtn(), new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, (c) => c.toUpperCase()) + (planDone === 3 ? ' · план выполнен' : ''))}
-      <a class="continue-card" href="#/unit/${u.id}/${ns ? ns.k : 'words'}">
+      <div class="duo"><a class="continue-card" href="#/unit/${u.id}/${ns ? ns.k : 'words'}">
         <div class="cc-ill"><i class="ph-fill ph-graduation-cap"></i></div>
         <div class="cc-body"><div class="cc-eyebrow">Курс · ${u.level} · юнит ${u.num}</div>
           <div class="cc-title">${esc(u.title)}</div>
           <div class="cc-sub">${ns ? 'Дальше: ' + esc(ns.label) : 'Юнит пройден'} · ${p}%</div>
           <div class="cc-bar"><i style="width:${p}%"></i></div></div>
         <span class="pill-btn light">${p ? 'ПРОДОЛЖИТЬ' : 'НАЧАТЬ'}</span></a>
-      ${goalCard()}
+      ${goalCard()}</div>
       ${cloudOn() && !Cloud.status().user && !(() => { try { return localStorage.getItem('ep.hideAuthBanner'); } catch (e) { return false; } })() ? `
       <div class="auth-banner"><div class="auth-banner-ico"><i class="ph ph-cloud"></i></div><div style="flex:1;min-width:0"><b>Сохраните прогресс в облаке</b><div class="small muted">Бесплатный аккаунт — и занятия будут одинаковыми на Mac и iPhone.</div></div>
         <a class="btn small primary" href="#/account">Создать аккаунт</a><button class="icon-btn" id="hide-banner" title="Скрыть"><i class="ph ph-x"></i></button></div>` : ''}
       <section class="sec"><div class="sec-head"><h2>План на сегодня</h2><span class="see-all muted">${planDone}/3</span></div>
-      <div class="stack">
+      <div class="stack plan-grid">
         ${task(reviewsDone, 'ph-cards', 'Карточки', due + nw ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : total ? 'На сегодня всё повторено' : 'Слова появятся после шага «Слова» в уроке', due + nw ? '#/review' : '#/cards', due + nw ? 'НАЧАТЬ' : '')}
         ${task(lessonToday, 'ph-book-open', `Урок ${u.num}: ${esc(u.title)}`, ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден', `#/unit/${u.id}/${ns ? ns.k : 'words'}`, ns ? 'УРОК' : '')}
         ${task(readToday, 'ph-headphones', 'Чтение и аудирование', suggest ? '«' + esc(suggest.title) + '» — прочитайте, прослушайте, повторите вслух' : 'Выберите статью или книгу в библиотеке', suggest ? '#/read/' + suggest.id : '#/library', 'ЧИТАТЬ')}
@@ -1101,7 +1103,7 @@
     const medal = ['#C9853E', '#A7B1BE', '#E3B23C', '#4F6AF0', '#9A55F0', '#E8456B'][Math.min(5, Math.floor((e.lvl - 1) / 2))];
     view().innerHTML = `
       ${topbar('Профиль', rbtn('#/settings', 'gear-six', 'Настройки'))}
-      <a class="prof-head" href="#/account">
+      <div class="duo"><a class="prof-head" href="#/account">
         <div class="avatar big">${email ? esc(email[0].toUpperCase()) : '<i class="ph ph-user"></i>'}</div>
         <div style="flex:1;min-width:0"><b class="acc-mail">${email ? esc(email) : 'Гость'}</b>
           <div class="small muted">${email ? (st.lastError ? '<i class="ph ph-warning"></i> Нет связи — прогресс отправится позже' : '<i class="ph ph-cloud-check"></i> Прогресс сохранён в облаке') : '<i class="ph ph-cloud-slash"></i> Войдите, чтобы прогресс был на всех устройствах'}</div></div>
@@ -1110,7 +1112,7 @@
         <div class="league-medal"><i class="ph-fill ph-medal"></i><b>${e.lvl}</b></div>
         <div style="flex:1;min-width:0"><div class="eyebrow" style="margin:0">Уровень ${e.lvl}</div><div class="league-rank">${esc(e.rank)}</div>
           <div class="progress" style="margin:8px 0 4px"><i style="width:${(e.into / e.need) * 100}%"></i></div>
-          <div class="tiny muted">${e.into} / ${e.need} XP до уровня ${e.lvl + 1} · всего ${e.xp} XP</div></div></a>
+          <div class="tiny muted">${e.into} / ${e.need} XP до уровня ${e.lvl + 1} · всего ${e.xp} XP</div></div></a></div>
       <div class="tiles4">
         <div class="tile t-orange"><i class="ph-fill ph-flame"></i><b>${streak()}</b><span>дней подряд</span></div>
         <div class="tile t-blue"><i class="ph-fill ph-calendar-check"></i><b>${days}</b><span>${plural(days, 'день', 'дня', 'дней')} занятий</span></div>
@@ -1625,14 +1627,14 @@
     const q = (location.hash.split('?')[1] || '');
     view().innerHTML = `
       ${topbar('Словарь', `<button class="rbtn" id="d-add" title="Добавить слово"><i class="ph ph-plus"></i></button><button class="rbtn" id="d-find" title="Найти слово"><i class="ph ph-magnifying-glass"></i></button>`)}
-      <div class="now-card">
+      <div class="duo"><div class="now-card">
         <div class="now-ill"><i class="ph-fill ph-cards"></i></div>
         <div style="flex:1;min-width:0"><div class="eyebrow" style="margin:0 0 2px">Сейчас учу</div>
           <b class="now-title">${(() => { const on = LEVELS.filter((l) => (S.settings.decks || {})[l]); return on.length ? 'Колоды ' + on.join(' · ') : 'Только мои слова'; })()}</b>
           <div class="small muted">${due + nw ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}` : 'На сегодня всё повторено'}</div></div>
         ${due + nw ? '<a class="pill-btn" href="#/review">НАЧАТЬ</a>' : '<span class="pill ok"><i class="ph ph-check"></i> Готово</span>'}
       </div>
-      ${goalCard('Цель обучения на сегодня')}
+      ${goalCard('Цель обучения на сегодня')}</div>
       ${(() => {
         const cnt = (k) => wordsOf(k).length;
         const nNew = cnt('new'), nLearn = cnt('learn'), nFam = cnt('fam'), nDone = cnt('done');
