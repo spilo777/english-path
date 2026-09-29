@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { merge } from '../src/lib/cloud';
-import { defaults } from '../src/lib/store';
+import { defaults, resetUnit } from '../src/lib/store';
 import type { Card, Progress } from '../src/lib/types';
 
 const card = (id: string, o: Partial<Card> = {}): Card => ({
@@ -68,5 +68,31 @@ describe('слияние прогресса', () => {
     expect(m.stats.perfect).toEqual({ u1: 1, u2: 1 });
     expect(m.settings.newPerDay).toBe(5);
     expect(m.settingsMod).toBe(20);
+  });
+  it('«Начать заново»: старая копия урока из облака не возвращает пройденное', () => {
+    const cloud = st((s) => { s.units['a1-1'] = { steps: { words: true, grammar: true }, testBest: 0.9, mod: 100, walk: { part: 2, step: 0, done: true } }; });
+    const local = st((s) => { s.units['a1-1'] = { ...cloud.units['a1-1'] }; resetUnit(s, 'a1-1'); });
+    const m = merge(local, cloud);
+    expect(m.units['a1-1'].testBest).toBeNull();
+    expect(m.units['a1-1'].steps).toEqual({});
+    expect(m.units['a1-1'].walk).toBeUndefined();
+    // и на другом устройстве (облако уже со сбросом, там — старая копия)
+    const m2 = merge(cloud, m);
+    expect(m2.units['a1-1'].testBest).toBeNull();
+  });
+  it('после сброса новый прогресс урока сохраняется при слиянии', () => {
+    const cloud = st((s) => { s.units['a1-1'] = { steps: { words: true }, testBest: 0.9, mod: 100 }; });
+    const local = st((s) => { resetUnit(s, 'a1-1'); s.units['a1-1'].steps.words = true; s.units['a1-1'].mod = Date.now() + 5; });
+    const m = merge(cloud, local);
+    expect(m.units['a1-1'].steps).toEqual({ words: true });
+    expect(m.units['a1-1'].testBest).toBeNull();
+  });
+  it('юниты: грамматика по шагам не теряется, берётся дальше продвинутая', () => {
+    const a = st((s) => { s.units.u = { steps: { words: true }, testBest: 0.5, mod: 10, walk: { part: 1, step: 3, done: false } }; });
+    const b = st((s) => { s.units.u = { steps: { grammar: true }, testBest: 0.85, mod: 20, walk: { part: 2, step: 1, done: false } }; });
+    const m = merge(a, b);
+    expect(m.units.u.steps).toEqual({ words: true, grammar: true });
+    expect(m.units.u.testBest).toBe(0.85);
+    expect(m.units.u.walk).toEqual({ part: 2, step: 1, done: false });
   });
 });

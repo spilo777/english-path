@@ -12,7 +12,7 @@ import { isUnlocked, mainUnits, nextStep, passed, STEPS, unitBooksParts, type St
 import { useCourse, useSyllabus, useUnit } from '../lib/data';
 import { speak } from '../lib/speech';
 import { addCard, cardId } from '../lib/srs';
-import { getState, PASS, tomb, track, unitState, update, useProgress } from '../lib/store';
+import { getState, PASS, resetUnit, tomb, track, unitState, update, useProgress } from '../lib/store';
 import type { BookRefs, CourseIndex, Level, Syllabus, Unit as UnitData, UnitMeta } from '../lib/types';
 import './Unit.css';
 
@@ -269,7 +269,7 @@ function RestartConfirm({ id, onClose }: { id: string; onClose: () => void }) {
   const ok = useRef<HTMLButtonElement>(null);
   useEffect(() => { ok.current?.focus({ preventScroll: true }); }, []);
   const reset = () => {
-    update((s) => { s.units[id] = { steps: {}, testBest: null }; });
+    update((s) => { resetUnit(s, id); });
     toast('Урок сброшен');
     onClose();
     go(unitHref(id, 'words'));

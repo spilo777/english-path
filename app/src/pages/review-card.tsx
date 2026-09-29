@@ -41,10 +41,9 @@ interface Props {
   pos?: string;
   side: Side;
   onGrade: (g: Grade, side: Side) => void;
-  onKnown: () => void;
 }
 
-export function FlashCard({ c, pos, side: m, onGrade, onKnown }: Props) {
+export function FlashCard({ c, pos, side: m, onGrade }: Props) {
   const id = c.id;
   const [shown, setShown] = useState(false);
   const graded = useRef(false);
@@ -168,8 +167,7 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown }: Props) {
               <button type="button" className="btn" onClick={() => grade(3)}>Легко<small>{lbl(3)}</small></button>
             </div>
             <p className="tiny muted fc-keys">
-              <span className="fc-kbd">Клавиши <span className="kbd">1</span><span className="kbd">2</span><span className="kbd">3</span><span className="kbd">4</span>{c.state === 'new' ? ' · ' : ''}</span>
-              {c.state === 'new' ? <><button type="button" className="linkish" onClick={onKnown}>Уже знаю это слово, больше не показывать</button></> : null}
+              <span className="fc-kbd">Клавиши <span className="kbd">1</span><span className="kbd">2</span><span className="kbd">3</span><span className="kbd">4</span></span>
             </p>
           </>
         )}

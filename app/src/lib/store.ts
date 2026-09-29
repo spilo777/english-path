@@ -84,8 +84,19 @@ export function useProgress(): Progress {
 // ───────── общие операции ─────────
 export const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 
+/** Прогресс урока для изменения (вызывать внутри update): заодно отмечает время изменения */
 export function unitState(s: Progress, id: string): UnitProgress {
-  return (s.units[id] = s.units[id] || { steps: {}, testBest: null });
+  const u = (s.units[id] = s.units[id] || { steps: {}, testBest: null });
+  u.mod = Date.now();
+  return u;
+}
+
+/** «Начать заново»: пустой урок + надгробие, чтобы старая копия из облака не вернула пройденное */
+export function resetUnit(s: Progress, id: string) {
+  const t = Date.now();
+  s.units[id] = { steps: {}, testBest: null, mod: t };
+  s.deleted = s.deleted || {};
+  s.deleted['unit:' + id] = t;
 }
 
 /** Учесть активность за сегодня (карточки, упражнения, чтение) и «особые» моменты для достижений */

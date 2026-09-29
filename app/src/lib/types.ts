@@ -104,6 +104,8 @@ export interface UnitProgress {
   steps: Record<string, boolean>;
   testBest: number | null;
   walk?: { part: number; step: number; done: boolean };
+  /** время последнего изменения (для слияния с облаком и сброса урока) */
+  mod?: number;
 }
 
 export interface DayActivity { reviews: number; exercises: number; reads: number; [k: string]: number }

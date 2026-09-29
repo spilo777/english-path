@@ -44,7 +44,6 @@
 .grades .good { color: var(--ok); }
 .fc-keys { text-align: center; margin: 10px 0 0; }
 .kbd { display: inline-block; font-size: 11px; padding: 0 5px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--muted); margin-left: 4px; }
-.linkish { border: 0; background: none; padding: 0; font: inherit; color: var(--accent-text); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 
 .rv .result { text-align: center; padding: 34px 22px; }
 .rv .result h2 { margin: 8px 0 6px; }

@@ -4,7 +4,7 @@
 // чтобы не задерживать открытие сайта.
 import { useSyncExternalStore } from 'react';
 import { getState, onSave, replaceState } from './store';
-import type { Card, DayActivity, Progress, UserText } from './types';
+import type { Card, DayActivity, Progress, UnitProgress, UserText } from './types';
 
 // Ключ publishable/anon — публичный: доступ к данным защищён правилами RLS в базе
 export const CLOUD_CONFIG = {
@@ -117,13 +117,28 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
     if (c) cards[id] = c;
   });
   out.cards = cards;
-  // юниты: шаги объединяем, лучший результат теста — максимум
+  // юниты: шаги объединяем, лучший результат теста — максимум, грамматика по шагам — дальше продвинутая;
+  // копия, изменённая раньше «Начать заново» (надгробие unit:<id>), не считается
   const ua = a.units || {}, ub = b.units || {};
   const units: Progress['units'] = {};
   new Set([...Object.keys(ua), ...Object.keys(ub)]).forEach((id) => {
-    const x = ua[id] || { steps: {}, testBest: null }, y = ub[id] || { steps: {}, testBest: null };
+    const reset = num(deleted['unit:' + id]);
+    const alive = (u: UnitProgress | undefined): UnitProgress | null => (u && (!reset || num(u.mod) >= reset) ? u : null);
+    const x = alive(ua[id]), y = alive(ub[id]);
+    if (!x && !y) { if (reset) units[id] = { steps: {}, testBest: null, mod: reset }; return; }
+    if (!x || !y) { units[id] = Object.assign({}, (x || y) as UnitProgress); return; }
     const tb = [x.testBest, y.testBest].filter((v): v is number => v != null);
-    units[id] = { steps: Object.assign({}, x.steps || {}, y.steps || {}), testBest: tb.length ? Math.max(...tb) : null };
+    const newer = num(x.mod) >= num(y.mod) ? x : y;
+    const wx = x.walk, wy = y.walk;
+    const far = (w?: UnitProgress['walk']) => (w ? (w.done ? 1e6 : w.part * 1000 + w.step) : -1);
+    units[id] = Object.assign({}, newer, {
+      steps: Object.assign({}, x.steps || {}, y.steps || {}),
+      testBest: tb.length ? Math.max(...tb) : null,
+    });
+    const mod = Math.max(num(x.mod), num(y.mod));
+    if (mod) units[id].mod = mod; else delete units[id].mod;
+    const walk = far(wx) >= far(wy) ? wx : wy;
+    if (walk) units[id].walk = walk; else delete units[id].walk;
   });
   out.units = units;
   out.textsRead = Object.assign({}, b.textsRead || {}, a.textsRead || {});
