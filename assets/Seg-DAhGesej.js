@@ -1,2 +1,0 @@
-import{j as r,I as c}from"./index-Bq6SOqqO.js";function l({email:a,size:s,icon:n="user",off:e}){const t="avatar"+(s?" "+s:"")+(e?" off":"");return r.jsx("div",{className:t,children:a?(a[0]||"?").toUpperCase():r.jsx(c,{name:n})})}function p({items:a,value:s,onChange:n,className:e}){return r.jsx("div",{className:"seg"+(e?" "+e:""),role:"tablist",children:a.map(([t,o])=>r.jsx("button",{type:"button",role:"tab","aria-selected":t===s,className:t===s?"on":"",onClick:()=>n(t),children:o},t))})}export{l as A,p as S};
-//# sourceMappingURL=Seg-DAhGesej.js.map
