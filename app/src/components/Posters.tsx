@@ -17,8 +17,8 @@ export const minsIn = (t: { text: string }) => Math.max(1, Math.round(wordsIn(t)
 export const dlgLines = (t: { text: string }) => t.text.split(/\n+/).filter((l) => /^[A-Z][\w .'’-]{0,24}:/.test(l.trim())).length;
 
 /** Цветная обложка с иконкой; картинка из Википедии поверх, когда загрузится */
-export function Cover({ id, wiki, cls = '', icon, children }: { id: string; wiki?: string; cls?: string; icon: string; children?: ReactNode }) {
-  const src = useCover(id, wiki);
+export function Cover({ id, wiki, commons, cls = '', icon, children }: { id: string; wiki?: string; commons?: string; cls?: string; icon: string; children?: ReactNode }) {
+  const src = useCover(id, wiki, commons);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   useEffect(() => { setLoaded(false); setFailed(false); }, [src]);
@@ -31,12 +31,12 @@ export function Cover({ id, wiki, cls = '', icon, children }: { id: string; wiki
   );
 }
 
-interface PosterProps { href: string; id: string; wiki?: string; title: string; band: string; cap: ReactNode; icon: string; cls?: string; done?: boolean; progress?: number }
+interface PosterProps { href: string; id: string; wiki?: string; commons?: string; title: string; band: string; cap: ReactNode; icon: string; cls?: string; done?: boolean; progress?: number }
 
-function Poster({ href, id, wiki, title, band, cap, icon, cls = '', done, progress }: PosterProps) {
+function Poster({ href, id, wiki, commons, title, band, cap, icon, cls = '', done, progress }: PosterProps) {
   return (
     <a className="poster" href={href}>
-      <Cover id={id} wiki={wiki} cls={'poster-img' + (cls ? ' ' + cls : '')} icon={icon}>
+      <Cover id={id} wiki={wiki} commons={commons} cls={'poster-img' + (cls ? ' ' + cls : '')} icon={icon}>
         {done ? <b className="lib-done"><Icon name="check" /></b> : null}
         <div className="poster-band"><b>{title}</b><span>{band}</span></div>
         {progress ? <i className="poster-prog" style={{ width: Math.round(progress * 100) + '%' }} /> : null}
@@ -51,7 +51,7 @@ export function TextPoster({ t }: { t: TextItem }) {
   const s = useProgress();
   const dlg = t.kind === 'dialogue';
   return (
-    <Poster href={'#/read/' + t.id} id={t.id} title={t.title} band={`${t.cat || ''} · ${t.level}`} cls={'cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} done={!!s.textsRead[t.id]}
+    <Poster href={'#/read/' + t.id} id={t.id} wiki={t.wiki} commons={t.commons} title={t.title} band={`${t.cat || ''} · ${t.level}`} cls={'cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} done={!!s.textsRead[t.id]}
       cap={dlg ? <><Icon name="chat-circle-dots" /> Диалог · {dlgLines(t)} реплик</> : <><Icon name="article" /> Статья · {minsIn(t)} мин</>} />
   );
 }
@@ -78,7 +78,7 @@ export function LibCard({ t }: { t: TextItem }) {
   const qz = (s.quiz || {})[t.id];
   return (
     <a className={'lib-card cat-' + catIdx(t.cat)} href={'#/read/' + t.id}>
-      <Cover id={t.id} icon={catIcon(t.cat)}>{read ? <b className="lib-done"><Icon name="check" /></b> : null}</Cover>
+      <Cover id={t.id} wiki={t.wiki} commons={t.commons} icon={catIcon(t.cat)}>{read ? <b className="lib-done"><Icon name="check" /></b> : null}</Cover>
       <div className="lib-body">
         <div className="lib-meta"><span className="pill accent">{t.level}</span><span className="tiny muted">{CAT_ICON[t.cat || ''] ? <Icon name={CAT_ICON[t.cat || '']} /> : null} {t.cat}</span></div>
         <div className="lib-title">{t.title}</div>

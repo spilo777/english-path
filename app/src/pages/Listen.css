@@ -1,7 +1,6 @@
 /* Слушать: YouTube-каналы */
 .ls-ch { margin-top: 18px; }
-.ls-head { display: flex; gap: 16px; align-items: flex-start; }
-.ls-ava { width: 52px; height: 52px; border-radius: 16px; background: var(--cc); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 24px; flex-shrink: 0; }
+.ls-head { display: flex; gap: 16px; align-items: stretch; }
 .ls-info { flex: 1; min-width: 0; }
 .ls-info p { margin: 6px 0 0; }
 .ls-name { gap: 8px; }
@@ -24,6 +23,5 @@
 .ls-tips .ph { vertical-align: -2px; }
 @media (max-width: 760px) {
   .carousel.ls-row { grid-auto-columns: 200px; }
-  .ls-head { gap: 12px; }
   .ls-wtitle { font-size: 21px; }
 }

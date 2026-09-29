@@ -6,6 +6,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     cat: 'Игры',
     about: 'Pac-Man (1980)',
     emoji: '🟡',
+    wiki: 'Pac-Man',
     ru: 'Pac-Man — простая и очень известная аркада из Японии',
     text: `Pac-Man is an old game. It is from Japan. It is from 1980. The company Namco makes it. People play it in big game machines in cafes and shops.
 
@@ -29,6 +30,7 @@ The game is easy to learn. But it is hard to play well.`,
     cat: 'Игры',
     about: 'Animal Crossing: New Horizons (2020)',
     emoji: '🏝️',
+    wiki: 'Animal Crossing: New Horizons',
     ru: 'Animal Crossing: New Horizons — спокойная игра о жизни на острове',
     text: `Animal Crossing: New Horizons is a game from Nintendo. It is on the Nintendo Switch. It is from 2020.
 
@@ -52,6 +54,7 @@ There are no enemies and no fights. The game is calm and kind. Many people play 
     cat: 'Игры',
     about: 'Fall Guys (2020)',
     emoji: '👑',
+    wiki: 'Jelly bean',
     ru: 'Fall Guys — весёлая онлайн-игра с забегами и падениями',
     text: `Fall Guys is an online game from the UK. The studio Mediatonic makes it. It is from 2020.
 
@@ -75,6 +78,7 @@ The game is free now. It is good for friends and for families.`,
     cat: 'Игры',
     about: 'Angry Birds (2009)',
     emoji: '🐦',
+    wiki: 'Angry Birds (video game)',
     ru: 'Angry Birds — простая игра для телефона про злых птиц и зелёных свиней',
     text: `Angry Birds is a game for phones. It is from Finland. It is from 2009. The company Rovio makes it.
 
@@ -99,6 +103,7 @@ The game is short and easy. You can play it on the bus.`,
     cat: 'Игры',
     about: 'Fortnite (2017)',
     emoji: '🪂',
+    wiki: 'Fortnite: Save the World',
     ru: 'Fortnite — королевская битва со строительством, концертами и скинами',
     text: `Fortnite is a game from the American company Epic Games. It came out in 2017. At first, it was a game about fighting zombies with friends. But later Epic added a new free mode called Battle Royale, and it became one of the most popular games in the world.
 
@@ -122,6 +127,7 @@ That is why many people call Fortnite not just a game, but a place to meet frien
     cat: 'Игры',
     about: 'Portal (2007)',
     emoji: '🌀',
+    wiki: 'Portal (video game)',
     ru: 'Portal — короткая, но гениальная головоломка от Valve',
     text: `Portal is a puzzle game from Valve, the American company behind Half-Life and Steam. It came out in 2007. It was not a big game. Most people finished it in only three or four hours. But many players still say it is one of the best games ever made.
 
@@ -145,6 +151,7 @@ In 2011, Valve made Portal 2. It was longer, and it had a great mode for two pla
     cat: 'Игры',
     about: 'Rocket League (2015)',
     emoji: '🚗',
+    wiki: 'Rocket League',
     ru: 'Rocket League — футбол на машинах с ракетными двигателями',
     text: `What happens when you mix football and racing? You get Rocket League. The American studio Psyonix made this game, and it came out in 2015.
 
@@ -168,6 +175,7 @@ In 2019, Epic Games bought Psyonix. A year later, Rocket League became free, so 
     cat: 'Игры',
     about: 'Mario Kart 8 (2014) / Mario Kart 8 Deluxe (2017)',
     emoji: '🏎️',
+    wiki: 'Mario Kart 8',
     ru: 'Mario Kart 8 — самые весёлые гонки Nintendo',
     text: `The first Mario Kart game came out in 1992. Mario Kart 8 came out in 2014 on the Wii U. Three years later, Nintendo made a bigger version for the Switch called Mario Kart 8 Deluxe. It became the best-selling game on that console.
 
@@ -189,6 +197,7 @@ This is why the game is great for parties. A new player can sometimes beat a bet
     cat: 'Игры',
     about: 'Street Fighter II (1991)',
     emoji: '🥊',
+    wiki: 'Street Fighter II',
     ru: 'Street Fighter II — легендарный файтинг, с которого начался бум жанра',
     text: `In the early 1990s, people did not play most games at home. They went to arcades, rooms full of big game machines. In 1991, the Japanese company Capcom put a new machine there. It was called Street Fighter II, and soon there were long lines of people in front of it.
 
@@ -210,6 +219,7 @@ Street Fighter II was not the first fighting game, but it was the most important
     cat: 'Игры',
     about: 'Terraria (2011)',
     emoji: '⛏️',
+    wiki: 'Terraria',
     ru: 'Terraria — двухмерная песочница, где копают, строят и сражаются с боссами',
     text: `Many people call Terraria "2D Minecraft". It is true that both games have blocks, digging and building. But Terraria is very different, and some players like it even more.
 
@@ -233,6 +243,7 @@ The developers added free updates for many years after the release. Because of t
     cat: 'Игры',
     about: 'The Legend of Zelda: Breath of the Wild (2017)',
     emoji: '🗡️',
+    wiki: 'The Legend of Zelda: Breath of the Wild',
     ru: 'Zelda: Breath of the Wild — открытый мир, где можно залезть на любую гору',
     text: `The Legend of Zelda: Breath of the Wild is a game from Nintendo. It came out in 2017 for the Switch and the Wii U.
 
@@ -256,6 +267,7 @@ In 2023, Nintendo released the sequel, Tears of the Kingdom. In it, you can also
     cat: 'Игры',
     about: 'Plants vs. Zombies (2009)',
     emoji: '🌻',
+    wiki: 'Plants vs. Zombies (video game)',
     ru: 'Plants vs. Zombies — забавная стратегия, где растения защищают дом от зомби',
     text: `Zombies are usually scary, but not in Plants vs. Zombies. Here they are slow, silly and funny. Some of them wear buckets on their heads, and one even rides a small car.
 
@@ -280,6 +292,7 @@ The game is easy to start, but the later levels are harder than they look. It is
     cat: 'Игры',
     about: 'Counter-Strike (1999) and Counter-Strike 2 (2023)',
     emoji: '💣',
+    wiki: 'Counter-Strike (video game)',
     ru: 'Counter-Strike — как фанатский мод стал одним из главных шутеров в мире',
     text: `Few games have lasted as long as Counter-Strike. It started in 1999, not as a real product, but as a mod: a free fan-made version of another game, Half-Life. Two young developers, Minh Le and Jess Cliffe, created it. It became so popular that Valve, the company behind Half-Life, hired them and bought the game.
 
@@ -303,6 +316,7 @@ Counter-Strike has also been one of the biggest esports for a long time. The mos
     cat: 'Игры',
     about: 'Sid Meier’s Civilization (1991– )',
     emoji: '🏛️',
+    wiki: 'Civilization (video game)',
     ru: 'Civilization — пошаговая стратегия, где ведёшь народ от каменного века к космосу',
     text: `Imagine starting with one small group of people in the Stone Age and leading them all the way to a spaceship. That is the idea of Civilization, one of the most famous strategy games of all time. The American designer Sid Meier created the first game in 1991, and the series has continued ever since. Civilization VI came out in 2016, and Civilization VII in 2025.
 
@@ -326,6 +340,7 @@ Civilization has a dangerous reputation. Many players say they sat down for a sh
     cat: 'Игры',
     about: 'Resident Evil (1996– )',
     emoji: '🧟',
+    wiki: 'Resident Evil (1996 video game)',
     ru: 'Resident Evil — серия, которая сделала «survival horror» популярным жанром',
     text: `In 1996, the Japanese company Capcom released a game for the first PlayStation. In Japan it was called Biohazard, but in the West it got the name Resident Evil. It helped to make a whole genre popular: survival horror.
 
@@ -349,6 +364,7 @@ There have been films and series based on the games, although most fans agree th
     cat: 'Игры',
     about: 'Undertale (2015)',
     emoji: '❤️',
+    wiki: 'Sans (Undertale)',
     ru: 'Undertale — инди-RPG одного автора, где врагов можно пощадить',
     text: `In most role-playing games, you get stronger by defeating enemies. Undertale, released in 2015, asks a simple question: what if you didn't have to hurt anyone at all?
 
@@ -374,6 +390,7 @@ If you have played it, you probably still remember the music. If you haven't, tr
     cat: 'Игры',
     about: 'Esports (about games): League of Legends, Counter-Strike and others',
     emoji: '🏆',
+    wiki: 'Spodek',
     ru: 'Про игры: киберспорт — стадионы, команды, тренировки и спор о том, спорт ли это',
     text: `Twenty-five years ago, playing video games for money sounded like a joke. Today, professional gamers play in front of full stadiums, and millions of people watch them online. This is esports, and it has become a huge industry.
 
@@ -397,6 +414,7 @@ Whatever you think, esports is a good way to learn English. Most international t
     cat: 'Игры',
     about: 'Games and learning languages (about games)',
     emoji: '🎮',
+    wiki: 'Educational video game',
     ru: 'Про игры: как с помощью видеоигр учить английский и что для этого лучше подходит',
     text: `Many people who speak English well will tell you the same thing: they learned a lot of it from video games, long before they studied it seriously. This isn't surprising. When you want to understand what a character is saying or how to finish a quest, you are much more motivated than when you read a textbook.
 
@@ -421,6 +439,7 @@ Of course, games won't replace real practice. But if you have already spent hund
     cat: 'Игры',
     about: 'Video game soundtracks (about games): Koji Kondo, Nobuo Uematsu, C418, Mick Gordon',
     emoji: '🎵',
+    wiki: 'Video game music',
     ru: 'Про игры: как пишут музыку для игр — от 8-битных мелодий до адаптивных саундтреков',
     text: `Try to remember the music from a game you loved as a child. Chances are you can hum it right now, even if you haven't heard it for years. That is no accident. Game music is written under unusual conditions, and those conditions have shaped a surprisingly rich art form.
 
@@ -444,6 +463,7 @@ Game music has also left the screen. Concerts dedicated entirely to video game s
     cat: 'Игры',
     about: 'The battle royale genre (about games): DayZ mods, PUBG, Fortnite, Apex Legends, Warzone',
     emoji: '🎯',
+    wiki: 'PUBG: Battlegrounds',
     ru: 'Про игры: откуда взялся жанр королевской битвы и почему он захватил мир',
     text: `Some genres develop slowly over decades. Battle royale, by contrast, went from an obscure mod to the most talked-about format in gaming almost overnight. Its story says a lot about how the modern games industry works.
 
@@ -469,6 +489,7 @@ Critics argue that the genre has become repetitive, and it is true that many cop
     cat: 'Игры',
     about: 'Outer Wilds (Mobius Digital, 2019)',
     emoji: '🪐',
+    wiki: 'Outer Wilds',
     ru: 'Outer Wilds — космическая головоломка, где единственный прогресс — это знания',
     text: `Most games reward you with things: better weapons, more health, new abilities. Outer Wilds, released in 2019 by the small American studio Mobius Digital and published by Annapurna Interactive, gives you almost nothing of the kind. The only thing you collect is knowledge, and that turns out to be far more exciting than it sounds.
 
@@ -492,6 +513,7 @@ It isn't a game for everyone. The flying controls take time to master, and some 
     cat: 'Игры',
     about: 'StarCraft (Blizzard Entertainment, 1998) and StarCraft II (2010)',
     emoji: '👾',
+    wiki: 'StarCraft (video game)',
     ru: 'StarCraft — стратегия в реальном времени, ставшая национальным спортом Южной Кореи',
     text: `When people talk about the birth of esports, one game comes up again and again: StarCraft. Released by the American company Blizzard Entertainment in 1998, it was a real-time strategy game set in a distant part of the galaxy. Nobody expected it to become something close to a national sport on the other side of the world.
 

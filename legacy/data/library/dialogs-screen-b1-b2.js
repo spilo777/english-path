@@ -4,6 +4,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     id: 'dlg-b1-scr-interrogation', title: 'The Receipt', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Детектив · комната допросов',
     emoji: '🕵️',
+    wiki: 'Receipt',
     ru: 'Детектив допрашивает бармена, у которого, кажется, идеальное алиби, — пока не всплывает один чек',
     text: `Detective Hale: Sit down, Mr. Brody. Coffee? It's terrible, but it's hot.
 Brody: No, thanks. How long is this going to take? I've already told the officers everything.
@@ -33,6 +34,7 @@ Brody: I didn't break in. But I know who did. And if I tell you, I'm going to ne
     id: 'dlg-b1-scr-starship-bridge', title: 'Signal from Nowhere', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Sci-fi · мостик корабля',
     emoji: '🚀',
+    wiki: 'Arecibo Telescope',
     ru: 'Экипаж исследовательского корабля ловит сигнал с планеты, где никого не должно быть',
     text: `Captain Ortiz: Status report, everyone. Nobody has slept in two days, so keep it short.
 Lieutenant Park: Engines are fine, Captain. Fuel is at sixty percent. We can get home if nothing goes wrong.
@@ -61,6 +63,7 @@ Kai: It's spelling something. In our language. It's spelling the name of our shi
     id: 'dlg-b1-scr-heist-plan', title: 'Five Minutes, Not Six', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Ограбление · план',
     emoji: '💎',
+    wiki: 'Safe',
     ru: 'Команда в последний раз проговаривает план кражи бриллианта из музея — и один участник что-то скрывает',
     text: `Vera: Okay, listen carefully, because I'm only going to explain this once more.
 Tony: You've said that three times already.
@@ -90,6 +93,7 @@ Max: Let's just say the diamond we're stealing tomorrow... isn't the real one.`,
     id: 'dlg-b1-scr-office-meeting', title: 'The Mysterious Fish', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Офисная комедия · переговорка',
     emoji: '🐟',
+    wiki: 'Goldfish',
     ru: 'Начальник собирает экстренное совещание из-за запаха рыбы в офисе — и расследование выходит из-под контроля',
     text: `Gary: Thank you all for coming to this emergency meeting.
 Priya: Gary, it's Friday afternoon. Can we make it quick? I have a real job.
@@ -119,6 +123,7 @@ Tom: Because I've just remembered who warmed up his lunch at eleven. You, Gary. 
     id: 'dlg-b1-scr-er-night', title: 'Not a Normal Night', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Медицинская драма · приёмный покой',
     emoji: '🚑',
+    wiki: 'Ambulance',
     ru: 'Молодой врач впервые дежурит ночью в приёмном покое, и пациент оказывается не тем, кем кажется',
     text: `Nurse Carla: Dr. Evans, you look pale. Is this your first night shift?
 Dr. Evans: Is it that obvious? I've read every book, but books don't smell like this.
@@ -148,6 +153,7 @@ Nurse Carla: Dr. Evans... I'm going to call security. Just in case.`,
     id: 'dlg-b1-scr-airport-romcom', title: 'Gate Twelve', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Романтическая комедия · аэропорт',
     emoji: '✈️',
+    wiki: 'Airport terminal',
     ru: 'Двое незнакомцев застряли в аэропорту из-за отменённого рейса и спорят о последнем свободном месте',
     text: `Announcer: We're sorry, flight 408 to Dublin has been cancelled due to bad weather.
 Nora: No, no, no. Not today. I have a wedding tomorrow!
@@ -178,6 +184,7 @@ Nora: Because that's my sister's company. And guess who's going to be at the wed
     id: 'dlg-b1-scr-royal-council', title: 'The Dragon Tax', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Фэнтези · совет королевства',
     emoji: '🐉',
+    wiki: 'Great hall',
     ru: 'Молодая королева на первом совете решает, что делать с драконом, который требует налог с королевства',
     text: `Lord Brannock: Your Majesty, the dragon has sent another letter.
 Queen Isolde: Dragons can write?
@@ -207,6 +214,7 @@ Mira: Me? I'm a librarian! Oh, well. I've always wanted to see a dragon. From ve
     id: 'dlg-b1-scr-sitcom-cafe', title: 'The Wrong Name on the Cup', level: 'B1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Ситком · кафе',
     emoji: '☕',
+    wiki: 'Latte art',
     ru: 'Друзья в кафе пытаются помочь приятелю, который месяц не может признаться бариста, что его зовут не Кевин',
     text: `Jess: Why did the barista just call you Kevin? Your name is Leo.
 Leo: Because a month ago she wrote "Kevin" on my cup, and I didn't correct her.
@@ -238,6 +246,7 @@ Barista: Great! They can't wait to meet you. Especially my brother. His name is 
     id: 'dlg-b2-scr-courtroom', title: 'The Witness Who Saw Too Much', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Судебная драма · зал суда',
     emoji: '⚖️',
+    wiki: 'Courtroom',
     ru: 'Адвокат защиты разбирает показания уверенного свидетеля и находит деталь, которая переворачивает дело',
     text: `Judge Whitmore: Ms. Adeyemi, you may cross-examine the witness.
 Ms. Adeyemi: Thank you, Your Honour. Mr. Crane, you told the prosecution you saw my client leave the building at exactly eleven fifteen.
@@ -270,6 +279,7 @@ Judge Whitmore: Order! Order in the court. We'll take a thirty-minute recess. An
     id: 'dlg-b2-scr-political-thriller', title: 'Off the Record', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Политический триллер · кабинет министра',
     emoji: '🏛️',
+    wiki: 'Whitehall',
     ru: 'Советник пытается убедить министра замять утечку документов, но у министра свои планы',
     text: `Hollis: Minister, have you seen the morning papers?
 Minister Kerr: I've seen my phone, which is worse. Forty missed calls before breakfast. Who leaked it?
@@ -301,6 +311,7 @@ Minister Kerr: Better to light the fire yourself than be caught standing in the 
     id: 'dlg-b2-scr-old-house', title: 'Nobody Lives Upstairs', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Хоррор · старый дом',
     emoji: '🕯️',
+    wiki: 'Attic',
     ru: 'Пара переезжает в дешёвый старый дом, и первая ночь начинается со странных звуков сверху',
     text: `Dan: Well, it's no palace, but for this price I'm not complaining.
 Rachel: That's what worries me. Houses this big don't go for peanuts unless there's a catch.
@@ -332,6 +343,7 @@ Rachel: It's not new, Dan. It's covered in dust. And the date on it is nineteen 
     id: 'dlg-b2-scr-spy-cafe', title: 'The Wrong Umbrella', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Шпионский триллер · кафе на вокзале',
     emoji: '🕶️',
+    wiki: 'Umbrella',
     ru: 'Встреча двух агентов на вокзале идёт не по плану: пароль не совпадает, а время на исходе',
     text: `Agent Novak: Is this seat taken?
 Elise: That depends. Do you prefer tea or coffee in the rain?
@@ -364,6 +376,7 @@ Agent Novak: Something stupid, probably. It's been that kind of week.`,
     id: 'dlg-b2-scr-family-dinner', title: 'The Announcement', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Семейная драма · воскресный ужин',
     emoji: '🍽️',
+    wiki: 'Sunday roast',
     ru: 'Воскресный ужин, на котором каждый член семьи пытается сообщить свою новость — и никто не хочет быть первым',
     text: `Margaret: Well, isn't this nice? All of us at one table. It only took a year and a half.
 Tom: Mum, you say that every time. It's been four months.
@@ -397,6 +410,7 @@ Tom: Well. I suppose that makes me the only one with nothing to announce. Pass t
     id: 'dlg-b2-scr-newsroom', title: 'Two Sources or Nothing', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Журналистское расследование · редакция',
     emoji: '📰',
+    wiki: 'Newsroom',
     ru: 'Молодая журналистка приносит редактору сенсацию за час до сдачи номера, но источник всего один',
     text: `Fiona: Walt, have you got a minute?
 Walt: I've got fifty-three minutes until we go to print, and every one of them is spoken for. What is it?
@@ -431,6 +445,7 @@ Fiona: Because I wanted to see if you'd trust me without it. Hold the front page
     id: 'dlg-b2-scr-hero-hq', title: 'Performance Review', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Супергерои · штаб',
     emoji: '🦸',
+    wiki: 'Batcave',
     ru: 'Супергероиня проходит ежегодную аттестацию у бюрократа из отдела кадров — и спасение мира в показатели не входит',
     text: `Mr. Pembleton: Please, take a seat. Try not to break it. We've had issues.
 Nightwing Nova: That was one chair. And it was during an earthquake.
@@ -463,6 +478,7 @@ Mr. Pembleton: Priorities, Nova. HR has a process.`,
     id: 'dlg-b2-scr-western-saloon', title: 'The Stranger at the Bar', level: 'B2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Вестерн · салун',
     emoji: '🤠',
+    wiki: 'Bodie, California',
     ru: 'В салун маленького городка входит незнакомец, и хозяйка быстро понимает, что он приехал не за виски',
     text: `Ada: Evening, stranger. You look like you've been riding since last Tuesday.
 Stranger: Since Sunday. Coffee, if you've got it. Black.

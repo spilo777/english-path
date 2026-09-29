@@ -4,6 +4,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     id: 'dlg-a1-scr-cafe-sitcom', title: 'The Wrong Coffee', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Ситком · кафе',
     emoji: '☕',
+    wiki: 'Coffeehouse',
     ru: 'Друзья в любимом кафе: Макс опять получил чужой кофе, а у официантки есть секрет.',
     text: `Max: Excuse me. This is not my coffee.
 Waitress: Is it tea?
@@ -27,6 +28,7 @@ Max: Free? Why? ... Wait. Why do you smile?`,
     id: 'dlg-a1-scr-office-printer', title: 'The Printer Is Angry', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Офисная комедия · копировальная',
     emoji: '🖨️',
+    wiki: 'Photocopier',
     ru: 'Принтер в офисе снова сломан, а через пять минут встреча с боссом.',
     text: `Kate: Tom, help me, please! The printer does not work.
 Tom: Again? Press the green button.
@@ -50,6 +52,7 @@ Tom: Hmm. The boss is here in five minutes.`,
     id: 'dlg-a1-scr-detective-cake', title: 'Who Ate the Cake?', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Детектив · комната допросов',
     emoji: '🕵️',
+    wiki: 'Chocolate cake',
     ru: 'Детектив допрашивает подозреваемого: из отеля пропал праздничный торт.',
     text: `Detective: Sit down, please. Your name?
 Mr Green: Paul Green. I am a cook here.
@@ -73,6 +76,7 @@ Mr Green: Okay, okay! But I am not the only one.`,
     id: 'dlg-a1-scr-scifi-bridge', title: 'A Planet with Cats', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Sci-fi · мостик корабля',
     emoji: '🚀',
+    wiki: 'Bridge (nautical)',
     ru: 'Экипаж звездолёта находит новую планету, и её жители очень похожи на котов.',
     text: `Captain: Robot, where are we?
 Robot: Near a new planet, Captain. It is green.
@@ -96,6 +100,7 @@ Robot: Captain, one problem. Their king wants our fish.`,
     id: 'dlg-a1-scr-er-hiccups', title: 'A Very Loud Patient', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Медицинская драма · приёмный покой',
     emoji: '🏥',
+    wiki: 'Emergency department',
     ru: 'Ночь в приёмном покое: у пациента икота уже три дня, и молодой врач ищет решение.',
     text: `Nurse: Doctor Reed, a new patient. Room three.
 Doctor: What is the problem?
@@ -119,6 +124,7 @@ Doctor: Interesting. Nurse, call the boss every day.`,
     id: 'dlg-a1-scr-school-new-girl', title: 'The New Girl', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Школьная драма · коридор',
     emoji: '🎒',
+    wiki: 'Locker',
     ru: 'Первый день новенькой в школе: одноклассник помогает найти класс, но у неё странный рюкзак.',
     text: `Ben: Hi! Are you new here?
 Mia: Yes. I am Mia. Today is my first day.
@@ -142,6 +148,7 @@ Mia: Oh, nothing. Nothing at all. See you later!`,
     id: 'dlg-a1-scr-cooking-show', title: 'Three Minutes Left', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Кулинарное шоу · студия',
     emoji: '👨‍🍳',
+    wiki: 'Hourglass',
     ru: 'Кулинарный конкурс в прямом эфире: у участника три минуты, а блюдо идёт не по плану.',
     text: `Host: Three minutes left! Sam, what do you cook?
 Sam: Fish with lemon and rice.
@@ -165,6 +172,7 @@ Judge: I love it. Give me more.`,
     id: 'dlg-a1-scr-superhero-base', title: 'A Hero Who Cannot Fly', level: 'A1', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Супергерои · штаб',
     emoji: '🦸',
+    wiki: 'Superman',
     ru: 'В штабе супергероев новичок признаётся, что его суперсила — совсем не то, что все думали.',
     text: `Leader: Welcome to the team, Blue Flash!
 Blue Flash: Thank you! I am very happy.
@@ -190,6 +198,7 @@ Blue Flash: Yes. And the birds say one thing: the bad guy is on your roof.`,
     id: 'dlg-a2-scr-romcom-airport', title: 'Two Bags, One Mistake', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Романтическая комедия · аэропорт',
     emoji: '✈️',
+    wiki: 'Baggage reclaim',
     ru: 'Двое незнакомцев перепутали одинаковые чемоданы в аэропорту — и это только начало истории.',
     text: `Anna: Excuse me! I think you have my suitcase.
 Jake: This one? No, it's mine. It's red with a yellow ribbon.
@@ -217,6 +226,7 @@ Jake: Deal. By the way, why do you have a photo of me in your book?`,
     id: 'dlg-a2-scr-fantasy-council', title: 'The Dragon Problem', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Фэнтези · совет королевства',
     emoji: '🐉',
+    wiki: 'Round Table',
     ru: 'Королевский совет спорит, что делать с драконом, который поселился у стен замка.',
     text: `Queen: Sit down, everyone. We have a problem. A dragon arrived last night.
 General: I saw it, Your Majesty. It's huge. I'm going to prepare the army.
@@ -243,6 +253,7 @@ Queen: Hmm. It can't be worse than you two.`,
     id: 'dlg-a2-scr-heist-plan', title: 'The Perfect Plan', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Ограбление · план',
     emoji: '💎',
+    wiki: 'Bank vault',
     ru: 'Команда в последний раз обсуждает план кражи алмаза из музея, но у новичка много вопросов.',
     text: `Boss: Okay, team. Tomorrow night we're going to take the Blue Star diamond.
 Nina: I visited the museum yesterday. There are two guards and ten cameras.
@@ -270,6 +281,7 @@ Leo: Okay, okay. New plan. Does anyone have a bike?`,
     id: 'dlg-a2-scr-courtroom-parrot', title: 'The Only Witness', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Судебная драма · зал суда',
     emoji: '⚖️',
+    wiki: 'Grey parrot',
     ru: 'В суде разбирают дело о пропавших деньгах, и адвокат вызывает очень необычного свидетеля.',
     text: `Judge: Mr Hall, you say you didn't take the money. Where were you on Friday night?
 Mr Hall: I was at home, Your Honour. I watched TV and went to bed early.
@@ -296,6 +308,7 @@ Prosecutor: Um... Your Honour, can we take a short break?`,
     id: 'dlg-a2-scr-horror-old-house', title: 'Someone Upstairs', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Хоррор · старый дом',
     emoji: '🕯️',
+    wiki: 'Candle',
     ru: 'Брат и сестра проводят первую ночь в старом доме, который купили родители. Наверху кто-то ходит.',
     text: `Emma: Josh, wake up! Did you hear that?
 Josh: Hear what? It's three in the morning.
@@ -322,6 +335,7 @@ Voice: Finally! Can someone bring me a sandwich? I waited for you all day!`,
     id: 'dlg-a2-scr-spy-train', title: 'The Man in the Grey Coat', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Шпионский триллер · ночной поезд',
     emoji: '🕶️',
+    wiki: 'Orient Express',
     ru: 'Шпионка встречает связного в ночном поезде, но секретный пароль идёт не совсем так.',
     text: `Agent: Excuse me. Is this seat free?
 Man: It depends. Do you like green apples?
@@ -349,6 +363,7 @@ Man: Ah. Now that is a very good question.`,
     id: 'dlg-a2-scr-western-saloon', title: 'A Stranger in Town', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Вестерн · салун',
     emoji: '🤠',
+    wiki: 'Tumbleweed',
     ru: 'В маленький городок приезжает незнакомец, и шериф хочет знать, зачем он здесь.',
     text: `Sheriff: You're new here, stranger. When did you arrive?
 Stranger: This morning. I came on the old road from the south.
@@ -376,6 +391,7 @@ Stranger: Relax. They only want pancakes.`,
     id: 'dlg-a2-scr-pirate-map', title: 'Half a Map', level: 'A2', cat: 'Диалоги из фильмов и сериалов', kind: 'dialogue',
     about: 'Приключения · пиратский корабль',
     emoji: '🏴‍☠️',
+    wiki: 'Galleon',
     ru: 'Капитан пиратов и юнга изучают карту сокровищ, но у карты не хватает половины.',
     text: `Captain: Come here, boy. Look at this map. I won it in a card game last night.
 Boy: It's beautiful, Captain. But where is the other half?

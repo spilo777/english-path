@@ -39,6 +39,3 @@
 }
 @media (max-width: 760px) { .lib-search-row .lib-search { flex-basis: 100%; } }
 
-/* карточки каналов «Слушать» */
-.ls-card { min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 20px; background: color-mix(in srgb, var(--cc) 12%, var(--surface)); color: var(--text); box-shadow: var(--shadow); }
-.ls-card-ava { width: 44px; height: 44px; border-radius: 14px; background: var(--cc); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 20px; margin-bottom: 6px; }

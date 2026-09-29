@@ -197,7 +197,7 @@ export function ReaderView({ ctx }: { ctx: ReadCtx }) {
         </div>
       ) : lib ? (
         <div className="reader-head">
-          <Cover id={t.id} cls={'sm cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} />
+          <Cover id={t.id} wiki={t.wiki} commons={t.commons} cls={'sm cat-' + catIdx(t.cat)} icon={catIcon(t.cat)} />
           <div className="reader-head-body">
             <div className="lib-meta"><span className="pill accent">{t.level}</span><span className="tiny muted">{CAT_ICON[t.cat || ''] ? <Icon name={CAT_ICON[t.cat || '']} /> : null} {t.cat} · {t.about} · {minsIn(t)} мин</span></div>
             <h1>{t.title}</h1>

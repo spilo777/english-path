@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react';
 import type { PageProps } from '../app/App';
 import { BackLink, Icon, Loading, Page, toast } from '../components/ui';
+import { ChannelBanner } from '../components/ChannelArt';
 import { ago, CHANNELS, findVideo, thumb, useFeed, type Channel, type Video } from '../lib/listen';
 import { ding } from '../lib/sfx';
 import { track, update, useProgress } from '../lib/store';
@@ -43,7 +44,7 @@ function Channels() {
         return (
           <section key={ch.id} className="sec ls-ch" style={cv(ch)}>
             <div className="card ls-head">
-              <span className="ls-ava">{ch.short[0]}</span>
+              <ChannelBanner ch={ch} />
               <div className="ls-info">
                 <div className="row ls-name"><b>{ch.name}</b><span className="pill">{ch.levels[0]}–{ch.levels[1]}</span><span className="pill">{ch.accent}</span></div>
                 <p className="small">{ch.about}</p>

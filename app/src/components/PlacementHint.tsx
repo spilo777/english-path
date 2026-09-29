@@ -18,7 +18,7 @@ export function PlacementHint({ s, offerOnly }: { s: Progress; offerOnly?: boole
   if (!newbie) {
     if (offerOnly) return null;
     const last = s.settings.placement;
-    return <p className="small muted place-note"><Icon name="target" /> {last ? <>Тест на уровень показал <b>{last.level}</b>. </> : null}<button type="button" className="linkish" onClick={openPlacement}>{last ? 'Пройти тест ещё раз' : 'Пройти тест на уровень'}</button></p>;
+    return <p className="small muted place-note"><Icon name="target" /> {last ? <>По тесту ваш уровень — <b>{last.known === undefined ? last.level : last.known || 'с нуля'}</b>. </> : null}<button type="button" className="linkish" onClick={openPlacement}>{last ? 'Пройти тест ещё раз' : 'Пройти тест на уровень'}</button></p>;
   }
   return (
     <button type="button" className="card place-card" onClick={openPlacement}>

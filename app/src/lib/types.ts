@@ -24,6 +24,9 @@ export interface TextItem {
   about?: string;
   ru?: string;
   kind?: 'dialogue' | string;
+  /** обложка: статья английской Википедии (главное фото) или поиск в Wikimedia Commons */
+  wiki?: string;
+  commons?: string;
 }
 
 export type Exercise =
@@ -126,7 +129,8 @@ export interface Settings {
   placement?: PlacementResult;
 }
 
-export interface PlacementResult { level: Level; at: number; scores: Partial<Record<Level, number>> }
+/** level — с какого уровня начинать учиться; known — какой уровень уже есть (null — с нуля) */
+export interface PlacementResult { level: Level; known?: Level | null; at: number; scores: Partial<Record<Level, number>> }
 
 /** Вопрос теста на уровень: q — фраза с ___ или вопрос, ru — перевод/подсказка, o — варианты, a — индекс верного */
 export interface PlacementQ { q: string; ru?: string; o: string[]; a: number }

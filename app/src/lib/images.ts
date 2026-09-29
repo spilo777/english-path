@@ -20,7 +20,8 @@ try {
 } catch { /* нет кеша */ }
 
 let baseRequested = false; // пакет по картам LIB_WIKI/LIB_COMMONS
-const extraWiki: Record<string, string> = {}; // книги: wiki из пропса
+const extraWiki: Record<string, string> = {}; // книги и статьи: wiki из данных
+const extraCommons: Record<string, string> = {}; // статьи: поиск в Commons из данных
 const requested = new Set<string>();
 let flushT: ReturnType<typeof setTimeout> | undefined;
 let version = 0;
@@ -60,6 +61,9 @@ function flush() {
   if (full) { baseRequested = true; Object.assign(titles, LIB_WIKI); Object.keys(LIB_WIKI).forEach((k) => requested.add(k)); }
   Object.entries(extraWiki).forEach(([k, t]) => { if (!requested.has(k) && !covers[k]) { titles[k] = t; requested.add(k); } });
   if (Object.keys(titles).length) jobs.push(wikiBatch(titles, m));
+  const cq: Record<string, string> = {};
+  Object.entries(extraCommons).forEach(([k, q]) => { if (!requested.has(k) && !covers[k]) { cq[k] = q; requested.add(k); } });
+  if (Object.keys(cq).length) jobs.push(commonsBatch(cq, m));
   if (full) { Object.keys(LIB_COMMONS).forEach((k) => requested.add(k)); jobs.push(commonsBatch(LIB_COMMONS, m)); }
   if (!jobs.length) return;
   void Promise.all(jobs).then(() => {
@@ -71,17 +75,18 @@ function flush() {
   });
 }
 
-function need(id: string, wiki?: string) {
+function need(id: string, wiki?: string, commons?: string) {
   if (covers[id]) return;
   if (wiki && !LIB_WIKI[id] && !LIB_COMMONS[id]) extraWiki[id] = wiki;
-  const wanted = (!cacheValid && !baseRequested) || (!!extraWiki[id] && !requested.has(id));
+  else if (commons && !LIB_WIKI[id] && !LIB_COMMONS[id]) extraCommons[id] = commons;
+  const wanted = (!cacheValid && !baseRequested) || ((!!extraWiki[id] || !!extraCommons[id]) && !requested.has(id));
   if (wanted && !flushT) flushT = setTimeout(flush, 0);
 }
 
 /** Ссылка на обложку статьи/книги (или undefined, пока нет или не нашлась) */
-export function useCover(id: string, wikiTitle?: string): string | undefined {
+export function useCover(id: string, wikiTitle?: string, commons?: string): string | undefined {
   useSyncExternalStore(subscribe, () => version, () => version);
-  useEffect(() => { need(id, wikiTitle); }, [id, wikiTitle]);
+  useEffect(() => { need(id, wikiTitle, commons); }, [id, wikiTitle, commons]);
   return covers[id];
 }
 

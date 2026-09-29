@@ -14,11 +14,14 @@ const STAGES = ['A1', 'A2', 'B1', 'B2'] as const;
 type Stage = (typeof STAGES)[number];
 const PER_STAGE = 10, PASS_AT = 7;
 
-const ABOUT: Record<Stage, { name: string; text: string }> = {
-  A1: { name: 'Начальный', text: 'Начнём с самого начала: am / is / are, простые фразы о себе, настоящее и прошедшее время. Так база встанет без дыр.' },
-  A2: { name: 'Элементарный', text: 'Основы вы знаете. Уроки A1 открыты для повторения, а начнёте с A2: длительное прошедшее, Present Perfect, планы на будущее.' },
-  B1: { name: 'Средний', text: 'У вас уверенная база. A1 и A2 открыты для повторения, начнёте с B1: сложные времена, условные предложения, косвенная речь.' },
-  B2: { name: 'Выше среднего', text: 'Отличная база. Всё до B2 открыто для повторения, начнёте с B2 — продвинутые конструкции и тонкости.' },
+// уровень, который вы УЖЕ знаете (последняя сданная ступень)
+const NAME: Record<Stage, string> = { A1: 'Начальный', A2: 'Элементарный', B1: 'Средний', B2: 'Выше среднего' };
+// с чего начинать: что будет в уроках этого уровня
+const NEXT: Record<Stage, string> = {
+  A1: 'am / is / are, простые фразы о себе, настоящее и прошедшее время — база без дыр.',
+  A2: 'длительное прошедшее, Present Perfect, планы на будущее, модальные глаголы.',
+  B1: 'сложные времена, условные предложения, пассив, косвенная речь.',
+  B2: 'продвинутые конструкции и тонкости: смешанные условия, инверсия, оттенки модальных.',
 };
 
 interface Item { q: PlacementQ; order: number[] } // order — перемешанные индексы вариантов
@@ -43,7 +46,7 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
   const [qi, setQi] = useState(0);
   const [right, setRight] = useState(0);
   const [scores, setScores] = useState<Partial<Record<Level, number>>>({});
-  const [result, setResult] = useState<{ level: Stage; top: boolean } | null>(null);
+  const [result, setResult] = useState<{ level: Stage; known: Stage | null; top: boolean } | null>(null);
 
   const back = modal ? null : <BackLink href="#/course" label="Курс" />;
   if (error) return <Wrap modal={modal}>{back}<LoadError error={error} /></Wrap>;
@@ -63,10 +66,12 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
       setStage(nx); setItems(pick(bank, STAGES[nx])); setQi(0); setRight(0);
       return;
     }
+    // known — уровень, который уже есть (последняя сданная ступень); start — с чего учиться дальше
     const top = r >= PASS_AT; // прошёл все ступени
+    const known: Stage | null = top ? st : stage > 0 ? STAGES[stage - 1] : null;
     const level: Stage = st;
-    setResult({ level, top });
-    update((x) => { x.settings.placement = { level, at: Date.now(), scores: sc }; });
+    setResult({ level, known, top });
+    update((x) => { x.settings.placement = { level, known, at: Date.now(), scores: sc }; });
     ding('done');
   };
 
@@ -94,7 +99,7 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
             <li><Icon name="question" /> Не уверены — жмите «Не знаю»: угадывание завысит уровень, и уроки окажутся слишком сложными</li>
             <li><Icon name="lock-open" /> В конце можно одной кнопкой открыть уроки ниже вашего уровня</li>
           </ul>
-          {prev ? <p className="small muted">Прошлый результат: <b>{prev.level}</b> ({new Date(prev.at).toLocaleDateString('ru-RU')})</p> : null}
+          {prev ? <p className="small muted">Прошлый результат: уровень <b>{prev.known === undefined ? prev.level : prev.known || 'с нуля'}</b>{prev.known !== undefined ? <>, начать с <b>{prev.level}</b></> : null} ({new Date(prev.at).toLocaleDateString('ru-RU')})</p> : null}
           <button type="button" className="btn primary block" onClick={begin}>Начать тест <Icon name="arrow-right" /></button>
         </div>
       </Wrap>
@@ -103,15 +108,23 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
 
   // ───── результат ─────
   if (result) {
-    const a = ABOUT[result.level];
+    const k = result.known;
+    const start = result.level;
     return (
       <Wrap modal={modal}>
         {back}
         <div className="card place-result stack">
-          <div className="eyebrow">Ваш уровень</div>
-          <div className={'place-level lv-' + result.level}>{result.level}</div>
-          <h2>{a.name}</h2>
-          <p>{result.top ? 'Вы уверенно прошли все ступени теста. ' : ''}{a.text}</p>
+          <div className="eyebrow">Ваш уровень сейчас</div>
+          <div className={'place-level ' + (k ? 'lv-' + k : 'lv-zero')}>{k || 'с нуля'}</div>
+          <h2>{k ? NAME[k] : 'Начинающий'}</h2>
+          <p>{result.top ? 'Вы уверенно прошли все ступени теста, включая B2.'
+            : k ? `Вы уверенно справились с ${k}, а на ступени ${start} ошибок пока много — значит, ${start} и стоит учить.`
+              : 'На первой ступени ошибок пока много — это нормально: начнём с самого начала, и база встанет без дыр.'}</p>
+          <div className={'place-next lv-' + start}>
+            <span className="eyebrow">{result.top ? 'Продолжайте с' : 'Начните учить'}</span>
+            <b>{start}</b>
+            <span className="small">{NEXT[start]}{k ? ` Уроки ${k === 'A1' ? 'A1' : 'до ' + start} открыты для повторения.` : ''}</span>
+          </div>
           <div className="place-scores">
             {STAGES.map((st) => (
               <div key={st} className={'place-score' + (scores[st] == null ? ' skip' : (scores[st] || 0) >= PASS_AT ? ' ok' : ' miss')}>
@@ -119,11 +132,11 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
               </div>
             ))}
           </div>
-          {result.level === 'A1' ? (
+          {start === 'A1' ? (
             <button type="button" className="btn primary block" onClick={() => apply('A1')}>Начать с первого урока <Icon name="arrow-right" /></button>
           ) : (
             <>
-              <button type="button" className="btn primary block" onClick={() => apply(result.level)}>Начать с {result.level} <Icon name="arrow-right" /></button>
+              <button type="button" className="btn primary block" onClick={() => apply(start)}>Начать с {start} <Icon name="arrow-right" /></button>
               <button type="button" className="btn ghost block" onClick={() => apply('A1')}>Нет, начну с самого начала</button>
             </>
           )}

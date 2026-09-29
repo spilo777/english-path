@@ -99,7 +99,7 @@ function SettingsPage() {
               toast(l === 'A1' ? 'Уроки идут по порядку с самого начала' : `Уроки до ${l} открыты`);
             }} />
           </div>
-          <p className="muted small">Уроки ниже выбранного уровня открываются сразу — их можно проходить для повторения в любом порядке. Выбранный уровень начинается с первого урока, дальше — по порядку, после теста на 80%. Не уверены, какой выбрать? <button type="button" className="linkish" onClick={openPlacement}>Пройдите тест на уровень</button>{st.placement ? ` (прошлый результат — ${st.placement.level})` : ''}.</p>
+          <p className="muted small">Уроки ниже выбранного уровня открываются сразу — их можно проходить для повторения в любом порядке. Выбранный уровень начинается с первого урока, дальше — по порядку, после теста на 80%. Не уверены, какой выбрать? <button type="button" className="linkish" onClick={openPlacement}>Пройдите тест на уровень</button>{st.placement ? ` (прошлый результат: уровень ${st.placement.known === undefined ? st.placement.level : st.placement.known || 'с нуля'}, начать с ${st.placement.level})` : ''}.</p>
         </div>
 
         <Reminders />

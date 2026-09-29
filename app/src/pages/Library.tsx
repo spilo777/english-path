@@ -1,6 +1,7 @@
 // Библиотека: #/library — витрина; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { ChannelCard } from '../components/ChannelArt';
+import { useEffect, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
@@ -87,13 +88,7 @@ function LibraryHome() {
         </Section>
       ) : null}
       <Section title={<><Icon name="headphones" /> Слушать</>} href="#/listen" sub="YouTube-каналы с понятной живой речью — от медленных диалогов до подкаста">
-        {CHANNELS.map((ch) => (
-          <a key={ch.id} className="ls-card" href="#/listen" style={{ '--cc': ch.color } as CSSProperties}>
-            <span className="ls-card-ava">{ch.short[0]}</span>
-            <b>{ch.short}</b>
-            <span className="tiny muted">{ch.levels[0]}–{ch.levels[1]} · {ch.accent}</span>
-          </a>
-        ))}
+        {CHANNELS.map((ch) => <ChannelCard key={ch.id} ch={ch} />)}
       </Section>
       {adapted.length ? (
         <Section title={<><Icon name="books" /> Адаптированные книги</>} href="#/library/books" sub="Классика, пересказанная простым языком под ваш уровень">

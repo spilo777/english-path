@@ -7,6 +7,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     cat: 'Аниме',
     about: 'My Neighbor Totoro (1988), Studio Ghibli',
     emoji: '🌳',
+    wiki: 'My Neighbor Totoro',
     ru: 'Две сестры переезжают в деревню и встречают лесного духа Тоторо.',
     text: `My Neighbor Totoro is an anime film from Japan. It is from 1988. The director is Hayao Miyazaki. The studio is Studio Ghibli.
 
@@ -28,6 +29,7 @@ The film is quiet and warm. It is good for children and adults. Totoro is also t
     cat: 'Аниме',
     about: 'Doraemon (manga 1969, anime 1979)',
     emoji: '🤖',
+    wiki: 'Doraemon',
     ru: 'Doraemon — синий кот-робот из будущего с волшебным карманом.',
     text: `Doraemon is a very famous character in Japan. He is a robot cat. He is blue and white, and he has no ears. The story is from a manga by Fujiko F. Fujio. The TV anime starts in 1979.
 
@@ -49,6 +51,7 @@ Doraemon is a robot cat, but he is afraid of mice. He loves sweet Japanese cakes
     cat: 'Аниме',
     about: 'Sailor Moon (manga 1991, anime 1992)',
     emoji: '🌙',
+    wiki: 'Sailor Moon',
     ru: 'Обычная школьница Усаги становится героиней Сейлор Мун.',
     text: `Sailor Moon is an anime from Japan. It is from 1992. The story is from a manga by Naoko Takeuchi.
 
@@ -72,6 +75,7 @@ The show is about friendship and love. It is very popular in many countries. For
     cat: 'Аниме',
     about: 'Dragon Ball (manga 1984, anime 1986)',
     emoji: '🐉',
+    wiki: 'Goku',
     ru: 'Dragon Ball — история Гоку и семи волшебных шаров, которая изменила аниме.',
     text: `Dragon Ball is one of the most famous anime in the world. The story started as a manga by Akira Toriyama in 1984, and the anime came out two years later, in 1986.
 
@@ -95,6 +99,7 @@ Akira Toriyama also drew the characters for the Dragon Quest video games. He die
     cat: 'Аниме',
     about: 'Kiki\'s Delivery Service (1989), Studio Ghibli',
     emoji: '🧹',
+    wiki: "Kiki's Delivery Service",
     ru: 'Юная ведьма Кики уезжает из дома и открывает службу доставки на метле.',
     text: `Kiki's Delivery Service is a Studio Ghibli film from 1989. Hayao Miyazaki made it, and the story is based on a Japanese book by Eiko Kadono.
 
@@ -118,6 +123,7 @@ If you liked Spirited Away, this film is calmer and happier. It is perfect for a
     cat: 'Аниме',
     about: 'Demon Slayer (manga 2016, anime 2019)',
     emoji: '🗡️',
+    wiki: 'Demon Slayer: Kimetsu no Yaiba',
     ru: 'Танджиро становится охотником на демонов, чтобы спасти сестру.',
     text: `Demon Slayer is a Japanese anime. The manga is by Koyoharu Gotouge, and the anime started in 2019. The studio ufotable made it, and many fans say it has some of the most beautiful animation on TV.
 
@@ -141,6 +147,7 @@ In 2020 the film Demon Slayer: Mugen Train came out in Japan. It broke many box 
     cat: 'Аниме',
     about: 'My Hero Academia (manga 2014, anime 2016)',
     emoji: '💪',
+    wiki: 'My Hero Academia',
     ru: 'Мальчик без суперсилы мечтает стать героем и попадает в особую школу.',
     text: `My Hero Academia is an anime about superheroes. The manga is by Kohei Horikoshi, and the anime started in 2016.
 
@@ -166,6 +173,7 @@ The show is fun and full of action, but the main idea is simple: working hard an
     cat: 'Аниме',
     about: 'Howl\'s Moving Castle (2004), Studio Ghibli',
     emoji: '🏰',
+    wiki: "Howl's Moving Castle (film)",
     ru: 'Шляпница Софи, превращённая в старушку, попадает в ходячий замок волшебника Хаула.',
     text: `Howl's Moving Castle is a Studio Ghibli film from 2004, directed by Hayao Miyazaki. It is based on a novel by the British writer Diana Wynne Jones, although the film changes a lot of the original story.
 
@@ -189,6 +197,7 @@ The film was nominated for an Oscar. If you have only seen Spirited Away, this o
     cat: 'Аниме',
     about: 'Princess Mononoke (1997), Studio Ghibli',
     emoji: '🐺',
+    wiki: 'Princess Mononoke',
     ru: 'Эпический фильм Миядзаки о войне между людьми и духами леса.',
     text: `Princess Mononoke is one of Hayao Miyazaki's most serious films. It came out in 1997 and was a huge hit in Japan. It is much darker than Totoro or Kiki's Delivery Service, so it is better for teenagers and adults than for small children.
 
@@ -212,6 +221,7 @@ The English version was written by the famous author Neil Gaiman. If you want to
     cat: 'Аниме',
     about: 'Fullmetal Alchemist: Brotherhood (2009–2010)',
     emoji: '⚗️',
+    wiki: 'Fullmetal Alchemist: Brotherhood',
     ru: 'Братья Элрики пытаются вернуть свои тела после неудачного алхимического опыта.',
     text: `Fullmetal Alchemist: Brotherhood is often called one of the best anime ever made. It is based on the manga by Hiromu Arakawa, and the studio Bones produced it in 2009–2010. There was an earlier anime in 2003, but Brotherhood follows the manga much more closely.
 
@@ -237,6 +247,7 @@ The series has everything: action, comedy, great characters and a story that was
     cat: 'Аниме',
     about: 'Your Name / Kimi no Na wa (2016), Makoto Shinkai',
     emoji: '☄️',
+    wiki: 'Your Name',
     ru: 'Школьники из Токио и маленького городка просыпаются в телах друг друга.',
     text: `For decades, whenever someone talked about Japanese animated films, one name dominated the conversation: Hayao Miyazaki. Then, in 2016, a film by a different director became a phenomenon. Your Name, known in Japan as Kimi no Na wa, was written and directed by Makoto Shinkai, and it turned out to be one of the most commercially successful Japanese films ever made.
 
@@ -262,6 +273,7 @@ Some critics argue that the film is overly sentimental, and it is true that it i
     cat: 'Аниме',
     about: 'Cowboy Bebop (1998), Sunrise',
     emoji: '🎷',
+    wiki: 'Cowboy Bebop',
     ru: 'Культовое аниме о космических охотниках за головами, джазе и одиночестве.',
     text: `Ask a group of Western fans which anime first made them take the medium seriously, and a surprising number will name Cowboy Bebop. The series was made by the studio Sunrise and directed by Shinichirō Watanabe. It first aired in Japan in 1998, and when it arrived on American television a few years later, it quickly earned a reputation as the anime you show to people who claim they don't like anime.
 
@@ -289,6 +301,7 @@ With only 26 episodes, Cowboy Bebop is easy to fit into a busy schedule. Netflix
     cat: 'Мультфильмы',
     about: 'WALL-E (2008), Pixar',
     emoji: '🌱',
+    wiki: 'WALL-E',
     ru: 'Маленький робот-уборщик в одиночку чистит покинутую Землю, пока не встречает EVE.',
     text: `WALL-E is a Pixar film from 2008, directed by Andrew Stanton, who had earlier made Finding Nemo. It won the Oscar for Best Animated Feature, and many critics consider it one of the bravest films Pixar has ever made.
 
@@ -312,6 +325,7 @@ Later, the film shows where the humans have gone, and it has some sharp things t
     cat: 'Мультфильмы',
     about: 'Moana (2016), Walt Disney Animation Studios',
     emoji: '🌊',
+    wiki: 'Moana (2016 film)',
     ru: 'Дочь вождя с полинезийского острова отправляется в океан, чтобы спасти свой народ.',
     text: `Moana is a Disney film from 2016, directed by Ron Clements and John Musker, the same team that had made The Little Mermaid and Aladdin many years earlier. It is inspired by the cultures and legends of the Pacific islands of Polynesia.
 
@@ -335,6 +349,7 @@ Moana is not a princess story about romance. It is about courage, identity and t
     cat: 'Мультфильмы',
     about: 'The Incredibles (2004), Pixar',
     emoji: '🦸',
+    wiki: 'The Incredibles',
     ru: 'Семья супергероев, которым запретили спасать мир, пытается жить обычной жизнью.',
     text: `The Incredibles is a Pixar film from 2004, written and directed by Brad Bird. It won the Oscar for Best Animated Feature, and even today many people say it is a better superhero film than most live-action ones.
 
@@ -360,6 +375,7 @@ A sequel, Incredibles 2, arrived in 2018, fourteen years after the original.`,
     cat: 'Мультфильмы',
     about: 'Monsters, Inc. (2001), Pixar',
     emoji: '👾',
+    wiki: 'Monsters, Inc.',
     ru: 'Монстры Салли и Майк работают на фабрике детских криков, пока в их мир не попадает девочка.',
     text: `Monsters, Inc. is a Pixar film from 2001, directed by Pete Docter, who later made Up, Inside Out and Soul. It is built on a simple but brilliant idea: the monsters that children are afraid of are real, and scaring kids is just their job.
 
@@ -385,6 +401,7 @@ The film is funny, fast and very warm. It also has one of the most exciting chas
     cat: 'Мультфильмы',
     about: 'Soul (2020), Pixar',
     emoji: '🎹',
+    wiki: 'Soul (2020 film)',
     ru: 'Джазовый пианист оказывается в мире душ и вынужден задуматься о смысле жизни.',
     text: `Pixar has never been afraid of big ideas. It has made films about the emotions inside a girl's head and about what happens to us after we die. Even so, Soul, released in 2020 and directed by Pete Docter, might be its most ambitious attempt yet: a family film that asks what gives a life meaning.
 
@@ -410,6 +427,7 @@ Some viewers found it too philosophical for young children, and that is a fair p
     cat: 'Мультфильмы',
     about: 'The Iron Giant (1999), Warner Bros.',
     emoji: '🦾',
+    wiki: 'The Iron Giant',
     ru: 'Как провалившийся в прокате мультфильм о мальчике и гигантском роботе стал классикой.',
     text: `Some films are hits from the first weekend. Others take years to find their audience. The Iron Giant, a traditionally animated film released by Warner Bros. in 1999, belongs firmly in the second group. It was the feature debut of director Brad Bird, who would later go on to make The Incredibles and Ratatouille at Pixar.
 

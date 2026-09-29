@@ -19,7 +19,9 @@ test('тест на уровень: результат и открытие ур�
     else await page.locator('.place-idk').click();
     await page.waitForTimeout(300);
   }
-  await expect(page.locator('.place-level')).toHaveText('B1');
+  // сданы A1 и A2 → уровень сейчас A2, учить дальше B1
+  await expect(page.locator('.place-level')).toHaveText('A2');
+  await expect(page.locator('.place-next')).toContainText('B1');
   await page.getByRole('button', { name: 'Начать с B1' }).click();
   await expect(page.locator('.place-note')).toContainText('B1');
   await page.goto('#/unit/a2-10');

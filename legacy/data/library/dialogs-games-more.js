@@ -4,6 +4,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     id: 'dlg-a1-char-creator', title: 'Make Your Hero', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'RPG · редактор персонажа',
     emoji: '🧝',
+    wiki: 'Elf',
     ru: 'Игрок создаёт персонажа, а голос редактора помогает ему — и немного удивляется выбору',
     text: `Editor: Hello! Let's make your hero. What is your name?
 Player: My name is Tom. No, my hero is Sir Pancake.
@@ -25,6 +26,7 @@ Player: Both. And give him a small hat. Let's play!`,
     id: 'dlg-a1-auction-house', title: 'At the Auction House', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'MMO · аукцион',
     emoji: '💰',
+    wiki: 'Auction house',
     ru: 'Новичок впервые продаёт вещи на аукционе в MMO, а служащий объясняет правила',
     text: `Clerk: Welcome to the auction house. Can I help you?
 Mira: Yes, please. I want to sell this sword.
@@ -46,6 +48,7 @@ Mira: Great! And please keep my old sword. It is a gift.`,
     id: 'dlg-a1-farm-neighbour', title: 'My Neighbour Needs Eggs', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Симулятор фермы · забор у соседей',
     emoji: '🥚',
+    wiki: 'Chicken',
     ru: 'Соседка по ферме просит яйца для торта и предлагает обмен',
     text: `Rosa: Good morning, neighbour! Are you busy?
 Leo: Hi, Rosa! No, I am not busy. What do you need?
@@ -67,6 +70,7 @@ Leo: Thank you! I can come. But not my pig.`,
     id: 'dlg-a1-lost-ring', title: 'The Lost Ring', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'RPG · квест у реки',
     emoji: '💍',
+    wiki: 'Ring (jewellery)',
     ru: 'Рыбак потерял кольцо у реки и просит героя помочь найти его',
     text: `Fisher: Help me, please! I can't find my ring.
 Hero: Your ring? Where is it?
@@ -88,6 +92,7 @@ Hero: Nice. Bob is a good friend. Now give me gold, please.`,
     id: 'dlg-a1-survival-food', title: 'One Fish, Three Players', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Симулятор выживания · костёр на острове',
     emoji: '🐟',
+    wiki: 'Campfire',
     ru: 'Трое выживших на острове делят одну рыбу у костра',
     text: `Ann: I am so hungry. Do we have food?
 Ben: We have one fish. Only one.
@@ -109,6 +114,7 @@ Ben: And I can sleep. Good night, team!`,
     id: 'dlg-a1-guild-invite', title: 'Join Our Guild!', level: 'A1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'MMO · площадь стартового города',
     emoji: '🛡️',
+    wiki: 'Guild',
     ru: 'Глава маленькой гильдии зовёт новичка к себе в команду',
     text: `Kai: Hi! Do you have a guild?
 Zoe: No, I don't. I am new here.
@@ -132,6 +138,7 @@ Zoe: Yes, I can. See you tonight, Night Owls!`,
     id: 'dlg-a2-raid-voice', title: 'Five Minutes Before the Raid', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'MMO · голосовой чат перед рейдом',
     emoji: '🎙️',
+    wiki: 'Microphone',
     ru: 'Команда готовится к рейду в голосовом чате, но один игрок забыл кое-что важное',
     text: `Lena: Okay, everyone, the raid starts in five minutes. Can you all hear me?
 Max: Yes, loud and clear.
@@ -157,6 +164,7 @@ Lena: Okay, new plan. Everyone, buy more potions. Now!`,
     id: 'dlg-a2-rally-codriver', title: 'Left Three, Don\'t Cut', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Раллийный симулятор · в машине со штурманом',
     emoji: '🏎️',
+    wiki: 'Rallying',
     ru: 'Штурман диктует повороты гонщику на лесной трассе, а тот не всегда слушает',
     text: `Co-driver: Okay, we start in three, two, one... Go!
 Driver: Here we go! This car is so fast!
@@ -181,6 +189,7 @@ Co-driver: We're second. And next time, please listen to me.`,
     id: 'dlg-a2-detective-baker', title: 'Who Took the Pie?', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Детективный квест · пекарня',
     emoji: '🥧',
+    wiki: 'Bakery',
     ru: 'Юный детектив расспрашивает пекаря и его помощника о пропавшем пироге',
     text: `Detective: Good morning. I heard somebody took a pie from your shop.
 Baker: Yes! A big cherry pie. I made it for the king.
@@ -205,6 +214,7 @@ Detective: Then somebody else took the rest. I'm going to check the horses.`,
     id: 'dlg-a2-support-call', title: 'Where Is My Dragon?', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Техподдержка игры · звонок игрока',
     emoji: '📞',
+    wiki: 'Call centre',
     ru: 'Игрок звонит в поддержку, потому что его ездовой дракон пропал после обновления',
     text: `Support: Hello, this is game support. My name is Jess. How can I help you?
 Player: Hi. My dragon is gone! I bought it last week.
@@ -229,6 +239,7 @@ Support: Have a nice flight! And give your dragon a snack.`,
     id: 'dlg-a2-tennis-coach', title: 'Coach Wants a Better Serve', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Спортивный симулятор · теннисный корт',
     emoji: '🎾',
+    wiki: 'Tennis court',
     ru: 'Тренер в теннисном симуляторе разбирает прошлый матч и готовит игрока к турниру',
     text: `Coach: Good morning, Alex. Let's talk about your last match.
 Alex: I know, I know. I lost.
@@ -253,6 +264,7 @@ Coach: Very good. Ninety-nine more. The tournament is on Saturday.`,
     id: 'dlg-a2-kitchen-rush', title: 'Kitchen Chaos', level: 'A2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Кооп-симулятор кухни · ресторан',
     emoji: '🍳',
+    wiki: 'Kitchen brigade',
     ru: 'Двое игроков в кооперативном симуляторе кухни пытаются успеть выполнить заказы',
     text: `Mia: Three orders! Two burgers and one soup!
 Jack: I'm going to cut the tomatoes. You cook the meat.
@@ -279,6 +291,7 @@ Mia: Okay, two burgers and no soup. One star is better than zero.`,
     id: 'dlg-b1-speedrun-stream', title: 'Speedrun, Chat Is Watching', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Стрим · спидран с чатом',
     emoji: '⏱️',
+    wiki: 'Stopwatch',
     ru: 'Стример пытается побить свой рекорд в спидране, а чат комментирует каждую ошибку',
     text: `Rico: Okay, chat, this is attempt number forty-two. If I finish under twenty minutes, it's a new record.
 Chat (Pixel_Pat): You've said that forty-one times already!
@@ -307,6 +320,7 @@ Rico: Good? That's a new world record, NoobKing! I'm never going to stream witho
     id: 'dlg-b1-mirror-puzzle', title: 'Light Through the Mirrors', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Кооп-головоломка · башня с зеркалами',
     emoji: '🪞',
+    wiki: 'Mirror',
     ru: 'Два игрока в разных комнатах башни поворачивают зеркала, чтобы луч света открыл дверь',
     text: `Ivy: Can you hear me? I'm in a room with three mirrors and a big crystal.
 Omar: Loud and clear. I'm on the floor below. There's a beam of light coming through a hole in my ceiling.
@@ -336,6 +350,7 @@ Omar: A note. It says: "Well done. Now do it again in the dark." Great.`,
     id: 'dlg-b1-heist-plan', title: 'The Museum Job', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Стелс-экшен · планирование ограбления',
     emoji: '🗝️',
+    wiki: 'Art theft',
     ru: 'Команда в стелс-игре обсуждает план кражи картины из музея — и новичок задаёт неудобные вопросы',
     text: `Vera: Right, gather round. Tonight we take the painting from the city museum.
 Nick: Which one? The one with the sad horse?
@@ -364,6 +379,7 @@ Vera: Because the client paid a lot, and because the horse is sad. We're going t
     id: 'dlg-b1-city-advisor', title: 'The Mayor Has Questions', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Градостроительный симулятор · кабинет мэра',
     emoji: '🏙️',
+    wiki: 'Town hall',
     ru: 'Советник докладывает мэру о проблемах города, которые мэр сам и создал',
     text: `Advisor: Good morning, Mayor. I'm afraid I have some bad news.
 Mayor: Again? What's happened this time?
@@ -393,6 +409,7 @@ Mayor: Just one small one. In the park. Of my cat.`,
     id: 'dlg-b1-fishing-contest', title: 'The Legend of the Lake', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Уютный симулятор · рыболовный турнир',
     emoji: '🎣',
+    wiki: 'Fishing tournament',
     ru: 'Двое игроков соревнуются на рыболовном турнире и слышат легенду о гигантской рыбе',
     text: `Old Tom: Welcome to the Summer Fishing Contest! You have one hour. The biggest fish wins.
 June: One hour? I've been fishing here all week and caught only boots.
@@ -420,6 +437,7 @@ Old Tom: So the legend lives on. Congratulations, June. Your boot is the biggest
     id: 'dlg-b1-skill-trainer', title: 'Reset My Skills, Please', level: 'B1', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'RPG · учитель навыков в гильдии магов',
     emoji: '📜',
+    wiki: 'Magician (fantasy)',
     ru: 'Герой просит учителя сбросить навыки, потому что всё вложил не туда',
     text: `Master Elwin: Ah, a young adventurer. What brings you to the Mage Guild?
 Hero: I need to reset my skills. I think I've made a terrible mistake.
@@ -450,6 +468,7 @@ Master Elwin: Take some pancakes. For the frogs.`,
     id: 'dlg-b2-esports-cast', title: 'Live from the Grand Final', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Киберспорт · комментаторская будка финала',
     emoji: '📺',
+    wiki: 'Press box',
     ru: 'Двое комментаторов ведут решающую игру финала — с драмой, шутками и неожиданной развязкой',
     text: `Caster Jay: Welcome back, everyone, to game five of the grand final! It's all tied up, two-two, and this is winner takes all.
 Caster Nia: You could cut the tension with a knife, Jay. Both teams look like they haven't slept in a week.
@@ -480,6 +499,7 @@ Caster Jay: You and me both. Folks, stick around for the trophy ceremony, and so
     id: 'dlg-b2-ban-appeal', title: 'I Swear It Was My Cat', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Техподдержка игры · апелляция по бану',
     emoji: '🚫',
+    wiki: 'Cat',
     ru: 'Игрок звонит в поддержку, чтобы оспорить бан за «подозрительную активность»',
     text: `Agent: Thanks for calling player support, this is Dana. How can I help?
 Marcus: Hi, Dana. I've been banned for three days and I honestly have no idea why.
@@ -513,6 +533,7 @@ Marcus: No, you've been a lifesaver. Thanks, Dana.`,
     id: 'dlg-b2-last-rations', title: 'Four Cans, Five Survivors', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Симулятор выживания · бункер',
     emoji: '🥫',
+    wiki: 'Fallout shelter',
     ru: 'Выжившие в бункере спорят, как делить последние консервы и кто пойдёт за припасами',
     text: `Hana: Right, let's not beat around the bush. We've got four cans of beans and five people.
 Grey: And a jar of pickles. Nobody's touched it for a reason.
@@ -544,6 +565,7 @@ Dmitri: Absolutely not. He's our lucky charm. We're in this together, gnome and 
     id: 'dlg-b2-manor-suspects', title: 'Three Suspects and a Clock', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Детективный квест · допрос в старинном поместье',
     emoji: '🕰️',
+    wiki: 'English country house',
     ru: 'Сыщица по очереди расспрашивает дворецкого, садовника и племянницу о пропаже фамильного бриллианта',
     text: `Inspector Crane: Thank you all for staying. As you know, the Blackwood diamond disappeared from the study last night.
 Butler: A dreadful business, Inspector. I've served this family for thirty years and nothing like this has ever happened.
@@ -576,6 +598,7 @@ Inspector Crane: Sentimental, perhaps. But hiding it in a clock was a little too
     id: 'dlg-b2-guild-poach', title: 'An Offer You Can Refuse', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'MMO · вербовка в топ-гильдию',
     emoji: '🤝',
+    wiki: 'Handshake',
     ru: 'Офицер топовой гильдии пытается переманить сильного хилера из маленькой дружной гильдии',
     text: `Rook: Hey, got a minute? I've been watching your healing numbers. They're off the charts.
 Wren: Thanks, I guess. Who's asking?
@@ -607,6 +630,7 @@ Wren: Appreciated. And hey, if you ever get bored of being serious, we're recrui
     id: 'dlg-b2-boss-bargain', title: 'Let\'s Talk Terms, Dark Lord', level: 'B2', cat: 'Диалоги из игр', kind: 'dialogue',
     about: 'Экшен-RPG · переговоры с боссом в его замке',
     emoji: '👑',
+    wiki: 'Bran Castle',
     ru: 'Вместо битвы героиня решает договориться с тёмным властелином — и находит его слабое место',
     text: `Lord Malgrin: So, you've finally made it to my throne room. I must admit, I expected someone taller.
 Asha: And I expected fewer candles. Seriously, how do you pay for all of these?

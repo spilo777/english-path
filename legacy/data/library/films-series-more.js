@@ -7,6 +7,7 @@ window.LIBRARY = (window.LIBRARY || []).concat([
     cat: 'Кино',
     about: 'Home Alone (1990)',
     emoji: '🎄',
+    wiki: 'Home Alone',
     ru: 'Мальчик один дома на Рождество — и два неудачливых вора',
     text: `Home Alone is an American comedy film. It is from 1990. It is a very popular film for Christmas.
 
@@ -30,6 +31,7 @@ The actor Macaulay Culkin plays Kevin. Many families watch this film every Decem
     cat: 'Кино',
     about: 'Jurassic Park (1993)',
     emoji: '🦖',
+    wiki: 'Jurassic Park (film)',
     ru: 'Парк с настоящими динозаврами на острове — что может пойти не так?',
     text: `Jurassic Park is an American film from 1993. The director is Steven Spielberg. The story is from a book by Michael Crichton.
 
@@ -53,6 +55,7 @@ The film is exciting and a little scary. The dinosaurs look very real, even toda
     cat: 'Кино',
     about: 'Titanic (1997)',
     emoji: '🚢',
+    wiki: 'Titanic (1997 film)',
     ru: 'История любви на знаменитом корабле «Титаник»',
     text: `Titanic is a film from 1997. The director is James Cameron. It is a love story and a drama.
 
@@ -76,6 +79,7 @@ The film is long, more than three hours. But many people love it. It is one of t
     cat: 'Кино',
     about: 'Paddington (2014)',
     emoji: '🧸',
+    wiki: 'Paddington (film)',
     ru: 'Вежливый медвежонок из Перу приезжает в Лондон',
     text: `Paddington is a British family film from 2014. The story is from books by Michael Bond.
 
@@ -101,6 +105,7 @@ The people in the film are real actors, but Paddington is made on a computer. Th
     cat: 'Кино',
     about: 'Back to the Future (1985)',
     emoji: '⏰',
+    wiki: 'Back to the Future',
     ru: 'Подросток на машине времени попадает в молодость своих родителей',
     text: `Back to the Future is an American science fiction comedy from 1985. Robert Zemeckis directed it, and Steven Spielberg helped to produce it.
 
@@ -122,6 +127,7 @@ Michael J. Fox played Marty, and Christopher Lloyd played Doc. The film was a hu
     cat: 'Кино',
     about: "Harry Potter and the Philosopher's Stone (2001)",
     emoji: '🪄',
+    wiki: "Harry Potter and the Philosopher's Stone (film)",
     ru: 'Первый фильм о Гарри Поттере: мальчик узнаёт, что он волшебник',
     text: `Harry Potter and the Philosopher's Stone is the first film in the Harry Potter series. It came out in 2001, and it was based on the first book by J. K. Rowling. In the USA, the film has a different name: Harry Potter and the Sorcerer's Stone.
 
@@ -143,6 +149,7 @@ The young actors Daniel Radcliffe, Rupert Grint and Emma Watson were children wh
     cat: 'Кино',
     about: 'Forrest Gump (1994)',
     emoji: '🏃',
+    wiki: 'Forrest Gump',
     ru: 'Добрый и простой человек случайно оказывается в центре американской истории',
     text: `Forrest Gump is an American film from 1994. Robert Zemeckis directed it, and Tom Hanks played the main role. The film is based on a novel by Winston Groom.
 
@@ -166,6 +173,7 @@ The film won six Oscars, including Best Picture and Best Actor for Tom Hanks. So
     cat: 'Кино',
     about: 'Star Wars (1977)',
     emoji: '🌌',
+    wiki: 'Star Wars (film)',
     ru: 'Первые «Звёздные войны»: фильм, который изменил кино',
     text: `Star Wars came out in 1977. George Lucas wrote and directed it. Later, the film got a longer name: Star Wars: Episode IV – A New Hope.
 
@@ -189,6 +197,7 @@ In 1977, nobody expected much from a space film. But Star Wars was a giant hit. 
     cat: 'Кино',
     about: 'The Matrix (1999)',
     emoji: '💊',
+    wiki: 'The Matrix',
     ru: 'Хакер узнаёт, что привычный мир — компьютерная симуляция',
     text: `The Matrix is an American science fiction action film that was released in 1999. It was written and directed by the Wachowskis, and it has become one of the most influential films of its time. Don't worry — there are no big spoilers here.
 
@@ -212,6 +221,7 @@ If you have never seen The Matrix, it is worth watching even today. The effects 
     cat: 'Кино',
     about: 'The Lord of the Rings: The Fellowship of the Ring (2001)',
     emoji: '💍',
+    wiki: 'The Lord of the Rings: The Fellowship of the Ring',
     ru: 'Первый фильм трилогии «Властелин колец» и как его снимали в Новой Зеландии',
     text: `The Lord of the Rings: The Fellowship of the Ring is the first part of Peter Jackson's famous fantasy trilogy. It was released in 2001 and is based on the novel by J. R. R. Tolkien. For years, many people believed that Tolkien's huge story was impossible to film. Jackson proved them wrong.
 
@@ -235,6 +245,7 @@ The trilogy was a massive success. The third film, The Return of the King, won e
     cat: 'Кино',
     about: 'Inception (2010)',
     emoji: '🌀',
+    wiki: 'Inception',
     ru: 'Фильм Кристофера Нолана о ворах, которые проникают в чужие сны',
     text: `Inception is a science fiction thriller that was written and directed by Christopher Nolan. It came out in 2010, and it has been discussed by fans ever since. This article has no big spoilers, so you can read it safely.
 
@@ -258,6 +269,7 @@ Inception is not an easy film. If you don't pay attention, you can get lost betw
     cat: 'Кино',
     about: 'The Shawshank Redemption (1994)',
     emoji: '🗝️',
+    wiki: 'The Shawshank Redemption',
     ru: 'Фильм, который провалился в кинотеатрах, а потом стал всеобщим любимцем',
     text: `The Shawshank Redemption is an American drama that was released in 1994. It was written and directed by Frank Darabont and is based on a short novel by Stephen King. Although King is famous for horror, there are no monsters in this story. No big spoilers here.
 
@@ -283,6 +295,7 @@ If you haven't seen it yet, it is a great film for learners. The story moves slo
     cat: 'Кино',
     about: 'The Godfather (1972)',
     emoji: '🌹',
+    wiki: 'The Godfather',
     ru: 'Почему «Крёстный отец» Копполы до сих пор считается одним из величайших фильмов',
     text: `Few films have cast as long a shadow as The Godfather. Directed by Francis Ford Coppola and based on the best-selling novel by Mario Puzo, it was released in 1972, won the Oscar for Best Picture, and has been quoted, copied and parodied ever since. Yet what surprises first-time viewers today is how quiet and patient it is. This is not a non-stop gangster thriller; it is a slow, rich family drama that happens to take place inside a criminal empire. No spoilers of the ending here.
 
@@ -306,6 +319,7 @@ Some critics have argued that the film makes criminals look too glamorous, and i
     cat: 'Кино',
     about: 'Parasite (2019), dir. Bong Joon-ho',
     emoji: '🪜',
+    wiki: 'Parasite (2019 film)',
     ru: 'Южнокорейский фильм, который первым из неанглоязычных получил «Оскар» за лучший фильм',
     text: `In February 2020, something happened that many people in Hollywood had thought impossible: a film in Korean won the Oscar for Best Picture. Parasite, directed by Bong Joon-ho, became the first film not in English to take the top prize at the Academy Awards. A few months earlier, it had also won the Palme d'Or at the Cannes Film Festival. So what made this dark comedy-thriller from South Korea travel so well?
 
@@ -329,6 +343,7 @@ Crucially, the film refuses to turn either family into simple heroes or villains
     cat: 'Кино',
     about: 'Casablanca (1942)',
     emoji: '🎹',
+    wiki: 'Casablanca (film)',
     ru: 'Чёрно-белая классика 1942 года: почему её до сих пор смотрят',
     text: `If you have never watched a black-and-white film from start to finish, Casablanca is probably the best place to begin. Released in 1942 and directed by Michael Curtiz, it won the Oscar for Best Picture and is regularly named among the greatest films ever made. More importantly, it is still genuinely entertaining — which is not something you can say about every classic.
 
@@ -356,6 +371,7 @@ For English learners, it is a treat. The actors speak with a classic, clear Holl
     cat: 'Сериалы',
     about: 'Downton Abbey (2010–2015)',
     emoji: '🏰',
+    wiki: 'Highclere Castle',
     ru: 'Британский сериал о богатой семье и их слугах в огромном доме',
     text: `Downton Abbey is a British TV series. It is from 2010 to 2015. The writer is Julian Fellowes.
 
@@ -379,6 +395,7 @@ The clothes, the rooms and the music are beautiful. People love this series all 
     cat: 'Сериалы',
     about: 'Emily in Paris (2020– )',
     emoji: '🗼',
+    wiki: "Place de l'Estrapade",
     ru: 'Американка работает в Париже и не говорит по-французски',
     text: `Emily in Paris is an American series on Netflix. It starts in 2020. The creator is Darren Star.
 
@@ -402,6 +419,7 @@ Lily Collins plays Emily. The series is light and fun. It is good for learners t
     cat: 'Сериалы',
     about: "Grey's Anatomy (2005– )",
     emoji: '🩺',
+    wiki: 'Meredith Grey',
     ru: 'Один из самых долгих медицинских сериалов: молодые хирурги в Сиэтле',
     text: `Grey's Anatomy is an American TV series. It starts in 2005. The creator is Shonda Rhimes.
 
@@ -427,6 +445,7 @@ The series is very long. It has more than twenty seasons! Some people watch it f
     cat: 'Сериалы',
     about: 'The Sopranos (HBO, 1999–2007)',
     emoji: '🦆',
+    wiki: 'Tony Soprano',
     ru: 'Сериал о мафиозном боссе у психотерапевта, который изменил телевидение',
     text: `When people talk about the "golden age" of television, the conversation almost always starts with The Sopranos. Created by David Chase and broadcast on HBO from 1999 to 2007, it showed that a TV series could be as ambitious, complex and morally challenging as the best films. Without it, it is hard to imagine Breaking Bad, Mad Men or many of the other shows we now call classics.
 
@@ -450,6 +469,7 @@ Is it worth watching now? Definitely, although it requires some patience. The pa
     cat: 'Сериалы',
     about: 'Mad Men (AMC, 2007–2015)',
     emoji: '🥃',
+    wiki: 'Don Draper',
     ru: 'Стильная драма о рекламном агентстве в Нью-Йорке 1960-х',
     text: `At first glance, Mad Men looks like a show about beautiful suits, elegant offices and people smoking in every single scene. Look a little closer, though, and it turns out to be one of the most thoughtful dramas ever made about identity, work and a society on the edge of huge change. Created by Matthew Weiner, it ran on AMC from 2007 to 2015 and won the Emmy for Outstanding Drama Series four years in a row.
 
@@ -477,6 +497,7 @@ It is not a show for people who want constant action. But if you enjoy slow-burn
     cat: 'Про экран',
     about: 'How subtitles help you learn a language',
     emoji: '💬',
+    wiki: 'Fansub',
     ru: 'Как правильно пользоваться субтитрами, чтобы учить язык по сериалам',
     text: `Many learners who watch series have the same question: should I turn the subtitles on or off? The honest answer is that subtitles can be a great teacher, but only if you use them in the right way.
 
@@ -500,6 +521,7 @@ One more tip: pause often. If you hear a useful phrase, stop the video, repeat i
     cat: 'Про экран',
     about: 'How film trailers are made',
     emoji: '🎞️',
+    wiki: 'Trailer (promotion)',
     ru: 'Кто и как делает трейлеры к фильмам и почему в них бывают сцены, которых нет в кино',
     text: `A trailer is a short advert for a film, and most of them last only about two or three minutes. In that time, it has to explain the idea of the film, show its best moments and make you want to buy a ticket.
 
@@ -525,6 +547,7 @@ Next time you watch a trailer, try to notice how it was built: the music, the rh
     cat: 'Про экран',
     about: 'British vs American TV series: accents, vocabulary, format',
     emoji: '🇬🇧',
+    wiki: 'Elstree Studios',
     ru: 'Почему британские и американские сериалы звучат по-разному — и дело не только в акценте',
     text: `Switch from an American sitcom to a British drama and the difference hits you within seconds. It is not just a question of accent, although that is the most obvious part. British and American series differ in their vocabulary, their sense of humour and even in the way they are written and produced.
 
