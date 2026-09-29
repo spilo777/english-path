@@ -1,6 +1,6 @@
 // Курс: доступность уроков и прогресс по шагам. Работает с индексом курса (CourseIndex), без полных уроков.
 import { LEVEL_ORDER } from './types';
-import type { BookRefs, CourseIndex, Progress, Syllabus, UnitMeta } from './types';
+import type { BookRefs, CourseIndex, Level, Progress, Syllabus, UnitMeta } from './types';
 import { PASS } from './store';
 
 export type StepKey = 'words' | 'grammar' | 'reading' | 'practice' | 'test';
@@ -26,12 +26,23 @@ export function passed(s: Progress, id: string): boolean {
   return !!(u && u.testBest != null && u.testBest >= PASS);
 }
 
-/** Основные — по порядку (открыт, если сдан предыдущий); игровые — после unlockAfter (или a1-0) */
+/** Уровень, с которого человек начинает (настройка или тест на уровень); по умолчанию A1 */
+export const startLevel = (s: Progress): Level => s.settings.startLevel || 'A1';
+/** Урок ниже стартового уровня — открыт без прохождения */
+export const belowStart = (s: Progress, level: string) => (LEVEL_ORDER[level] || 0) < (LEVEL_ORDER[startLevel(s)] || 1);
+
+/** Основные — по порядку (открыт, если сдан предыдущий); ниже стартового уровня — все открыты;
+ *  игровые — после unlockAfter (или a1-0) */
 export function isUnlocked(s: Progress, meta: UnitMeta, course: CourseIndex): boolean {
-  if (meta.track === 'games') return passed(s, meta.unlockAfter || 'a1-0');
+  if (belowStart(s, meta.level)) return true;
+  if (meta.track === 'games') {
+    const after = meta.unlockAfter || 'a1-0';
+    const am = course.units.find((u) => u.id === after);
+    return passed(s, after) || (!!am && belowStart(s, am.level));
+  }
   const list = mainUnits(course);
   const i = list.findIndex((u) => u.id === meta.id);
-  return i <= 0 || passed(s, list[i - 1].id);
+  return i <= 0 || passed(s, list[i - 1].id) || belowStart(s, list[i - 1].level);
 }
 
 const stepDone = (s: Progress, id: string, k: StepKey) => (k === 'test' ? passed(s, id) : !!s.units[id]?.steps[k]);
@@ -47,10 +58,11 @@ export function nextStep(s: Progress, id: string): { k: StepKey; label: string }
   return null;
 }
 
-/** Текущий урок: первый открытый и не сданный (или последний) */
+/** Текущий урок: первый открытый и не сданный, начиная со стартового уровня (или последний) */
 export function currentUnit(s: Progress, course: CourseIndex): UnitMeta | undefined {
   const list = mainUnits(course);
-  return list.find((u) => isUnlocked(s, u, course) && !passed(s, u.id)) || list[list.length - 1];
+  return list.find((u) => !belowStart(s, u.level) && isUnlocked(s, u, course) && !passed(s, u.id))
+    || list.find((u) => isUnlocked(s, u, course) && !passed(s, u.id)) || list[list.length - 1];
 }
 
 // ───────── книги Мерфи ─────────

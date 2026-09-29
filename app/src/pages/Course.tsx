@@ -1,12 +1,13 @@
 // Раздел «Курс» → «Уроки»: уровни A1…C1 (сворачиваются), уроки с прогрессом и замками, готовящиеся уроки, игровой трек
 import { useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
-import { BOOK_KEYS, currentUnit, isUnlocked, mainUnits, passed, rangeTxt, unitProgress } from '../lib/course';
+import { belowStart, BOOK_KEYS, currentUnit, isUnlocked, mainUnits, passed, rangeTxt, unitProgress } from '../lib/course';
 import { useCourse, useSyllabus } from '../lib/data';
 import { useProgress } from '../lib/store';
 import type { CourseIndex, Progress, Syllabus, UnitMeta } from '../lib/types';
 import { Icon, LoadError, Loading, Page, plural } from '../components/ui';
 import { CourseHead } from './course-head';
+import { PlacementHint } from '../components/PlacementHint';
 import './Course.css';
 
 const OPEN_KEY = 'ep.courseOpen';
@@ -49,7 +50,7 @@ function Level({ l, course, syl, s, open, onToggle }: {
   const total = us.length + planned.length;
   const done = us.filter((u) => passed(s, u.id)).length;
   const nextU = us.find((u) => isUnlocked(s, u, course) && !passed(s, u.id));
-  const state = !us.length ? 'Готовится' : done === us.length && !planned.length ? 'Пройден' : nextU ? `Дальше: урок ${nextU.num}` : 'Закрыт';
+  const state = !us.length ? 'Готовится' : done === us.length && !planned.length ? 'Пройден' : belowStart(s, l.id) ? 'Открыт — можно повторить' : nextU ? `Дальше: урок ${nextU.num}` : 'Закрыт';
   return (
     <section ref={ref} className={'lvl' + (open ? ' open' : '')} data-lvl={l.id}>
       <button type="button" className="lvl-head" aria-expanded={open} onClick={() => { if (ref.current) onToggle(ref.current, l.id, !open); }}>
@@ -109,6 +110,7 @@ export default function Course(_props: PageProps) {
   return (
     <Page>
       {head}
+      <PlacementHint s={s} />
       <div className="lvl-list">
         {course.levels.map((l) => <Level key={l.id} l={l} course={course} syl={syl} s={s} open={!!opened[l.id]} onToggle={toggle} />)}
       </div>

@@ -10,6 +10,7 @@ import { today, useProgress } from '../lib/store';
 import { LEVEL_ORDER, type CourseIndex, type LessonText, type Progress } from '../lib/types';
 import { AchCard } from '../components/AchCard';
 import { GoalCard } from '../components/GoalCard';
+import { PlacementHint } from '../components/PlacementHint';
 import { BookPoster, TextPoster } from '../components/Posters';
 import { Icon, LoadError, Loading, Page, plural, RoundBtn, Section, TopBar } from '../components/ui';
 import { AvatarBtn } from './course-head';
@@ -126,6 +127,7 @@ export default function Home(_props: PageProps) {
   return (
     <Page>
       <TopBar title={hello} right={right} sub={date + (planDone === 3 ? ' · план выполнен' : '')} />
+      <PlacementHint s={s} offerOnly />
       <div className="duo">
         <a className="continue-card" href={unitHref}>
           <div className="cc-ill"><Icon name="graduation-cap" fill /></div>

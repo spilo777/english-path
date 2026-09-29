@@ -11,6 +11,12 @@ const course: CourseIndex = {
   levels: [],
   units: [u('a2-1', 'A2', 1), u('a1-1', 'A1', 1), u('g-1', 'A1', 1, 'games'), u('a1-0', 'A1', 0), u('g-2', 'A1', 2, 'games', 'a1-1')],
 };
+// для стартового уровня: A1 → A2 → B1 по два урока
+const course3: CourseIndex = {
+  levels: [],
+  units: [u('a1-0', 'A1', 0), u('a1-1', 'A1', 1), u('a2-1', 'A2', 1), u('a2-2', 'A2', 2), u('b1-1', 'B1', 1), u('b1-2', 'B1', 2), u('g-1', 'A1', 1, 'games', 'a1-0')],
+};
+const by3 = (id: string) => course3.units.find((x) => x.id === id)!;
 const byId = (id: string) => course.units.find((x) => x.id === id)!;
 const pass = (s: Progress, id: string, score = 1) => { s.units[id] = { steps: {}, testBest: score }; };
 
@@ -74,3 +80,31 @@ describe('прогресс урока', () => {
     expect(s.units['a1-1']).toBeUndefined();
   });
 });
+
+describe('стартовый уровень (настройка или тест на уровень)', () => {
+  it('ниже стартового уровня всё открыто, стартовый — с первого урока, дальше по порядку', () => {
+    const s = defaults();
+    s.settings.startLevel = 'A2';
+    expect(isUnlocked(s, by3('a1-0'), course3)).toBe(true);
+    expect(isUnlocked(s, by3('a1-1'), course3)).toBe(true);
+    expect(isUnlocked(s, by3('g-1'), course3)).toBe(true);
+    expect(isUnlocked(s, by3('a2-1'), course3)).toBe(true);
+    expect(isUnlocked(s, by3('a2-2'), course3)).toBe(false);
+    expect(isUnlocked(s, by3('b1-1'), course3)).toBe(false);
+    pass(s, 'a2-1');
+    expect(isUnlocked(s, by3('a2-2'), course3)).toBe(true);
+  });
+  it('текущий урок — первый несданный со стартового уровня, а не a1-0', () => {
+    const s = defaults();
+    s.settings.startLevel = 'B1';
+    expect(currentUnit(s, course3)?.id).toBe('b1-1');
+    pass(s, 'b1-1');
+    expect(currentUnit(s, course3)?.id).toBe('b1-2');
+  });
+  it('без настройки — как раньше, с a1-0', () => {
+    const s = defaults();
+    expect(currentUnit(s, course3)?.id).toBe('a1-0');
+    expect(isUnlocked(s, by3('a2-1'), course3)).toBe(false);
+  });
+});
+

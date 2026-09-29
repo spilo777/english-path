@@ -45,6 +45,7 @@ export const paths = {
   course: 'course.json',
   unit: (id: string) => `units/${id}.json`,
   lessons: 'lessons.json',
+  placement: 'placement.json',
   syllabus: 'syllabus.json',
   words: 'words.json',
   dict: 'dict.json',

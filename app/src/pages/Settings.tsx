@@ -1,6 +1,7 @@
 // Настройки (#/settings) и аккаунт (#/account): вход, регистрация, восстановление пароля, синхронизация
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
+import type { Level } from '../lib/types';
 import { go } from '../app/router';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
@@ -86,6 +87,17 @@ function SettingsPage() {
       <h1 className="page-title">Настройки</h1>
       <div className="stack st-list">
         <div className="card st-acc"><AccountRow /></div>
+
+        <div className="card stack">
+          <h3>Уровень</h3>
+          <div className="st-field st-level">С какого уровня начинать
+            <Seg items={LEVEL_ITEMS} value={st.startLevel || 'A1'} onChange={(l) => {
+              update((p) => { p.settings.startLevel = l; p.settings.decks = { ...(p.settings.decks || {}), [l]: true }; });
+              toast(l === 'A1' ? 'Уроки идут по порядку с самого начала' : `Уроки до ${l} открыты`);
+            }} />
+          </div>
+          <p className="muted small">Уроки ниже выбранного уровня открываются сразу — их можно проходить для повторения в любом порядке. Выбранный уровень начинается с первого урока, дальше — по порядку, после теста на 80%. Не уверены, какой выбрать? <a href="#/placement">Пройдите тест на уровень</a>{st.placement ? ` (прошлый результат — ${st.placement.level})` : ''}.</p>
+        </div>
 
         <div className="card stack">
           <h3>Карточки</h3>
@@ -198,6 +210,7 @@ const authErr = (e: unknown): string => {
   return m;
 };
 const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+const LEVEL_ITEMS: [Level, string][] = [['A1', 'A1'], ['A2', 'A2'], ['B1', 'B1'], ['B2', 'B2']];
 const wide = () => typeof window !== 'undefined' && window.innerWidth > 760;
 
 function Account() {

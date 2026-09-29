@@ -120,7 +120,17 @@ export interface Settings {
   liveVoice?: boolean;
   accent?: 'us' | 'uk';
   sfx?: boolean;
+  /** С какого уровня начинать: уроки ниже открыты сразу (настройка или тест на уровень) */
+  startLevel?: Level;
+  /** Результат теста на уровень */
+  placement?: PlacementResult;
 }
+
+export interface PlacementResult { level: Level; at: number; scores: Partial<Record<Level, number>> }
+
+/** Вопрос теста на уровень: q — фраза с ___ или вопрос, ru — перевод/подсказка, o — варианты, a — индекс верного */
+export interface PlacementQ { q: string; ru?: string; o: string[]; a: number }
+export type PlacementBank = Record<'A1' | 'A2' | 'B1' | 'B2', PlacementQ[]>;
 
 export interface UserText { id: string; title: string; text: string; level: string }
 
