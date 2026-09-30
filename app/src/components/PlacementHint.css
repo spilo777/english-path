@@ -27,8 +27,21 @@
     flex: 1;
     min-width: 0;
 }
+/* строка-ссылка под карточкой этапа: отдельный блок с отступом, чтобы не терялась в тени карточки */
 .place-note {
-    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    margin: 20px 0 18px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--text-2);
+}
+.place-note .linkish {
+    font-weight: 650;
 }
 .place-note .ph {
     color: var(--accent-text);
