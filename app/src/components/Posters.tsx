@@ -6,7 +6,8 @@ import type { BookMeta } from '@content/books';
 import type { TextItem } from '@content/texts';
 import { useCover } from '@core/images/hooks';
 import { useProgress } from '@core/progress/hooks';
-import { Icon, plural } from './ui';
+import { Icon } from './ui';
+import { plural } from '@utils/plural';
 
 /** Категория статьи → иконка; порядок задаёт цвет обложки (cat-0…cat-6) */
 export const CAT_ICON: Record<string, string> = {
@@ -21,8 +22,6 @@ export const CAT_ICON: Record<string, string> = {
 };
 export const catIdx = (c?: string) => Object.keys(CAT_ICON).indexOf(c || '');
 export const catIcon = (c?: string) => CAT_ICON[c || ''] || 'book-open-text';
-// объём текста — в utils; реэкспорт для Library, Book, Reader
-export { dlgLines, minsIn, wordsIn };
 
 /** Цветная обложка с иконкой; картинка из Википедии поверх, когда загрузится */
 export function Cover({

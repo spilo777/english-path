@@ -12,9 +12,6 @@ import type { DeckWord } from '../word-cards/model';
 import { ACH_LIST } from './list';
 import type { Ach, AchCtx, AchExtra } from './model';
 
-/** Основная линия уроков (как в курсе) */
-export const achMainUnits = mainUnits;
-
 /** Слова колоды уровня: всего / выучено / «знаю» */
 export function deckStats(s: Progress, deck: DeckWord[], lvl: Level) {
     let total = 0,

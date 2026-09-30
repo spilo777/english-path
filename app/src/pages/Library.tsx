@@ -1,11 +1,11 @@
 // Библиотека (вкладки Читать / Слушать / Книги): #/library — витрина статей и диалогов; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
 import { useEffect, useRef, useState } from 'react';
-import { ssGet, ssSet } from '@utils/storage';
+import { lsGet, lsSet, ssGet, ssSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
-import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
-import { BackLink, Icon, LoadError, Loading, Page, plural, RoundBtn, Section, toast, TopBar } from '../components/ui';
+import { BookPoster, CAT_ICON, LibCard, TextPoster } from '../components/Posters';
+import { BackLink, Icon, LoadError, Loading, Page, RoundBtn, Section, TopBar } from '../components/ui';
 import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
 import { bookIndex, chapN, chaptersRead } from '../content/books';
@@ -17,8 +17,10 @@ import type { LessonText, TextItem } from '@content/texts';
 import { type Progress, tomb, update, type UserText } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import type { Level } from '@utils/level';
-import { lsGet, lsSet } from './reader-core';
 import { LibTabs } from '../components/LibTabs';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
+import { wordsIn } from '@utils/text';
 import './Library.css';
 
 /** Уровень ученика: уровень текущего урока курса */

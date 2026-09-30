@@ -5,8 +5,10 @@ import type { Unit } from '@content/lessons';
 import { ding, speak } from '@core/audio';
 import { recordAnswer, type UnitProgress, unitState, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { esc, fmtQ, Html, useLessonEnhance } from './Enhance';
-import { Icon, toast } from './ui';
+import { fmtQ, Html, useLessonEnhance } from './Enhance';
+import { Icon } from './ui';
+import { toast } from '@core/notifications/notify';
+import { esc } from '@utils/text';
 import './Walk.css';
 
 type WalkPos = NonNullable<UnitProgress['walk']>;

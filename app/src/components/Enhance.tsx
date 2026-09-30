@@ -10,7 +10,7 @@ import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
 import { passed } from '../content/lessons/progress';
 import { lessonsIndex } from '../content/lessons/sources';
-import { isNewWord, knownWordSet, type KnownWordsUnit } from '../content/texts/known-words';
+import { isNewWord, knownWordSet } from '../content/texts/known-words';
 import { ding, speak } from '@core/audio';
 import { recordAnswer, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
@@ -34,8 +34,6 @@ export function Html({
     return createElement(tag, { className, dangerouslySetInnerHTML: inner });
 }
 
-// экранирование HTML — в utils; реэкспорт для Walk, Exercises, Tenses
-export { esc };
 /** Вопрос с пропуском: ___ → подчёркнутое место (HTML) */
 export const fmtQ = (q: string) => esc(q).replace(/_{2,}/g, '<span class="blank">&nbsp;</span>');
 
@@ -73,9 +71,6 @@ export function TrBox({ text }: { text: string }) {
         </div>
     );
 }
-
-// знакомые слова — в content/texts/known-words; реэкспорт для старых импортов
-export { isNewWord, knownWordSet, type KnownWordsUnit };
 
 /** Набор знакомых слов для урока unitId (или по пройденным урокам, если не задан) */
 export function useKnownWords(unitId?: string): Set<string> {

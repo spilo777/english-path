@@ -19,9 +19,12 @@ import type { Tense, TenseEx } from '@content/tenses';
 import { ding, speakTTS } from '@core/audio';
 import { type Progress, recordAnswer, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { esc, Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
-import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle } from '../components/ui';
+import { Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
+import { BackLink, Icon, LoadError, Loading, Page } from '../components/ui';
 import { CourseHead } from './course-head';
+import { plural } from '@utils/plural';
+import { shuffle } from '@utils/random';
+import { esc } from '@utils/text';
 import '../components/Exercises.css';
 import './Tenses.css';
 

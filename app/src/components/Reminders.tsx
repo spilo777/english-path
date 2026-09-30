@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useCloud } from '@core/cloud/hooks';
 import { pushDisable, pushEnable, type PushPrefs, pushStatus, pushSupport, pushTest } from '@core/notifications';
-import { Icon, toast } from './ui';
+import { Icon } from './ui';
+import { toast } from '@core/notifications/notify';
 import './Reminders.css';
 
 const HOURS = Array.from({ length: 17 }, (_, i) => i + 7); // 7:00 … 23:00

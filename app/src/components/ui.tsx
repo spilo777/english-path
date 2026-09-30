@@ -1,14 +1,11 @@
 // Общие элементы интерфейса: шапка страницы, секции-карусели, обложки, вкладки, тосты
 import { useSyncExternalStore, type ReactNode } from 'react';
 import { clamp } from '@utils/math';
-import { onToast, toast, toastMessage, toastVersion } from '../core/notifications/notify';
-import { streak, today } from '@core/progress';
+import { onToast, toastMessage, toastVersion } from '../core/notifications/notify';
+import { streak } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
+import { today } from '@utils/date';
 import './ui.css';
-
-// склонение и перемешивание теперь в utils; реэкспорт — чтобы не трогать все импорты
-export { plural } from '@utils/plural';
-export { shuffle } from '@utils/random';
 
 export const Icon = ({ name, fill, className }: { name: string; fill?: boolean; className?: string }) => (
     <i className={`${fill ? 'ph-fill' : 'ph'} ph-${name}${className ? ' ' + className : ''}`} aria-hidden="true" />
@@ -151,7 +148,6 @@ export function Progress({ value }: { value: number }) {
 
 // ───────── тосты ─────────
 // сообщения живут в core/notifications (их показывают и модули ядра); здесь — только отрисовка
-export { toast };
 export function Toaster() {
     useSyncExternalStore(onToast, toastVersion);
     const msg = toastMessage();

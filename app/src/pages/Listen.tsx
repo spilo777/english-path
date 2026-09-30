@@ -2,7 +2,7 @@
 // #/listen — каналы и их свежие видео; #/listen/<videoId> — просмотр на сайте с английскими субтитрами
 import { useState, type CSSProperties } from 'react';
 import type { PageProps } from '../app/App';
-import { BackLink, Icon, Loading, Page, toast, TopBar } from '../components/ui';
+import { BackLink, Icon, Loading, Page, TopBar } from '../components/ui';
 import { LibTabs } from '../components/LibTabs';
 import { ChannelBanner } from '../components/ChannelArt';
 import { Seg } from '../components/Seg';
@@ -11,9 +11,10 @@ import { ding } from '@core/audio';
 import { track, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import type { Level } from '@utils/level';
-import { lsGet, lsSet } from './reader-core';
 import { ago, CHANNELS, findVideo, thumb, type Channel, type Video } from '../content/listening';
 import { useFeed } from '../content/listening/hooks';
+import { lsGet, lsSet } from '@utils/storage';
+import { toast } from '@core/notifications/notify';
 import './Listen.css';
 
 const cv = (c: Channel) => ({ '--cc': c.color }) as CSSProperties;

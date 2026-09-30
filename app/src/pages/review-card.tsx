@@ -1,11 +1,13 @@
 // Одна карточка в сессии повторения: лицо/оборот, картинка-ассоциация, транскрипция, оценки
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Icon, toast } from '../components/ui';
+import { Icon } from '../components/ui';
 import { ding, liveAudio, speak } from '@core/audio';
 import { useIpa } from '@core/audio/hooks';
 import { autoImage, imgKey } from '@core/images';
-import { type Card, DAY, getState, update } from '@core/progress';
+import { type Card, getState, update } from '@core/progress';
 import { fmtIvl, schedule } from '@core/srs';
+import { DAY } from '@utils/date';
+import { toast } from '@core/notifications/notify';
 
 export type Grade = 0 | 1 | 2 | 3;
 export type Side = 'en-ru' | 'ru-en';

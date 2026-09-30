@@ -6,8 +6,6 @@ import type { Progress } from './types';
 
 /** Ключ прогресса в localStorage (читается при запуске) */
 export const STORE_KEY = getConfig().storage.progressKey;
-/** Порог сдачи теста — для страниц, пока они не на движке; в core читать getConfig().course.passMark */
-export const PASS = getConfig().course.passMark;
 
 function load(): Progress {
     try {

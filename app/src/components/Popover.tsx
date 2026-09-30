@@ -9,7 +9,8 @@ import { useProgress } from '@core/progress/hooks';
 import { addCard } from '@core/srs';
 import { autoTranslate, clean, ensureDict, gtUrl, isDictReady, lookup, translationAlts } from '@core/translate';
 import { exMark } from '../content/word-cards/mark';
-import { Icon, toast } from './ui';
+import { Icon } from './ui';
+import { toast } from '@core/notifications/notify';
 import './Popover.css';
 
 export interface WordOpts {

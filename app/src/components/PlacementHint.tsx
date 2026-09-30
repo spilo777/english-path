@@ -1,13 +1,14 @@
 // Подсказка про тест на уровень: новичку — предложить тест; выбравшему уровень — напомнить, откуда он начинает
 import { startLevel } from '../content/lessons/progress';
-import { PASS, type Progress } from '@core/progress';
+import { type Progress } from '@core/progress';
 import { openPlacement } from './Modal';
 import { Icon } from './ui';
+import { isPassing } from '@content/lessons/finish';
 import './PlacementHint.css';
 
 /** offerOnly — только большая карточка для новичка (для главной), без строки-ссылки */
 export function PlacementHint({ s, offerOnly }: { s: Progress; offerOnly?: boolean }) {
-    const anyPassed = Object.values(s.units).some((u) => u.testBest != null && u.testBest >= PASS);
+    const anyPassed = Object.values(s.units).some((u) => u.testBest != null && isPassing(u.testBest));
     const lvl = startLevel(s);
     if (!offerOnly && s.settings.startLevel && s.settings.startLevel !== 'A1') {
         return (

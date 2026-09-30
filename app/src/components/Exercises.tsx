@@ -1,12 +1,15 @@
 // Упражнения урока: выбор, пропуск, порядок слов, перевод, на слух. Практика повторяет ошибки, тест — нет.
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { pickOne } from '@utils/random';
+import { pickOne, shuffle } from '@utils/random';
 import type { Exercise } from '@content/exercises';
 import { ding, speak } from '@core/audio';
-import { PASS, recordAnswer, update } from '@core/progress';
-import { esc, fmtQ, Html, trSentence, TrBox, useLessonEnhance } from './Enhance';
-import { Icon, shuffle, toast } from './ui';
+import { recordAnswer, update } from '@core/progress';
+import { fmtQ, Html, trSentence, TrBox, useLessonEnhance } from './Enhance';
+import { Icon } from './ui';
 import { checkText, displayAnswer, norm } from '../content/exercises/check';
+import { toast } from '@core/notifications/notify';
+import { esc } from '@utils/text';
+import { isPassing } from '@content/lessons/finish';
 import './Exercises.css';
 
 const PRAISE = ['Верно!', 'Отлично!', 'Так держать!', 'Правильно!'];
@@ -268,7 +271,7 @@ function Runner({ list, mode = 'practice', onFinish, unitId }: Props) {
     if (finished) {
         return (
             <div ref={root} className="card ex-wrap result">
-                <div className="big" style={{ color: finished.score >= PASS ? 'var(--ok)' : 'var(--bad)' }}>
+                <div className="big" style={{ color: isPassing(finished.score) ? 'var(--ok)' : 'var(--bad)' }}>
                     {Math.round(finished.score * 100)}%
                 </div>
                 <p className="muted">

@@ -4,7 +4,7 @@ import type { PageProps } from '../app/App';
 import { ding, listVoices, speak } from '@core/audio';
 import { Cloud, type CloudStatus } from '@core/cloud';
 import { useCloud } from '@core/cloud/hooks';
-import { defaults, getState, normalize, replaceState, today, update } from '@core/progress';
+import { defaults, getState, normalize, replaceState, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import type { Level } from '@utils/level';
 import { go } from '../app/router';
@@ -13,7 +13,10 @@ import { Seg } from '../components/Seg';
 import { Reminders } from '../components/Reminders';
 import { openPlacement } from '../components/Modal';
 import { CloudBackups } from '../components/CloudBackups';
-import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page } from '../components/ui';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
+import { today } from '@utils/date';
 import './Settings.css';
 
 export default function Settings({ params }: PageProps) {

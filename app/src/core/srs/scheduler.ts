@@ -1,6 +1,5 @@
 // Расписание повторений: вариант SM-2 как в Anki (учебный день с 4 утра, fuzz, leech)
 import { DAY } from '@utils/date';
-import { DEFAULT_CONFIG } from '../config/defaults';
 import { getConfig } from '../config/current';
 import type { Card } from '../progress/types';
 
@@ -15,11 +14,6 @@ export function fmtIvl(ms: number): string {
     if (mo < 12) return mo + ' мес';
     return (d / 365).toFixed(1) + ' г';
 }
-
-/** Новый учебный день начинается в 4 утра по местному времени — как в Anki */
-export const DAY_START_HOUR = DEFAULT_CONFIG.srs.dayStartHour;
-/** После стольких забываний слово помечается трудным (Anki: leech threshold) */
-export const LEECH_AT = DEFAULT_CONFIG.srs.leechAt;
 
 /** Начало текущего учебного дня (4:00; до 4 утра — ещё вчерашний день) */
 export function studyDayStart(now = Date.now()): number {

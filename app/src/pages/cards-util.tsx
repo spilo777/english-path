@@ -6,14 +6,6 @@ import { type Progress, tomb, update } from '@core/progress';
 import { cardLearned as learnedCard } from '@core/srs';
 import { Icon } from '../components/ui';
 
-export const wid = wordId;
-
-/** Пометка «**слово**» в примере — чтобы на карточке слово было выделено */
-export { exMark } from '../content/word-cards/mark';
-
-// правило «выучено» — одно на всё приложение (core/srs)
-export { learnedCard };
-
 /** «Знаю» ↔ «Вернуть»: знакомое слово убирается из очереди новых карточек */
 export function toggleKnown(id: string) {
     update((s) => {
@@ -98,7 +90,7 @@ export function topicStats(s: Progress, c: TopicCol) {
     let learned = 0,
         study = 0;
     c.words.forEach((w) => {
-        const id = wid(w[0]),
+        const id = wordId(w[0]),
             k = s.cards[id];
         if (s.known[id] || learnedCard(k)) learned++;
         else if (k) study++;

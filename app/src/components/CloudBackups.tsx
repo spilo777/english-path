@@ -6,7 +6,9 @@ import { DAY } from '@utils/date';
 import { cloudClient } from '@core/cloud';
 import { useCloud } from '@core/cloud/hooks';
 import { defaults, normalize, type Progress, replaceState } from '@core/progress';
-import { Icon, plural, toast } from './ui';
+import { Icon } from './ui';
+import { toast } from '@core/notifications/notify';
+import { plural } from '@utils/plural';
 import './CloudBackups.css';
 
 interface Snap {

@@ -1,23 +1,14 @@
 // Словарь: страница тематической коллекции, списки слов по статусу, колода уровня
 import { useMemo, useState } from 'react';
-import { BackLink, Icon, toast } from '../components/ui';
+import { BackLink, Icon } from '../components/ui';
 import type { DeckWord, TopicCat, TopicCol } from '@content/word-cards';
 import { type Card, tomb, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { cardKind, fmtIvl } from '@core/srs';
+import { cardKind, cardLearned, fmtIvl } from '@core/srs';
 import { LEVELS } from '@utils/level';
-import {
-    KnownBtn,
-    SayBtn,
-    SayText,
-    StatusPill,
-    TopicProg,
-    catTone,
-    deckWords,
-    learnedCard,
-    topicStats,
-    wid,
-} from './cards-util';
+import { KnownBtn, SayBtn, SayText, StatusPill, TopicProg, catTone, deckWords, topicStats } from './cards-util';
+import { wordId } from '@utils/text';
+import { toast } from '@core/notifications/notify';
 
 // ───────── коллекция по теме ─────────
 export function TopicPage({ c, cats, cols }: { c: TopicCol; cats: TopicCat[]; cols: TopicCol[] }) {
@@ -27,8 +18,8 @@ export function TopicPage({ c, cats, cols }: { c: TopicCol; cats: TopicCat[]; co
     const nxt = same[same.indexOf(c) + 1];
     const cat = cats.find((x) => x.id === c.cat);
     const toLearn = c.words.filter((w) => {
-        const k = wid(w[0]);
-        return !s.known[k] && !learnedCard(s.cards[k]);
+        const k = wordId(w[0]);
+        return !s.known[k] && !cardLearned(s.cards[k]);
     }).length;
     return (
         <>
@@ -64,7 +55,7 @@ export function TopicPage({ c, cats, cols }: { c: TopicCol; cats: TopicCat[]; co
             <div className="card">
                 <div className="word-list">
                     {c.words.map((w) => {
-                        const id = wid(w[0]);
+                        const id = wordId(w[0]);
                         return (
                             <div className="word-item" key={id}>
                                 <SayBtn text={w[0]} />

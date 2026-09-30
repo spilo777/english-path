@@ -4,7 +4,7 @@ import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { Seg } from '../components/Seg';
-import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page } from '../components/ui';
 import { useCloud } from '@core/cloud/hooks';
 import {
     addFriend,
@@ -23,6 +23,8 @@ import {
     setName,
     zones,
 } from '@core/league';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
 import './League.css';
 
 type Tab = 'league' | 'friends';

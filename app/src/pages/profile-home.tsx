@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { dayKey, mondayOf, weekOf } from '@utils/date';
 import { Avatar } from '../components/Avatar';
 import { LeagueEmblem } from '../components/LeagueEmblem';
-import { BackLink, Icon, Loading, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page, RoundBtn, TopBar } from '../components/ui';
 import { ACH_LIST, engagement } from '@content/achievements';
 import { Cloud } from '@core/cloud';
 import { useCloud } from '@core/cloud/hooks';
@@ -22,6 +22,8 @@ import { useProgress } from '@core/progress/hooks';
 import { cardKind } from '@core/srs';
 import type { Level } from '@utils/level';
 import { useMainCourse } from '../catalog/hooks';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
 
 function xpStats(s: Progress) {
     const weeks: Record<string, number> = {};

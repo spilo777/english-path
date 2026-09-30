@@ -13,12 +13,9 @@ export interface SrsWord {
     lvl: string;
 }
 
-/** id карточки = id слова */
-export const cardId = wordId;
-
 /** Добавить карточку. false — если такая уже есть */
 export function addCard(s: Progress, en: string, ru: string, ex = '', exRu = '', src = ''): boolean {
-    const id = cardId(en);
+    const id = wordId(en);
     if (!id || s.cards[id]) return false;
     const now = Date.now();
     s.cards[id] = {

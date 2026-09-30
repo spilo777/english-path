@@ -1,16 +1,16 @@
 // Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
 import { useState } from 'react';
-import { dayKey } from '@utils/date';
+import { DAY, dayKey } from '@utils/date';
 import { ssGet, ssSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { AchCard } from '../components/AchCard';
 import { Seg } from '../components/Seg';
-import { BackLink, Icon, Page, plural } from '../components/ui';
+import { BackLink, Icon, Page } from '../components/ui';
 import { ACH_LIST, deckStats, engagement } from '@content/achievements';
 import { useAchCtx } from '@content/achievements/hooks';
 import { type Engagement, pctOf, pctReal, rankLadder } from '@core/achievements';
 import { useCloud } from '@core/cloud/hooks';
-import { DAY, dayXp, type Progress, streak } from '@core/progress';
+import { dayXp, type Progress, streak } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { cardLearned } from '@core/srs';
 import { LEVELS } from '@utils/level';
@@ -19,6 +19,7 @@ import { useSource } from '../content/base/hooks';
 import { mainUnits, passed } from '../content/lessons';
 import { deck as deckSrc } from '../content/word-cards/sources';
 import { ProfileHome, UserProfile } from './profile-home';
+import { plural } from '@utils/plural';
 import './Profile.css';
 
 export default function Profile({ params }: PageProps) {

@@ -1,10 +1,7 @@
 // Статус слова: новое / изучаю / знакомое / выученное. Единое правило «выучено» для всего приложения
-import { DEFAULT_CONFIG } from '../config/defaults';
 import { getConfig } from '../config/current';
 import type { Card, Progress } from '../progress/types';
 
-/** Выучено надолго: карточка на повторении с интервалом от стольких дней */
-export const LEARNED_IVL = DEFAULT_CONFIG.srs.learnedIvl;
 const learnedIvl = () => getConfig().srs.learnedIvl;
 
 /** Карточка выучена надолго */

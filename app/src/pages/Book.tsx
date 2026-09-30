@@ -3,13 +3,16 @@ import { useEffect } from 'react';
 import { clamp } from '@utils/math';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
-import { Cover, minsIn, wordsIn } from '../components/Posters';
-import { BackLink, Icon, Loading, Page, plural } from '../components/ui';
+import { Cover } from '../components/Posters';
+import { BackLink, Icon, Loading, Page } from '../components/ui';
 import { useSource } from '../content/base/hooks';
 import { bookBody, bookIndex } from '../content/books';
 import type { Book as BookT, BookMeta } from '@content/books';
 import { useProgress } from '@core/progress/hooks';
-import { lsGet, lsSet, ReaderView } from './reader-core';
+import { ReaderView } from './reader-core';
+import { lsGet, lsSet } from '@utils/storage';
+import { plural } from '@utils/plural';
+import { minsIn, wordsIn } from '@utils/text';
 import './Book.css';
 
 export default function Book({ params }: PageProps) {

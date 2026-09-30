@@ -9,10 +9,11 @@ import type { CourseDef } from '../engine';
 import type { CourseIndex, Syllabus, UnitMeta } from '@content/lessons';
 import type { Progress } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { Icon, LoadError, Loading, Page, plural } from '../components/ui';
+import { Icon, LoadError, Loading, Page } from '../components/ui';
 import { CourseHead } from './course-head';
 import { PlacementHint } from '../components/PlacementHint';
 import { StageCard } from '../components/StageCard';
+import { plural } from '@utils/plural';
 import './Course.css';
 
 const OPEN_KEY = 'ep.courseOpen';

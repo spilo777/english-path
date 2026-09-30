@@ -3,14 +3,17 @@
 import { useEffect, useMemo, useRef, useState, type MouseEvent as RMouseEvent } from 'react';
 import { lsGet, lsSet } from '@utils/storage';
 import { closePopover, openSentence, openWord } from '../components/Popover';
-import { Cover, CAT_ICON, catIdx, catIcon, minsIn } from '../components/Posters';
-import { BackLink, Icon, Page, toast } from '../components/ui';
+import { Cover, CAT_ICON, catIdx, catIcon } from '../components/Posters';
+import { BackLink, Icon, Page } from '../components/ui';
 import type { BookMeta } from '@content/books';
 import type { TextItem } from '@content/texts';
 import { ding, speak, stopSpeech } from '@core/audio';
-import { type Progress, recordAnswer, today, track, unitState, update } from '@core/progress';
+import { type Progress, recordAnswer, track, unitState, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { clean, ensureDict, isDictReady, lookup } from '@core/translate';
+import { today } from '@utils/date';
+import { toast } from '@core/notifications/notify';
+import { minsIn } from '@utils/text';
 import './Reader.css';
 
 /** Что читаем и откуда: статья библиотеки, текст урока, свой текст или глава книги */
@@ -23,9 +26,6 @@ export interface ReadCtx {
     /** Статьи библиотеки — для «Следующая статья» */
     lib?: TextItem[];
 }
-
-// хранилище без исключений — в utils; реэкспорт для Library, Listen, Book
-export { lsGet, lsSet };
 
 // ───────── разбор текста: абзацы → реплики → предложения → слова ─────────
 interface Tok {

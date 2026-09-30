@@ -1,7 +1,7 @@
 // Повторение карточек: #/review (все карточки) и #/review/topic/<id> (одна коллекция)
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
-import { BackLink, Icon, LoadError, Loading, Page, plural, Progress as Bar, toast } from '../components/ui';
+import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar } from '../components/ui';
 import { useSource } from '../content/base/hooks';
 import { buildQueue } from '../content/word-cards/review-queue';
 import { deck as deckSrc, topics as topicsSrc } from '../content/word-cards/sources';
@@ -10,6 +10,8 @@ import { getState, type Settings, tomb, track, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { countNew, schedule, takeNew } from '@core/srs';
 import { FlashCard, prefetchCard, type Grade, type Side } from './review-card';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
 import './Review.css';
 
 /** queue — карточки по порядку; wait — изучаемые слова, которые ждут своего времени (через 1, 5, 10 минут) */

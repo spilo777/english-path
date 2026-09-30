@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { DAY, defaults } from '@core/progress';
+import { defaults } from '@core/progress';
 import { addCard, cardKind, fuzzIvl, schedule, studyDayStart } from '@core/srs';
+import { DAY } from '@utils/date';
 
 describe('интервальные повторения', () => {
     it('новая карточка → «хорошо» дважды → повторение завтра', () => {

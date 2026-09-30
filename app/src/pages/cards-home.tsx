@@ -1,16 +1,18 @@
 // Словарь: «Сейчас учу» (повторение), плитки статусов, колоды по уровням, добавление слова, слова по темам (фильтр-чипы)
 import { useMemo, useRef, useState, type RefObject } from 'react';
 import { ssGet, ssSet } from '@utils/storage';
-import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
+import { Icon, RoundBtn, TopBar } from '../components/ui';
 import { go } from '../app/router';
 import { useMainCourse } from '../catalog/hooks';
 import type { DeckWord, TopicCat, TopicCol } from '@content/word-cards';
 import { type Progress, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { addCard, cardKind, dueCards, newAvailable, type WordKind } from '@core/srs';
+import { addCard, cardKind, cardLearned, dueCards, newAvailable, type WordKind } from '@core/srs';
 import { autoTranslate, ensureDict, lookup } from '@core/translate';
 import { LEVELS } from '@utils/level';
-import { DECK_ICONS, TopicProg, catTone, deckWords, learnedCard, topicStats } from './cards-util';
+import { DECK_ICONS, TopicProg, catTone, deckWords, topicStats } from './cards-util';
+import { plural } from '@utils/plural';
+import { toast } from '@core/notifications/notify';
 
 /** Плитка колоды уровня (или фразовых глаголов) */
 function DeckTile({ s, deck, lvl, levelTitle }: { s: Progress; deck: DeckWord[]; lvl: string; levelTitle: string }) {
@@ -20,7 +22,7 @@ function DeckTile({ s, deck, lvl, levelTitle }: { s: Progress; deck: DeckWord[];
         study = 0;
     ws.forEach((w) => {
         const c = s.cards[w.id];
-        if (s.known[w.id] || learnedCard(c)) learned++;
+        if (s.known[w.id] || cardLearned(c)) learned++;
         else if (c && c.state !== 'new') study++;
     });
     const on = !phr && !!(s.settings.decks || {})[lvl];

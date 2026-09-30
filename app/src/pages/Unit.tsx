@@ -4,10 +4,9 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNod
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { ExerciseRunner } from '../components/Exercises';
-import { esc, Html, useLessonEnhance } from '../components/Enhance';
-import { dlgLines, minsIn, wordsIn } from '../components/Posters';
+import { Html, useLessonEnhance } from '../components/Enhance';
 import { Walk } from '../components/Walk';
-import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle, toast } from '../components/ui';
+import { BackLink, Icon, LoadError, Loading, Page } from '../components/ui';
 import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
 import {
@@ -28,8 +27,12 @@ import type { BookRefs, CourseIndex, Syllabus, Unit as UnitData, UnitMeta } from
 import { speak } from '@core/audio';
 import { getState, resetUnit, tomb, track, unitState, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
-import { addCard, cardId } from '@core/srs';
+import { addCard } from '@core/srs';
 import type { Level } from '@utils/level';
+import { dlgLines, esc, minsIn, wordId, wordsIn } from '@utils/text';
+import { plural } from '@utils/plural';
+import { shuffle } from '@utils/random';
+import { toast } from '@core/notifications/notify';
 import './Unit.css';
 
 const isStep = (x: string | undefined): x is StepKey => !!x && STEPS.some(([k]) => k === x);
@@ -92,15 +95,15 @@ function NextBtn({ id, k }: { id: string; k: StepKey }) {
 function WordsTab({ unit }: { unit: UnitData }) {
     const s = useProgress();
     const words = unit.words || [];
-    const inCards = words.filter((w) => s.cards[cardId(w[0])]).length;
-    const handled = words.filter((w) => s.cards[cardId(w[0])] || s.known[cardId(w[0])]).length;
+    const inCards = words.filter((w) => s.cards[wordId(w[0])]).length;
+    const handled = words.filter((w) => s.cards[wordId(w[0])] || s.known[wordId(w[0])]).length;
     const all = handled === words.length;
 
     const addAll = () => {
         let n = 0;
         update((x) => {
             words.forEach((w) => {
-                if (!x.known[cardId(w[0])] && addCard(x, w[0], w[1], w[2], w[3], unit.id)) n++;
+                if (!x.known[wordId(w[0])] && addCard(x, w[0], w[1], w[2], w[3], unit.id)) n++;
             });
             unitState(x, unit.id).steps.words = true;
         });
@@ -152,7 +155,7 @@ function WordsTab({ unit }: { unit: UnitData }) {
                 </p>
                 <div className="word-list">
                     {words.map((w) => {
-                        const id = cardId(w[0]);
+                        const id = wordId(w[0]);
                         const c = s.cards[id];
                         const known = !!s.known[id];
                         return (
