@@ -22,6 +22,7 @@ import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
 import { DAY, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
+import { cardKind, type WordKind } from '../lib/srs';
 import './Profile.css';
 
 export default function Profile({ params }: PageProps) {
@@ -98,6 +99,54 @@ function EngagementCard({ e }: { e: Engagement }) {
 }
 
 // ───────── профиль ─────────
+const KINDS: [WordKind, string, string][] = [
+    ['done', 'Выучено', 'var(--wk-done)'],
+    ['fam', 'Знакомые', 'var(--wk-fam)'],
+    ['learn', 'Изучаю', 'var(--wk-learn)'],
+    ['new', 'Новые', 'var(--wk-new)'],
+];
+
+/** Мои слова: сколько выучено из всех слов курса, полоса по статусам и строки-ссылки на списки */
+function WordsCard({ s }: { s: Progress }) {
+    const deck = useDeck();
+    const n: Record<WordKind, number> = { new: 0, learn: 0, fam: 0, done: 0 };
+    for (const c of Object.values(s.cards)) n[cardKind(c)]++;
+    n.done += Object.keys(s.known).filter((id) => !s.cards[id]).length;
+    const total = Math.max(deck?.length || 0, n.new + n.learn + n.fam + n.done, 1);
+    return (
+        <section className="card words-card">
+            <div className="wc-head">
+                <div>
+                    <div className="eyebrow">Мои слова</div>
+                    <div className="wc-big">
+                        <b>{n.done}</b> {plural(n.done, 'слово выучено', 'слова выучено', 'слов выучено')}
+                    </div>
+                    <div className="small muted">
+                        из {total} в курсе · ещё {n.learn + n.fam} в процессе
+                    </div>
+                </div>
+                <a className="btn small" href="#/cards">
+                    Словарь
+                </a>
+            </div>
+            <div className="wc-bar" aria-hidden="true">
+                {KINDS.map(([k, , c]) =>
+                    n[k] ? <i key={k} style={{ width: (n[k] / total) * 100 + '%', background: c }} /> : null,
+                )}
+            </div>
+            <div className="wc-rows">
+                {KINDS.map(([k, label, c]) => (
+                    <a key={k} className="wc-row" href={'#/words/' + k}>
+                        <i style={{ background: c }} />
+                        <span>{label}</span>
+                        <b>{n[k]}</b>
+                    </a>
+                ))}
+            </div>
+        </section>
+    );
+}
+
 function ProfileHome() {
     const s = useProgress();
     const st = useCloud();
@@ -105,7 +154,7 @@ function ProfileHome() {
     const { data: course } = useCourse();
     const email = Cloud.enabled && st.user ? st.user.email || '' : '';
     const e = engagement(s);
-    const learned = learnedCards(s) + Object.keys(s.known).length;
+    const lessonsDone = course ? mainUnits(course).filter((u) => passed(s, u.id)).length : 0;
     const days = Object.keys(s.activity).length;
     const achN = Object.keys(s.ach).length;
     const recent = ACH_LIST.filter((a) => s.ach[a.id])
@@ -157,6 +206,7 @@ function ProfileHome() {
                     </div>
                 </a>
             </div>
+            <WordsCard s={s} />
             <GoalCard
                 links={{
                     cards: '#/cards',
@@ -176,9 +226,9 @@ function ProfileHome() {
                     <span>{plural(days, 'день', 'дня', 'дней')} занятий</span>
                 </div>
                 <div className="tile t-green">
-                    <Icon name="seal-check" fill />
-                    <b>{learned}</b>
-                    <span>слов выучено</span>
+                    <Icon name="graduation-cap" fill />
+                    <b>{lessonsDone}</b>
+                    <span>{plural(lessonsDone, 'урок пройден', 'урока пройдено', 'уроков пройдено')}</span>
                 </div>
                 <div className="tile t-yellow">
                     <Icon name="trophy" fill />

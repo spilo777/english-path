@@ -325,3 +325,66 @@
     font-size: 13px;
     color: var(--accent-text);
 }
+
+/* Мои слова: число выученных, полоса по статусам, строки-ссылки (цвета — как плитки статусов в Словаре) */
+.words-card {
+    --wk-done: #1fa865;
+    --wk-fam: #ff7a2f;
+    --wk-learn: #e0a21a;
+    --wk-new: #4f6af0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.wc-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+.wc-big {
+    font-size: 17px;
+    margin: 2px 0;
+}
+.wc-big b {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 800;
+    margin-right: 4px;
+}
+.wc-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 99px;
+    overflow: hidden;
+    background: var(--surface-2);
+}
+.wc-bar i {
+    height: 100%;
+}
+.wc-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+}
+.wc-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    margin: 0 -10px;
+    border-radius: 12px;
+    color: var(--text);
+}
+.wc-row:hover {
+    background: var(--surface-2);
+}
+.wc-row i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.wc-row span {
+    flex: 1;
+}
