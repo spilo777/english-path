@@ -1,17 +1,19 @@
 // Библиотека (вкладки Читать / Слушать / Книги): #/library — витрина статей и диалогов; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
 import { useEffect, useRef, useState } from 'react';
-import { levelRank } from '@utils/level';
 import { ssGet, ssSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
 import { BackLink, Icon, LoadError, Loading, Page, plural, RoundBtn, Section, toast, TopBar } from '../components/ui';
-import { currentUnit, isUnlocked } from '../lib/course';
-import { useBookIndex, useCourse, useLessons, useLibrary } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import { bookIndex, chapN, chaptersRead } from '../content/books';
+import { lessonsIndex } from '../content/lessons/sources';
+import { library, textsForYou, textsInCat } from '../content/texts';
+import type { CourseDef } from '../engine';
 import { tomb, update, useProgress } from '../lib/store';
 import {
-    type BookMeta,
     type CourseIndex,
     type Level,
     type Progress,
@@ -23,13 +25,9 @@ import { lsGet, lsSet } from './reader-core';
 import { LibTabs } from '../components/LibTabs';
 import './Library.css';
 
-const myLevel = (s: Progress, course?: CourseIndex): Level => (course && currentUnit(s, course)?.level) || 'A1';
-const chapN = (b: BookMeta) => b.chapters || 0;
-const bookDone = (s: Progress, b: BookMeta) => {
-    let n = 0;
-    for (let i = 0; i < chapN(b); i++) if (s.textsRead[b.id + '#' + i]) n++;
-    return n;
-};
+/** Уровень ученика: уровень текущего урока курса */
+const myLevel = (s: Progress, def: CourseDef, course?: CourseIndex): Level =>
+    (course && def.current(s, course)?.level) || 'A1';
 
 /** Удалить свой текст (с подтверждением) */
 function delUserText(id: string) {
@@ -85,9 +83,10 @@ const GENRES = ['Сериалы', 'Игры', 'Мультфильмы', 'Ани�
 
 function LibraryHome() {
     const s = useProgress();
-    const lib = useLibrary();
-    const books = useBookIndex();
-    const { data: course } = useCourse();
+    const lib = useSource(library);
+    const books = useSource(bookIndex);
+    const { def, index } = useMainCourse();
+    const course = index.data;
     const [genre, setGenre] = useState(() => lsGet('ep.libGenre', GENRES[0]));
     if (lib.error)
         return (
@@ -103,21 +102,11 @@ function LibraryHome() {
         );
     const LIB = lib.data,
         BOOKS = books.data;
-    const lvl = myLevel(s, course),
-        LV = levelRank(lvl);
-    const lo = (t: { level: string }) => levelRank(t.level);
-    const dist = (t: TextItem) => Math.abs(lo(t) - LV) + (lo(t) > LV + 1 ? 2 : 0);
-    const rank = (x: TextItem, y: TextItem) =>
-        (s.textsRead[x.id] ? 1 : 0) - (s.textsRead[y.id] ? 1 : 0) || dist(x) - dist(y) || lo(x) - lo(y);
-    const forYou = LIB.filter(
-        (t) => t.kind !== 'dialogue' && !s.textsRead[t.id] && (t.level === lvl || lo(t) === LV + 1),
-    ).slice(0, 12);
-    const byCat = (c: string) =>
-        LIB.filter((t) => t.cat === c)
-            .sort(rank)
-            .slice(0, 14);
+    const lvl = myLevel(s, def, course);
+    const forYou = textsForYou(LIB, s, lvl);
+    const byCat = (c: string) => textsInCat(LIB, s, lvl, c);
     const reading = BOOKS.filter((b) => (s.bookPos || {})[b.id] || lsGet('ep.bookAt.' + b.id, '')).filter(
-        (b) => bookDone(s, b) < chapN(b),
+        (b) => chaptersRead(s, b) < chapN(b),
     );
 
     const catSec = (c: string, sub?: string) => {
@@ -245,9 +234,10 @@ function LibraryHome() {
 
 function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
     const s = useProgress();
-    const lib = useLibrary();
-    const { data: course } = useCourse();
-    const lvlDefault = myLevel(s, course);
+    const lib = useSource(library);
+    const { def, index } = useMainCourse();
+    const course = index.data;
+    const lvlDefault = myLevel(s, def, course);
     // #/library/all/<тема> — запомнить тему, уровень «все»
     const [cat, setCat] = useState(() => {
         if (catParam) {
@@ -279,9 +269,9 @@ function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
         if (formOpen && ready) titleRef.current?.focus();
     }, [formOpen, ready]);
 
-    const unlocked = course ? course.units.filter((u) => isUnlocked(s, u, course)) : [];
+    const unlocked = course ? course.units.filter((u) => def.isUnlocked(s, u, course)) : [];
     // тексты уроков — из индекса lessons.json (без тел текстов)
-    const lessons = useLessons().data;
+    const lessons = useSource(lessonsIndex).data;
     const units = unlocked.length && lessons ? lessons : [];
 
     if (lib.error)
@@ -484,7 +474,7 @@ function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
 
 // ───────── все книги ─────────
 function Books() {
-    const books = useBookIndex();
+    const books = useSource(bookIndex);
     if (books.error)
         return (
             <Page>

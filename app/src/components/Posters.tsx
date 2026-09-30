@@ -1,6 +1,7 @@
 // Обложки и постеры статей/книг (карусели, сетки, карточки библиотеки)
 import { useEffect, useState, type ReactNode } from 'react';
 import { dlgLines, minsIn, wordsIn } from '@utils/text';
+import { chapN, chaptersRead } from '../content/books/progress';
 import { useCover } from '../lib/images';
 import { useProgress } from '../lib/store';
 import type { BookMeta, TextItem } from '../lib/types';
@@ -140,14 +141,11 @@ export function TextPoster({ t }: { t: TextItem }) {
     );
 }
 
-const chapN = (b: BookMeta) => b.chapters || 0;
-
 /** Книга: обложка, автор, прогресс по главам */
 export function BookPoster({ b }: { b: BookMeta }) {
     const s = useProgress();
     const n = chapN(b);
-    let d = 0;
-    for (let i = 0; i < n; i++) if (s.textsRead[b.id + '#' + i]) d++;
+    const d = chaptersRead(s, b);
     return (
         <Poster
             href={'#/book/' + b.id}

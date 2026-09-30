@@ -3,19 +3,22 @@ import { useEffect } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { LoadError, Loading, Page } from '../components/ui';
-import { useCourse, useLibrary, useUnit } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import { unitBody } from '../content/lessons/sources';
+import { library, textUnitId } from '../content/texts';
 import { useProgress } from '../lib/store';
 import { ReaderView, type ReadCtx } from './reader-core';
 
 export default function Reader({ params }: PageProps) {
     const id = params[1] || '';
     const s = useProgress();
-    const lib = useLibrary();
-    const { data: course } = useCourse();
+    const lib = useSource(library);
+    const course = useMainCourse().index.data;
     // текст урока: t-a1-3-2 → файл юнита a1-3
-    const um = id.match(/^t-(.+)-\d+$/);
-    const meta = um && course ? course.units.find((u) => u.id === um[1]) : undefined;
-    const uf = useUnit(meta ? meta.id : null);
+    const um = textUnitId(id);
+    const meta = um && course ? course.units.find((u) => u.id === um) : undefined;
+    const uf = useSource(meta ? unitBody(meta.id) : null);
 
     const user = s.userTexts.find((x) => x.id === id);
     const libT = lib.data?.find((x) => x.id === id);

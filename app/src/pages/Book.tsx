@@ -5,7 +5,8 @@ import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { Cover, minsIn, wordsIn } from '../components/Posters';
 import { BackLink, Icon, Loading, Page, plural } from '../components/ui';
-import { useBook, useBookIndex } from '../lib/data';
+import { useSource } from '../content/base/hooks';
+import { bookBody, bookIndex } from '../content/books';
 import { useProgress } from '../lib/store';
 import type { Book as BookT, BookMeta } from '../lib/types';
 import { lsGet, lsSet, ReaderView } from './reader-core';
@@ -14,9 +15,9 @@ import './Book.css';
 export default function Book({ params }: PageProps) {
     const id = params[1] || '';
     const chParam = params[2];
-    const idx = useBookIndex();
+    const idx = useSource(bookIndex);
     const meta = idx.data?.find((b) => b.id === id);
-    const full = useBook(meta ? id : null);
+    const full = useSource(meta ? bookBody(id) : null);
     const missing = !!idx.data && !meta;
     useEffect(() => {
         if (missing) go('#/library');

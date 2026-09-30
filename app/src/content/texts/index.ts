@@ -13,5 +13,7 @@ export const LEVEL_Articles = [A1_Articles, A2_Articles, B1_Articles, B2_Article
 export const LEVEL_Dialogs = [A1_Dialogs, A2_Dialogs, B1_Dialogs, B2_Dialogs];
 
 export * from './define';
+export * from './recommend';
+export * from './resolve';
 export type * from './model';
 export * from './sources';
