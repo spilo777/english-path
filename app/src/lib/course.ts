@@ -123,3 +123,11 @@ export function unitBooksText(meta: Pick<UnitMeta, 'id' | 'books'>, syllabus?: S
         .map((p) => p.text)
         .join(' · ');
 }
+
+/** Адрес следующего шага текущего урока (для кнопок «Продолжить» и плана на день) */
+export function stageHref(s: Progress, course: CourseIndex | undefined): string {
+    const u = course ? currentUnit(s, course) : undefined;
+    if (!u) return '#/course';
+    const ns = nextStep(s, u.id);
+    return `#/unit/${u.id}/${ns ? ns.k : 'words'}`;
+}

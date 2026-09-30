@@ -1,6 +1,5 @@
 // Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
 import { GoalCard } from '../components/GoalCard';
-import { stageHref } from '../components/StageCard';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { AchCard } from '../components/AchCard';
@@ -18,7 +17,7 @@ import {
     type Engagement,
 } from '../lib/achievements';
 import { Cloud, useCloud } from '../lib/cloud';
-import { mainUnits, passed } from '../lib/course';
+import { mainUnits, passed, stageHref } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
 import { DAY, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
