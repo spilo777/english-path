@@ -11,8 +11,8 @@ import type { Card } from '../lib/types';
 export type Grade = 0 | 1 | 2 | 3;
 export type Side = 'en-ru' | 'ru-en';
 
-/** Служебные слова: картинка к ним не помогает запомнить */
-const ABSTRACT_POS = /^(pron|det|prep|conj|modal|excl)$/;
+/** Служебные слова и наречия: картинка к ним не помогает запомнить, а случайная — мешает */
+const ABSTRACT_POS = /^(pron|det|prep|conj|modal|excl|adv)$/;
 
 /** Нужна ли карточке картинка: одиночные слова (у форм «go — went» — по первому), кроме служебных */
 export const wantsImg = (c: Card, pos: string | undefined) => {
