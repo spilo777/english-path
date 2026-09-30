@@ -286,7 +286,8 @@ export function loadFeed(): Promise<Feed> {
     if (mem) return Promise.resolve(mem);
     const c = readCache();
     if (c) setArts(c.meta);
-    if (c && Date.now() - c.at < getConfig().storage.feed.ttlHours * 3600 * 1000) return Promise.resolve((mem = c.channels));
+    const ttl = getConfig().storage.feed.ttlHours * 3600 * 1000;
+    if (c && Date.now() - c.at < ttl) return Promise.resolve((mem = c.channels));
     if (!inflight) {
         inflight = fetch(URL_)
             .then((r) => r.json())

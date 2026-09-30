@@ -22,7 +22,6 @@ import { cardKind } from '../lib/srs';
 import { dayXp, streak, useProgress } from '../lib/store';
 import type { Level, Progress } from '../lib/types';
 
-
 function xpStats(s: Progress) {
     const weeks: Record<string, number> = {};
     let total = 0;
