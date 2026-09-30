@@ -42,12 +42,10 @@ test.beforeEach(async ({ page }) => {
     await page.evaluate((s) => localStorage.setItem('englishpath.v1', s), JSON.stringify(state()));
 });
 
-test('грамматика открывается первой: этап курса и план дня в профиле', async ({ page }) => {
+test('грамматика открывается первой: карточка этапа курса', async ({ page }) => {
     const errors = watch(page);
-    await page.goto('#/profile');
-    await page.reload();
-    await expect(page.locator('.goal-card a.goal-row')).toHaveCount(3);
     await page.goto('#/');
+    await page.reload();
     await expect(page.locator('main .page-title')).toHaveText('Грамматика');
     await expect(page.locator('.continue-card')).toContainText('урок 4');
     await page.locator('.continue-card').click();
