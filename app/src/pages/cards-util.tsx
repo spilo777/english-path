@@ -9,8 +9,7 @@ import { Icon } from '../components/ui';
 export const wid = wordId;
 
 /** Пометка «**слово**» в примере — чтобы на карточке слово было выделено */
-export const exMark = (sentence: string, raw: string) =>
-    (sentence || '').replace(new RegExp('\\b(' + raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'i'), '**$1**');
+export { exMark } from '../content/word-cards/mark';
 
 // правило «выучено» — одно на всё приложение (core/srs)
 export { learnedCard };

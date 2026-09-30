@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } fr
 import { Cloud } from '../lib/cloud';
 import { clean, ensureDict, isDictReady, lookup } from '../lib/lookup';
 import { speak, speakTTS, useIpa } from '../lib/speech';
+import { exMark } from '../content/word-cards/mark';
 import { addCard } from '../lib/srs';
 import { getState, update, useProgress } from '../lib/store';
 import { autoTranslate, gtUrl, translationAlts } from '../lib/translate';
@@ -99,10 +100,6 @@ function place(r: DOMRect): { left: number; top: number } | undefined {
     if (top + 240 > window.innerHeight) top = Math.max(12, r.top - 250);
     return { left, top };
 }
-
-// пример для карточки: слово выделено **так**
-const exMark = (sentence: string | undefined, raw: string) =>
-    (sentence || '').replace(new RegExp('\\b(' + raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'i'), '**$1**');
 
 /** После добавления в карточки — слово на странице больше не «новое» */
 function markKnown(base: string) {

@@ -2,14 +2,15 @@
 import type { ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { LoadError, Loading, Page } from '../components/ui';
-import { useDeck, useTopics } from '../lib/data';
+import { useSource } from '../content/base/hooks';
+import { deck as deckSrc, topics as topicsSrc } from '../content/word-cards/sources';
 import { CardsHome } from './cards-home';
 import { DeckPage, TopicPage, WL, WordsPage, isDeckLevel } from './cards-lists';
 import './Dictionary.css';
 
 export default function Dictionary({ params }: PageProps) {
-    const deck = useDeck();
-    const topics = useTopics();
+    const { data: deck } = useSource(deckSrc);
+    const topics = useSource(topicsSrc);
     const r = params[0] || '';
     const arg = params[1] || '';
     if (topics.error)

@@ -2,11 +2,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
 import { BackLink, Icon, LoadError, Loading, Page, plural, Progress as Bar, toast } from '../components/ui';
-import { useDeck, useTopics } from '../lib/data';
-import { addCard, countNew, dueCards, newLeftToday, schedule, takeNew } from '../lib/srs';
+import { useSource } from '../content/base/hooks';
+import { buildQueue } from '../content/word-cards/review-queue';
+import { deck as deckSrc, topics as topicsSrc } from '../content/word-cards/sources';
+import { countNew, schedule, takeNew } from '../lib/srs';
 import { getState, tomb, track, update, useProgress } from '../lib/store';
 import type { DeckWord, Settings, TopicCol } from '../lib/types';
-import { exMark, wid } from './cards-util';
 import { FlashCard, prefetchCard, type Grade, type Side } from './review-card';
 import './Review.css';
 
@@ -20,66 +21,6 @@ interface Sess {
     start: number;
     total: number;
     finished: boolean;
-}
-
-const EXTRA_REV = 10,
-    EXTRA_NEW = 10;
-
-/** Очередь: два повторения, одно новое — и так по кругу.
- *  Вне очереди (extra): ближайшие по расписанию карточки (ещё не пора) + новые слова сверх дневной нормы, через одну. */
-function buildQueue(deck: DeckWord[], tc: TopicCol | undefined, extra = false): string[] {
-    let dueIds: string[] = [],
-        newIds: string[] = [];
-    update((s) => {
-        if (extra) {
-            const now = Date.now();
-            dueIds = Object.values(s.cards)
-                .filter((c) => c.state !== 'new')
-                .sort((a, b) => a.due - b.due)
-                .filter((c) => c.due > now)
-                .slice(0, EXTRA_REV)
-                .map((c) => c.id);
-            // сначала «должники» (если есть), потом ближайшие
-            dueIds = [
-                ...dueCards(s)
-                    .map((c) => c.id)
-                    .slice(0, EXTRA_REV),
-                ...dueIds,
-            ].slice(0, EXTRA_REV);
-            newIds = takeNew(s, deck, EXTRA_NEW);
-            const q: string[] = [];
-            while (dueIds.length || newIds.length) {
-                if (dueIds.length) q.push(dueIds.shift() as string);
-                if (newIds.length) q.push(newIds.shift() as string);
-            }
-            dueIds = q;
-            newIds = [];
-            return;
-        }
-        if (tc) {
-            // сессия по одной коллекции: её повторения + до 12 новых слов из неё
-            const now = Date.now();
-            dueIds = tc.words
-                .map((w) => wid(w[0]))
-                .filter((id) => s.cards[id] && s.cards[id].state !== 'new' && s.cards[id].due <= now);
-            tc.words.forEach((w) => {
-                const id = wid(w[0]);
-                if (newIds.length >= 12 || s.known[id]) return;
-                if (!s.cards[id]) addCard(s, w[0], w[1], exMark(w[2], w[0]), w[3], 'topic:' + tc.id);
-                if (s.cards[id] && s.cards[id].state === 'new') newIds.push(id);
-            });
-        } else {
-            dueIds = dueCards(s).map((c) => c.id);
-            newIds = takeNew(s, deck, newLeftToday(s));
-        }
-    });
-    const q: string[] = [];
-    while (dueIds.length || newIds.length) {
-        if (dueIds.length) q.push(dueIds.shift() as string);
-        if (dueIds.length) q.push(dueIds.shift() as string);
-        if (newIds.length) q.push(newIds.shift() as string);
-    }
-    return q;
 }
 
 const mmss = (ms: number) => {
@@ -140,7 +81,10 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
 
     useEffect(() => {
         if (sess.current) return;
-        const queue = extra ? buildQueue(deck, undefined, true) : buildQueue(deck, tc);
+        let queue: string[] = [];
+        update((st) => {
+            queue = buildQueue(st, deck, tc, extra);
+        });
         sess.current = {
             queue,
             wait: [],
@@ -371,10 +315,10 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
 }
 
 export default function Review({ params }: PageProps) {
-    const deck = useDeck();
+    const { data: deck } = useSource(deckSrc);
     const topicId = params[1] === 'topic' ? params[2] : undefined;
     const extra = params[1] === 'extra';
-    const topics = useTopics();
+    const topics = useSource(topicsSrc);
     if (topicId && topics.error)
         return (
             <Page className="rv">
