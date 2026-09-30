@@ -32,6 +32,12 @@ jobs:
         id: unit
         continue-on-error: true
         run: npx vitest run 2>&1 | tee ../unit.log; exit ${PIPESTATUS[0]}
+      - name: lint
+        # ESLint и проверка форматирования: пока только отчёт, выкладку не блокируют
+        id: lint
+        continue-on-error: true
+        run: |
+          { npx eslint . && npx prettier --check .; } 2>&1 | tee ../lint.log; exit ${PIPESTATUS[0]}
       - name: build
         id: build
         run: BASE=/english-path/ VITE_BUILD=$GITHUB_SHA npx vite build 2>&1 | tee ../build.log; exit ${PIPESTATUS[0]}
@@ -47,8 +53,8 @@ jobs:
         working-directory: .
         run: |
           mkdir -p /tmp/report && cd /tmp/report
-          { echo "commit: $GITHUB_SHA"; echo "tsc: ${{ steps.tsc.outcome }}"; echo "unit: ${{ steps.unit.outcome }}"; echo "build: ${{ steps.build.outcome }}"; echo "e2e: ${{ steps.e2e.outcome }}"; } > status.txt
-          for f in install covers tsc unit build e2e; do [ -f $GITHUB_WORKSPACE/$f.log ] && tail -c 60000 $GITHUB_WORKSPACE/$f.log > $f.log; done
+          { echo "commit: $GITHUB_SHA"; echo "tsc: ${{ steps.tsc.outcome }}"; echo "unit: ${{ steps.unit.outcome }}"; echo "build: ${{ steps.build.outcome }}"; echo "e2e: ${{ steps.e2e.outcome }}"; echo "lint: ${{ steps.lint.outcome }}"; } > status.txt
+          for f in install covers tsc unit lint build e2e; do [ -f $GITHUB_WORKSPACE/$f.log ] && tail -c 60000 $GITHUB_WORKSPACE/$f.log > $f.log; done
           [ -d $GITHUB_WORKSPACE/app/shots ] && cp -r $GITHUB_WORKSPACE/app/shots . || true
           [ -d $GITHUB_WORKSPACE/app/test-results ] && mkdir -p fail && find $GITHUB_WORKSPACE/app/test-results -name "*.png" -o -name "*.md" | head -20 | while read f; do cp "$f" "fail/$(basename $(dirname "$f")).$(basename "$f")"; done || true
           git init -q && git checkout -q -b ci-report && git add -A
