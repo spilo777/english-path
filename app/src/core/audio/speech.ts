@@ -187,84 +187,93 @@ const browserVoiceChosen = () => {
 };
 
 /**
- * Синтез речи: голос Яндекса (вошедшим, если в настройках не выбран голос браузера), иначе/при ошибке —
- * голос браузера. Ждём Яндекс не дольше 4 с.
+ * Голос Яндекса (вошедшим). Не вышло — otherwise (по умолчанию голос браузера). Ждём Яндекс не дольше 4 с.
  */
-export function speakTTS(text: string, opts: SpeakOpts = {}): void {
-    stopAudio();
-    if (browserVoiceChosen()) {
-        speakBrowser(text, opts);
-        return;
-    }
+function speakYandex(text: string, opts: SpeakOpts, otherwise: () => void): void {
     if (hasTTS()) speechSynthesis.cancel();
     const tok = speakTok;
     let settled = false;
-    const toBrowser = () => {
+    const other = () => {
         if (settled || tok !== speakTok) return;
         settled = true;
-        speakBrowser(text, opts);
+        otherwise();
     };
-    const timer = setTimeout(toBrowser, 4000);
+    const timer = setTimeout(other, 4000);
     yandexVoice(text)
         .then((url) => {
             clearTimeout(timer);
             if (settled || tok !== speakTok) return;
             if (!url) {
-                toBrowser();
+                other();
                 return;
             }
             settled = true;
             countSpeak(false);
-            const rate = opts.rate || settings().rate;
             const again = () => {
-                if (tok === speakTok) speakBrowser(text, opts);
+                if (tok === speakTok) otherwise();
             };
-            playLive(url, rate, again, opts.onend);
+            playLive(url, opts.rate || settings().rate, again, opts.onend);
         })
-        .catch(toBrowser);
+        .catch(other);
 }
 
-/** Произнести: для слов — живая запись (если включено), иначе/при ошибке — синтез (Яндекс или браузер) через 2.5 с */
+/** Синтез речи: голос Яндекса (если в настройках не выбран голос браузера), иначе/при ошибке — голос браузера */
+export function speakTTS(text: string, opts: SpeakOpts = {}): void {
+    stopAudio();
+    if (browserVoiceChosen()) speakBrowser(text, opts);
+    else speakYandex(text, opts, () => speakBrowser(text, opts));
+}
+
+/** Запись носителя для слова (Викисловарь); нет записи или ошибка — голос браузера через 2.5 с */
+function speakLive(w: string, text: string, opts: SpeakOpts): void {
+    const tok = speakTok;
+    const rate = opts.rate || settings().rate;
+    let fell = false;
+    const fallback = () => {
+        if (fell || tok !== speakTok) return;
+        fell = true;
+        speakBrowser(text, opts);
+    };
+    if (hasTTS()) speechSynthesis.cancel();
+    const k = audioKey(w);
+    if (k in audioMap) {
+        // запись уже известна — играем сразу, в том же нажатии
+        const u = recUrl(audioMap[k]);
+        if (!u) {
+            speakBrowser(text, opts);
+            return;
+        }
+        countSpeak(true);
+        playLive(u, rate, fallback);
+        return;
+    }
+    const timer = setTimeout(fallback, 2500);
+    liveAudio(w)
+        .then((a) => {
+            clearTimeout(timer);
+            if (fell || tok !== speakTok) return;
+            if (!a || !a.u) {
+                fallback();
+                return;
+            }
+            countSpeak(true);
+            playLive(a.u, rate, fallback);
+        })
+        .catch(fallback);
+}
+
+/**
+ * Произнести. Голос Яндекса (вошедшим) — для всего, включая отдельные слова; если он недоступен или выбран
+ * голос браузера — для слов запись носителя (если включено), иначе голос браузера.
+ */
 export function speak(text: string, opts: SpeakOpts = {}): void {
     const w = String(text || '').trim();
     stopAudio();
-    if (!opts.tts && !opts.onend && settings().liveVoice !== false && liveEligible(w)) {
-        const tok = speakTok;
-        const rate = opts.rate || settings().rate;
-        let fell = false;
-        const fallback = () => {
-            if (fell || tok !== speakTok) return;
-            fell = true;
-            speakTTS(text, opts);
-        };
-        const k = audioKey(w);
-        if (k in audioMap) {
-            // запись уже известна — играем сразу, в том же нажатии
-            const u = recUrl(audioMap[k]);
-            if (!u) {
-                speakTTS(text, opts);
-                return;
-            }
-            if (hasTTS()) speechSynthesis.cancel();
-            countSpeak(true);
-            playLive(u, rate, fallback);
-            return;
-        }
-        if (hasTTS()) speechSynthesis.cancel();
-        const timer = setTimeout(fallback, 2500);
-        liveAudio(w)
-            .then((a) => {
-                clearTimeout(timer);
-                if (fell || tok !== speakTok) return;
-                if (!a || !a.u) {
-                    fallback();
-                    return;
-                }
-                countSpeak(true);
-                playLive(a.u, rate, fallback);
-            })
-            .catch(fallback);
-        return;
-    }
-    speakTTS(text, opts);
+    const live = !opts.tts && !opts.onend && settings().liveVoice !== false && liveEligible(w);
+    const withoutYandex = () => {
+        if (live) speakLive(w, text, opts);
+        else speakBrowser(text, opts);
+    };
+    if (browserVoiceChosen()) withoutYandex();
+    else speakYandex(text, opts, withoutYandex);
 }
