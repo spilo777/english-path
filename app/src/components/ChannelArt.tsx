@@ -1,6 +1,7 @@
 // Настоящие картинки YouTube-канала: круглый аватар и шапка (баннер)
 import type { CSSProperties, SyntheticEvent } from 'react';
-import { useChannelArt, type Channel } from '../lib/listen';
+import { useChannelArt } from '../content/listening/hooks';
+import type { Channel } from '../content/listening/model';
 import './ChannelArt.css';
 
 /** картинка не загрузилась (нет сети) — остаётся цветной фон канала, без значка «битой» картинки */

@@ -4,17 +4,24 @@ import { useMemo, useState, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { getConfig } from '../core/config';
-import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar, shuffle } from '../components/ui';
-import { useJSON, paths } from '../lib/data';
+import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar } from '../components/ui';
+import { useSource } from '../content/base/hooks';
+import {
+    afterStage,
+    applyStartLevel,
+    PASS_AT,
+    PER_STAGE,
+    pickStage,
+    placementBank,
+    recordPlacement,
+    STAGES,
+    type Stage,
+    type StageQuestion,
+} from '../content/placement';
 import { ding } from '../lib/sfx';
 import { update, useProgress } from '../lib/store';
-import type { Level, PlacementBank, PlacementQ } from '../lib/types';
+import type { Level } from '../lib/types';
 import './Placement.css';
-
-const STAGES = ['A1', 'A2', 'B1', 'B2'] as const;
-type Stage = (typeof STAGES)[number];
-const PER_STAGE = 10,
-    PASS_AT = 7;
 
 // уровень, который вы УЖЕ знаете (последняя сданная ступень)
 const NAME: Record<Stage, string> = getConfig().levels.names;
@@ -25,16 +32,6 @@ const NEXT: Record<Stage, string> = {
     B1: 'сложные времена, условные предложения, пассив, косвенная речь.',
     B2: 'продвинутые конструкции и тонкости: смешанные условия, инверсия, оттенки модальных.',
 };
-
-interface Item {
-    q: PlacementQ;
-    order: number[];
-} // order — перемешанные индексы вариантов
-
-const pick = (bank: PlacementBank, st: Stage): Item[] =>
-    shuffle(bank[st])
-        .slice(0, PER_STAGE)
-        .map((q) => ({ q, order: shuffle(q.o.map((_, i) => i)) }));
 
 // обёртка: страница или содержимое модального окна (на уровне модуля — чтобы не пересоздавать при каждом рендере)
 function Wrap({ modal, children }: { modal?: boolean; children: ReactNode }) {
@@ -52,10 +49,10 @@ export default function Placement(_props: PageProps) {
 
 /** Сам тест: на странице или внутри модального окна (modal — без «Назад», onClose — закрыть окно) */
 export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: () => void }) {
-    const { data: bank, error } = useJSON<PlacementBank>(paths.placement);
+    const { data: bank, error } = useSource(placementBank);
     const s = useProgress();
     const [stage, setStage] = useState(-1); // -1 — вступление
-    const [items, setItems] = useState<Item[]>([]);
+    const [items, setItems] = useState<StageQuestion[]>([]);
     const [qi, setQi] = useState(0);
     const [right, setRight] = useState(0);
     const [scores, setScores] = useState<Partial<Record<Level, number>>>({});
@@ -79,7 +76,7 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
 
     const begin = () => {
         setStage(0);
-        setItems(pick(bank, 'A1'));
+        setItems(pickStage(bank, 'A1'));
         setQi(0);
         setRight(0);
         setScores({});
@@ -97,30 +94,22 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
         const st = STAGES[stage];
         const sc = { ...scores, [st]: r };
         setScores(sc);
-        if (r >= PASS_AT && stage + 1 < STAGES.length) {
-            const nx = stage + 1;
+        const step = afterStage(stage, r);
+        if ('next' in step) {
+            const nx = step.next;
             setStage(nx);
-            setItems(pick(bank, STAGES[nx]));
+            setItems(pickStage(bank, STAGES[nx]));
             setQi(0);
             setRight(0);
             return;
         }
-        // known — уровень, который уже есть (последняя сданная ступень); start — с чего учиться дальше
-        const top = r >= PASS_AT; // прошёл все ступени
-        const known: Stage | null = top ? st : stage > 0 ? STAGES[stage - 1] : null;
-        const level: Stage = st;
-        setResult({ level, known, top });
-        update((x) => {
-            x.settings.placement = { level, known, at: Date.now(), scores: sc };
-        });
+        setResult(step.outcome);
+        update((x) => recordPlacement(x, step.outcome, sc));
         ding('done');
     };
 
     const apply = (lvl: Level) => {
-        update((x) => {
-            x.settings.startLevel = lvl;
-            x.settings.decks = { ...(x.settings.decks || {}), [lvl]: true };
-        });
+        update((x) => applyStartLevel(x, lvl));
         onClose?.();
         go('#/course');
     };
@@ -252,7 +241,7 @@ export function PlacementFlow({ modal, onClose }: { modal?: boolean; onClose?: (
     );
 }
 
-function Question({ it, onAnswer }: { it: Item; onAnswer: (ok: boolean) => void }) {
+function Question({ it, onAnswer }: { it: StageQuestion; onAnswer: (ok: boolean) => void }) {
     const [picked, setPicked] = useState<number | null>(null);
     const parts = useMemo(() => it.q.q.split('___'), [it]);
     const choose = (i: number | -1) => {

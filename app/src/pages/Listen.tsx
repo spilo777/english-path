@@ -6,11 +6,11 @@ import { BackLink, Icon, Loading, Page, toast, TopBar } from '../components/ui';
 import { LibTabs } from '../components/LibTabs';
 import { ChannelBanner } from '../components/ChannelArt';
 import { Seg } from '../components/Seg';
-import { currentUnit } from '../lib/course';
-import { useCourse } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
 import type { Level } from '../lib/types';
 import { lsGet, lsSet } from './reader-core';
-import { ago, CHANNELS, findVideo, thumb, useFeed, type Channel, type Video } from '../lib/listen';
+import { ago, CHANNELS, findVideo, thumb, type Channel, type Video } from '../content/listening';
+import { useFeed } from '../content/listening/hooks';
 import { ding } from '../lib/sfx';
 import { track, update, useProgress } from '../lib/store';
 import './Listen.css';
@@ -55,10 +55,11 @@ const groupFor = (lvl: Level): Level => (lvl === 'A1' ? 'A1' : lvl === 'A2' ? 'A
 
 function Channels() {
     const s = useProgress();
-    const { data: course } = useCourse();
+    const { def, index } = useMainCourse();
+    const course = index.data;
     const feed = useFeed();
     const w = s.watched || {};
-    const mine = groupFor((course && currentUnit(s, course)?.level) || 'A1');
+    const mine = groupFor((course && def.current(s, course)?.level) || 'A1');
     const [g, setG] = useState<Level | ''>(() => (lsGet('ep.listenGroup', '') as Level | '') || '');
     const cur = g || mine;
     const pick = (k: Level) => {
