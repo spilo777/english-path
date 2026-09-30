@@ -14,7 +14,7 @@ const UA = { 'User-Agent': 'EnglishPath/1.0 (https://github.com/spilo777/english
 const BAD = /(flag|logo|map|icon|diagram|coat[_ ]of[_ ]arms|signature|\.svg|\.pdf|\.tif)/i;
 
 // карты из приложения (id → заголовок Википедии / запрос в Commons)
-const mapSrc = fs.readFileSync(root + '/app/src/lib/images-map.ts', 'utf8');
+const mapSrc = fs.readFileSync(root + '/app/src/core/images/covers-map.ts', 'utf8');
 const obj = (name) => { const m = mapSrc.match(new RegExp(name + '[^=]*=\\s*(\\{[\\s\\S]*?\\});')); return m ? new Function('return ' + m[1])() : {}; };
 const LIB_WIKI = obj('LIB_WIKI');
 const LIB_COMMONS = obj('LIB_COMMONS');

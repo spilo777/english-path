@@ -1,6 +1,7 @@
 // Общие элементы интерфейса: шапка страницы, секции-карусели, обложки, вкладки, тосты
 import { useSyncExternalStore, type ReactNode } from 'react';
 import { clamp } from '@utils/math';
+import { onToast, toast, toastMessage, toastVersion } from '../core/notifications/notify';
 import { streak, today, useProgress } from '../lib/store';
 import './ui.css';
 
@@ -148,34 +149,14 @@ export function Progress({ value }: { value: number }) {
 }
 
 // ───────── тосты ─────────
-let toastMsg = '';
-let toastKey = 0;
-let toastTimer: ReturnType<typeof setTimeout> | undefined;
-const toastL = new Set<() => void>();
-export function toast(msg: string) {
-    toastMsg = msg;
-    toastKey++;
-    toastL.forEach((l) => l());
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-        toastMsg = '';
-        toastKey++;
-        toastL.forEach((l) => l());
-    }, 2400);
-}
+// сообщения живут в core/notifications (их показывают и модули ядра); здесь — только отрисовка
+export { toast };
 export function Toaster() {
-    useSyncExternalStore(
-        (l) => {
-            toastL.add(l);
-            return () => {
-                toastL.delete(l);
-            };
-        },
-        () => toastKey,
-    );
-    return toastMsg ? (
+    useSyncExternalStore(onToast, toastVersion);
+    const msg = toastMessage();
+    return msg ? (
         <div className="toast" role="status">
-            {toastMsg}
+            {msg}
         </div>
     ) : null;
 }
