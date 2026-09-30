@@ -42,13 +42,13 @@ test.beforeEach(async ({ page }) => {
     await page.evaluate((s) => localStorage.setItem('englishpath.v1', s), JSON.stringify(state()));
 });
 
-test('словарь открывается первым: этап курса и план дня в профиле', async ({ page }) => {
+test('грамматика открывается первой: этап курса и план дня в профиле', async ({ page }) => {
     const errors = watch(page);
     await page.goto('#/profile');
     await page.reload();
     await expect(page.locator('.goal-card a.goal-row')).toHaveCount(3);
     await page.goto('#/');
-    await expect(page.locator('main .page-title')).toHaveText('Словарь');
+    await expect(page.locator('main .page-title')).toHaveText('Грамматика');
     await expect(page.locator('.continue-card')).toContainText('урок 4');
     await page.locator('.continue-card').click();
     await expect(page).toHaveURL(/#\/unit\/a1-4\/reading/);
@@ -74,10 +74,9 @@ test('«По учебнику» объединён с «Уроками»: ста
     const errors = watch(page);
     await page.goto('#/books/red');
     await page.reload();
-    await expect(page.locator('main .page-title')).toHaveText('Словарь');
+    await expect(page.locator('main .page-title')).toHaveText('Грамматика');
     await expect(page.locator('.tabs a')).toHaveCount(2);
-    await expect(page.locator('.learn-sub a.on')).toContainText('Уроки');
-    await expect(page.locator('.tabs a').nth(1)).toContainText('Грамматика');
+    await expect(page.locator('.tabs a').first()).toContainText('Уроки');
     expect(errors).toEqual([]);
 });
 

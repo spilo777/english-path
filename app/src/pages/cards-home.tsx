@@ -1,9 +1,6 @@
-// Словарь → «Слова» (открывается первым): повторение, этап курса, «Сейчас учу», плитки статусов, колоды по уровням, добавление слова, слова по темам (фильтр-чипы)
+// Словарь: «Сейчас учу» (повторение), плитки статусов, колоды по уровням, добавление слова, слова по темам (фильтр-чипы)
 import { useMemo, useRef, useState, type RefObject } from 'react';
-import { Icon, RoundBtn, plural, toast } from '../components/ui';
-import { PlacementHint } from '../components/PlacementHint';
-import { StageCard } from '../components/StageCard';
-import { LearnHead } from './course-head';
+import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { go } from '../app/router';
 import { useCourse } from '../lib/data';
 import { ensureDict, lookup } from '../lib/lookup';
@@ -246,8 +243,8 @@ export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicC
 
     return (
         <>
-            <LearnHead
-                tab="words"
+            <TopBar
+                title="Словарь"
                 right={
                     <>
                         <RoundBtn icon="plus" title="Добавить слово" onClick={toggleAdd} />
@@ -255,38 +252,32 @@ export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicC
                     </>
                 }
             />
-            <div className="duo">
-                <div className="now-card">
-                    <div className="now-ill">
-                        <Icon name="cards" fill />
-                    </div>
-                    <div className="now-body">
-                        <div className="eyebrow">Сейчас учу</div>
-                        <b className="now-title">
-                            {onDecks.length ? 'Колоды ' + onDecks.join(' · ') : 'Только мои слова'}
-                        </b>
-                        <div className="small muted">
-                            {due + nw
-                                ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}`
-                                : 'На сегодня всё повторено'}
-                        </div>
-                        <a className="now-extra small" href="#/review/extra">
-                            <Icon name="lightning" fill /> Занятие вне очереди
-                        </a>
-                    </div>
-                    {due + nw ? (
-                        <a className="pill-btn" href="#/review">
-                            НАЧАТЬ
-                        </a>
-                    ) : (
-                        <span className="pill ok">
-                            <Icon name="check" /> Готово
-                        </span>
-                    )}
+            <div className="now-card">
+                <div className="now-ill">
+                    <Icon name="cards" fill />
                 </div>
-                <StageCard />
+                <div className="now-body">
+                    <div className="eyebrow">Сейчас учу</div>
+                    <b className="now-title">{onDecks.length ? 'Колоды ' + onDecks.join(' · ') : 'Только мои слова'}</b>
+                    <div className="small muted">
+                        {due + nw
+                            ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}`
+                            : 'На сегодня всё повторено'}
+                    </div>
+                    <a className="now-extra small" href="#/review/extra">
+                        <Icon name="lightning" fill /> Занятие вне очереди
+                    </a>
+                </div>
+                {due + nw ? (
+                    <a className="pill-btn" href="#/review">
+                        НАЧАТЬ
+                    </a>
+                ) : (
+                    <span className="pill ok">
+                        <Icon name="check" /> Готово
+                    </span>
+                )}
             </div>
-            <PlacementHint s={s} offerOnly />
             <div className="tiles4">
                 {tiles.map(([k, cls, icon, label]) => (
                     <a key={k} className={'tile ' + cls} href={'#/words/' + k}>

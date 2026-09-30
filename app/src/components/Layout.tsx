@@ -2,10 +2,11 @@
 import type { MouseEvent, ReactNode } from 'react';
 import './Layout.css';
 
-export type NavKey = 'words' | 'library' | 'profile';
+export type NavKey = 'grammar' | 'words' | 'library' | 'profile';
 
 const ITEMS: { key: NavKey; href: string; icon: string; label: string }[] = [
-    { key: 'words', href: '#/', icon: 'cards', label: 'Словарь' },
+    { key: 'grammar', href: '#/', icon: 'graduation-cap', label: 'Грамматика' },
+    { key: 'words', href: '#/cards', icon: 'cards', label: 'Словарь' },
     { key: 'library', href: '#/library', icon: 'books', label: 'Библиотека' },
     { key: 'profile', href: '#/profile', icon: 'user-circle', label: 'Профиль' },
 ];

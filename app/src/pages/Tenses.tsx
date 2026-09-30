@@ -9,7 +9,7 @@ import { recordAnswer, update, useProgress } from '../lib/store';
 import { LEVEL_ORDER, LEVELS, type Level, type Progress, type Tense, type TenseEx } from '../lib/types';
 import { esc, Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
 import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle } from '../components/ui';
-import { LearnHead } from './course-head';
+import { CourseHead } from './course-head';
 import '../components/Exercises.css';
 import './Tenses.css';
 
@@ -132,7 +132,7 @@ function TenseMap({ list, s }: { list: Tense[]; s: Progress }) {
     const done = list.filter((t) => (tenseBest(s, t.id) || 0) >= 0.8).length;
     return (
         <Page>
-            <LearnHead
+            <CourseHead
                 tab="tenses"
                 sub={`Все ${list.length} времён английского: когда какое нужно, как строится, чем отличается от соседнего. Освоено ${done} из ${list.length}.`}
             />
@@ -583,14 +583,14 @@ export default function Tenses({ params }: PageProps) {
     if (error)
         return (
             <Page>
-                <LearnHead tab="tenses" />
+                <CourseHead tab="tenses" />
                 <LoadError error={error} />
             </Page>
         );
     if (!list)
         return (
             <Page>
-                <LearnHead tab="tenses" />
+                <CourseHead tab="tenses" />
                 <Loading />
             </Page>
         );

@@ -28,21 +28,21 @@ const P = {
 function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
     switch (r) {
         case '':
-            return [P.cards, 'words', false];
+            return [P.course, 'grammar', false];
         case 'course':
-            return [P.course, 'words', false];
+            return [P.course, 'grammar', false];
         case 'placement':
-            return [P.placement, 'words', true];
+            return [P.placement, 'grammar', true];
         case 'league':
             return [P.league, 'profile', true];
         case 'listen':
             return [P.listen, 'library', !!parts[1]];
         case 'unit':
-            return [P.unit, 'words', true];
+            return [P.unit, 'grammar', true];
         case 'tenses':
-            return [P.tenses, 'words', !!parts[1] && parts[1] !== 'train'];
+            return [P.tenses, 'grammar', !!parts[1] && parts[1] !== 'train'];
         case 'books':
-            return [P.course, 'words', false]; // раздел «По учебнику» объединён с «Уроками»
+            return [P.course, 'grammar', false]; // раздел «По учебнику» объединён с «Уроками»
         case 'library':
             return [P.library, 'library', false];
         case 'read':
@@ -64,7 +64,7 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
         case 'account':
             return [P.settings, 'profile', true];
         default:
-            return [P.cards, 'words', false];
+            return [P.course, 'grammar', false];
     }
 }
 

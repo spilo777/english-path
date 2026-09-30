@@ -2553,16 +2553,3 @@ a.bm-row[href]:hover {
     color: var(--accent-text);
     cursor: pointer;
 }
-
-/* Переключатель Уроки / Времена внутри вкладки «Грамматика» */
-.chips-row.learn-sub {
-    margin-top: 12px;
-}
-.learn-sub .fchip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.learn-sub .fchip:not(.on) {
-    color: var(--text);
-}

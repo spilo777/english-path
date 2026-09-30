@@ -159,7 +159,7 @@ function ProfileHome() {
             </div>
             <GoalCard
                 links={{
-                    cards: '#/',
+                    cards: '#/cards',
                     ex: stageHref(s, course),
                     read: '#/library',
                 }}

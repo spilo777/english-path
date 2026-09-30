@@ -1,4 +1,4 @@
-// Раздел «Курс» → «Уроки»: уровни A1…C1 (сворачиваются), уроки с прогрессом и замками, готовящиеся уроки, игровой трек
+// Раздел «Грамматика» → «Уроки» (открывается первым): карточка этапа, уровни A1…C1 (сворачиваются), уроки с прогрессом и замками, готовящиеся уроки, игровой трек
 import { useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
 import {
@@ -15,8 +15,9 @@ import { useCourse, useSyllabus } from '../lib/data';
 import { useProgress } from '../lib/store';
 import type { CourseIndex, Progress, Syllabus, UnitMeta } from '../lib/types';
 import { Icon, LoadError, Loading, Page, plural } from '../components/ui';
-import { LearnHead } from './course-head';
+import { CourseHead } from './course-head';
 import { PlacementHint } from '../components/PlacementHint';
+import { StageCard } from '../components/StageCard';
 import './Course.css';
 
 const OPEN_KEY = 'ep.courseOpen';
@@ -178,7 +179,7 @@ export default function Course(_props: PageProps) {
     const { data: syl, error: e2 } = useSyllabus();
     const [openMap, setOpenMap] = useState<OpenMap | null>(readOpen);
     const err = error || e2;
-    const head = <LearnHead tab="lessons" sub={SUB} />;
+    const head = <CourseHead tab="lessons" sub={SUB} />;
     if (err)
         return (
             <Page>
@@ -211,6 +212,7 @@ export default function Course(_props: PageProps) {
     return (
         <Page>
             {head}
+            <StageCard />
             <PlacementHint s={s} />
             <div className="lvl-list">
                 {course.levels.map((l) => (
