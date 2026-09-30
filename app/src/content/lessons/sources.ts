@@ -26,7 +26,11 @@ const toLesson = (u: UnitMeta): Lesson => ({ ...u, body: unitBody(u.id) });
 
 /** Основные уроки уровня по порядку */
 export function lessonsByLevel(l: Level): Source<Lesson[]> {
-    return derive(courseIndex, 'lessons:' + l, (c) => mainUnits(c).filter((u) => u.level === l).map(toLesson));
+    const ofLevel = (c: CourseIndex): Lesson[] => {
+        const units = mainUnits(c).filter((u) => u.level === l);
+        return units.map(toLesson);
+    };
+    return derive(courseIndex, 'lessons:' + l, ofLevel);
 }
 
 const games = (c: CourseIndex): Lesson[] => c.units.filter((u) => u.track === 'games').map(toLesson);
