@@ -17,6 +17,8 @@ const UA = { 'User-Agent': 'EnglishPath/1.0 (https://github.com/spilo777/english
 const BAD = /(flag|logo|map|icon|diagram|coat[_ ]of[_ ]arms|signature|chart|graph|\.svg|\.pdf|\.tif|\.gif)/i;
 const SKIP_POS = /^(pron|det|prep|conj|modal|excl)$/;
 const RETRY_EMPTY = process.argv.includes('--retry-empty');
+// лимит времени одного запуска: всё найденное сохраняется, следующий запуск продолжит с места остановки
+const DEADLINE = Date.now() + 40 * 60_000;
 
 /** Ключ картинки = id карточки; для форм «go — went — gone» — первое слово */
 const keyOf = (en) => {
@@ -132,6 +134,14 @@ for (const k of todo) {
 }
 console.log(`wikipedia: ${Object.keys(found).length}/${todo.length}`);
 
+const save = () => {
+    const sorted = Object.fromEntries(Object.keys(have).sort().map((k) => [k, have[k]]));
+    fs.writeFileSync(OUT, JSON.stringify(sorted));
+};
+// найденное в Википедии — сразу в таблицу
+for (const k of Object.keys(found)) have[k] = found[k];
+save();
+
 // ── 2) Commons для оставшихся: глаголы — «running», прилагательные — «happy face» не угадываем, берём слово ──
 let n = 0;
 for (const k of todo) {
@@ -146,19 +156,25 @@ for (const k of todo) {
             break;
         }
     }
-    if (++n % 100 === 0) console.log(`commons: ${n} checked`);
-    await sleep(120);
+    have[k] = found[k] || '';
+    if (++n % 100 === 0) {
+        console.log(`commons: ${n} checked`);
+        save();
+    }
+    if (Date.now() > DEADLINE) {
+        console.log('time limit reached — the rest will be looked up on the next run');
+        break;
+    }
+    await sleep(60);
 }
-
-for (const k of todo) have[k] = found[k] || '';
-const sorted = Object.fromEntries(Object.keys(have).sort().map((k) => [k, have[k]]));
-fs.writeFileSync(OUT, JSON.stringify(sorted));
+save();
 
 const total = Object.keys(have).length;
+const left = [...want.keys()].filter((k) => !(k in have)).length;
 const withImg = Object.values(have).filter(Boolean).length;
 const log = [
-    `word-img: ${withImg}/${total} with a picture (this run: ${Object.keys(found).length}/${todo.length} found)`,
-    ...todo.filter((k) => !found[k]).map((k) => 'NONE ' + k + ' (' + (want.get(k) || '?') + ')'),
+    `word-img: ${withImg}/${total} with a picture, ${left} not checked yet (this run found ${Object.keys(found).length})`,
+    ...todo.filter((k) => k in have && !found[k]).map((k) => 'NONE ' + k + ' (' + (want.get(k) || '?') + ')'),
     ...Object.entries(how).map(([k, h]) => k + ' ← ' + h),
 ].join('\n');
 fs.writeFileSync(root + '/word-images.log', log + '\n');

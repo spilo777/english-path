@@ -1,11 +1,14 @@
 name: word-images
 # Картинки-ассоциации для карточек: build/word-images.mjs ищет их в Википедии и Wikimedia Commons
 # и сохраняет в app/public/data/word-img.json (коммитом в main). Затем запускает сборку сайта (app.yml).
-# Запускается при изменении скрипта или вручную (Actions → word-images → Run workflow).
+# Запускается при изменении скрипта, раз в сутки и вручную (Actions → word-images → Run workflow).
+# Один запуск ищет не дольше 40 минут; что не успел — продолжит следующий.
 on:
   push:
     branches: [main]
     paths: ['build/word-images.mjs', '.github/workflows/word-images.yml']
+  schedule:
+    - cron: '17 3 * * *' # раз в сутки: дозаполнить пропуски и новые слова
   workflow_dispatch:
     inputs:
       retry_empty:
