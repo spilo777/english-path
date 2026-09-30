@@ -17,16 +17,10 @@
     background: color-mix(in srgb, var(--lc) 10%, var(--surface));
 }
 .lg-badge {
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
-    background: var(--lc);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 34px;
+    width: 72px;
+    height: 72px;
     flex-shrink: 0;
-    box-shadow: 0 10px 22px -10px var(--lc);
+    filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--lc) 45%, transparent));
 }
 .lg-hero-txt {
     display: flex;

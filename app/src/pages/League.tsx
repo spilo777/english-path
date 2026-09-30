@@ -1,6 +1,7 @@
 // Лига и друзья: недельное соревнование в группе до 30 человек и список друзей по коду
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import type { PageProps } from '../app/App';
+import { LeagueEmblem } from '../components/LeagueEmblem';
 import { Seg } from '../components/Seg';
 import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
 import { useCloud } from '../lib/cloud';
@@ -237,7 +238,7 @@ function LeagueTab({ prof, onRename }: { prof: LeagueProfile; onRename: (p: Leag
 
             <div className="card lg-hero" style={col(lg)}>
                 <div className="lg-badge">
-                    <Icon name={L.icon} fill />
+                    <LeagueEmblem league={lg} size={72} />
                 </div>
                 <div className="lg-hero-txt">
                     <div className="eyebrow">

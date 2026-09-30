@@ -1,6 +1,7 @@
 // Профиль (#/profile): карточки-блоки — кто я, лига, друзья, XP, активность, слова, понимание, успеваемость
 import { useEffect, useState, type ReactNode } from 'react';
 import { Avatar } from '../components/Avatar';
+import { LeagueEmblem } from '../components/LeagueEmblem';
 import { BackLink, Icon, Loading, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { ACH_LIST, engagement } from '../lib/achievements';
 import { Cloud, useCloud } from '../lib/cloud';
@@ -266,7 +267,7 @@ export function ProfileHome() {
             >
                 <a className="pc-league-row" href="#/league" style={{ ['--lc' as string]: L.color }}>
                     <span className="pc-emblem">
-                        <Icon name={L.icon} fill />
+                        <LeagueEmblem league={prof?.league || 0} />
                     </span>
                     <span className="pc-league-mid">
                         <span className="tiny muted">
@@ -474,7 +475,7 @@ export function UserProfile({ code }: { code: string }) {
             <PCard title="Лига" className="pc-league">
                 <div className="pc-league-row" style={{ ['--lc' as string]: L.color }}>
                     <span className="pc-emblem">
-                        <Icon name={L.icon} fill />
+                        <LeagueEmblem league={p.league} />
                     </span>
                     <span className="pc-league-mid">
                         <b className="pc-league-name">{L.name}</b>

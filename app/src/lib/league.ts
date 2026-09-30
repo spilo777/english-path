@@ -33,17 +33,18 @@ export interface LastResult {
     moved: number;
 }
 
-export const LEAGUES: { name: string; color: string; icon: string }[] = [
-    { name: 'Бронзовая', color: '#C0773A', icon: 'shield' },
-    { name: 'Серебряная', color: '#8E9AAB', icon: 'shield' },
-    { name: 'Золотая', color: '#E0A100', icon: 'shield-star' },
-    { name: 'Сапфировая', color: '#2563EB', icon: 'shield-star' },
-    { name: 'Рубиновая', color: '#E11D48', icon: 'shield-chevron' },
-    { name: 'Изумрудная', color: '#10A36E', icon: 'shield-chevron' },
-    { name: 'Аметистовая', color: '#8B5CF6', icon: 'crown-simple' },
-    { name: 'Жемчужная', color: '#B08968', icon: 'crown-simple' },
-    { name: 'Обсидиановая', color: '#334155', icon: 'crown' },
-    { name: 'Алмазная', color: '#0EA5C6', icon: 'diamond' },
+/** img — эмблема в public/img/leagues (исходники: build/images-src/leagues) */
+export const LEAGUES: { name: string; color: string; img: string }[] = [
+    { name: 'Бронзовая', color: '#C0773A', img: 'league-01' },
+    { name: 'Серебряная', color: '#8E9AAB', img: 'league-02' },
+    { name: 'Золотая', color: '#E0A100', img: 'league-03' },
+    { name: 'Сапфировая', color: '#2563EB', img: 'league-04' },
+    { name: 'Рубиновая', color: '#E11D48', img: 'league-05' },
+    { name: 'Изумрудная', color: '#10A36E', img: 'league-06' },
+    { name: 'Аметистовая', color: '#8B5CF6', img: 'league-07' },
+    { name: 'Жемчужная', color: '#B08968', img: 'league-08' },
+    { name: 'Обсидиановая', color: '#334155', img: 'league-09' },
+    { name: 'Алмазная', color: '#0EA5C6', img: 'league-10' },
 ];
 export const leagueOf = (i: number) => LEAGUES[Math.max(0, Math.min(LEAGUES.length - 1, i))];
 

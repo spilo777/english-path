@@ -516,12 +516,7 @@ a.pc-title .ph {
     width: 64px;
     height: 64px;
     flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    border-radius: 18px;
-    font-size: 40px;
-    color: var(--lc);
-    background: color-mix(in srgb, var(--lc) 14%, transparent);
+    filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--lc) 40%, transparent));
 }
 .pc-league-mid {
     flex: 1;
