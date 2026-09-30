@@ -43,21 +43,26 @@ function violations(file: string, src: string): string[] {
     return out;
 }
 
+// [файл, строка импорта, сколько нарушений должно найтись]
+const CASES: [string, string, number][] = [
+    ['../src/utils/date.ts', "import { x } from '../core/progress/store';", 1],
+    ['../src/core/srs/deck.ts', "import { x } from '@content/word-cards';", 1],
+    ['../src/content/texts/a1.ts', "import { e } from '@engine';", 1],
+    ['../src/engine/course.ts', "import { e } from '../catalog/index';", 1],
+    ['../src/core/cloud/sync.ts', "import { toast } from '../../components/ui';", 1],
+    ['../src/core/audio/speech.ts', "import { useState } from 'react';", 1],
+    ['../src/utils/hooks.ts', "import { useState } from 'react';", 1],
+    ['../src/content/texts/x.ts', "import './x.css';", 1],
+    ['../src/core/audio/hooks.ts', "import { useState } from 'react';", 0],
+    ['../src/engine/react.tsx', "import { createContext } from 'react';", 0],
+    ['../src/content/texts/a1.ts', "import { d } from '../../core/data/loader';", 0],
+    ['../src/catalog/index.ts', "import { A1_WordCards } from '@content/word-cards';", 0],
+    ['../src/pages/Course.tsx', "import { engine } from '@catalog';", 0],
+];
+
 describe('границы слоёв', () => {
     it('проверка сама ловит нарушения', () => {
-        expect(violations('../src/utils/date.ts', "import { x } from '../core/progress/store';")).toHaveLength(1);
-        expect(violations('../src/core/srs/deck.ts', "import { x } from '@content/word-cards';")).toHaveLength(1);
-        expect(violations('../src/content/texts/a1.ts', "import { e } from '@engine';")).toHaveLength(1);
-        expect(violations('../src/engine/course.ts', "import { e } from '../catalog/index';")).toHaveLength(1);
-        expect(violations('../src/core/cloud/sync.ts', "import { toast } from '../../components/ui';")).toHaveLength(1);
-        expect(violations('../src/core/audio/speech.ts', "import { useState } from 'react';")).toHaveLength(1);
-        expect(violations('../src/utils/hooks.ts', "import { useState } from 'react';")).toHaveLength(1);
-        expect(violations('../src/content/texts/x.ts', "import './x.css';")).toHaveLength(1);
-        expect(violations('../src/core/audio/hooks.ts', "import { useState } from 'react';")).toEqual([]);
-        expect(violations('../src/engine/react.tsx', "import { createContext } from 'react';")).toEqual([]);
-        expect(violations('../src/content/texts/a1.ts', "import { d } from '../../core/data/loader';")).toEqual([]);
-        expect(violations('../src/catalog/index.ts', "import { A1_WordCards } from '@content/word-cards';")).toEqual([]);
-        expect(violations('../src/pages/Course.tsx', "import { engine } from '@catalog';")).toEqual([]);
+        for (const [file, src, n] of CASES) expect(violations(file, src).length, file + ': ' + src).toBe(n);
     });
 
     it('импорты в слоях идут только вниз', () => {
