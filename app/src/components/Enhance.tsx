@@ -4,19 +4,17 @@
 // выводите через <Html html=…/> (а не JSX-текстом). React 19 перезаписывает innerHTML при каждом
 // новом объекте {__html}, поэтому Html держит объект стабильным — иначе обёртка и мини-проверки слетают.
 import { createElement, useEffect, useMemo, useState, type DependencyList, type RefObject } from 'react';
-import { levelRank } from '@utils/level';
+import { type Level, levelRank } from '@utils/level';
 import { esc } from '@utils/text';
 import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
 import { passed } from '../content/lessons/progress';
 import { lessonsIndex } from '../content/lessons/sources';
 import { isNewWord, knownWordSet, type KnownWordsUnit } from '../content/texts/known-words';
-import { ensureDict, isDictReady } from '../lib/lookup';
-import { ding } from '../lib/sfx';
-import { speak } from '../lib/speech';
-import { recordAnswer, update, useProgress } from '../lib/store';
-import { autoTranslate } from '../lib/translate';
-import type { Level } from '../lib/types';
+import { ding, speak } from '@core/audio';
+import { recordAnswer, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { autoTranslate, ensureDict, isDictReady } from '@core/translate';
 import { Icon } from './ui';
 import { openWord } from './Popover';
 import './Enhance.css';

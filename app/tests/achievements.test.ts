@@ -1,17 +1,7 @@
 // Достижения: список, значения и выдача совпадают с эталоном, снятым до разделения модуля на слои
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import {
-    ACH_LIST,
-    achCtx,
-    CAT_COLORS,
-    checkAch,
-    engagement,
-    nearAch,
-    points,
-    rankLadder,
-    tier,
-    type AchExtra,
-} from '../src/lib/achievements';
+import { ACH_LIST, achCtx, type AchExtra, CAT_COLORS, checkAch, engagement, nearAch } from '@content/achievements';
+import { points, rankLadder, tier } from '@core/achievements';
 import { normalize } from '../src/core/progress';
 import { courseIndex } from '../src/content/lessons';
 import { library } from '../src/content/texts';

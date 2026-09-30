@@ -1,7 +1,7 @@
 // Настройки → «Напоминания»: включить уведомления на этом устройстве, время, виды напоминаний, проверка
 import { useEffect, useState } from 'react';
-import { useCloud } from '../lib/cloud';
-import { pushDisable, pushEnable, pushStatus, pushSupport, pushTest, type PushPrefs } from '../lib/push';
+import { useCloud } from '@core/cloud/hooks';
+import { pushDisable, pushEnable, type PushPrefs, pushStatus, pushSupport, pushTest } from '@core/notifications';
 import { Icon, toast } from './ui';
 import './Reminders.css';
 

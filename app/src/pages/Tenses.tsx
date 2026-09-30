@@ -1,6 +1,6 @@
 // Раздел «Курс» → «Времена»: карта всех времён, страница времени (объяснение / упражнения), тренажёр «выбери время»
 import { useMemo, useRef, useState, type ReactNode } from 'react';
-import { isLevel } from '@utils/level';
+import { isLevel, type Level, LEVELS } from '@utils/level';
 import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { useMainCourse } from '../catalog/hooks';
@@ -15,10 +15,10 @@ import {
     trainerLevel,
     trainerQuestions,
 } from '../content/tenses';
-import { ding } from '../lib/sfx';
-import { speakTTS } from '../lib/speech';
-import { recordAnswer, update, useProgress } from '../lib/store';
-import { LEVELS, type Level, type Progress, type Tense, type TenseEx } from '../lib/types';
+import type { Tense, TenseEx } from '@content/tenses';
+import { ding, speakTTS } from '@core/audio';
+import { type Progress, recordAnswer, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
 import { esc, Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
 import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle } from '../components/ui';
 import { CourseHead } from './course-head';

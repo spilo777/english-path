@@ -1,5 +1,5 @@
 // Эмблема лиги — картинка из public/img/leagues (лёгкие AVIF/WebP собирает `npm run images`)
-import { leagueOf } from '../lib/league';
+import { leagueOf } from '@core/league';
 import './LeagueEmblem.css';
 
 const SIZES = [64, 128, 256];

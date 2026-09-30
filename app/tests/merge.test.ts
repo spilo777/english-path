@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { merge } from '../src/lib/cloud';
-import { defaults, resetUnit } from '../src/lib/store';
-import type { Card, Progress } from '../src/lib/types';
+import { merge } from '@core/cloud';
+import { type Card, defaults, type Progress, resetUnit } from '@core/progress';
 
 const card = (id: string, o: Partial<Card> = {}): Card => ({
     id,

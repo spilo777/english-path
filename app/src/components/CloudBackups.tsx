@@ -3,9 +3,9 @@
 // которое перед заменой сохраняет текущее состояние отдельной копией «до восстановления».
 import { useEffect, useState } from 'react';
 import { DAY } from '@utils/date';
-import { cloudClient, useCloud } from '../lib/cloud';
-import { defaults, normalize, replaceState } from '../lib/store';
-import type { Progress } from '../lib/types';
+import { cloudClient } from '@core/cloud';
+import { useCloud } from '@core/cloud/hooks';
+import { defaults, normalize, type Progress, replaceState } from '@core/progress';
 import { Icon, plural, toast } from './ui';
 import './CloudBackups.css';
 

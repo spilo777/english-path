@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { candidates, clean, lookup, setDictForTests } from '../src/lib/lookup';
+import { candidates, clean, lookup, setDictForTests } from '@core/translate';
 
 beforeAll(() => {
     setDictForTests(

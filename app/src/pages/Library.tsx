@@ -12,15 +12,11 @@ import { bookIndex, chapN, chaptersRead } from '../content/books';
 import { lessonsIndex } from '../content/lessons/sources';
 import { library, textsForYou, textsInCat } from '../content/texts';
 import type { CourseDef } from '../engine';
-import { tomb, update, useProgress } from '../lib/store';
-import {
-    type CourseIndex,
-    type Level,
-    type Progress,
-    type LessonText,
-    type TextItem,
-    type UserText,
-} from '../lib/types';
+import type { CourseIndex } from '@content/lessons';
+import type { LessonText, TextItem } from '@content/texts';
+import { type Progress, tomb, update, type UserText } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import type { Level } from '@utils/level';
 import { lsGet, lsSet } from './reader-core';
 import { LibTabs } from '../components/LibTabs';
 import './Library.css';

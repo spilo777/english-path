@@ -1,9 +1,11 @@
 // Словарь: страница тематической коллекции, списки слов по статусу, колода уровня
 import { useMemo, useState } from 'react';
 import { BackLink, Icon, toast } from '../components/ui';
-import { cardKind, fmtIvl } from '../lib/srs';
-import { tomb, update, useProgress } from '../lib/store';
-import { LEVELS, type Card, type DeckWord, type TopicCat, type TopicCol } from '../lib/types';
+import type { DeckWord, TopicCat, TopicCol } from '@content/word-cards';
+import { type Card, tomb, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { cardKind, fmtIvl } from '@core/srs';
+import { LEVELS } from '@utils/level';
 import {
     KnownBtn,
     SayBtn,

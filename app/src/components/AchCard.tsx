@@ -1,8 +1,9 @@
 // Карточка достижения: цветной значок с рамкой редкости, описание, прогресс, дата получения
 import type { CSSProperties } from 'react';
-import { pctOf, tier, type Ach, type AchCtx } from '../lib/achievements';
-import { useCloud } from '../lib/cloud';
-import { useProgress } from '../lib/store';
+import type { Ach, AchCtx } from '@content/achievements';
+import { pctOf, tier } from '@core/achievements';
+import { useCloud } from '@core/cloud/hooks';
+import { useProgress } from '@core/progress/hooks';
 import { Icon } from './ui';
 import './AchCard.css';
 

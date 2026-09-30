@@ -4,11 +4,12 @@ import { ssGet, ssSet } from '@utils/storage';
 import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { go } from '../app/router';
 import { useMainCourse } from '../catalog/hooks';
-import { ensureDict, lookup } from '../lib/lookup';
-import { addCard, cardKind, dueCards, newAvailable, type WordKind } from '../lib/srs';
-import { update, useProgress } from '../lib/store';
-import { autoTranslate } from '../lib/translate';
-import { LEVELS, type DeckWord, type Progress, type TopicCat, type TopicCol } from '../lib/types';
+import type { DeckWord, TopicCat, TopicCol } from '@content/word-cards';
+import { type Progress, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { addCard, cardKind, dueCards, newAvailable, type WordKind } from '@core/srs';
+import { autoTranslate, ensureDict, lookup } from '@core/translate';
+import { LEVELS } from '@utils/level';
 import { DECK_ICONS, TopicProg, catTone, deckWords, learnedCard, topicStats } from './cards-util';
 
 /** Плитка колоды уровня (или фразовых глаголов) */

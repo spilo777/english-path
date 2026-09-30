@@ -4,22 +4,24 @@ import { dayKey, mondayOf, weekOf } from '@utils/date';
 import { Avatar } from '../components/Avatar';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { BackLink, Icon, Loading, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
-import { ACH_LIST, engagement } from '../lib/achievements';
-import { Cloud, useCloud } from '../lib/cloud';
+import { ACH_LIST, engagement } from '@content/achievements';
+import { Cloud } from '@core/cloud';
+import { useCloud } from '@core/cloud/hooks';
 import {
     daysLeft,
+    type Friend,
     friends,
     getProfile,
     leagueOf,
-    profileView,
-    type Friend,
     type LeagueProfile,
+    profileView,
     type PublicProfile,
-} from '../lib/league';
+} from '@core/league';
+import { dayXp, type Progress, streak } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { cardKind } from '@core/srs';
+import type { Level } from '@utils/level';
 import { useMainCourse } from '../catalog/hooks';
-import { cardKind } from '../lib/srs';
-import { dayXp, streak, useProgress } from '../lib/store';
-import type { Level, Progress } from '../lib/types';
 
 function xpStats(s: Progress) {
     const weeks: Record<string, number> = {};

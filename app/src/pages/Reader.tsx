@@ -7,7 +7,7 @@ import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
 import { unitBody } from '../content/lessons/sources';
 import { library, textUnitId } from '../content/texts';
-import { useProgress } from '../lib/store';
+import { useProgress } from '@core/progress/hooks';
 import { ReaderView, type ReadCtx } from './reader-core';
 
 export default function Reader({ params }: PageProps) {

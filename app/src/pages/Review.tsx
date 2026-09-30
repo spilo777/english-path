@@ -5,9 +5,10 @@ import { BackLink, Icon, LoadError, Loading, Page, plural, Progress as Bar, toas
 import { useSource } from '../content/base/hooks';
 import { buildQueue } from '../content/word-cards/review-queue';
 import { deck as deckSrc, topics as topicsSrc } from '../content/word-cards/sources';
-import { countNew, schedule, takeNew } from '../lib/srs';
-import { getState, tomb, track, update, useProgress } from '../lib/store';
-import type { DeckWord, Settings, TopicCol } from '../lib/types';
+import type { DeckWord, TopicCol } from '@content/word-cards';
+import { getState, type Settings, tomb, track, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { countNew, schedule, takeNew } from '@core/srs';
 import { FlashCard, prefetchCard, type Grade, type Side } from './review-card';
 import './Review.css';
 

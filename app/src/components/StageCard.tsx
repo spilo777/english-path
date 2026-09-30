@@ -1,7 +1,7 @@
 // Карточка «Этап курса»: текущий урок, следующий шаг и прогресс — видна сверху раздела «Словарь»
 import { useMainCourse } from '../catalog/hooks';
 import { nextStep } from '../content/lessons';
-import { useProgress } from '../lib/store';
+import { useProgress } from '@core/progress/hooks';
 import { Icon } from './ui';
 
 export function StageCard() {

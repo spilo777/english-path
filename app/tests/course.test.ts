@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { currentUnit, isUnlocked, mainUnits, nextStep, passed, unitProgress } from '../src/lib/course';
-import { defaults } from '../src/lib/store';
-import type { CourseIndex, Progress, UnitMeta } from '../src/lib/types';
+import {
+    type CourseIndex,
+    currentUnit,
+    isUnlocked,
+    mainUnits,
+    nextStep,
+    passed,
+    type UnitMeta,
+    unitProgress,
+} from '@content/lessons';
+import { defaults, type Progress } from '@core/progress';
 
 const u = (
     id: string,

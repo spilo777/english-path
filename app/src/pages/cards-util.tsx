@@ -1,9 +1,9 @@
 // Общие помощники раздела «Словарь»: статусы слов, «Знаю», коллекции по темам
 import { wordId } from '@utils/text';
-import { speak } from '../lib/speech';
-import { tomb, update } from '../lib/store';
-import { cardLearned as learnedCard } from '../lib/srs';
-import type { DeckWord, Progress, TopicCat, TopicCol } from '../lib/types';
+import type { DeckWord, TopicCat, TopicCol } from '@content/word-cards';
+import { speak } from '@core/audio';
+import { type Progress, tomb, update } from '@core/progress';
+import { cardLearned as learnedCard } from '@core/srs';
 import { Icon } from '../components/ui';
 
 export const wid = wordId;

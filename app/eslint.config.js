@@ -8,13 +8,13 @@ import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
 // Слои: импорты только вниз (utils ← core ← content ← engine ← catalog ← интерфейс).
-// Полная проверка, включая относительные пути, — tests/boundaries.test.ts; здесь подсказка в редакторе по псевдонимам.
+// Полная проверка, включая относительные пути, — tests/boundaries.test.ts; здесь — то же для псевдонимов, в редакторе.
 const LAYERS = ['utils', 'core', 'content', 'engine', 'catalog'];
 const layerRules = LAYERS.slice(0, -1).map((layer, i) => ({
     files: [`src/${layer}/**/*.{ts,tsx}`],
     rules: {
         'no-restricted-imports': [
-            'warn',
+            'error',
             {
                 ...(layer === 'utils' ? { paths: ['react', 'react-dom'] } : {}),
                 patterns: [

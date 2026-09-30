@@ -6,10 +6,10 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import local from './fixtures/progress-v1.json';
 import remote from './fixtures/progress-v1-remote.json';
 import golden from './fixtures/progress-v1.golden.json';
-import type { Progress } from '../src/lib/types';
+import type { Progress } from '@core/progress';
 
-type Store = typeof import('../src/lib/store');
-type CloudMod = typeof import('../src/lib/cloud');
+type Store = typeof import('../src/core/progress');
+type CloudMod = typeof import('../src/core/cloud/merge');
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T;
 const plain = (x: unknown) => JSON.parse(JSON.stringify(x)) as unknown;
 
@@ -19,8 +19,8 @@ let cloud: CloudMod;
 beforeAll(async () => {
     // сохранённый прогресс лежит в localStorage до загрузки модуля — как у вернувшегося пользователя
     localStorage.setItem('englishpath.v1', JSON.stringify(local));
-    store = await import('../src/lib/store');
-    cloud = await import('../src/lib/cloud');
+    store = await import('../src/core/progress');
+    cloud = await import('../src/core/cloud/merge');
 });
 
 describe('формат прогресса v1', () => {

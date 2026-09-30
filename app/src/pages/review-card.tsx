@@ -1,12 +1,11 @@
 // Одна карточка в сессии повторения: лицо/оборот, картинка-ассоциация, транскрипция, оценки
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Icon, toast } from '../components/ui';
-import { autoImage, imgKey } from '../lib/images';
-import { ding } from '../lib/sfx';
-import { fmtIvl, schedule } from '../lib/srs';
-import { liveAudio, speak, useIpa } from '../lib/speech';
-import { DAY, getState, update } from '../lib/store';
-import type { Card } from '../lib/types';
+import { ding, liveAudio, speak } from '@core/audio';
+import { useIpa } from '@core/audio/hooks';
+import { autoImage, imgKey } from '@core/images';
+import { type Card, DAY, getState, update } from '@core/progress';
+import { fmtIvl, schedule } from '@core/srs';
 
 export type Grade = 0 | 1 | 2 | 3;
 export type Side = 'en-ru' | 'ru-en';

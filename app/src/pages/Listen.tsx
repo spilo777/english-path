@@ -7,12 +7,13 @@ import { LibTabs } from '../components/LibTabs';
 import { ChannelBanner } from '../components/ChannelArt';
 import { Seg } from '../components/Seg';
 import { useMainCourse } from '../catalog/hooks';
-import type { Level } from '../lib/types';
+import { ding } from '@core/audio';
+import { track, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import type { Level } from '@utils/level';
 import { lsGet, lsSet } from './reader-core';
 import { ago, CHANNELS, findVideo, thumb, type Channel, type Video } from '../content/listening';
 import { useFeed } from '../content/listening/hooks';
-import { ding } from '../lib/sfx';
-import { track, update, useProgress } from '../lib/store';
 import './Listen.css';
 
 const cv = (c: Channel) => ({ '--cc': c.color }) as CSSProperties;

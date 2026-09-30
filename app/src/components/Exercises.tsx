@@ -1,10 +1,9 @@
 // Упражнения урока: выбор, пропуск, порядок слов, перевод, на слух. Практика повторяет ошибки, тест — нет.
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { pickOne } from '@utils/random';
-import { ding } from '../lib/sfx';
-import { speak } from '../lib/speech';
-import { PASS, recordAnswer, update } from '../lib/store';
-import type { Exercise } from '../lib/types';
+import type { Exercise } from '@content/exercises';
+import { ding, speak } from '@core/audio';
+import { PASS, recordAnswer, update } from '@core/progress';
 import { esc, fmtQ, Html, trSentence, TrBox, useLessonEnhance } from './Enhance';
 import { Icon, shuffle, toast } from './ui';
 import { checkText, displayAnswer, norm } from '../content/exercises/check';

@@ -5,8 +5,8 @@ import { PlacementModalHost } from '../components/Modal';
 import { useSource } from '../content/base/hooks';
 import { deck as deckSrc } from '../content/word-cards/sources';
 import { useEngine } from '../engine/react';
-import { dueCards, newAvailable } from '../lib/srs';
-import { useProgress } from '../lib/store';
+import { useProgress } from '@core/progress/hooks';
+import { dueCards, newAvailable } from '@core/srs';
 
 const AchPopups = lazy(() => import('../components/AchPopups').then((m) => ({ default: m.AchPopups })));
 

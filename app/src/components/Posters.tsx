@@ -2,9 +2,10 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { dlgLines, minsIn, wordsIn } from '@utils/text';
 import { chapN, chaptersRead } from '../content/books/progress';
-import { useCover } from '../lib/images';
-import { useProgress } from '../lib/store';
-import type { BookMeta, TextItem } from '../lib/types';
+import type { BookMeta } from '@content/books';
+import type { TextItem } from '@content/texts';
+import { useCover } from '@core/images/hooks';
+import { useProgress } from '@core/progress/hooks';
 import { Icon, plural } from './ui';
 
 /** Категория статьи → иконка; порядок задаёт цвет обложки (cat-0…cat-6) */

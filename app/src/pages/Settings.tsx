@@ -1,7 +1,12 @@
 // Настройки (#/settings) и аккаунт (#/account): вход, регистрация, восстановление пароля, синхронизация
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
-import type { Level } from '../lib/types';
+import { ding, listVoices, speak } from '@core/audio';
+import { Cloud, type CloudStatus } from '@core/cloud';
+import { useCloud } from '@core/cloud/hooks';
+import { defaults, getState, normalize, replaceState, today, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import type { Level } from '@utils/level';
 import { go } from '../app/router';
 import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
@@ -9,10 +14,6 @@ import { Reminders } from '../components/Reminders';
 import { openPlacement } from '../components/Modal';
 import { CloudBackups } from '../components/CloudBackups';
 import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
-import { Cloud, useCloud, type CloudStatus } from '../lib/cloud';
-import { ding } from '../lib/sfx';
-import { listVoices, speak } from '../lib/speech';
-import { defaults, getState, normalize, replaceState, today, update, useProgress } from '../lib/store';
 import './Settings.css';
 
 export default function Settings({ params }: PageProps) {

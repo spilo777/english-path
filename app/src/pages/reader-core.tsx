@@ -5,11 +5,12 @@ import { lsGet, lsSet } from '@utils/storage';
 import { closePopover, openSentence, openWord } from '../components/Popover';
 import { Cover, CAT_ICON, catIdx, catIcon, minsIn } from '../components/Posters';
 import { BackLink, Icon, Page, toast } from '../components/ui';
-import { clean, ensureDict, isDictReady, lookup } from '../lib/lookup';
-import { ding } from '../lib/sfx';
-import { speak, stopSpeech } from '../lib/speech';
-import { recordAnswer, today, track, unitState, update, useProgress } from '../lib/store';
-import type { BookMeta, Progress, TextItem } from '../lib/types';
+import type { BookMeta } from '@content/books';
+import type { TextItem } from '@content/texts';
+import { ding, speak, stopSpeech } from '@core/audio';
+import { type Progress, recordAnswer, today, track, unitState, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { clean, ensureDict, isDictReady, lookup } from '@core/translate';
 import './Reader.css';
 
 /** Что читаем и откуда: статья библиотеки, текст урока, свой текст или глава книги */

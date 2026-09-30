@@ -1,7 +1,6 @@
 // Подсказка про тест на уровень: новичку — предложить тест; выбравшему уровень — напомнить, откуда он начинает
 import { startLevel } from '../content/lessons/progress';
-import { PASS } from '../lib/store';
-import type { Progress } from '../lib/types';
+import { PASS, type Progress } from '@core/progress';
 import { openPlacement } from './Modal';
 import { Icon } from './ui';
 import './PlacementHint.css';

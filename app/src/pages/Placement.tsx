@@ -18,9 +18,10 @@ import {
     type Stage,
     type StageQuestion,
 } from '../content/placement';
-import { ding } from '../lib/sfx';
-import { update, useProgress } from '../lib/store';
-import type { Level } from '../lib/types';
+import { ding } from '@core/audio';
+import { update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import type { Level } from '@utils/level';
 import './Placement.css';
 
 // уровень, который вы УЖЕ знаете (последняя сданная ступень)

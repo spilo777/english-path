@@ -7,8 +7,8 @@ import { Cover, minsIn, wordsIn } from '../components/Posters';
 import { BackLink, Icon, Loading, Page, plural } from '../components/ui';
 import { useSource } from '../content/base/hooks';
 import { bookBody, bookIndex } from '../content/books';
-import { useProgress } from '../lib/store';
-import type { Book as BookT, BookMeta } from '../lib/types';
+import type { Book as BookT, BookMeta } from '@content/books';
+import { useProgress } from '@core/progress/hooks';
 import { lsGet, lsSet, ReaderView } from './reader-core';
 import './Book.css';
 

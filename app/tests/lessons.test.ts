@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { knownWordSet } from '../src/components/Enhance';
-import { defaults } from '../src/lib/store';
-import type { CourseIndex, LessonUnit, Unit } from '../src/lib/types';
+import type { CourseIndex, LessonUnit, Unit } from '@content/lessons';
+import { defaults } from '@core/progress';
 import courseJson from '../public/data/course.json';
 import lessonsJson from '../public/data/lessons.json';
 

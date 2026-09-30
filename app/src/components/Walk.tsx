@@ -1,9 +1,10 @@
 // Грамматика по шагам: одна мысль → пример → сразу проверка. Прогресс — в unitState(s, id).walk
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ding } from '../lib/sfx';
-import { speak } from '../lib/speech';
-import { recordAnswer, unitState, update, useProgress } from '../lib/store';
-import type { Unit, UnitProgress, WalkPart, WalkStep } from '../lib/types';
+import type { WalkPart, WalkStep } from '@content/lectures';
+import type { Unit } from '@content/lessons';
+import { ding, speak } from '@core/audio';
+import { recordAnswer, type UnitProgress, unitState, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
 import { esc, fmtQ, Html, useLessonEnhance } from './Enhance';
 import { Icon, toast } from './ui';
 import './Walk.css';

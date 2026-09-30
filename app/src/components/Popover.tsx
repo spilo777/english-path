@@ -1,13 +1,14 @@
 // Всплывающая подсказка: перевод слова (+ В карточки) и перевод/озвучка предложения.
 // Одна на приложение: <PopoverHost/> в AppChrome, открывается функциями openWord / openSentence.
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { Cloud } from '../lib/cloud';
-import { clean, ensureDict, isDictReady, lookup } from '../lib/lookup';
-import { speak, speakTTS, useIpa } from '../lib/speech';
+import { speak, speakTTS } from '@core/audio';
+import { useIpa } from '@core/audio/hooks';
+import { Cloud } from '@core/cloud';
+import { getState, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { addCard } from '@core/srs';
+import { autoTranslate, clean, ensureDict, gtUrl, isDictReady, lookup, translationAlts } from '@core/translate';
 import { exMark } from '../content/word-cards/mark';
-import { addCard } from '../lib/srs';
-import { getState, update, useProgress } from '../lib/store';
-import { autoTranslate, gtUrl, translationAlts } from '../lib/translate';
 import { Icon, toast } from './ui';
 import './Popover.css';
 

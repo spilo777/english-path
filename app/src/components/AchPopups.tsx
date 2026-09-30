@@ -1,9 +1,11 @@
 // Всплывающие «Достижение получено»: после каждого сохранения проверяем достижения, новые — в очередь
 import { useEffect, useRef, useState } from 'react';
-import { checkAch, pctOf, tier, useAchContextData, type Ach, type AchExtra } from '../lib/achievements';
-import { Cloud } from '../lib/cloud';
-import { ding } from '../lib/sfx';
-import { getState, onSave, update } from '../lib/store';
+import { type Ach, type AchExtra, checkAch } from '@content/achievements';
+import { useAchContextData } from '@content/achievements/hooks';
+import { pctOf, tier } from '@core/achievements';
+import { ding } from '@core/audio';
+import { Cloud } from '@core/cloud';
+import { getState, onSave, update } from '@core/progress';
 import { AchIcon } from './AchCard';
 import './AchCard.css';
 import './AchPopups.css';

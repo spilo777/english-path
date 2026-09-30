@@ -24,10 +24,12 @@ import {
     unitBooksParts,
     type StepKey,
 } from '../content/lessons';
-import { speak } from '../lib/speech';
-import { addCard, cardId } from '../lib/srs';
-import { getState, resetUnit, tomb, track, unitState, update, useProgress } from '../lib/store';
-import type { BookRefs, CourseIndex, Level, Syllabus, Unit as UnitData, UnitMeta } from '../lib/types';
+import type { BookRefs, CourseIndex, Syllabus, Unit as UnitData, UnitMeta } from '@content/lessons';
+import { speak } from '@core/audio';
+import { getState, resetUnit, tomb, track, unitState, update } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
+import { addCard, cardId } from '@core/srs';
+import type { Level } from '@utils/level';
 import './Unit.css';
 
 const isStep = (x: string | undefined): x is StepKey => !!x && STEPS.some(([k]) => k === x);

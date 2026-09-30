@@ -2,7 +2,8 @@
 import { useSyncExternalStore, type ReactNode } from 'react';
 import { clamp } from '@utils/math';
 import { onToast, toast, toastMessage, toastVersion } from '../core/notifications/notify';
-import { streak, today, useProgress } from '../lib/store';
+import { streak, today } from '@core/progress';
+import { useProgress } from '@core/progress/hooks';
 import './ui.css';
 
 // склонение и перемешивание теперь в utils; реэкспорт — чтобы не трогать все импорты

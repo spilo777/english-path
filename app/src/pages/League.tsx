@@ -5,24 +5,24 @@ import type { PageProps } from '../app/App';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { Seg } from '../components/Seg';
 import { BackLink, Icon, Loading, Page, plural, toast } from '../components/ui';
-import { useCloud } from '../lib/cloud';
+import { useCloud } from '@core/cloud/hooks';
 import {
     addFriend,
+    type BoardRow,
     daysLeft,
+    type Friend,
     friends,
     getProfile,
     joinAndBoard,
     lastResult,
+    type LastResult,
     leagueOf,
+    type LeagueProfile,
     LEAGUES,
     removeFriend,
     setName,
     zones,
-    type BoardRow,
-    type Friend,
-    type LastResult,
-    type LeagueProfile,
-} from '../lib/league';
+} from '@core/league';
 import './League.css';
 
 type Tab = 'league' | 'friends';
