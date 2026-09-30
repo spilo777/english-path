@@ -177,6 +177,13 @@ function ProfileHome() {
                 </div>
             </div>
             <div className="menu-list">
+                <a href="#/league">
+                    <span className="mi" style={cssVar('--c', '#C0773A')}>
+                        <Icon name="shield-star" fill />
+                    </span>
+                    <span>Лига и друзья</span>
+                    <Icon name="caret-right" />
+                </a>
                 <a href="#/achievements">
                     <span className="mi" style={cssVar('--c', '#E3A21A')}>
                         <Icon name="trophy" fill />
@@ -185,13 +192,6 @@ function ProfileHome() {
                     <em>
                         {achN}/{ACH_LIST.length}
                     </em>
-                    <Icon name="caret-right" />
-                </a>
-                <a href="#/league">
-                    <span className="mi" style={cssVar('--c', '#C0773A')}>
-                        <Icon name="shield-star" fill />
-                    </span>
-                    <span>Лига и друзья</span>
                     <Icon name="caret-right" />
                 </a>
                 <a href="#/stats">
