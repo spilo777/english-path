@@ -278,7 +278,6 @@ export function Walk({ unit, next }: { unit: Unit; next?: ReactNode }) {
                             <Icon name="confetti" />
                         </div>
                         <h2>Грамматика урока пройдена</h2>
-                        <p className="muted">Ниже — шпаргалка по всему уроку. К ней можно вернуться в любой момент.</p>
                         <div className="row wk-done-actions">
                             <button type="button" className="btn" onClick={restart}>
                                 <Icon name="arrow-counter-clockwise" /> Пройти заново
@@ -286,12 +285,6 @@ export function Walk({ unit, next }: { unit: Unit; next?: ReactNode }) {
                             {next}
                         </div>
                     </div>
-                    <details className="wk-cheat" open>
-                        <summary>
-                            <h3>Шпаргалка</h3>
-                        </summary>
-                        <Cheat unit={unit} />
-                    </details>
                 </>
             ) : (
                 <>
@@ -317,15 +310,6 @@ export function Walk({ unit, next }: { unit: Unit; next?: ReactNode }) {
                                   ))
                             : null}
                     </div>
-                    {(unit.grammar || []).length ? (
-                        <details className="wk-cheat">
-                            <summary>
-                                <Icon name="list-magnifying-glass" /> Шпаргалка по всему уроку (для тех, кто уже знает
-                                тему)
-                            </summary>
-                            <Cheat unit={unit} />
-                        </details>
-                    ) : null}
                 </>
             )}
         </div>

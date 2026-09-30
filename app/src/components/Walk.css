@@ -202,19 +202,6 @@
 .wk-done-actions {
     justify-content: center;
 }
-.wk-cheat {
-    margin-top: 24px;
-}
-.wk-cheat summary {
-    cursor: pointer;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 600;
-}
-.wk-cheat summary h3 {
-    display: inline;
-    color: var(--text);
-}
 .wk-cheat-list {
     margin-top: 12px;
 }
