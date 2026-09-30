@@ -1,6 +1,6 @@
 // Слой content, основа: ленивые источники и наборы контента
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { defineSet, derive, jsonSource, staticSource } from '../src/content/base';
+import { defineSet, derive, jsonSource, lazySource, staticSource } from '../src/content/base';
 import type { DeckWordRow } from '../src/content/word-cards/model';
 import { serveDataFromDisk } from './helpers/data';
 
@@ -53,6 +53,29 @@ describe('источники данных', () => {
         const src = staticSource('s', [1, 2]);
         expect(src.peek()).toEqual([1, 2]);
         expect(await src.load()).toEqual([1, 2]);
+    });
+});
+
+describe('ленивый источник', () => {
+    it('грузит один раз, после загрузки peek готов, после ошибки пробует снова', async () => {
+        let calls = 0;
+        let fail = true;
+        const src = lazySource('lazy', () => {
+            calls++;
+            return fail ? Promise.reject(new Error('нет сети')) : Promise.resolve([1, 2, 3]);
+        });
+        expect(src.peek()).toBeUndefined();
+        let failed = false;
+        await src.load().catch(() => {
+            failed = true;
+        });
+        expect(failed).toBe(true);
+        fail = false;
+        const v = await src.load();
+        expect(v).toEqual([1, 2, 3]);
+        expect(await src.load()).toBe(v);
+        expect(src.peek()).toBe(v);
+        expect(calls).toBe(2);
     });
 });
 

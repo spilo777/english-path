@@ -2,9 +2,8 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
 import { PopoverHost } from '../components/Popover';
 import { PlacementModalHost } from '../components/Modal';
-import { Cloud, hasSession, useCloud } from '../lib/cloud';
-import { touchLeague } from '../lib/league';
-import { loadJSON, paths, useDeck } from '../lib/data';
+import { useDeck } from '../lib/data';
+import { useEngine } from '../engine/react';
 import { dueCards, newAvailable } from '../lib/srs';
 import { useProgress } from '../lib/store';
 
@@ -47,9 +46,6 @@ function prefetch() {
                 .finally(() => setTimeout(next, 60));
     };
     next();
-    [paths.course, paths.lessons].forEach((p) => {
-        loadJSON(p).catch(() => undefined);
-    });
 }
 
 export function AppChrome({ children }: { children: (badge: number) => ReactNode }) {
@@ -57,18 +53,17 @@ export function AppChrome({ children }: { children: (badge: number) => ReactNode
     const idle = useIdle();
     const deck = useDeck(idle); // словарь для счётчика «новых» — после первого экрана
     const badge = deck ? dueCards(s).length + newAvailable(s, deck) : dueCards(s).length;
-    // облако: сразу, если вы вошли; иначе — в фоне после первого экрана (повторные вызовы игнорируются)
+    // движок: облако сразу, если вы вошли; после первого экрана — облако в фоне, лёгкие данные заранее
+    // и запись в лигу недели при входе (повторные вызовы ничего не делают)
+    const engine = useEngine();
     useEffect(() => {
-        if (idle || hasSession()) Cloud.init();
-    }, [idle]);
+        engine.start();
+    }, [engine]);
     useEffect(() => {
-        if (idle) prefetch();
-    }, [idle]);
-    // вошли — записаться в лигу этой недели (если имя для лиги уже выбрано), чтобы очки считались без захода на страницу лиги
-    const cloud = useCloud();
-    useEffect(() => {
-        if (idle && cloud.user) touchLeague();
-    }, [idle, cloud.user]);
+        if (!idle) return;
+        engine.whenIdle();
+        prefetch();
+    }, [idle, engine]);
     return (
         <>
             {children(badge)}

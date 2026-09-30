@@ -50,6 +50,23 @@ export function staticSource<T>(key: string, value: T): Source<T> {
     return { key, load: () => Promise.resolve(value), peek: () => value };
 }
 
+/** Данные из модуля, который грузится отдельно (import()): в стартовую сборку не попадают */
+export function lazySource<T>(key: string, get: () => Promise<T>): Source<T> {
+    let value: T | undefined;
+    let pending: Promise<T> | null = null;
+    const done = (v: T) => (value = v);
+    // не загрузилось — следующий load() попробует снова
+    const failed = (e: unknown): never => {
+        pending = null;
+        throw e;
+    };
+    return {
+        key,
+        load: () => (pending ||= get().then(done, failed)),
+        peek: () => value,
+    };
+}
+
 /** Несколько источников как один: массив их значений (готов, когда готовы все) */
 export function all<T>(key: string, parts: readonly Source<T>[]): Source<T[]> {
     let last: { vals: T[]; out: T[] } | null = null;
