@@ -1,0 +1,88 @@
+{
+    "cards": {
+        "w-book": {
+            "id": "w-book",
+            "en": "book",
+            "ru": "книга",
+            "ex": "I read a book.",
+            "exRu": "Я читаю книгу.",
+            "src": "deck:A1",
+            "state": "review",
+            "due": 1759300000000,
+            "ivl": 12,
+            "ease": 2.5,
+            "reps": 5,
+            "lapses": 0,
+            "step": 0,
+            "added": 1757000000000,
+            "mod": 1759000000000,
+            "img": "https://upload.wikimedia.org/x/book.jpg"
+        },
+        "w-run": {
+            "id": "w-run",
+            "en": "run",
+            "ru": "бежать",
+            "ex": "I run every day.",
+            "exRu": "Я бегаю каждый день.",
+            "src": "unit:a1-3",
+            "state": "learn",
+            "due": 1759200000000,
+            "ivl": 0,
+            "ease": 2.3,
+            "reps": 2,
+            "lapses": 9,
+            "step": 1,
+            "added": 1758000000000,
+            "mod": 1759100000000,
+            "noImg": true,
+            "leech": true
+        }
+    },
+    "units": {
+        "a1-0": { "steps": { "words": true, "grammar": true, "reading": true, "practice": true, "test": true }, "testBest": 0.9, "walk": { "part": 3, "step": 0, "done": true }, "mod": 1758500000000 },
+        "a1-1": { "steps": { "words": true }, "testBest": null, "walk": { "part": 1, "step": 2, "done": false }, "mod": 1758600000000 }
+    },
+    "textsRead": { "lib-a1-shrek": "2026-09-20", "dlg-a1-friends": "2026-09-21", "t-a1-0-1": "2026-09-22" },
+    "watched": { "yt-abc123": 1758700000000 },
+    "userTexts": [{ "id": "user-1", "title": "My text", "text": "Hello world. This is my text.", "level": "A2" }],
+    "activity": {
+        "2026-09-20": { "reviews": 30, "exercises": 12, "reads": 1 },
+        "2026-09-21": { "reviews": 5, "exercises": 0, "reads": 2, "minutes": 14 }
+    },
+    "newToday": { "date": "2026-09-21", "count": 7 },
+    "known": { "w-cat": 1758100000000, "w-dog": 1758100000001 },
+    "settings": {
+        "newPerDay": 20,
+        "rate": 1,
+        "voice": "Samantha",
+        "cardMode": "mix",
+        "decks": { "A1": true, "A2": true, "B1": false, "B2": false },
+        "autoImg": false,
+        "liveVoice": true,
+        "accent": "uk",
+        "sfx": false,
+        "startLevel": "A2",
+        "placement": { "level": "A2", "known": "A1", "at": 1757500000000, "scores": { "A1": 1, "A2": 0.6, "B1": 0.2 } }
+    },
+    "stats": {
+        "lookups": 42,
+        "listened": 17,
+        "exStreak": 3,
+        "exStreakBest": 25,
+        "perfect": { "a1-0": 1 },
+        "firstTryUnits": { "a1-0": 1 },
+        "attempts": { "a1-0": 2 },
+        "ruEn": 11,
+        "cleanSessions": 4,
+        "listenRight": 9,
+        "allDay": 1
+    },
+    "ach": { "first-card": 1757000000000, "streak-3": 1758000000000 },
+    "quiz": { "a1-0": 3 },
+    "tenses": { "present-simple": { "best": 0.8, "at": 1758800000000 } },
+    "bookPos": { "bk-a1-aesop": 4 },
+    "imgCache": { "book": "https://upload.wikimedia.org/x/book.jpg" },
+    "deleted": { "card:w-old": 1757900000000 },
+    "dayParts": { "2026-09-20": 3, "2026-09-21": 7 },
+    "settingsMod": 1758900000000
+}

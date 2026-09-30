@@ -4,12 +4,13 @@ name: app
 # Старый сайт лежит в legacy/ (архив, /english-path/legacy/).
 on:
   push:
-    branches: [main]
+    # refactor/** — проверки и отчёт без выкладки (выкладка только из main, см. deploy)
+    branches: [main, 'refactor/**']
     paths: ['app/**', 'build/covers.mjs', '.github/workflows/app.yml']
   workflow_dispatch:
 permissions:
   contents: write
-concurrency: { group: app-ci, cancel-in-progress: true }
+concurrency: { group: 'app-ci-${{ github.ref }}', cancel-in-progress: true }
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,7 +54,7 @@ jobs:
         working-directory: .
         run: |
           mkdir -p /tmp/report && cd /tmp/report
-          { echo "commit: $GITHUB_SHA"; echo "tsc: ${{ steps.tsc.outcome }}"; echo "unit: ${{ steps.unit.outcome }}"; echo "build: ${{ steps.build.outcome }}"; echo "e2e: ${{ steps.e2e.outcome }}"; echo "lint: ${{ steps.lint.outcome }}"; } > status.txt
+          { echo "commit: $GITHUB_SHA"; echo "ref: $GITHUB_REF_NAME"; echo "tsc: ${{ steps.tsc.outcome }}"; echo "unit: ${{ steps.unit.outcome }}"; echo "build: ${{ steps.build.outcome }}"; echo "e2e: ${{ steps.e2e.outcome }}"; echo "lint: ${{ steps.lint.outcome }}"; } > status.txt
           for f in install covers tsc unit lint build e2e; do [ -f $GITHUB_WORKSPACE/$f.log ] && tail -c 60000 $GITHUB_WORKSPACE/$f.log > $f.log; done
           [ -d $GITHUB_WORKSPACE/app/shots ] && cp -r $GITHUB_WORKSPACE/app/shots . || true
           [ -d $GITHUB_WORKSPACE/app/test-results ] && mkdir -p fail && find $GITHUB_WORKSPACE/app/test-results -name "*.png" -o -name "*.md" | head -20 | while read f; do cp "$f" "fail/$(basename $(dirname "$f")).$(basename "$f")"; done || true
@@ -61,7 +62,7 @@ jobs:
           git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "report $GITHUB_SHA"
           git push -f -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-report
       - name: deploy
-        if: steps.build.outcome == 'success' && steps.tsc.outcome == 'success' && steps.unit.outcome == 'success' && steps.e2e.outcome == 'success'
+        if: github.ref == 'refs/heads/main' && steps.build.outcome == 'success' && steps.tsc.outcome == 'success' && steps.unit.outcome == 'success' && steps.e2e.outcome == 'success'
         working-directory: .
         run: |
           git config user.name ci && git config user.email ci@users.noreply.github.com

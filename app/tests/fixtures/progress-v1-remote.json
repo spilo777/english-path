@@ -1,0 +1,80 @@
+{
+    "cards": {
+        "w-book": {
+            "id": "w-book",
+            "en": "book",
+            "ru": "книга",
+            "ex": "I read a book.",
+            "exRu": "Я читаю книгу.",
+            "src": "deck:A1",
+            "state": "review",
+            "due": 1759900000000,
+            "ivl": 30,
+            "ease": 2.6,
+            "reps": 6,
+            "lapses": 0,
+            "step": 0,
+            "added": 1757000000000,
+            "mod": 1759500000000
+        },
+        "w-old": {
+            "id": "w-old",
+            "en": "old",
+            "ru": "старый",
+            "ex": "An old house.",
+            "exRu": "Старый дом.",
+            "src": "deck:A1",
+            "state": "new",
+            "due": 0,
+            "ivl": 0,
+            "ease": 2.5,
+            "reps": 0,
+            "lapses": 0,
+            "step": 0,
+            "added": 1757800000000,
+            "mod": 1757800000000
+        },
+        "w-sun": {
+            "id": "w-sun",
+            "en": "sun",
+            "ru": "солнце",
+            "ex": "The sun is hot.",
+            "exRu": "Солнце горячее.",
+            "src": "deck:A1",
+            "state": "new",
+            "due": 0,
+            "ivl": 0,
+            "ease": 2.5,
+            "reps": 0,
+            "lapses": 0,
+            "step": 0,
+            "added": 1759400000000,
+            "mod": 1759400000000
+        }
+    },
+    "units": {
+        "a1-0": { "steps": { "words": true, "grammar": true }, "testBest": 0.95, "walk": { "part": 2, "step": 1, "done": false }, "mod": 1758400000000 },
+        "a1-2": { "steps": { "words": true, "grammar": true }, "testBest": null, "mod": 1759000000000 }
+    },
+    "textsRead": { "lib-a2-titanic": "2026-09-25" },
+    "userTexts": [{ "id": "user-2", "title": "Phone text", "text": "Written on the phone.", "level": "A1" }],
+    "activity": { "2026-09-21": { "reviews": 8, "exercises": 4, "reads": 0 }, "2026-09-25": { "reviews": 12, "exercises": 6, "reads": 1 } },
+    "newToday": { "date": "2026-09-25", "count": 3 },
+    "known": { "w-cat": 1758100000000, "w-fish": 1759300000000 },
+    "settings": {
+        "newPerDay": 10,
+        "rate": 0.9,
+        "voice": "",
+        "cardMode": "en-ru",
+        "decks": { "A1": true, "A2": true, "B1": true, "B2": true },
+        "accent": "us",
+        "startLevel": "A1"
+    },
+    "stats": { "lookups": 50, "listened": 3, "exStreak": 0, "exStreakBest": 30, "perfect": { "a1-2": 1 }, "ruEn": 2 },
+    "ach": { "first-card": 1756900000000, "reader-1": 1759000000000 },
+    "tenses": { "present-simple": { "best": 0.9, "at": 1759000000000 }, "past-simple": { "best": 0.7, "at": 1759100000000 } },
+    "bookPos": { "bk-a1-aesop": 6, "bk-a2-oz": 2 },
+    "deleted": { "unit:a1-1": 1757000000000 },
+    "dayParts": { "2026-09-21": 4, "2026-09-25": 1 },
+    "settingsMod": 1758000000000
+}

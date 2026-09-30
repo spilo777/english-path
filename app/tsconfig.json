@@ -14,7 +14,18 @@
         "resolveJsonModule": true,
         "allowImportingTsExtensions": false,
         "noEmit": true,
-        "types": ["vite/client"]
+        "types": ["vite/client"],
+        // слои приложения (см. build/APP_ARCH.md); те же псевдонимы — в vite.config.ts
+        "paths": {
+            "@utils": ["./src/utils/index.ts"],
+            "@utils/*": ["./src/utils/*"],
+            "@core/*": ["./src/core/*"],
+            "@content/*": ["./src/content/*"],
+            "@engine": ["./src/engine/index.ts"],
+            "@engine/*": ["./src/engine/*"],
+            "@catalog": ["./src/catalog/index.ts"],
+            "@catalog/*": ["./src/catalog/*"]
+        }
     },
     "include": ["src", "tests"]
 }

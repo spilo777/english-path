@@ -7,6 +7,27 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
+// Слои: импорты только вниз (utils ← core ← content ← engine ← catalog ← интерфейс).
+// Полная проверка, включая относительные пути, — tests/boundaries.test.ts; здесь подсказка в редакторе по псевдонимам.
+const LAYERS = ['utils', 'core', 'content', 'engine', 'catalog'];
+const layerRules = LAYERS.slice(0, -1).map((layer, i) => ({
+    files: [`src/${layer}/**/*.{ts,tsx}`],
+    rules: {
+        'no-restricted-imports': [
+            'warn',
+            {
+                ...(layer === 'utils' ? { paths: ['react', 'react-dom'] } : {}),
+                patterns: [
+                    {
+                        group: LAYERS.slice(i + 1).flatMap((up) => [`@${up}`, `@${up}/*`]),
+                        message: `Слой ${layer} не импортирует слои выше (см. build/APP_ARCH.md).`,
+                    },
+                ],
+            },
+        ],
+    },
+}));
+
 export default tseslint.config(
     { ignores: ['dist', 'node_modules', 'test-results', 'playwright-report', 'public'] },
     {
@@ -22,5 +43,6 @@ export default tseslint.config(
             'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         },
     },
+    ...layerRules,
     prettier,
 );

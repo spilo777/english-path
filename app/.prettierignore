@@ -5,3 +5,5 @@ playwright-report
 public/data
 src/styles/icons.json
 package-lock.json
+# эталоны прогресса: снимаются скриптом, формат не трогаем
+tests/fixtures
