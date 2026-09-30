@@ -191,9 +191,9 @@ export function ProfileHome() {
     const left = daysLeft();
     const e = engagement(s);
     const rd = readingSummary(s, books);
-    const readShare =
-        `English Path: ${fmtDuration(rd.time.total)} чтения, ${rd.books.done} ` +
-        `${plural(rd.books.done, 'книга', 'книги', 'книг')} и ≈ ${rd.pages} ${plural(rd.pages, 'страница', 'страницы', 'страниц')}`;
+    const booksTxt = `${rd.books.done} ${plural(rd.books.done, 'книга', 'книги', 'книг')}`;
+    const pagesTxt = `≈ ${rd.pages} ${plural(rd.pages, 'страница', 'страницы', 'страниц')}`;
+    const readShare = `English Path: ${fmtDuration(rd.time.total)} чтения, ${booksTxt} и ${pagesTxt}`;
 
     // слова
     let learning = 0,
@@ -338,11 +338,7 @@ export function ProfileHome() {
                 <Pair a={[pctTxt(texts), 'Тексты']} b={[pctTxt(grammar), 'Грамматика']} />
             </PCard>
 
-            <PCard
-                title="Чтение"
-                href="#/stats"
-                share={readShare}
-            >
+            <PCard title="Чтение" href="#/stats" share={readShare}>
                 <Pair
                     a={[fmtDurationShort(rd.time.total), 'Время чтения']}
                     b={[fmtDurationShort(rd.time.week), 'На этой неделе']}

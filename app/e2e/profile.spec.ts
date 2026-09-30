@@ -84,7 +84,8 @@ test('профиль → награды → статистика', async ({ page
     await expect(page.locator('main .page-title')).toHaveText('Профиль');
     await expect(page.locator('.pc-day.on').first()).toBeVisible();
     await expect(page.locator('.pc-me')).toContainText(/Гость|@/);
-    await expect(page.locator('.pcard .pc-title')).toHaveCount(7);
+    await expect(page.locator('.pcard .pc-title')).toHaveCount(8);
+    await expect(page.locator('.pcard', { hasText: 'Чтение' })).toContainText('Время чтения');
     expect(await noHScroll(page)).toBe(true);
     await page.screenshot({ path: `shots/${info.project.name}-profile.png`, fullPage: true });
 
@@ -110,6 +111,7 @@ test('профиль → награды → статистика', async ({ page
     await expect(page.locator('main .page-title')).toHaveText('Прогресс');
     await expect(page.locator('.pf-bar')).toHaveCount(30);
     await expect(page.locator('.pf-lrow').first()).toBeVisible();
+    await expect(page.locator('.pf-reading')).toContainText('Книг прочитано целиком');
     expect(await noHScroll(page)).toBe(true);
     await page.screenshot({ path: `shots/${info.project.name}-stats.png`, fullPage: true });
     expect(errors).toEqual([]);
