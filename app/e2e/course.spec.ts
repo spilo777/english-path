@@ -75,7 +75,8 @@ test('«По учебнику» объединён с «Уроками»: ста
     await page.goto('#/books/red');
     await page.reload();
     await expect(page.locator('main .page-title')).toHaveText('Словарь');
-    await expect(page.locator('.tabs a')).toHaveCount(3);
+    await expect(page.locator('.tabs a')).toHaveCount(2);
+    await expect(page.locator('.learn-sub a.on')).toContainText('Уроки');
     await expect(page.locator('.tabs a').nth(1)).toContainText('Грамматика');
     expect(errors).toEqual([]);
 });
