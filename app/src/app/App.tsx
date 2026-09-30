@@ -9,7 +9,6 @@ export type PageProps = { params: string[] };
 type PageC = LazyExoticComponent<ComponentType<PageProps>>;
 
 const P = {
-    home: lazy(() => import('../pages/Home')),
     course: lazy(() => import('../pages/Course')),
     unit: lazy(() => import('../pages/Unit')),
     tenses: lazy(() => import('../pages/Tenses')),
@@ -29,21 +28,21 @@ const P = {
 function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
     switch (r) {
         case '':
-            return [P.home, 'today', false];
+            return [P.cards, 'words', false];
         case 'course':
-            return [P.course, 'course', false];
+            return [P.course, 'words', false];
         case 'placement':
-            return [P.placement, 'course', true];
+            return [P.placement, 'words', true];
         case 'league':
             return [P.league, 'profile', true];
         case 'listen':
             return [P.listen, 'library', !!parts[1]];
         case 'unit':
-            return [P.unit, 'course', true];
+            return [P.unit, 'words', true];
         case 'tenses':
-            return [P.tenses, 'course', !!parts[1] && parts[1] !== 'train'];
+            return [P.tenses, 'words', !!parts[1] && parts[1] !== 'train'];
         case 'books':
-            return [P.course, 'course', false]; // раздел «По учебнику» объединён с «Уроками»
+            return [P.course, 'words', false]; // раздел «По учебнику» объединён с «Уроками»
         case 'library':
             return [P.library, 'library', false];
         case 'read':
@@ -54,9 +53,9 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
         case 'deck':
         case 'words':
         case 'topic':
-            return [P.cards, 'cards', false];
+            return [P.cards, 'words', false];
         case 'review':
-            return [P.review, 'cards', true];
+            return [P.review, 'words', true];
         case 'profile':
         case 'achievements':
         case 'stats':
@@ -65,7 +64,7 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
         case 'account':
             return [P.settings, 'profile', true];
         default:
-            return [P.home, 'today', false];
+            return [P.cards, 'words', false];
     }
 }
 

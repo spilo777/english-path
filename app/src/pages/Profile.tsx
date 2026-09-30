@@ -1,4 +1,6 @@
 // Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
+import { GoalCard } from '../components/GoalCard';
+import { stageHref } from '../components/StageCard';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { AchCard } from '../components/AchCard';
@@ -100,6 +102,7 @@ function ProfileHome() {
     const s = useProgress();
     const st = useCloud();
     const ctx = useAchCtx();
+    const { data: course } = useCourse();
     const email = Cloud.enabled && st.user ? st.user.email || '' : '';
     const e = engagement(s);
     const learned = learnedCards(s) + Object.keys(s.known).length;
@@ -154,6 +157,13 @@ function ProfileHome() {
                     </div>
                 </a>
             </div>
+            <GoalCard
+                links={{
+                    cards: '#/',
+                    ex: stageHref(s, course),
+                    read: '#/library',
+                }}
+            />
             <div className="tiles4">
                 <div className="tile t-orange">
                     <Icon name="flame" fill />

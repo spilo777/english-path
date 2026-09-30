@@ -2,7 +2,8 @@
 // #/listen — каналы и их свежие видео; #/listen/<videoId> — просмотр на сайте с английскими субтитрами
 import { useState, type CSSProperties } from 'react';
 import type { PageProps } from '../app/App';
-import { BackLink, Icon, Loading, Page, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page, toast, TopBar } from '../components/ui';
+import { LibTabs } from '../components/LibTabs';
 import { ChannelBanner } from '../components/ChannelArt';
 import { Seg } from '../components/Seg';
 import { currentUnit } from '../lib/course';
@@ -68,12 +69,11 @@ function Channels() {
     const info = GROUPS.find((x) => x[0] === cur);
     return (
         <Page className="ls-page">
-            <BackLink href="#/library" label="Библиотека" />
-            <h1 className="page-title">Слушать</h1>
+            <TopBar title="Библиотека" />
+            <LibTabs tab="listen" />
             <p className="page-sub">
-                {CHANNELS.length} лучших YouTube-каналов и подкастов для изучающих английский — от медленных уроков до
-                живых разговоров носителей. 20–30 минут в день с английскими субтитрами дают столько же, сколько урок:
-                мозг привыкает к звучанию и связкам слов.
+                {CHANNELS.length} YouTube-каналов и подкастов с понятной речью. 20–30 минут в день с английскими
+                субтитрами дают столько же, сколько урок.
             </p>
             <Seg
                 className="ls-groups"

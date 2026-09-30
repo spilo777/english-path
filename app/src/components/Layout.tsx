@@ -2,13 +2,11 @@
 import type { MouseEvent, ReactNode } from 'react';
 import './Layout.css';
 
-export type NavKey = 'today' | 'course' | 'library' | 'cards' | 'profile';
+export type NavKey = 'words' | 'library' | 'profile';
 
 const ITEMS: { key: NavKey; href: string; icon: string; label: string }[] = [
-    { key: 'today', href: '#/', icon: 'house', label: 'Главная' },
-    { key: 'course', href: '#/course', icon: 'graduation-cap', label: 'Курс' },
+    { key: 'words', href: '#/', icon: 'cards', label: 'Словарь' },
     { key: 'library', href: '#/library', icon: 'books', label: 'Библиотека' },
-    { key: 'cards', href: '#/cards', icon: 'cards', label: 'Словарь' },
     { key: 'profile', href: '#/profile', icon: 'user-circle', label: 'Профиль' },
 ];
 
@@ -50,7 +48,7 @@ export function Layout({
                             <i className={`${it.key === active ? 'ph-fill' : 'ph'} ph-${it.icon}`} />
                         </span>
                         <span>{it.label}</span>
-                        {it.key === 'cards' && badge ? <b className="badge">{badge}</b> : null}
+                        {it.key === 'words' && badge ? <b className="badge">{badge}</b> : null}
                     </a>
                 ))}
             </nav>

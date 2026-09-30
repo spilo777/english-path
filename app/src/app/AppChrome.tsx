@@ -31,7 +31,6 @@ function useIdle(): boolean {
 /** В свободное время заранее подгружаем главные экраны и лёгкие данные — переходы по меню без ожидания */
 function prefetch() {
     const pages = [
-        () => import('../pages/Home'),
         () => import('../pages/Course'),
         () => import('../pages/Unit'),
         () => import('../pages/Library'),

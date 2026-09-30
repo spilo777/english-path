@@ -24,7 +24,8 @@ test('витрина, все статьи с фильтрами и поиско�
     await page.locator('.lib-search').fill('Shrek');
     await expect(page.locator('.lib-card').first()).toContainText(/Shrek/i);
     await page.locator('.lib-search').fill('');
-    await page.goto('#/library/books');
+    await page.goto('#/library');
+    await page.locator('.tabs a', { hasText: 'Книги' }).click();
     await expect(page.locator('.poster-grid .poster').first()).toBeVisible();
     expect(errors).toEqual([]);
 });
@@ -72,13 +73,12 @@ test('книга: главы, чтение главы, прогресс', async 
     expect(errors).toEqual([]);
 });
 
-test('слушать: каналы по уровням и переход из библиотеки', async ({ page }) => {
+test('слушать: вкладка библиотеки, каналы по уровням', async ({ page }) => {
     const errors = watchErrors(page);
     await page.goto('#/library');
-    await expect(page.locator('.ls-card')).toHaveCount(16);
-    await expect(page.locator('.ls-card img.ch-ava').first()).toHaveAttribute('src', /yt3\.googleusercontent\.com/);
-    await page.locator('.ls-card').first().click();
-    await expect(page.locator('main .page-title')).toHaveText('Слушать');
+    await page.locator('.tabs a', { hasText: 'Слушать' }).click();
+    await expect(page).toHaveURL(/#\/listen$/);
+    await expect(page.locator('.tabs a.on')).toContainText('Слушать');
     await expect(page.locator('.ls-groups button')).toHaveCount(3);
     await expect(page.locator('.ls-ch')).toHaveCount(3);
     await page.locator('.ls-groups button').nth(2).click();

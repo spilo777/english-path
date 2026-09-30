@@ -1,6 +1,5 @@
-// Библиотека: #/library — витрина; #/library/all[/<тема>] — все статьи с фильтрами;
+// Библиотека (вкладки Читать / Слушать / Книги): #/library — витрина статей и диалогов; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
-import { ChannelCard } from '../components/ChannelArt';
 import { useEffect, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
@@ -20,7 +19,7 @@ import {
     type UserText,
 } from '../lib/types';
 import { lsGet, lsSet } from './reader-core';
-import { channelsFor } from '../lib/listen';
+import { LibTabs } from '../components/LibTabs';
 import './Library.css';
 
 const myLevel = (s: Progress, course?: CourseIndex): Level => (course && currentUnit(s, course)?.level) || 'A1';
@@ -119,10 +118,6 @@ function LibraryHome() {
     const reading = BOOKS.filter((b) => (s.bookPos || {})[b.id] || lsGet('ep.bookAt.' + b.id, '')).filter(
         (b) => bookDone(s, b) < chapN(b),
     );
-    const adapted = BOOKS.filter((b) => b.kind !== 'original').sort(
-        (x, y) => Math.abs(lo(x) - LV) - Math.abs(lo(y) - LV),
-    );
-    const originals = BOOKS.filter((b) => b.kind === 'original');
 
     const catSec = (c: string, sub?: string) => {
         const list = byCat(c);
@@ -149,7 +144,6 @@ function LibraryHome() {
         <Page className="lib-page">
             <TopBar
                 title="Библиотека"
-                sub={`${LIB.length} статей и диалогов · ${BOOKS.length} книг · ваш уровень ${lvl}`}
                 right={
                     <>
                         <RoundBtn href="#/library/new" icon="plus" title="Свой текст" />
@@ -157,20 +151,10 @@ function LibraryHome() {
                     </>
                 }
             />
-            <div className="chips-row lib-jump">
-                <a className="fchip" href="#/library/all">
-                    <Icon name="article" /> Все статьи
-                </a>
-                <a className="fchip" href="#/library/books">
-                    <Icon name="books" /> Книги
-                </a>
-                <a className="fchip" href="#/listen">
-                    <Icon name="headphones" /> Слушать
-                </a>
-                <a className="fchip" href={'#/library/all/' + encodeURIComponent('Диалоги из игр')}>
-                    <Icon name="chat-circle-dots" /> Диалоги
-                </a>
-            </div>
+            <LibTabs tab="read" />
+            <p className="page-sub">
+                {LIB.length} статей и диалогов по играм, кино и сериалам · ваш уровень {lvl}
+            </p>
             {reading.length ? (
                 <Section title="Продолжить чтение">
                     {reading.map((b) => (
@@ -186,34 +170,6 @@ function LibraryHome() {
                 >
                     {forYou.map((t) => (
                         <TextPoster key={t.id} t={t} />
-                    ))}
-                </Section>
-            ) : null}
-            <Section
-                title={
-                    <>
-                        <Icon name="headphones" /> Слушать
-                    </>
-                }
-                href="#/listen"
-                sub="YouTube-каналы с понятной живой речью — от медленных диалогов до подкаста"
-            >
-                {channelsFor(lvl).map((ch) => (
-                    <ChannelCard key={ch.id} ch={ch} />
-                ))}
-            </Section>
-            {adapted.length ? (
-                <Section
-                    title={
-                        <>
-                            <Icon name="books" /> Адаптированные книги
-                        </>
-                    }
-                    href="#/library/books"
-                    sub="Классика, пересказанная простым языком под ваш уровень"
-                >
-                    {adapted.map((b) => (
-                        <BookPoster key={b.id} b={b} />
                     ))}
                 </Section>
             ) : null}
@@ -257,21 +213,6 @@ function LibraryHome() {
                     ))}
                 </div>
             </Section>
-            {originals.length ? (
-                <Section
-                    title={
-                        <>
-                            <Icon name="crown-simple" /> Классика в оригинале
-                        </>
-                    }
-                    href="#/library/books"
-                    sub="Полные тексты без упрощений — цель уровня B2"
-                >
-                    {originals.map((b) => (
-                        <BookPoster key={b.id} b={b} />
-                    ))}
-                </Section>
-            ) : null}
             {s.userTexts.length ? (
                 <section className="sec">
                     <div className="sec-head">
@@ -573,8 +514,8 @@ function Books() {
         or = books.data.filter((b) => b.kind === 'original');
     return (
         <Page className="lib-page">
-            <BackLink href="#/library" />
-            <h1 className="page-title">Книги</h1>
+            <TopBar title="Библиотека" />
+            <LibTabs tab="books" />
             <p className="page-sub">
                 Адаптированные версии написаны простым языком под уровень. Оригиналы — полные тексты классики из Project
                 Gutenberg (общественное достояние), с переводом по тапу.

@@ -15,7 +15,7 @@ import { useCourse, useSyllabus } from '../lib/data';
 import { useProgress } from '../lib/store';
 import type { CourseIndex, Progress, Syllabus, UnitMeta } from '../lib/types';
 import { Icon, LoadError, Loading, Page, plural } from '../components/ui';
-import { CourseHead } from './course-head';
+import { LearnHead } from './course-head';
 import { PlacementHint } from '../components/PlacementHint';
 import './Course.css';
 
@@ -178,7 +178,7 @@ export default function Course(_props: PageProps) {
     const { data: syl, error: e2 } = useSyllabus();
     const [openMap, setOpenMap] = useState<OpenMap | null>(readOpen);
     const err = error || e2;
-    const head = <CourseHead tab="lessons" sub={SUB} />;
+    const head = <LearnHead tab="lessons" sub={SUB} />;
     if (err)
         return (
             <Page>
