@@ -225,3 +225,12 @@
     text-transform: none;
     letter-spacing: normal;
 }
+
+/* Имя и аватар в таблице и списке друзей — ссылки на профиль участника */
+a.lg-name-cell,
+a.lg-ava {
+    color: inherit;
+}
+a.lg-name-cell:hover b {
+    text-decoration: underline;
+}

@@ -19,12 +19,13 @@ import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
 import { DAY, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
-import { ProfileHome } from './profile-home';
+import { ProfileHome, UserProfile } from './profile-home';
 import './Profile.css';
 
 export default function Profile({ params }: PageProps) {
     if (params[0] === 'achievements') return <Achievements />;
     if (params[0] === 'stats') return <Stats />;
+    if (params[0] === 'u' && params[1]) return <UserProfile key={params[1]} code={params[1]} />;
     return <ProfileHome />;
 }
 

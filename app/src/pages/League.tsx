@@ -26,6 +26,8 @@ import './League.css';
 type Tab = 'league' | 'friends';
 const col = (i: number) => ({ '--lc': leagueOf(i).color }) as CSSProperties;
 const SEEN_KEY = 'ep.leagueSeen';
+/** Строка таблицы → профиль участника (свой — обычный профиль) */
+const userHref = (r: BoardRow) => (r.is_me || !r.code ? '#/profile' : '#/u/' + r.code);
 
 export default function League({ params }: PageProps) {
     const st = useCloud();
@@ -261,16 +263,16 @@ function LeagueTab({ prof, onRename }: { prof: LeagueProfile; onRename: (p: Leag
                         return (
                             <li key={r.place + r.name} className={'lg-row ' + zone + (r.is_me ? ' me' : '')}>
                                 <span className="lg-place">{r.place}</span>
-                                <span className="lg-ava" style={col(lg)}>
+                                <a className="lg-ava" style={col(lg)} href={userHref(r)} tabIndex={-1}>
                                     {r.name.trim()[0]?.toUpperCase()}
-                                </span>
-                                <span className="lg-name-cell">
+                                </a>
+                                <a className="lg-name-cell" href={userHref(r)}>
                                     <b>
                                         {r.name}
                                         {r.is_me ? ' · вы' : ''}
                                     </b>
                                     {r.is_friend ? <span className="pill accent lg-fr">друг</span> : null}
-                                </span>
+                                </a>
                                 <span className="lg-xp">
                                     <b>{r.xp}</b>{' '}
                                     <span className="tiny muted">{plural(r.xp, 'очко', 'очка', 'очков')}</span>
@@ -398,13 +400,13 @@ function FriendsTab({ prof }: { prof: LeagueProfile }) {
                 <ul className="card lg-friends">
                     {list.map((f) => (
                         <li key={f.friend_code} className="lg-row">
-                            <span className="lg-ava" style={col(f.league)}>
+                            <a className="lg-ava" style={col(f.league)} href={'#/u/' + f.friend_code} tabIndex={-1}>
                                 {f.name.trim()[0]?.toUpperCase()}
-                            </span>
-                            <span className="lg-name-cell">
+                            </a>
+                            <a className="lg-name-cell" href={'#/u/' + f.friend_code}>
                                 <b>{f.name}</b>
                                 <span className="tiny muted">{leagueOf(f.league).name} лига</span>
-                            </span>
+                            </a>
                             <span className="lg-fstat" title="Дней подряд">
                                 <Icon name="flame" fill /> {f.streak}
                             </span>

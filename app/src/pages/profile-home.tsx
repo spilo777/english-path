@@ -1,13 +1,24 @@
 // Профиль (#/profile): карточки-блоки — кто я, лига, друзья, XP, активность, слова, понимание, успеваемость
 import { useEffect, useState, type ReactNode } from 'react';
 import { Avatar } from '../components/Avatar';
-import { Icon, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
+import { BackLink, Icon, Loading, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { ACH_LIST, engagement } from '../lib/achievements';
 import { Cloud, useCloud } from '../lib/cloud';
-import { daysLeft, friends, getProfile, leagueOf, type Friend, type LeagueProfile } from '../lib/league';
+import {
+    daysLeft,
+    friends,
+    getProfile,
+    leagueOf,
+    profileView,
+    type Friend,
+    type LeagueProfile,
+    type PublicProfile,
+} from '../lib/league';
+import { currentUnit } from '../lib/course';
+import { useCourse } from '../lib/data';
 import { cardKind } from '../lib/srs';
 import { streak, useProgress } from '../lib/store';
-import type { DayActivity, Progress } from '../lib/types';
+import type { DayActivity, Level, Progress } from '../lib/types';
 
 const dayKey = (x: Date) =>
     x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
@@ -277,15 +288,19 @@ export function ProfileHome() {
 
             <PCard title="Друзья" href="#/league/friends">
                 {fr && fr.length ? (
-                    <a className="pc-friends" href="#/league/friends">
+                    <div className="pc-friends">
                         {fr.slice(0, 5).map((f) => (
-                            <span key={f.friend_code} className="pc-fr" title={f.name}>
+                            <a key={f.friend_code} className="pc-fr" href={'#/u/' + f.friend_code} title={f.name}>
                                 <span className="pc-dot">{(f.name || '?')[0].toUpperCase()}</span>
                                 <span className="tiny">{f.name}</span>
-                            </span>
+                            </a>
                         ))}
-                        {fr.length > 5 ? <span className="pc-fr more">+{fr.length - 5}</span> : null}
-                    </a>
+                        {fr.length > 5 ? (
+                            <a className="pc-fr more" href="#/league/friends">
+                                +{fr.length - 5}
+                            </a>
+                        ) : null}
+                    </div>
                 ) : (
                     <div className="pc-invite">
                         <b>Учиться вместе проще</b>
@@ -365,6 +380,135 @@ export function ProfileHome() {
                     <Icon name="caret-right" />
                 </a>
             </div>
+        </Page>
+    );
+}
+
+/** Чужой профиль (#/u/<код>): этап курса, лига, XP, активность, слова, успеваемость */
+export function UserProfile({ code }: { code: string }) {
+    const st = useCloud();
+    const { data: course } = useCourse();
+    const [p, setP] = useState<PublicProfile | null>(null);
+    const [err, setErr] = useState('');
+    const signed = Cloud.enabled && !!st.user;
+
+    useEffect(() => {
+        if (!signed) return;
+        let alive = true;
+        profileView(code)
+            .then((x) => alive && setP(x))
+            .catch((e: Error) => alive && setErr(e.message));
+        return () => {
+            alive = false;
+        };
+    }, [code, signed]);
+
+    const back = <BackLink href="#/league" label="Лига" />;
+    if (!signed)
+        return (
+            <Page>
+                {back}
+                <p className="muted">Войдите в аккаунт, чтобы смотреть профили участников лиги.</p>
+            </Page>
+        );
+    if (err)
+        return (
+            <Page>
+                {back}
+                <p className="muted">{err}</p>
+            </Page>
+        );
+    if (!p)
+        return (
+            <Page>
+                {back}
+                <Loading />
+            </Page>
+        );
+
+    // этап курса: восстанавливаем по пройденным урокам и стартовому уровню
+    const fake = {
+        units: Object.fromEntries(p.passed.map((id) => [id, { steps: {}, testBest: 1, mod: 0 }])),
+        settings: { startLevel: (p.start_level || undefined) as Level | undefined },
+    } as unknown as Progress;
+    const u = course ? currentUnit(fake, course) : undefined;
+    const L = leagueOf(p.league);
+    const uk = p.accent === 'uk';
+
+    return (
+        <Page className="profile">
+            {back}
+            <section className="card pc-me">
+                <span className="pc-bigava" style={{ ['--lc' as string]: L.color }}>
+                    {(p.name || '?')[0].toUpperCase()}
+                </span>
+                <div className="pc-me-body">
+                    <b className="pc-name">{p.name}</b>
+                    <span className="muted">@{p.code}</span>
+                    <span className="pc-lang">
+                        {uk ? '🇬🇧' : '🇺🇸'} Английский ({uk ? 'UK' : 'US'})
+                    </span>
+                    {p.is_friend ? <span className="pill accent pc-friend-tag">друг</span> : null}
+                </div>
+            </section>
+
+            <PCard title="Сейчас изучает">
+                {u ? (
+                    <div className="pc-stage">
+                        <span className="pc-stage-lvl">{u.level}</span>
+                        <div>
+                            <b>
+                                Урок {u.num}. {u.title}
+                            </b>
+                            <span className="muted small">
+                                Пройдено уроков: {p.passed.length}
+                                {p.start_level && p.start_level !== 'A1' ? ` · начал с ${p.start_level}` : ''}
+                            </span>
+                        </div>
+                    </div>
+                ) : (
+                    <Loading />
+                )}
+            </PCard>
+
+            <PCard title="Лига" className="pc-league">
+                <div className="pc-league-row" style={{ ['--lc' as string]: L.color }}>
+                    <span className="pc-emblem">
+                        <Icon name={L.icon} fill />
+                    </span>
+                    <span className="pc-league-mid">
+                        <b className="pc-league-name">{L.name}</b>
+                        <span className="tiny muted">очки за эту неделю</span>
+                    </span>
+                    <span className="pc-league-xp">
+                        <b>{p.week_xp}</b>
+                        <span>XP</span>
+                    </span>
+                </div>
+            </PCard>
+
+            <PCard title="XP">
+                <Pair a={[p.total_xp, 'Всего']} b={[p.week_xp, 'За неделю']} />
+            </PCard>
+
+            <PCard title="Активность">
+                <Pair
+                    a={[p.streak, plural(p.streak, 'день подряд', 'дня подряд', 'дней подряд')]}
+                    b={[p.active_days, 'всего дней занятий']}
+                />
+            </PCard>
+
+            <PCard title="Слова">
+                <Pair a={[p.learning, 'Изучает']} b={[p.learned, 'Выучено']} />
+            </PCard>
+
+            <PCard title="Успеваемость">
+                <Pair a={[pctTxt(p.grammar), 'Тесты уроков']} b={[pctTxt(p.answers), 'Верные ответы']} />
+            </PCard>
+
+            <p className="tiny muted pc-note">
+                Наград: {p.ach} из {ACH_LIST.length}. Профиль видят участники вашей группы в лиге и друзья.
+            </p>
         </Page>
     );
 }

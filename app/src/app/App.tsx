@@ -33,6 +33,8 @@ function resolve(r: string, parts: string[]): [PageC, NavKey, boolean] {
             return [P.course, 'grammar', false];
         case 'placement':
             return [P.placement, 'grammar', true];
+        case 'u':
+            return [P.profile, 'profile', true];
         case 'league':
             return [P.league, 'profile', true];
         case 'listen':

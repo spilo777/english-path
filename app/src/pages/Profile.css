@@ -696,3 +696,45 @@ a.pc-title .ph {
         font-size: 30px;
     }
 }
+.pc-bigava {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 800;
+    color: #fff;
+    background: var(--lc, var(--accent));
+}
+.pc-friend-tag {
+    align-self: flex-start;
+    margin-top: 4px;
+}
+.pc-stage {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+}
+.pc-stage > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.pc-stage-lvl {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+a.pc-fr {
+    color: var(--text);
+}

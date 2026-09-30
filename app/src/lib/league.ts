@@ -14,6 +14,8 @@ export interface BoardRow {
     is_friend: boolean;
     league: number;
     week: string;
+    /** код друга — по нему открывается профиль */
+    code?: string;
     members: number;
 }
 export interface Friend {
@@ -66,9 +68,11 @@ const errText = (m: string) =>
             ? 'Друзей уже 100 — это максимум'
             : /name length/.test(m)
               ? 'Имя — от 2 до 24 символов'
-              : /not signed in/.test(m)
-                ? 'Войдите в аккаунт'
-                : 'Не получилось — проверьте интернет';
+              : /not allowed/.test(m)
+                ? 'Профиль виден только участникам вашей группы в лиге и друзьям'
+                : /not signed in/.test(m)
+                  ? 'Войдите в аккаунт'
+                  : 'Не получилось — проверьте интернет';
 
 export async function getProfile(): Promise<LeagueProfile | null> {
     const { data, error } = await need().rpc('profile_get');
@@ -105,6 +109,32 @@ export async function removeFriend(code: string): Promise<void> {
     const { error } = await need().rpc('friend_remove', { p_code: code });
     if (error) throw new Error(errText(error.message));
 }
+/** Публичная сводка профиля: только ник, код и агрегаты (видят группа лиги и друзья) */
+export interface PublicProfile {
+    name: string;
+    code: string;
+    league: number;
+    is_me: boolean;
+    is_friend: boolean;
+    streak: number;
+    week_xp: number;
+    total_xp: number;
+    active_days: number;
+    learning: number;
+    learned: number;
+    passed: string[];
+    grammar: number | null;
+    start_level: string | null;
+    accent: string | null;
+    answers: number | null;
+    ach: number;
+}
+export async function profileView(code: string): Promise<PublicProfile> {
+    const { data, error } = await need().rpc('profile_view', { p_code: code });
+    if (error) throw new Error(errText(error.message));
+    return data as PublicProfile;
+}
+
 /** Тихо записаться в лигу этой недели (при запуске сайта), если профиль уже есть */
 export function touchLeague(): void {
     const c = cloudClient();

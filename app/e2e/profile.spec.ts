@@ -176,3 +176,11 @@ test('лига и друзья: страница открывается из п�
     expect(await noHScroll(page)).toBe(true);
     expect(errors).toEqual([]);
 });
+
+test('чужой профиль: гостю предлагают войти', async ({ page }) => {
+    const errors = watchErrors(page);
+    await page.goto('#/u/ABC234');
+    await expect(page.locator('main')).toContainText('Войдите в аккаунт');
+    await expect(page.locator('.backlink')).toBeVisible();
+    expect(errors).toEqual([]);
+});
