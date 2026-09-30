@@ -19,11 +19,9 @@ import {
 import { currentUnit } from '../lib/course';
 import { useCourse } from '../lib/data';
 import { cardKind } from '../lib/srs';
-import { streak, useProgress } from '../lib/store';
-import type { DayActivity, Level, Progress } from '../lib/types';
+import { dayXp, streak, useProgress } from '../lib/store';
+import type { Level, Progress } from '../lib/types';
 
-/** Очки как в лиге на сервере: 1 за карточку, 2 за упражнение, 10 за текст */
-const dayXp = (a: DayActivity) => (a.reviews || 0) + 2 * (a.exercises || 0) + 10 * (a.reads || 0);
 
 function xpStats(s: Progress) {
     const weeks: Record<string, number> = {};

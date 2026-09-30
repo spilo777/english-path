@@ -1,11 +1,13 @@
 // Хранилище прогресса: один объект в localStorage['englishpath.v1'], подписка на изменения.
 // Формат совместим со старым сайтом — прогресс и облачная синхронизация переносятся как есть.
+import { getConfig } from '../config/current';
 import { defaults, normalize } from './defaults';
 import type { Progress } from './types';
 
-export const STORE_KEY = 'englishpath.v1';
-/** Тест урока сдан при такой доле верных ответов */
-export const PASS = 0.8;
+/** Ключ прогресса в localStorage (читается при запуске) */
+export const STORE_KEY = getConfig().storage.progressKey;
+/** Порог сдачи теста — для страниц, пока они не на движке; в core читать getConfig().course.passMark */
+export const PASS = getConfig().course.passMark;
 
 function load(): Progress {
     try {

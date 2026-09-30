@@ -3,6 +3,7 @@
 import { lsJSON, lsSetJSON } from '@utils/storage';
 import { peekJSON } from '../data/loader';
 import { paths } from '../data/paths';
+import { getConfig } from '../config/current';
 import { getState } from '../progress/store';
 
 const settings = () => getState().settings;
@@ -13,7 +14,7 @@ export interface AudioRec {
     any?: string;
     ipa?: string;
 }
-const AUDIO_KEY = 'ep.audio.v1';
+const AUDIO_KEY = getConfig().storage.audioCache;
 export let audioMap: Record<string, AudioRec> = lsJSON<Record<string, AudioRec>>(AUDIO_KEY) || {};
 const audioPending: Record<string, Promise<AudioRec | null>> = {};
 let audioSaveT: ReturnType<typeof setTimeout> | undefined;
@@ -67,7 +68,7 @@ export function liveAudio(word: string): Promise<{ u: string; ipa: string } | nu
     if (k in audioPending) return audioPending[k].then(pick);
     const pref = accent();
     const rec: AudioRec = {};
-    const dict = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(k))
+    const dict = fetch(getConfig().speech.dictionaryApi + encodeURIComponent(k))
         .then((r) => (r.ok ? r.json() : []) as Promise<unknown>)
         .then((j) => {
             const list = (Array.isArray(j) ? j : []) as DictEntry[];

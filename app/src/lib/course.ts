@@ -1,7 +1,7 @@
 // Курс: доступность уроков и прогресс по шагам. Работает с индексом курса (CourseIndex), без полных уроков.
 import { levelRank } from '@utils/level';
 import type { BookRefs, CourseIndex, Level, Progress, Syllabus, UnitMeta } from './types';
-import { PASS } from './store';
+import { getConfig } from '../core/config';
 
 export type StepKey = 'words' | 'grammar' | 'reading' | 'practice' | 'test';
 export const STEPS: [StepKey, string][] = [
@@ -28,11 +28,11 @@ export function mainUnits(course: CourseIndex): UnitMeta[] {
 /** Тест урока сдан (≥ 80%) */
 export function passed(s: Progress, id: string): boolean {
     const u = s.units[id];
-    return !!(u && u.testBest != null && u.testBest >= PASS);
+    return !!(u && u.testBest != null && u.testBest >= getConfig().course.passMark);
 }
 
 /** Уровень, с которого человек начинает (настройка или тест на уровень); по умолчанию A1 */
-export const startLevel = (s: Progress): Level => s.settings.startLevel || 'A1';
+export const startLevel = (s: Progress): Level => s.settings.startLevel || getConfig().course.defaultStart;
 /** Урок ниже стартового уровня — открыт без прохождения */
 export const belowStart = (s: Progress, level: string) => levelRank(level) < (levelRank(startLevel(s)) || 1);
 

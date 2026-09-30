@@ -1,5 +1,7 @@
 // Расписание повторений: вариант SM-2 как в Anki (учебный день с 4 утра, fuzz, leech)
 import { DAY } from '@utils/date';
+import { DEFAULT_CONFIG } from '../config/defaults';
+import { getConfig } from '../config/current';
 import type { Card } from '../progress/types';
 
 export function fmtIvl(ms: number): string {
@@ -15,14 +17,14 @@ export function fmtIvl(ms: number): string {
 }
 
 /** Новый учебный день начинается в 4 утра по местному времени — как в Anki */
-export const DAY_START_HOUR = 4;
+export const DAY_START_HOUR = DEFAULT_CONFIG.srs.dayStartHour;
 /** После стольких забываний слово помечается трудным (Anki: leech threshold) */
-export const LEECH_AT = 8;
+export const LEECH_AT = DEFAULT_CONFIG.srs.leechAt;
 
 /** Начало текущего учебного дня (4:00; до 4 утра — ещё вчерашний день) */
 export function studyDayStart(now = Date.now()): number {
     const d = new Date(now);
-    d.setHours(DAY_START_HOUR, 0, 0, 0);
+    d.setHours(getConfig().srs.dayStartHour, 0, 0, 0);
     if (d.getTime() > now) d.setDate(d.getDate() - 1);
     return d.getTime();
 }
@@ -85,7 +87,8 @@ export function schedule(c: Card, grade: 0 | 1 | 2 | 3, now = Date.now(), opts: 
             n.step = 1;
             n.ivl = 1;
             n.due = now + 10 * 60_000;
-            if (n.lapses >= LEECH_AT && (n.lapses - LEECH_AT) % (LEECH_AT / 2) === 0) n.leech = true;
+            const leech = getConfig().srs.leechAt;
+            if (n.lapses >= leech && (n.lapses - leech) % (leech / 2) === 0) n.leech = true;
         } else if (grade === 1) {
             n.ease = Math.max(1.3, c.ease - 0.15);
             n.ivl = Math.max(ivl + 1, Math.round((ivl + late / 4) * 1.2));

@@ -1,9 +1,10 @@
 // Умолчания и приведение сохранённого прогресса к полному виду
+import { getConfig } from '../config/current';
 import type { Progress, Settings } from './types';
 
 export const defaultSettings = (): Settings => ({
-    newPerDay: 15,
-    rate: 0.9,
+    newPerDay: getConfig().srs.newPerDay,
+    rate: getConfig().speech.rate,
     voice: '',
     cardMode: 'en-ru',
     decks: { A1: true, A2: true, B1: true, B2: true },

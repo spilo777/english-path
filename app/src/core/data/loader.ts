@@ -1,12 +1,14 @@
 // Загрузка JSON из public/data: кеш в памяти, версия сборки в адресе (?v=) для service worker
+import { getConfig } from '../config/current';
 
 const cache = new Map<string, Promise<unknown>>();
 const ready = new Map<string, unknown>();
 
 // версия сборки в адресе: данные одной выкладки кешируются навсегда (service worker), новая выкладка — свежие файлы
-const BUILD = (import.meta.env.VITE_BUILD as string | undefined) || '';
-export const dataUrl = (path: string) =>
-    new URL('data/' + path + (BUILD ? '?v=' + BUILD.slice(0, 10) : ''), document.baseURI).toString();
+export const dataUrl = (path: string) => {
+    const { app, data } = getConfig();
+    return new URL(data.root + path + (app.build ? '?v=' + app.build.slice(0, 10) : ''), document.baseURI).toString();
+};
 
 export function loadJSON<T>(path: string): Promise<T> {
     if (!cache.has(path)) {

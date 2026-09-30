@@ -1,6 +1,7 @@
 // Обложки статей и книг: Википедия / Wikimedia Commons (только ссылки), кеш localStorage['ep.libimg.v3'] на 30 дней
 import { DAY } from '@utils/date';
 import { lsJSON, lsSetJSON } from '@utils/storage';
+import { getConfig } from '../config/current';
 import { peekJSON } from '../data/loader';
 import { paths } from '../data/paths';
 import { LIB_COMMONS, LIB_WIKI } from './covers-map';
@@ -12,8 +13,8 @@ interface WithImg {
 }
 
 // ───────── обложки ─────────
-const COVER_KEY = 'ep.libimg.v3';
-const COVER_TTL = 30 * DAY;
+const COVER_KEY = getConfig().storage.covers.key;
+const COVER_TTL = getConfig().storage.covers.ttlDays * DAY;
 
 interface WikiPage {
     title?: string;

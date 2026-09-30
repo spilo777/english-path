@@ -20,7 +20,7 @@ import { useCloud } from '../lib/cloud';
 import { cardLearned } from '../lib/srs';
 import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
-import { DAY, streak, useProgress } from '../lib/store';
+import { DAY, dayXp, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
 import { ProfileHome, UserProfile } from './profile-home';
 import './Profile.css';
@@ -210,7 +210,7 @@ function Stats() {
         const k = dayKey(d);
         const x = s.activity[k];
         const a = { reviews: x?.reviews || 0, exercises: x?.exercises || 0, reads: x?.reads || 0 };
-        days.push({ k, d, a, v: a.reviews + a.exercises + a.reads * 10 });
+        days.push({ k, d, a, v: dayXp(a) });
     }
     const activeDays = Object.keys(s.activity).length;
     const units = course ? mainUnits(course) : [];

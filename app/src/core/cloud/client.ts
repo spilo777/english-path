@@ -5,7 +5,8 @@
 import { lsGet } from '@utils/storage';
 import { getState, onSave, replaceState } from '../progress/store';
 import type { Progress } from '../progress/types';
-import { AUTH_KEY, CLOUD_CONFIG } from './config';
+import { getConfig } from '../config/current';
+import { AUTH_KEY } from './config';
 import { merge, num, obj, payload, strip } from './merge';
 import type { CloudStatus, CloudUser, SbClient, SbLib, YandexResult } from './types';
 
@@ -25,7 +26,6 @@ let lastSync: Date | null = null,
 let inited = false;
 const listeners = new Set<() => void>();
 
-const SB_SRC = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 let libLoading = false;
 /** Подгрузить UMD-скрипт supabase-js; по готовности — колбэк */
 function loadLib(done: () => void): void {
@@ -35,7 +35,7 @@ function loadLib(done: () => void): void {
     }
     libLoading = true;
     const el = document.createElement('script');
-    el.src = SB_SRC;
+    el.src = getConfig().cloud.sdkUrl;
     el.async = true;
     el.onload = () => {
         libLoading = false;
@@ -81,7 +81,8 @@ function client(): SbClient | null {
     if (sb) return sb;
     const lib = sbLib();
     if (!lib) return null;
-    sb = lib.createClient(CLOUD_CONFIG.supabaseUrl, CLOUD_CONFIG.supabaseKey, {
+    const { url, key } = getConfig().cloud;
+    sb = lib.createClient(url, key, {
         auth: {
             persistSession: true,
             autoRefreshToken: true,
@@ -169,7 +170,7 @@ function queuePush(): void {
     clearTimeout(pushTimer);
     pushTimer = setTimeout(() => {
         void push();
-    }, 3000);
+    }, getConfig().cloud.pushDebounceMs);
 }
 
 function deviceName(): string {
@@ -188,7 +189,7 @@ let rarityAt = 0;
 async function loadRarity(): Promise<void> {
     const c = client();
     if (!c || !user) return;
-    if (rarity && Date.now() - rarityAt < 10 * 60000) return;
+    if (rarity && Date.now() - rarityAt < getConfig().cloud.rarityTtlMinutes * 60000) return;
     try {
         const { data, error } = await c.rpc('achievement_stats');
         if (error) throw error;
@@ -207,7 +208,7 @@ async function loadRarity(): Promise<void> {
 }
 /** Реальный процент учеников с достижением, если учеников достаточно, иначе null */
 function realPct(achId: string): number | null {
-    if (!rarity || rarity.total < CLOUD_CONFIG.minUsersForRarity) return null;
+    if (!rarity || rarity.total < getConfig().cloud.minUsersForRarity) return null;
     return Math.round(((rarity.map[achId] || 0) / rarity.total) * 1000) / 10;
 }
 

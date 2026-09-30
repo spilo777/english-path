@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { DAY } from '@utils/date';
 import { functionUrl } from '../core/cloud/config';
+import { getConfig } from '../core/config';
 import { ALL_LEVELS } from '@utils/level';
 import { lsJSON, lsSetJSON } from '@utils/storage';
 import type { Level } from './types';
@@ -261,7 +262,7 @@ export const channelsFor = (lvl: Level) => {
 };
 
 const URL_ = functionUrl('yt');
-const KEY = 'ep.yt';
+const KEY = getConfig().storage.feed.key;
 type Feed = Record<string, Video[]>;
 type Arts = Record<string, ChannelArt>;
 let mem: Feed | null = null;
@@ -285,7 +286,7 @@ export function loadFeed(): Promise<Feed> {
     if (mem) return Promise.resolve(mem);
     const c = readCache();
     if (c) setArts(c.meta);
-    if (c && Date.now() - c.at < 3 * 3600 * 1000) return Promise.resolve((mem = c.channels));
+    if (c && Date.now() - c.at < getConfig().storage.feed.ttlHours * 3600 * 1000) return Promise.resolve((mem = c.channels));
     if (!inflight) {
         inflight = fetch(URL_)
             .then((r) => r.json())

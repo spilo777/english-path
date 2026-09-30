@@ -3,6 +3,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
+import { getConfig } from '../core/config';
 import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar, shuffle } from '../components/ui';
 import { useJSON, paths } from '../lib/data';
 import { ding } from '../lib/sfx';
@@ -16,7 +17,7 @@ const PER_STAGE = 10,
     PASS_AT = 7;
 
 // уровень, который вы УЖЕ знаете (последняя сданная ступень)
-const NAME: Record<Stage, string> = { A1: 'Начальный', A2: 'Элементарный', B1: 'Средний', B2: 'Выше среднего' };
+const NAME: Record<Stage, string> = getConfig().levels.names;
 // с чего начинать: что будет в уроках этого уровня
 const NEXT: Record<Stage, string> = {
     A1: 'am / is / are, простые фразы о себе, настоящее и прошедшее время — база без дыр.',
