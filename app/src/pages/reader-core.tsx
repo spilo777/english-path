@@ -544,6 +544,8 @@ function Quiz({ ctx }: { ctx: ReadCtx }) {
         ding(ok ? 'ok' : 'bad');
         update((st) => {
             recordAnswer(st, ok);
+            st.stats.qAll = (st.stats.qAll || 0) + 1; // «Понимание текстов» в профиле
+            if (ok) st.stats.qOk = (st.stats.qOk || 0) + 1;
             if (Object.keys(next).length === qs.length) {
                 const right = qs.filter((q, i) => next[i] === q.a).length;
                 st.quiz = st.quiz || {};

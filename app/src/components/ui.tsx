@@ -30,16 +30,31 @@ export const Page = ({ children, className }: { children: ReactNode; className?:
 );
 
 /** Огонёк серии дней + кнопки справа, затем крупный заголовок */
-export function TopBar({ title, sub, right }: { title: ReactNode; sub?: ReactNode; right?: ReactNode }) {
+export function TopBar({
+    title,
+    sub,
+    right,
+    left,
+}: {
+    title: ReactNode;
+    sub?: ReactNode;
+    right?: ReactNode;
+    /** что показать слева вместо огонька серии */
+    left?: ReactNode;
+}) {
     const s = useProgress();
     const on = !!s.activity[today()];
     return (
         <>
             <div className="topbar">
-                <a className={'streak-pill' + (on ? ' on' : '')} href="#/profile" title="Дней подряд">
-                    <Icon name="flame" fill />
-                    <b>{streak(s)}</b>
-                </a>
+                {left !== undefined ? (
+                    left
+                ) : (
+                    <a className={'streak-pill' + (on ? ' on' : '')} href="#/profile" title="Дней подряд">
+                        <Icon name="flame" fill />
+                        <b>{streak(s)}</b>
+                    </a>
+                )}
                 <span className="spacer" />
                 {right}
             </div>

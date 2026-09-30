@@ -82,12 +82,13 @@ test('профиль → награды → статистика', async ({ page
     const errors = watchErrors(page);
     await page.goto('#/profile');
     await expect(page.locator('main .page-title')).toHaveText('Профиль');
-    await expect(page.locator('.cal-d.on').first()).toBeVisible();
-    await expect(page.locator('.prof-head')).toContainText(/Гость|@/);
+    await expect(page.locator('.pc-day.on').first()).toBeVisible();
+    await expect(page.locator('.pc-me')).toContainText(/Гость|@/);
+    await expect(page.locator('.pcard .pc-title')).toHaveCount(7);
     expect(await noHScroll(page)).toBe(true);
     await page.screenshot({ path: `shots/${info.project.name}-profile.png`, fullPage: true });
 
-    await page.locator('.league').click();
+    await page.locator('.menu-list a[href="#/achievements"]').click();
     await expect(page.locator('main .page-title')).toHaveText('Награды');
     await expect(page.locator('.ach').first()).toBeVisible();
     // лестница званий по нажатию на уровень
@@ -168,7 +169,7 @@ test('аккаунт: форма проверяется без отправки 
 test('лига и друзья: страница открывается из профиля', async ({ page }) => {
     const errors = watchErrors(page);
     await page.goto('#/profile');
-    await page.locator('.menu-list a[href="#/league"]').click();
+    await page.locator('.pc-league a.pc-title').click();
     await expect(page.locator('main .page-title')).toHaveText('Лига и друзья');
     // гость видит приглашение войти (очки считаются по облачному прогрессу)
     await expect(page.locator('main')).toContainText(/Войти|Лига|Друзья/);

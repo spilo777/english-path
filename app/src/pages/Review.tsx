@@ -201,6 +201,8 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
             st.cards[id] = n;
             if (wasNew) countNew(st);
             track(st, 'reviews');
+            st.stats.rvAll = (st.stats.rvAll || 0) + 1; // «вспомнил» — всё, кроме «Снова»
+            if (g > 0) st.stats.rvOk = (st.stats.rvOk || 0) + 1;
             if (side === 'ru-en') st.stats.ruEn = (st.stats.ruEn || 0) + 1;
             if (st.settings.cardMode === 'mix') st.stats.mixRev = (st.stats.mixRev || 0) + 1;
             const d = new Date();

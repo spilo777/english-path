@@ -1,11 +1,9 @@
 // Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
-import { GoalCard } from '../components/GoalCard';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useState } from 'react';
 import type { PageProps } from '../app/App';
 import { AchCard } from '../components/AchCard';
-import { Avatar } from '../components/Avatar';
 import { Seg } from '../components/Seg';
-import { BackLink, Icon, Page, RoundBtn, TopBar, plural } from '../components/ui';
+import { BackLink, Icon, Page, plural } from '../components/ui';
 import {
     ACH_LIST,
     deckStats,
@@ -16,12 +14,12 @@ import {
     useAchCtx,
     type Engagement,
 } from '../lib/achievements';
-import { Cloud, useCloud } from '../lib/cloud';
-import { mainUnits, passed, stageHref } from '../lib/course';
+import { useCloud } from '../lib/cloud';
+import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
 import { DAY, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
-import { cardKind, type WordKind } from '../lib/srs';
+import { ProfileHome } from './profile-home';
 import './Profile.css';
 
 export default function Profile({ params }: PageProps) {
@@ -34,9 +32,7 @@ const dayKey = (x: Date) =>
     x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
 /** Выучено надолго: интервал 3+ недели */
 const learnedCards = (s: Progress) => Object.values(s.cards).filter((c) => c.state === 'review' && c.ivl >= 21).length;
-const MEDALS = ['#C9853E', '#A7B1BE', '#E3B23C', '#4F6AF0', '#9A55F0', '#E8456B'];
 const BackToProfile = () => <BackLink href="#/profile" label="Профиль" />;
-const cssVar = (name: string, v: string) => ({ [name]: v }) as unknown as CSSProperties;
 
 // ───────── уровень вовлечённости и лестница званий ─────────
 function EngagementCard({ e }: { e: Engagement }) {
@@ -93,257 +89,6 @@ function EngagementCard({ e }: { e: Engagement }) {
                 Очки даются за каждое достижение: чем оно реже, тем больше очков.{' '}
                 {open ? '' : 'Нажмите, чтобы увидеть все звания.'}
             </p>
-        </div>
-    );
-}
-
-// ───────── профиль ─────────
-const KINDS: [WordKind, string, string][] = [
-    ['done', 'Выучено', 'var(--wk-done)'],
-    ['fam', 'Знакомые', 'var(--wk-fam)'],
-    ['learn', 'Изучаю', 'var(--wk-learn)'],
-    ['new', 'Новые', 'var(--wk-new)'],
-];
-
-/** Мои слова: сколько выучено из всех слов курса, полоса по статусам и строки-ссылки на списки */
-function WordsCard({ s }: { s: Progress }) {
-    const deck = useDeck();
-    const n: Record<WordKind, number> = { new: 0, learn: 0, fam: 0, done: 0 };
-    for (const c of Object.values(s.cards)) n[cardKind(c)]++;
-    n.done += Object.keys(s.known).filter((id) => !s.cards[id]).length;
-    const total = Math.max(deck?.length || 0, n.new + n.learn + n.fam + n.done, 1);
-    return (
-        <section className="card words-card">
-            <div className="wc-head">
-                <div>
-                    <div className="eyebrow">Мои слова</div>
-                    <div className="wc-big">
-                        <b>{n.done}</b> {plural(n.done, 'слово выучено', 'слова выучено', 'слов выучено')}
-                    </div>
-                    <div className="small muted">
-                        из {total} в курсе · ещё {n.learn + n.fam} в процессе
-                    </div>
-                </div>
-                <a className="btn small" href="#/cards">
-                    Словарь
-                </a>
-            </div>
-            <div className="wc-bar" aria-hidden="true">
-                {KINDS.map(([k, , c]) =>
-                    n[k] ? <i key={k} style={{ width: (n[k] / total) * 100 + '%', background: c }} /> : null,
-                )}
-            </div>
-            <div className="wc-rows">
-                {KINDS.map(([k, label, c]) => (
-                    <a key={k} className="wc-row" href={'#/words/' + k}>
-                        <i style={{ background: c }} />
-                        <span>{label}</span>
-                        <b>{n[k]}</b>
-                    </a>
-                ))}
-            </div>
-        </section>
-    );
-}
-
-function ProfileHome() {
-    const s = useProgress();
-    const st = useCloud();
-    const ctx = useAchCtx();
-    const { data: course } = useCourse();
-    const email = Cloud.enabled && st.user ? st.user.email || '' : '';
-    const e = engagement(s);
-    const lessonsDone = course ? mainUnits(course).filter((u) => passed(s, u.id)).length : 0;
-    const days = Object.keys(s.activity).length;
-    const achN = Object.keys(s.ach).length;
-    const recent = ACH_LIST.filter((a) => s.ach[a.id])
-        .sort((a, b) => s.ach[b.id] - s.ach[a.id])
-        .slice(0, 3);
-    const medal = MEDALS[Math.min(5, Math.floor((e.lvl - 1) / 2))];
-    return (
-        <Page className="profile">
-            <TopBar title="Профиль" right={<RoundBtn href="#/settings" icon="gear-six" title="Настройки" />} />
-            <div className="duo">
-                <a className="prof-head" href="#/account">
-                    <Avatar email={email} size="big" />
-                    <div className="pf-grow">
-                        <b className="acc-mail">{email || 'Гость'}</b>
-                        <div className="small muted">
-                            {email ? (
-                                st.lastError ? (
-                                    <>
-                                        <Icon name="warning" /> Нет связи — прогресс отправится позже
-                                    </>
-                                ) : (
-                                    <>
-                                        <Icon name="cloud-check" /> Прогресс сохранён в облаке
-                                    </>
-                                )
-                            ) : (
-                                <>
-                                    <Icon name="cloud-slash" /> Войдите, чтобы прогресс был на всех устройствах
-                                </>
-                            )}
-                        </div>
-                    </div>
-                    <Icon name="caret-right" className="muted" />
-                </a>
-                <a className="league" href="#/achievements" style={cssVar('--m', medal)}>
-                    <div className="league-medal">
-                        <Icon name="medal" fill />
-                        <b>{e.lvl}</b>
-                    </div>
-                    <div className="pf-grow">
-                        <div className="eyebrow">Уровень {e.lvl}</div>
-                        <div className="league-rank">{e.rank}</div>
-                        <div className="progress pf-league-bar">
-                            <i style={{ width: (e.into / e.need) * 100 + '%' }} />
-                        </div>
-                        <div className="tiny muted">
-                            {e.into} / {e.need} XP до уровня {e.lvl + 1} · всего {e.xp} XP
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <WordsCard s={s} />
-            <GoalCard
-                links={{
-                    cards: '#/cards',
-                    ex: stageHref(s, course),
-                    read: '#/library',
-                }}
-            />
-            <div className="tiles4">
-                <div className="tile t-orange">
-                    <Icon name="flame" fill />
-                    <b>{streak(s)}</b>
-                    <span>дней подряд</span>
-                </div>
-                <div className="tile t-blue">
-                    <Icon name="calendar-check" fill />
-                    <b>{days}</b>
-                    <span>{plural(days, 'день', 'дня', 'дней')} занятий</span>
-                </div>
-                <div className="tile t-green">
-                    <Icon name="graduation-cap" fill />
-                    <b>{lessonsDone}</b>
-                    <span>{plural(lessonsDone, 'урок пройден', 'урока пройдено', 'уроков пройдено')}</span>
-                </div>
-                <div className="tile t-yellow">
-                    <Icon name="trophy" fill />
-                    <b>{achN}</b>
-                    <span>наград из {ACH_LIST.length}</span>
-                </div>
-            </div>
-            <div className="menu-list">
-                <a href="#/league">
-                    <span className="mi" style={cssVar('--c', '#C0773A')}>
-                        <Icon name="shield-star" fill />
-                    </span>
-                    <span>Лига и друзья</span>
-                    <Icon name="caret-right" />
-                </a>
-                <a href="#/achievements">
-                    <span className="mi" style={cssVar('--c', '#E3A21A')}>
-                        <Icon name="trophy" fill />
-                    </span>
-                    <span>Достижения</span>
-                    <em>
-                        {achN}/{ACH_LIST.length}
-                    </em>
-                    <Icon name="caret-right" />
-                </a>
-                <a href="#/stats">
-                    <span className="mi" style={cssVar('--c', '#4F6AF0')}>
-                        <Icon name="chart-bar" fill />
-                    </span>
-                    <span>Прогресс и статистика</span>
-                    <Icon name="caret-right" />
-                </a>
-                <a href="#/settings">
-                    <span className="mi" style={cssVar('--c', '#8E8E99')}>
-                        <Icon name="gear-six" fill />
-                    </span>
-                    <span>Настройки</span>
-                    <Icon name="caret-right" />
-                </a>
-            </div>
-            <StreakCal s={s} />
-            {recent.length && ctx ? (
-                <section className="sec">
-                    <div className="sec-head">
-                        <h2>Последние награды</h2>
-                        <a className="see-all" href="#/achievements">
-                            См. все
-                        </a>
-                    </div>
-                    <div className="ach-list">
-                        {recent.map((a) => (
-                            <AchCard key={a.id} a={a} ctx={ctx} />
-                        ))}
-                    </div>
-                </section>
-            ) : null}
-        </Page>
-    );
-}
-
-/** Календарь текущего месяца: дни занятий, соседние соединены полосой */
-function StreakCal({ s }: { s: Progress }) {
-    const now = new Date();
-    const y = now.getFullYear(),
-        m = now.getMonth();
-    const days = new Date(y, m + 1, 0).getDate();
-    const off = (new Date(y, m, 1).getDay() + 6) % 7;
-    const key = (d: number) => dayKey(new Date(y, m, d));
-    const cells: ReactNode[] = [];
-    for (let i = 0; i < off; i++) cells.push(<span key={'e' + i} />);
-    for (let d = 1; d <= days; d++) {
-        const on = !!s.activity[key(d)];
-        const prevOn = d > 1 && !!s.activity[key(d - 1)],
-            nextOn = d < days && !!s.activity[key(d + 1)];
-        const cls = [
-            'cal-d',
-            on && 'on',
-            on && prevOn && (off + d - 1) % 7 && 'jl',
-            on && nextOn && (off + d) % 7 && 'jr',
-            d === now.getDate() && 'today',
-            d > now.getDate() && 'fut',
-        ]
-            .filter(Boolean)
-            .join(' ');
-        cells.push(
-            <span key={d} className={cls}>
-                <b>{d}</b>
-            </span>,
-        );
-    }
-    const prefix = y + '-' + String(m + 1).padStart(2, '0');
-    const active = Object.keys(s.activity).filter((k) => k.startsWith(prefix)).length;
-    const month = now
-        .toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
-        .replace(/^./, (c) => c.toUpperCase());
-    return (
-        <div className="card cal-card">
-            <div className="row pf-cal-head">
-                <div>
-                    <div className="goal-h pf-cal-month">{month}</div>
-                    <div className="small muted">
-                        {active} {plural(active, 'день', 'дня', 'дней')} занятий в этом месяце
-                    </div>
-                </div>
-                <span className="spacer" />
-                <span className="streak-pill on big">
-                    <Icon name="flame" fill />
-                    <b>{streak(s)}</b>
-                </span>
-            </div>
-            <div className="cal-grid">
-                {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((d) => (
-                    <em key={d}>{d}</em>
-                ))}
-                {cells}
-            </div>
         </div>
     );
 }

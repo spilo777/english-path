@@ -177,6 +177,8 @@ export function track(s: Progress, kind: 'reviews' | 'exercises' | 'reads', n = 
 /** Ответ в любом упражнении: серия верных, статистика, активность */
 export function recordAnswer(s: Progress, ok: boolean) {
     track(s, 'exercises');
+    s.stats.ansAll = (s.stats.ansAll || 0) + 1; // для «Успеваемости» в профиле
+    if (ok) s.stats.ansOk = (s.stats.ansOk || 0) + 1;
     s.stats.exStreak = ok ? (s.stats.exStreak || 0) + 1 : 0;
     s.stats.exStreakBest = Math.max(s.stats.exStreakBest || 0, s.stats.exStreak);
 }
