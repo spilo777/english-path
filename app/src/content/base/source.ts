@@ -53,9 +53,15 @@ export function staticSource<T>(key: string, value: T): Source<T> {
 /** Несколько источников как один: массив их значений (готов, когда готовы все) */
 export function all<T>(key: string, parts: readonly Source<T>[]): Source<T[]> {
     let last: { vals: T[]; out: T[] } | null = null;
+    // та же ссылка, пока значения частей не изменились — и после load(), и в peek()
+    const stable = (vals: T[]): T[] => {
+        if (!last || last.vals.length !== vals.length || last.vals.some((v, i) => v !== vals[i]))
+            last = { vals, out: vals.slice() };
+        return last.out;
+    };
     return {
         key,
-        load: () => Promise.all(parts.map((p) => p.load())),
+        load: () => Promise.all(parts.map((p) => p.load())).then(stable),
         peek: () => {
             const vals: T[] = [];
             for (const p of parts) {
@@ -63,10 +69,7 @@ export function all<T>(key: string, parts: readonly Source<T>[]): Source<T[]> {
                 if (v === undefined) return undefined;
                 vals.push(v);
             }
-            // та же ссылка, пока значения частей не изменились
-            if (!last || last.vals.length !== vals.length || last.vals.some((v, i) => v !== vals[i]))
-                last = { vals, out: vals.slice() };
-            return last.out;
+            return stable(vals);
         },
     };
 }

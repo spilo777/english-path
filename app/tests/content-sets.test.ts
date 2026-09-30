@@ -62,7 +62,7 @@ describe('лекции и упражнения', () => {
         const lec = await A1_Lectures.source.load();
         expect(lec.length).toBe(19);
         expect(lec.every((l) => l.level === 'A1' && l.grammar.length > 0)).toBe(true);
-        expect(A1_Lectures.source.peek()).toBe(A1_Lectures.source.peek());
+        expect(A1_Lectures.source.peek()).toBe(lec);
         expect(LEVEL_Lectures.map((s) => s.id)).toEqual(['lectures-A1', 'lectures-A2', 'lectures-B1', 'lectures-B2']);
     });
     it('упражнения урока: практика и тест', async () => {

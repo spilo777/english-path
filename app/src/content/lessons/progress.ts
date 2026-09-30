@@ -53,14 +53,18 @@ export function isUnlocked(s: Progress, meta: UnitMeta, course: CourseIndex): bo
 
 const stepDone = (s: Progress, id: string, k: StepKey) => (k === 'test' ? passed(s, id) : !!s.units[id]?.steps[k]);
 
-/** Доля пройденных шагов 0..1 */
-export function unitProgress(s: Progress, id: string): number {
-    return STEPS.filter(([k]) => stepDone(s, id, k)).length / STEPS.length;
+/** Доля пройденных шагов 0..1 (steps — шаги курса, по умолчанию все пять) */
+export function unitProgress(s: Progress, id: string, steps: readonly [StepKey, string][] = STEPS): number {
+    return steps.filter(([k]) => stepDone(s, id, k)).length / steps.length;
 }
 
 /** Следующий непройденный шаг или null, если урок пройден целиком */
-export function nextStep(s: Progress, id: string): { k: StepKey; label: string } | null {
-    for (const [k, label] of STEPS) if (!stepDone(s, id, k)) return { k, label };
+export function nextStep(
+    s: Progress,
+    id: string,
+    steps: readonly [StepKey, string][] = STEPS,
+): { k: StepKey; label: string } | null {
+    for (const [k, label] of steps) if (!stepDone(s, id, k)) return { k, label };
     return null;
 }
 
