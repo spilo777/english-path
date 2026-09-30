@@ -406,6 +406,9 @@ const authErr = (e: unknown): string => {
         return 'Аккаунт с этой почтой уже есть. Перейдите на вкладку «Вход».';
     if (/Password should|at least 6/i.test(m)) return 'Пароль слишком короткий — нужно минимум 6 символов.';
     if (/valid email|invalid.*email|email.*invalid/i.test(m)) return 'Похоже, в адресе почты опечатка.';
+    // лимит писем Supabase — часовой на весь проект: повторять через минуту бесполезно
+    if (/email rate limit/i.test(m))
+        return 'Сейчас не получается отправить письмо для подтверждения — сервис писем перегружен. Попробуйте позже; заниматься можно и без аккаунта, прогресс сохранится на этом устройстве.';
     if (/rate limit|too many|security purposes/i.test(m))
         return 'Слишком много попыток. Подождите минуту и попробуйте снова.';
     if (/same.*password|different from the old/i.test(m)) return 'Новый пароль должен отличаться от старого.';
