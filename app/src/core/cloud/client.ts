@@ -304,6 +304,28 @@ async function yandex(q: string, mode?: 'word' | 'text'): Promise<YandexResult |
     }
 }
 
+// ───────── озвучка через Яндекс (edge-функция tts, только для вошедших) ─────────
+let ttsOff = false;
+let ttsFails = 0;
+async function yandexTts(text: string): Promise<Blob | null> {
+    const c = client();
+    if (!c || !user || ttsOff) return null;
+    try {
+        const { data, error } = await c.functions.invoke('tts', { body: { text } });
+        if (error) {
+            const st = error.context && error.context.status;
+            // ключа нет или исчерпан дневной лимит — до перезагрузки страницы говорит браузер
+            if (st === 501 || st === 429) ttsOff = true;
+            else if (++ttsFails >= 3) ttsOff = true; // Яндекс раз за разом не отвечает
+            return null;
+        }
+        ttsFails = 0;
+        return data instanceof Blob && data.size > 0 ? new Blob([data], { type: 'audio/mpeg' }) : null;
+    } catch {
+        return null;
+    }
+}
+
 /** Клиент облака для других модулей (напоминания и т. п.); null — облако не загружено */
 export const cloudClient = (): SbClient | null => client();
 
@@ -344,4 +366,6 @@ export const Cloud = {
     peekAuthEvent: (): string | null => authEvent,
     yandexReady: (): boolean => !!(sb && user && !yaOff),
     yandex,
+    ttsReady: (): boolean => !!(sb && user && !ttsOff),
+    yandexTts,
 };

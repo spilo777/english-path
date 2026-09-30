@@ -1,7 +1,7 @@
 // Настройки (#/settings) и аккаунт (#/account): вход, регистрация, восстановление пароля, синхронизация
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import type { PageProps } from '../app/App';
-import { ding, listVoices, speak } from '@core/audio';
+import { ding, listVoices, speak, YANDEX_VOICE } from '@core/audio';
 import { Cloud, type CloudStatus } from '@core/cloud';
 import { useCloud } from '@core/cloud/hooks';
 import { defaults, getState, normalize, replaceState, update } from '@core/progress';
@@ -247,8 +247,8 @@ function SettingsPage() {
                     </div>
                     <p className="muted small">
                         Отдельные слова звучат голосом реального человека, если запись есть (у большинства частых слов
-                        есть), и рядом показывается транскрипция. Предложения и слова без записи читает голос браузера,
-                        его можно выбрать ниже.
+                        есть), и рядом показывается транскрипция. Предложения и слова без записи читает голос Яндекса
+                        (после входа в аккаунт) или голос браузера — его можно выбрать ниже.
                     </p>
                     <label className="st-field">
                         Голос
@@ -264,8 +264,9 @@ function SettingsPage() {
                                 speak(HELLO);
                             }}
                         >
-                            <option value="">Автоматически</option>
-                            {st.voice && !voices.some((v) => v.name === st.voice) ? (
+                            <option value="">Автоматически — Яндекс после входа, иначе браузер</option>
+                            <option value={YANDEX_VOICE}>Яндекс (SpeechKit, нужен вход)</option>
+                            {st.voice && st.voice !== YANDEX_VOICE && !voices.some((v) => v.name === st.voice) ? (
                                 <option value={st.voice}>{st.voice}</option>
                             ) : null}
                             {voices.map((v) => (

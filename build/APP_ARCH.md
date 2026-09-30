@@ -49,8 +49,8 @@ core/
   data/           loader (loadJSON, peekJSON, dataUrl), paths, hooks (useJSON)
   progress/       types (Progress…), store (englishpath.v1), defaults, counters, xp, hooks (useProgress)
   srs/            deck, scheduler (SM-2 как в Anki), classify (cardKind, cardLearned, isLearned)
-  cloud/          config, types, merge (чистое слияние), client (вход, синхронизация, редкость, Яндекс), hooks
-  audio/          unlock (onGesture), sfx (ding), speech, live (записи носителей), hooks (useIpa)
+  cloud/          config, types, merge (чистое слияние), client (вход, синхронизация, редкость, перевод и озвучка Яндекса), hooks
+  audio/          unlock (onGesture), sfx (ding), speech, live (записи носителей), yandex (голос Яндекса), hooks (useIpa)
   translate/      lookup (словарь по нажатию), translate (автоперевод)
   images/         covers (+ covers-map), word-images, hooks (useCover)
   league/         лиги и друзья

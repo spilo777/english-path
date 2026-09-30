@@ -1,9 +1,11 @@
-// Озвучка: живые записи носителей (./live), иначе голос браузера (TTS). Разблокировка звука на iOS — при первом касании
+// Озвучка: живые записи носителей (./live) для слов, голос Яндекса (./yandex, для вошедших), иначе голос браузера.
+// Разблокировка звука на iOS — при первом касании
 import { clamp } from '@utils/math';
 import { toast } from '../notifications/notify';
 import { getState, update } from '../progress/store';
 import { audioKey, audioMap, liveAudio, liveEligible, recUrl } from './live';
 import { onGesture } from './unlock';
+import { yandexVoice } from './yandex';
 
 export interface SpeakOpts {
     rate?: number;
@@ -57,7 +59,7 @@ const countSpeak = (live: boolean) =>
     );
 
 /** Голос браузера. speaker — номер говорящего в диалоге (другой голос и высота) */
-export function speakTTS(text: string, opts: SpeakOpts = {}): SpeechSynthesisUtterance | null {
+function speakBrowser(text: string, opts: SpeakOpts = {}): SpeechSynthesisUtterance | null {
     if (!hasTTS()) {
         toast('Браузер не поддерживает озвучку');
         return null;
@@ -154,12 +156,19 @@ export function stopSpeech() {
     if (hasTTS()) speechSynthesis.cancel();
 }
 
-function playLive(url: string, rate: number, fallback: () => void) {
+/** Играть запись в общем <audio>. onend — по окончании (если за это время не началась другая озвучка) */
+function playLive(url: string, rate: number, fallback: () => void, onend?: () => void) {
     if (!liveEl) {
         fallback();
         return;
     }
+    const tok = speakTok;
     liveEl.onerror = fallback;
+    liveEl.onended = onend
+        ? () => {
+              if (tok === speakTok) onend();
+          }
+        : null;
     liveEl.src = url;
     try {
         liveEl.playbackRate = clamp(rate || 1, 0.7, 1);
@@ -167,10 +176,55 @@ function playLive(url: string, rate: number, fallback: () => void) {
         /* старый браузер */
     }
     liveEl.play().catch(fallback);
-    countSpeak(true);
 }
 
-/** Произнести: для слов — живая запись (если включено), иначе/при ошибке — голос браузера. Fallback на TTS через 2.5 с */
+/** Значение настройки «Голос» для Яндекса ('' — автоматически: тоже Яндекс, если доступен) */
+export const YANDEX_VOICE = 'yandex';
+/** Голос браузера выбран явно в настройках — Яндекс не нужен */
+const browserVoiceChosen = () => {
+    const v = settings().voice;
+    return !!v && v !== YANDEX_VOICE;
+};
+
+/**
+ * Синтез речи: голос Яндекса (вошедшим, если в настройках не выбран голос браузера), иначе/при ошибке —
+ * голос браузера. Ждём Яндекс не дольше 4 с.
+ */
+export function speakTTS(text: string, opts: SpeakOpts = {}): void {
+    stopAudio();
+    if (browserVoiceChosen()) {
+        speakBrowser(text, opts);
+        return;
+    }
+    if (hasTTS()) speechSynthesis.cancel();
+    const tok = speakTok;
+    let settled = false;
+    const toBrowser = () => {
+        if (settled || tok !== speakTok) return;
+        settled = true;
+        speakBrowser(text, opts);
+    };
+    const timer = setTimeout(toBrowser, 4000);
+    yandexVoice(text)
+        .then((url) => {
+            clearTimeout(timer);
+            if (settled || tok !== speakTok) return;
+            if (!url) {
+                toBrowser();
+                return;
+            }
+            settled = true;
+            countSpeak(false);
+            const rate = opts.rate || settings().rate;
+            const again = () => {
+                if (tok === speakTok) speakBrowser(text, opts);
+            };
+            playLive(url, rate, again, opts.onend);
+        })
+        .catch(toBrowser);
+}
+
+/** Произнести: для слов — живая запись (если включено), иначе/при ошибке — синтез (Яндекс или браузер) через 2.5 с */
 export function speak(text: string, opts: SpeakOpts = {}): void {
     const w = String(text || '').trim();
     stopAudio();
@@ -192,6 +246,7 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
                 return;
             }
             if (hasTTS()) speechSynthesis.cancel();
+            countSpeak(true);
             playLive(u, rate, fallback);
             return;
         }
@@ -205,6 +260,7 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
                     fallback();
                     return;
                 }
+                countSpeak(true);
                 playLive(a.u, rate, fallback);
             })
             .catch(fallback);
