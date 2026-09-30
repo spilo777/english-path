@@ -218,6 +218,8 @@ export interface Card {
     mod: number;
     img?: string;
     noImg?: boolean;
+    /** трудное слово: забыто 8+ раз (как leech в Anki) */
+    leech?: boolean;
 }
 
 export interface UnitProgress {

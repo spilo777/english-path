@@ -196,7 +196,7 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
         const wasNew = head.state === 'new';
         // вне очереди знакомую карточку расписание не трогаем (иначе интервалы раздуются); «Снова» — как обычно: слово забыто
         const early = !!extra && !wasNew && g > 0 && head.due > Date.now();
-        const n = early ? head : schedule(head, g);
+        const n = early ? head : schedule(head, g, Date.now(), { fuzz: true });
         update((st) => {
             st.cards[id] = n;
             if (wasNew) countNew(st);
@@ -210,6 +210,8 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
             if (d.getHours() === 0 && d.getMinutes() === 0) st.stats.midnight = 1;
             if (x.graded + 1 === 50 && Date.now() - x.start < 5 * 60000) st.stats.speedrun = 1;
         });
+        if (n.leech && !head.leech)
+            toast(`«${head.en}» — трудное слово: забыто ${n.lapses} раз. Добавьте картинку-ассоциацию или свой пример`);
         x.graded++;
         if (g === 0) x.agains++;
         x.queue.shift();

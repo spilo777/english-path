@@ -376,3 +376,17 @@
 .img-panel .img-tools {
     margin-top: 0;
 }
+
+/* Трудное слово (забыто 8+ раз, как leech в Anki) */
+.fc-leech {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto 12px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 12.5px;
+    font-weight: 650;
+    color: #b7791f;
+    background: color-mix(in srgb, #e0a21a 16%, transparent);
+}

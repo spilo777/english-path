@@ -5,7 +5,7 @@ import { autoImage } from '../lib/images';
 import { ding } from '../lib/sfx';
 import { fmtIvl, schedule } from '../lib/srs';
 import { liveAudio, speak, useIpa } from '../lib/speech';
-import { getState, update } from '../lib/store';
+import { DAY, getState, update } from '../lib/store';
 import type { Card } from '../lib/types';
 
 export type Grade = 0 | 1 | 2 | 3;
@@ -266,7 +266,7 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
     const lbl = (g: Grade) => {
         if (early && g > 0) return 'как было';
         const n = schedule(c, g);
-        return fmtIvl(Math.max(60000, n.due - Date.now()));
+        return n.state === 'review' ? fmtIvl(n.ivl * DAY) : fmtIvl(Math.max(60000, n.due - Date.now()));
     };
 
     return (
@@ -279,6 +279,11 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
                 }}
             >
                 {slot}
+                {c.leech ? (
+                    <div className="fc-leech" title="Забыто 8 и больше раз">
+                        <Icon name="warning" fill /> Трудное слово — добавьте свою картинку или пример
+                    </div>
+                ) : null}
                 {front}
                 {shown ? back : null}
                 <div className="row fc-say">
