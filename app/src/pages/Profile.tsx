@@ -18,8 +18,10 @@ import {
 } from '../lib/achievements';
 import { useCloud } from '../lib/cloud';
 import { cardLearned } from '../lib/srs';
-import { mainUnits, passed } from '../lib/course';
-import { useCourse, useDeck } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import { mainUnits, passed } from '../content/lessons';
+import { deck as deckSrc } from '../content/word-cards/sources';
 import { DAY, dayXp, streak, useProgress } from '../lib/store';
 import { LEVELS, type Progress } from '../lib/types';
 import { ProfileHome, UserProfile } from './profile-home';
@@ -197,8 +199,8 @@ interface DayBar {
 
 function Stats() {
     const s = useProgress();
-    const { data: course } = useCourse();
-    const deck = useDeck();
+    const course = useMainCourse().index.data;
+    const { data: deck } = useSource(deckSrc);
     const cards = Object.values(s.cards);
     const learned = learnedCards(s);
     const inProgress = cards.filter((c) => c.state !== 'new' && !cardLearned(c)).length;

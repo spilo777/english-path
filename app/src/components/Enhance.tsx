@@ -6,14 +6,17 @@
 import { createElement, useEffect, useMemo, useState, type DependencyList, type RefObject } from 'react';
 import { levelRank } from '@utils/level';
 import { esc } from '@utils/text';
-import { mainUnits, passed } from '../lib/course';
-import { paths, useCourse, useJSON } from '../lib/data';
-import { candidates, ensureDict, isDictReady, lookup } from '../lib/lookup';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import { passed } from '../content/lessons/progress';
+import { lessonsIndex } from '../content/lessons/sources';
+import { isNewWord, knownWordSet, type KnownWordsUnit } from '../content/texts/known-words';
+import { ensureDict, isDictReady } from '../lib/lookup';
 import { ding } from '../lib/sfx';
 import { speak } from '../lib/speech';
 import { recordAnswer, update, useProgress } from '../lib/store';
 import { autoTranslate } from '../lib/translate';
-import { type CourseIndex, type LessonUnit, type Level, type Progress } from '../lib/types';
+import type { Level } from '../lib/types';
 import { Icon } from './ui';
 import { openWord } from './Popover';
 import './Enhance.css';
@@ -73,59 +76,13 @@ export function TrBox({ text }: { text: string }) {
     );
 }
 
-// ───────── какие слова ученик уже видел ─────────
-const BASIC_WORDS =
-    'a an the i you he she it we they me him her us them my your his its our their is am are was were be been do does did not no yes and or but to of in on at for with from by this that these those there here what who where when why how can will would have has had get got go ok hi hello'.split(
-        ' ',
-    );
-
-/** Карточки, «знаю», слова предыдущих уроков (и пройденных игровых), служебные слова */
-/** Что нужно knownWordSet от юнита: id, трек и английские слова урока (как в lessons.json) */
-export type KnownWordsUnit = Pick<LessonUnit, 'id' | 'track' | 'words'>;
-
-export function knownWordSet(
-    s: Progress,
-    course: CourseIndex | undefined,
-    units: KnownWordsUnit[],
-    unitId?: string,
-): Set<string> {
-    const set = new Set(BASIC_WORDS);
-    Object.keys(s.cards).forEach((k) => set.add(k));
-    Object.keys(s.known).forEach((k) => set.add(k));
-    if (!course) return set;
-    const main = mainUnits(course);
-    const ci = unitId ? main.findIndex((u) => u.id === unitId) : -1;
-    units.forEach((u) => {
-        const i = main.findIndex((m) => m.id === u.id);
-        const take = unitId
-            ? u.id !== unitId && ((i >= 0 && ci >= 0 && i < ci) || (u.track === 'games' && passed(s, u.id)))
-            : passed(s, u.id);
-        if (take)
-            (u.words || []).forEach((w) =>
-                w
-                    .toLowerCase()
-                    .split(/\s*[—–-]\s*|\s*\/\s*/)
-                    .forEach((x) => set.add(x.trim())),
-            );
-    });
-    return set;
-}
-
-export function isNewWord(w: string, set: Set<string>): boolean {
-    let lw = w.toLowerCase().replace(/’/g, "'");
-    if (/^[a-z]{1,3}-/.test(lw)) return false; // разбивка по слогам в объяснении
-    if (lw.includes("'")) lw = lw.replace(/n't$/, '').replace(/'.*$/, '') || lw; // I'm, isn't → I, is
-    if (lw === 'ca' || lw === 'wo' || lw === 'ai') return false; // can't, won't, ain't
-    if (lw.length < 3 || set.has(lw)) return false;
-    if (candidates(lw).some((c) => set.has(c))) return false;
-    if (lookup(lw).some((r) => set.has(r.word))) return false;
-    return true;
-}
+// знакомые слова — в content/texts/known-words; реэкспорт для старых импортов
+export { isNewWord, knownWordSet, type KnownWordsUnit };
 
 /** Набор знакомых слов для урока unitId (или по пройденным урокам, если не задан) */
 export function useKnownWords(unitId?: string): Set<string> {
     const s = useProgress();
-    const { data: course } = useCourse();
+    const course = useMainCourse().index.data;
     // состояние мутируется на месте — зависимости считаем по «подписи»
     const passedSig = Object.keys(s.units)
         .filter((id) => passed(s, id))
@@ -143,7 +100,7 @@ export function useKnownWords(unitId?: string): Set<string> {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [course, unitId, passedSig]);
     // слова уроков — из компактного индекса; грузим, только если есть нужные уровни
-    const { data: lessons } = useJSON<LessonUnit[]>(levels ? paths.lessons : null);
+    const { data: lessons } = useSource(levels ? lessonsIndex : null);
     const units = useMemo(() => {
         if (!levels || !lessons) return [];
         const lv = new Set(levels.split(','));

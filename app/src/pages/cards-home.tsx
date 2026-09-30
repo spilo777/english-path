@@ -3,7 +3,7 @@ import { useMemo, useRef, useState, type RefObject } from 'react';
 import { ssGet, ssSet } from '@utils/storage';
 import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { go } from '../app/router';
-import { useCourse } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
 import { ensureDict, lookup } from '../lib/lookup';
 import { addCard, cardKind, dueCards, newAvailable, type WordKind } from '../lib/srs';
 import { update, useProgress } from '../lib/store';
@@ -195,7 +195,7 @@ function Topics({ s, cats, cols }: { s: Progress; cats: TopicCat[]; cols: TopicC
 
 export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicCat[]; cols: TopicCol[] }) {
     const s = useProgress();
-    const course = useCourse().data;
+    const course = useMainCourse().index.data;
     const [adding, setAdding] = useState(false);
     const boxRef = useRef<HTMLDivElement>(null);
     const enRef = useRef<HTMLInputElement>(null);

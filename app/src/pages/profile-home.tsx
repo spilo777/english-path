@@ -16,8 +16,7 @@ import {
     type LeagueProfile,
     type PublicProfile,
 } from '../lib/league';
-import { currentUnit } from '../lib/course';
-import { useCourse } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
 import { cardKind } from '../lib/srs';
 import { dayXp, streak, useProgress } from '../lib/store';
 import type { Level, Progress } from '../lib/types';
@@ -375,7 +374,8 @@ export function ProfileHome() {
 /** Чужой профиль (#/u/<код>): этап курса, лига, XP, активность, слова, успеваемость */
 export function UserProfile({ code }: { code: string }) {
     const st = useCloud();
-    const { data: course } = useCourse();
+    const { def, index } = useMainCourse();
+    const course = index.data;
     const [p, setP] = useState<PublicProfile | null>(null);
     const [err, setErr] = useState('');
     const signed = Cloud.enabled && !!st.user;
@@ -419,7 +419,7 @@ export function UserProfile({ code }: { code: string }) {
         units: Object.fromEntries(p.passed.map((id) => [id, { steps: {}, testBest: 1, mod: 0 }])),
         settings: { startLevel: (p.start_level || undefined) as Level | undefined },
     } as unknown as Progress;
-    const u = course ? currentUnit(fake, course) : undefined;
+    const u = course ? def.current(fake, course) : undefined;
     const L = leagueOf(p.league);
     const uk = p.accent === 'uk';
 

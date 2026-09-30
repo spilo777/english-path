@@ -2,7 +2,8 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
 import { PopoverHost } from '../components/Popover';
 import { PlacementModalHost } from '../components/Modal';
-import { useDeck } from '../lib/data';
+import { useSource } from '../content/base/hooks';
+import { deck as deckSrc } from '../content/word-cards/sources';
 import { useEngine } from '../engine/react';
 import { dueCards, newAvailable } from '../lib/srs';
 import { useProgress } from '../lib/store';
@@ -51,7 +52,7 @@ function prefetch() {
 export function AppChrome({ children }: { children: (badge: number) => ReactNode }) {
     const s = useProgress();
     const idle = useIdle();
-    const deck = useDeck(idle); // словарь для счётчика «новых» — после первого экрана
+    const { data: deck } = useSource(idle ? deckSrc : null); // колода для счётчика «новых» — после первого экрана
     const badge = deck ? dueCards(s).length + newAvailable(s, deck) : dueCards(s).length;
     // движок: облако сразу, если вы вошли; после первого экрана — облако в фоне, лёгкие данные заранее
     // и запись в лигу недели при входе (повторные вызовы ничего не делают)
