@@ -5,6 +5,7 @@ import { Avatar } from '../components/Avatar';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { BackLink, Icon, Loading, Page, RoundBtn, TopBar } from '../components/ui';
 import { ACH_LIST, engagement } from '@content/achievements';
+import { bookIndex, readingSummary } from '@content/books';
 import { Cloud } from '@core/cloud';
 import { useCloud } from '@core/cloud/hooks';
 import {
@@ -17,11 +18,12 @@ import {
     profileView,
     type PublicProfile,
 } from '@core/league';
-import { dayXp, type Progress, streak } from '@core/progress';
+import { dayXp, fmtDuration, fmtDurationShort, type Progress, streak } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { cardKind } from '@core/srs';
 import type { Level } from '@utils/level';
 import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
 import { plural } from '@utils/plural';
 import { toast } from '@core/notifications/notify';
 
@@ -165,6 +167,7 @@ export function ProfileHome() {
     const email = signed ? st.user?.email || '' : '';
     const [prof, setProf] = useState<LeagueProfile | null>(null);
     const [fr, setFr] = useState<Friend[] | null>(null);
+    const books = useSource(bookIndex).data;
 
     useEffect(() => {
         if (!signed) return;
@@ -187,6 +190,10 @@ export function ProfileHome() {
     const xp = xpStats(s);
     const left = daysLeft();
     const e = engagement(s);
+    const rd = readingSummary(s, books);
+    const readShare =
+        `English Path: ${fmtDuration(rd.time.total)} чтения, ${rd.books.done} ` +
+        `${plural(rd.books.done, 'книга', 'книги', 'книг')} и ≈ ${rd.pages} ${plural(rd.pages, 'страница', 'страницы', 'страниц')}`;
 
     // слова
     let learning = 0,
@@ -329,6 +336,21 @@ export function ProfileHome() {
 
             <PCard title="Понимание" share={`English Path: тексты ${pctTxt(texts)}, грамматика ${pctTxt(grammar)}`}>
                 <Pair a={[pctTxt(texts), 'Тексты']} b={[pctTxt(grammar), 'Грамматика']} />
+            </PCard>
+
+            <PCard
+                title="Чтение"
+                href="#/stats"
+                share={readShare}
+            >
+                <Pair
+                    a={[fmtDurationShort(rd.time.total), 'Время чтения']}
+                    b={[fmtDurationShort(rd.time.week), 'На этой неделе']}
+                />
+                <Pair
+                    a={[rd.books.done, plural(rd.books.done, 'книга прочитана', 'книги прочитаны', 'книг прочитано')]}
+                    b={['≈ ' + rd.pages, plural(rd.pages, 'страница', 'страницы', 'страниц')]}
+                />
             </PCard>
 
             <PCard

@@ -185,6 +185,16 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
         });
         out.dayParts = parts;
     }
+    // время чтения по дням: максимум (одно и то же время приходит с двух устройств — не складываем)
+    if (a.readTime || b.readTime) {
+        const ra = a.readTime || {},
+            rb = b.readTime || {};
+        const rt: Record<string, number> = {};
+        unionKeys(ra, rb).forEach((k) => {
+            rt[k] = Math.max(num(ra[k]), num(rb[k]));
+        });
+        out.readTime = rt;
+    }
     return out;
 }
 

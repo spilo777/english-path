@@ -90,5 +90,7 @@ export interface Progress {
     imgCache?: Record<string, string>;
     deleted?: Record<string, number>;
     dayParts?: Record<string, number>;
+    /** Время чтения по дням: секунды в читалке (день → секунды) */
+    readTime?: Record<string, number>;
     settingsMod?: number;
 }

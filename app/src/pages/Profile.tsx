@@ -7,10 +7,11 @@ import { AchCard } from '../components/AchCard';
 import { Seg } from '../components/Seg';
 import { BackLink, Icon, Page } from '../components/ui';
 import { ACH_LIST, deckStats, engagement } from '@content/achievements';
+import { bookIndex, readingSummary } from '@content/books';
 import { useAchCtx } from '@content/achievements/hooks';
 import { type Engagement, pctOf, pctReal, rankLadder } from '@core/achievements';
 import { useCloud } from '@core/cloud/hooks';
-import { dayXp, type Progress, streak } from '@core/progress';
+import { dayXp, fmtDuration, type Progress, streak } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { cardLearned } from '@core/srs';
 import { LEVELS } from '@utils/level';
@@ -196,6 +197,8 @@ function Stats() {
     const s = useProgress();
     const course = useMainCourse().index.data;
     const { data: deck } = useSource(deckSrc);
+    const books = useSource(bookIndex).data;
+    const rd = readingSummary(s, books);
     const cards = Object.values(s.cards);
     const learned = learnedCards(s);
     const inProgress = cards.filter((c) => c.state !== 'new' && !cardLearned(c)).length;
@@ -252,6 +255,7 @@ function Stats() {
                 </div>
             </div>
             <ActivityChart days={days} />
+            <ReadingCard rd={rd} />
             <div className="pf-grid2">
                 <div className="card">
                     <h3>Слова</h3>
@@ -317,6 +321,65 @@ function Stats() {
                 </div>
             </div>
         </Page>
+    );
+}
+
+/** Чтение: реальное время в читалке, тексты, книги и примерные страницы */
+function ReadingCard({ rd }: { rd: ReturnType<typeof readingSummary> }) {
+    const { time, books } = rd;
+    const avg = time.days ? time.total / time.days : 0;
+    return (
+        <div className="card pf-reading">
+            <h3>Чтение</h3>
+            <div className="pf-grid2 pf-read">
+                <div className="pf-list">
+                    <div>
+                        <span>Сегодня</span>
+                        <b>{fmtDuration(time.today)}</b>
+                    </div>
+                    <div>
+                        <span>На этой неделе</span>
+                        <b>{fmtDuration(time.week)}</b>
+                    </div>
+                    <div>
+                        <span>Всего</span>
+                        <b>{fmtDuration(time.total)}</b>
+                    </div>
+                    <div>
+                        <span>В среднем за день чтения</span>
+                        <b>{fmtDuration(avg)}</b>
+                    </div>
+                </div>
+                <div className="pf-list">
+                    <div>
+                        <span>Книг прочитано целиком</span>
+                        <b>{books.done}</b>
+                    </div>
+                    <div>
+                        <span>Книг в процессе</span>
+                        <b>{books.started}</b>
+                    </div>
+                    <div>
+                        <span>Глав книг прочитано</span>
+                        <b>{books.chapters}</b>
+                    </div>
+                    <div>
+                        <span>Текстов прочитано</span>
+                        <b>{rd.texts}</b>
+                    </div>
+                    <div>
+                        <span>
+                            Страниц <span className="muted small">(≈ 250 слов)</span>
+                        </span>
+                        <b>≈ {rd.pages}</b>
+                    </div>
+                </div>
+            </div>
+            <p className="muted small">
+                Время идёт, пока открыт текст или глава и вы читаете или слушаете; если долго ничего не делать или
+                свернуть вкладку, часы встают на паузу.
+            </p>
+        </div>
     );
 }
 

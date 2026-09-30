@@ -8,12 +8,20 @@ import { BackLink, Icon, Page } from '../components/ui';
 import type { BookMeta } from '@content/books';
 import type { TextItem } from '@content/texts';
 import { ding, speak, stopSpeech } from '@core/audio';
-import { type Progress, recordAnswer, track, unitState, update } from '@core/progress';
+import {
+    markReadingActivity,
+    type Progress,
+    recordAnswer,
+    startReadingClock,
+    track,
+    unitState,
+    update,
+} from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { clean, ensureDict, isDictReady, lookup } from '@core/translate';
 import { today } from '@utils/date';
 import { toast } from '@core/notifications/notify';
-import { minsIn } from '@utils/text';
+import { minsIn, wordsIn } from '@utils/text';
 import './Reader.css';
 
 /** Что читаем и откуда: статья библиотеки, текст урока, свой текст или глава книги */
@@ -104,6 +112,8 @@ function markReadIn(s: Progress, c: ReadCtx) {
     if (!s.textsRead[t.id]) {
         s.textsRead[t.id] = today();
         track(s, 'reads');
+        // слова прочитанных текстов — для «страниц» в профиле (главы книг считаются по оглавлению)
+        if (!c.book) s.stats.wordsRead = (s.stats.wordsRead || 0) + wordsIn(t);
     }
     if (c.unit && c.unit.texts.every((x) => s.textsRead[x.id])) unitState(s, c.unit.id).steps.reading = true;
 }
@@ -135,6 +145,9 @@ export function ReaderView({ ctx }: { ctx: ReadCtx }) {
             alive = false;
         };
     }, [dictReady]);
+
+    // время чтения: часы идут, пока открыт текст (пауза, если вкладка скрыта или долго нет действий)
+    useEffect(() => startReadingClock(), [t.id]);
 
     // уход со страницы / смена текста — остановить чтение вслух
     useEffect(
@@ -171,6 +184,7 @@ export function ReaderView({ ctx }: { ctx: ReadCtx }) {
             el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
         const spk = model.speakers[i];
+        markReadingActivity(); // слушать текст вслух — тоже чтение
         speak(model.sentences[i], {
             rate: +rateRef.current,
             onend: () => playFrom(i + 1),

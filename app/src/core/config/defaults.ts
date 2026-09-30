@@ -23,6 +23,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
     course: { passMark: 0.8, defaultStart: 'A1' },
     srs: { dayStartHour: 4, leechAt: 8, learnedIvl: 21, newPerDay: 15 },
     xp: { review: 1, exercise: 2, read: 10 },
+    reading: { pageWords: 250, idleSecs: 120 },
     cloud: {
         url: 'https://rxpmzsresfuevebkirsk.supabase.co',
         key: 'sb_publishable_wIw_PhBUps-e0z3QlMBCIw_t3yiwJZD',

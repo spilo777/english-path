@@ -44,6 +44,12 @@ export interface EngineConfig {
     };
     /** Очки за день: карточка, упражнение, прочитанный текст (так же считает лига на сервере) */
     xp: { review: number; exercise: number; read: number };
+    reading: {
+        /** Слов на одной «странице» — для счётчика прочитанных страниц в профиле */
+        pageWords: number;
+        /** Сколько секунд без действий в читалке время ещё идёт (дальше — пауза) */
+        idleSecs: number;
+    };
     cloud: {
         url: string;
         /** publishable/anon — публичный ключ: доступ к данным защищён RLS в базе */
