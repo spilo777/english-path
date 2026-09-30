@@ -6,8 +6,8 @@ import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
 import { BackLink, Icon, LoadError, Loading, Page, plural, RoundBtn, Section, toast, TopBar } from '../components/ui';
-import { currentUnit, isUnlocked, mainUnits, passed } from '../lib/course';
-import { useBookIndex, useCourse, useLessons, useLibrary, useTenses } from '../lib/data';
+import { currentUnit, isUnlocked } from '../lib/course';
+import { useBookIndex, useCourse, useLessons, useLibrary } from '../lib/data';
 import { tomb, update, useProgress } from '../lib/store';
 import {
     LEVEL_ORDER,
@@ -80,12 +80,15 @@ export default function Library({ params }: PageProps) {
 }
 
 // ───────── витрина ─────────
+/** Жанровые подборки — одна лента с переключателем вместо шести отдельных */
+const GENRES = ['Сериалы', 'Игры', 'Мультфильмы', 'Аниме', 'Кино', 'Про экран'];
+
 function LibraryHome() {
     const s = useProgress();
     const lib = useLibrary();
     const books = useBookIndex();
     const { data: course } = useCourse();
-    const { data: tenses } = useTenses();
+    const [genre, setGenre] = useState(() => lsGet('ep.libGenre', GENRES[0]));
     if (lib.error)
         return (
             <Page>
@@ -120,8 +123,6 @@ function LibraryHome() {
         (x, y) => Math.abs(lo(x) - LV) - Math.abs(lo(y) - LV),
     );
     const originals = BOOKS.filter((b) => b.kind === 'original');
-    const main = mainUnits(course);
-    const tensesDone = (tenses || []).filter((t) => ((s.tenses || {})[t.id]?.best || 0) >= 0.8).length;
 
     const catSec = (c: string, sub?: string) => {
         const list = byCat(c);
@@ -156,6 +157,20 @@ function LibraryHome() {
                     </>
                 }
             />
+            <div className="chips-row lib-jump">
+                <a className="fchip" href="#/library/all">
+                    <Icon name="article" /> Все статьи
+                </a>
+                <a className="fchip" href="#/library/books">
+                    <Icon name="books" /> Книги
+                </a>
+                <a className="fchip" href="#/listen">
+                    <Icon name="headphones" /> Слушать
+                </a>
+                <a className="fchip" href={'#/library/all/' + encodeURIComponent('Диалоги из игр')}>
+                    <Icon name="chat-circle-dots" /> Диалоги
+                </a>
+            </div>
             {reading.length ? (
                 <Section title="Продолжить чтение">
                     {reading.map((b) => (
@@ -210,7 +225,38 @@ function LibraryHome() {
                 'Диалоги из фильмов и сериалов',
                 'Сцены в духе ситкомов, детективов, фантастики и драм — живые разговоры по ролям, как в кино',
             )}
-            {['Сериалы', 'Игры', 'Мультфильмы', 'Аниме', 'Кино', 'Про экран'].map((c) => catSec(c))}
+            <Section
+                title={
+                    <>
+                        <Icon name="television-simple" /> Статьи по темам
+                    </>
+                }
+                href={'#/library/all/' + encodeURIComponent(genre)}
+                carousel={false}
+            >
+                <div className="chips-row lib-jump lib-genres" role="tablist">
+                    {GENRES.filter((g) => byCat(g).length).map((g) => (
+                        <button
+                            key={g}
+                            type="button"
+                            role="tab"
+                            aria-selected={g === genre}
+                            className={'fchip' + (g === genre ? ' on' : '')}
+                            onClick={() => {
+                                setGenre(g);
+                                lsSet('ep.libGenre', g);
+                            }}
+                        >
+                            {CAT_ICON[g] ? <Icon name={CAT_ICON[g]} /> : null} {g}
+                        </button>
+                    ))}
+                </div>
+                <div className="carousel">
+                    {byCat(genre).map((t) => (
+                        <TextPoster key={t.id} t={t} />
+                    ))}
+                </div>
+            </Section>
             {originals.length ? (
                 <Section
                     title={
@@ -226,37 +272,6 @@ function LibraryHome() {
                     ))}
                 </Section>
             ) : null}
-            <Section title="Грамматика по уровням" href="#/course" carousel={false}>
-                <div className="coll-grid">
-                    {course.levels.map((l, i) => {
-                        const us = main.filter((u) => u.level === l.id);
-                        const dn = us.filter((u) => passed(s, u.id)).length;
-                        return (
-                            <a key={l.id} className={'coll-tile t' + i} href="#/course">
-                                <div className="coll-ill">
-                                    <Icon
-                                        name={['plant', 'tree-evergreen', 'mountains', 'rocket-launch'][i] || 'star'}
-                                        fill
-                                    />
-                                </div>
-                                <b>{l.id}</b>
-                                <span>{l.title.split('— ')[1] || l.title}</span>
-                                <span className="coll-meta">
-                                    {us.length ? `${dn} из ${us.length} юнитов` : 'скоро'}
-                                </span>
-                            </a>
-                        );
-                    })}
-                    <a className="coll-tile t5" href="#/tenses">
-                        <div className="coll-ill">
-                            <Icon name="clock-countdown" fill />
-                        </div>
-                        <b>Времена</b>
-                        <span>Все {(tenses || []).length} времён: карта и тренажёр</span>
-                        <span className="coll-meta">{tensesDone} освоено</span>
-                    </a>
-                </div>
-            </Section>
             {s.userTexts.length ? (
                 <section className="sec">
                     <div className="sec-head">

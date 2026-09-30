@@ -86,3 +86,18 @@
         margin-top: 2px;
     }
 }
+
+/* Описание урока — не длиннее двух строк; у закрытых уроков его нет, список короче */
+.unit-sum {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.unit-row.passed .unit-sum {
+    -webkit-line-clamp: 1;
+}
+.unit-row.locked:not(.planned) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}

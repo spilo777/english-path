@@ -359,3 +359,20 @@
 .fc-known:hover {
     color: var(--ok);
 }
+
+/* Строка под карточкой: «Слово», «Пример», «Картинка» — одинаковые кнопки; панель картинки раскрывается под ней */
+.fc .fc-say {
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.fc .fc-say .btn.on {
+    background: var(--surface-2);
+}
+.img-panel {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+.img-panel .img-tools {
+    margin-top: 0;
+}

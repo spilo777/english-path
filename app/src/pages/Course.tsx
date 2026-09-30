@@ -64,7 +64,7 @@ function UnitRow({ u, s, course }: { u: UnitMeta; s: Progress; course: CourseInd
             </div>
             <div className="body">
                 <div className="title">{u.title}</div>
-                <div className="muted small">{u.summary}</div>
+                {unlocked ? <div className="muted small unit-sum">{u.summary}</div> : null}
                 {unlocked && !ok && p > 0 ? (
                     <div className="progress unit-prog">
                         <i style={{ width: Math.round(p * 100) + '%' }} />
@@ -170,7 +170,7 @@ function Level({
 }
 
 const SUB =
-    'От нуля до B2 (и бонусом C1) по трём учебникам Мерфи. Каждый урок — грамматика, слова, текст, практика и тест; следующий открывается после теста на 80%.';
+    'От нуля до B2 по учебникам Мерфи. Урок: грамматика, слова, текст, практика и тест — следующий открывается после 80%.';
 
 export default function Course(_props: PageProps) {
     const s = useProgress();

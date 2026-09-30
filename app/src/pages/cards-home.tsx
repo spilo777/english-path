@@ -1,6 +1,5 @@
-// Словарь: «Сейчас учу», плитки статусов, колоды по уровням, добавление слова, коллекции по темам
+// Словарь: «Сейчас учу», плитки статусов, колоды по уровням, добавление слова, слова по темам (фильтр-чипы)
 import { useMemo, useRef, useState, type RefObject } from 'react';
-import { GoalCard } from '../components/GoalCard';
 import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { go } from '../app/router';
 import { useCourse } from '../lib/data';
@@ -152,6 +151,56 @@ function AddBox({
     );
 }
 
+/** Темы: чипы-категории сверху, под ними сетка коллекций выбранной категории */
+function Topics({ s, cats, cols }: { s: Progress; cats: TopicCat[]; cols: TopicCol[] }) {
+    const list = cats.filter((c) => cols.some((x) => x.cat === c.id));
+    const [cat, setCat] = useState(() => {
+        try {
+            const v = sessionStorage.getItem('ep.topicCat');
+            if (v && list.some((c) => c.id === v)) return v;
+        } catch {
+            /* приватный режим */
+        }
+        return list[0]?.id || '';
+    });
+    const pick = (id: string) => {
+        setCat(id);
+        try {
+            sessionStorage.setItem('ep.topicCat', id);
+        } catch {
+            /* приватный режим */
+        }
+    };
+    const shown = cols.filter((c) => c.cat === cat);
+    return (
+        <section className="sec">
+            <div className="sec-head">
+                <h2>Слова по темам</h2>
+                <span className="see-all muted">{cols.length}</span>
+            </div>
+            <div className="chips-row topic-chips" role="tablist">
+                {list.map((c) => (
+                    <button
+                        key={c.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={c.id === cat}
+                        className={'fchip' + (c.id === cat ? ' on' : '')}
+                        onClick={() => pick(c.id)}
+                    >
+                        {c.title}
+                    </button>
+                ))}
+            </div>
+            <div className="topic-grid">
+                {shown.map((c) => (
+                    <TopicTile key={c.id} s={s} c={c} cats={cats} />
+                ))}
+            </div>
+        </section>
+    );
+}
+
 export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicCat[]; cols: TopicCol[] }) {
     const s = useProgress();
     const course = useCourse().data;
@@ -203,36 +252,31 @@ export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicC
                     </>
                 }
             />
-            <div className="duo">
-                <div className="now-card">
-                    <div className="now-ill">
-                        <Icon name="cards" fill />
-                    </div>
-                    <div className="now-body">
-                        <div className="eyebrow">Сейчас учу</div>
-                        <b className="now-title">
-                            {onDecks.length ? 'Колоды ' + onDecks.join(' · ') : 'Только мои слова'}
-                        </b>
-                        <div className="small muted">
-                            {due + nw
-                                ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}`
-                                : 'На сегодня всё повторено'}
-                        </div>
-                        <a className="now-extra small" href="#/review/extra">
-                            <Icon name="lightning" fill /> Занятие вне очереди
-                        </a>
-                    </div>
-                    {due + nw ? (
-                        <a className="pill-btn" href="#/review">
-                            НАЧАТЬ
-                        </a>
-                    ) : (
-                        <span className="pill ok">
-                            <Icon name="check" /> Готово
-                        </span>
-                    )}
+            <div className="now-card">
+                <div className="now-ill">
+                    <Icon name="cards" fill />
                 </div>
-                <GoalCard title="Цель обучения на сегодня" />
+                <div className="now-body">
+                    <div className="eyebrow">Сейчас учу</div>
+                    <b className="now-title">{onDecks.length ? 'Колоды ' + onDecks.join(' · ') : 'Только мои слова'}</b>
+                    <div className="small muted">
+                        {due + nw
+                            ? `${due} на повторение · ${nw} ${plural(nw, 'новая', 'новые', 'новых')}`
+                            : 'На сегодня всё повторено'}
+                    </div>
+                    <a className="now-extra small" href="#/review/extra">
+                        <Icon name="lightning" fill /> Занятие вне очереди
+                    </a>
+                </div>
+                {due + nw ? (
+                    <a className="pill-btn" href="#/review">
+                        НАЧАТЬ
+                    </a>
+                ) : (
+                    <span className="pill ok">
+                        <Icon name="check" /> Готово
+                    </span>
+                )}
             </div>
             <div className="tiles4">
                 {tiles.map(([k, cls, icon, label]) => (
@@ -270,23 +314,7 @@ export function CardsHome({ deck, cats, cols }: { deck: DeckWord[]; cats: TopicC
                 </div>
             </section>
             {adding ? <AddBox boxRef={boxRef} enRef={enRef} /> : null}
-            {cats.map((cat) => {
-                const list = cols.filter((c) => c.cat === cat.id);
-                if (!list.length) return null;
-                return (
-                    <section className="sec" key={cat.id}>
-                        <div className="sec-head">
-                            <h2>{cat.title}</h2>
-                            <span className="see-all muted">{list.length}</span>
-                        </div>
-                        <div className="carousel topic-row">
-                            {list.map((c) => (
-                                <TopicTile key={c.id} s={s} c={c} cats={cats} />
-                            ))}
-                        </div>
-                    </section>
-                );
-            })}
+            <Topics s={s} cats={cats} cols={cols} />
             <a className="list-link words-all" href="#/words/all">
                 <Icon name="list-bullets" />
                 <span>

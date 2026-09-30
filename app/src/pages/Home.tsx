@@ -1,4 +1,4 @@
-// Главная: продолжить урок, цель на день, план на сегодня, подборки статей/диалогов/книг, ближайшие награды
+// Главная: продолжить урок, план на сегодня (кольца-ссылки), подборка «Для вас», книги, совет дня, ближайшие награды
 import { useState } from 'react';
 import type { PageProps } from '../app/App';
 import { ACH_LIST, engagement, nearAch, useAchCtx } from '../lib/achievements';
@@ -11,9 +11,8 @@ import { LEVEL_ORDER, type CourseIndex, type LessonText, type Progress } from '.
 import { AchCard } from '../components/AchCard';
 import { GoalCard } from '../components/GoalCard';
 import { PlacementHint } from '../components/PlacementHint';
-import { openPlacement } from '../components/Modal';
 import { BookPoster, TextPoster } from '../components/Posters';
-import { Icon, LoadError, Loading, Page, plural, RoundBtn, Section, TopBar } from '../components/ui';
+import { Icon, LoadError, Loading, Page, RoundBtn, Section, TopBar } from '../components/ui';
 import { AvatarBtn } from './course-head';
 import './Home.css';
 
@@ -57,35 +56,6 @@ function useUnreadUnitText(s: Progress, course: CourseIndex | undefined): Lesson
         }
     }
     return undefined;
-}
-
-function Task({
-    done,
-    icon,
-    title,
-    sub,
-    href,
-    btn,
-}: {
-    done: boolean;
-    icon: string;
-    title: string;
-    sub: string;
-    href: string;
-    btn?: string;
-}) {
-    return (
-        <a className={'task' + (done ? ' done' : '')} href={href}>
-            <div className="num">
-                <Icon name={done ? 'check' : icon} />
-            </div>
-            <div className="body">
-                <b>{title}</b>
-                <span className="muted small">{sub}</span>
-            </div>
-            {btn && !done ? <span className="pill-btn sm">{btn}</span> : <Icon name="caret-right" className="muted" />}
-        </a>
-    );
 }
 
 function AuthBanner() {
@@ -157,7 +127,6 @@ export default function Home(_props: PageProps) {
     const hello = h < 5 ? 'Доброй ночи' : h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
     const right = (
         <>
-            <RoundBtn icon="target" title="Тест на уровень" onClick={openPlacement} />
             <RoundBtn href="#/library/find" icon="magnifying-glass" title="Поиск по статьям" />
             <AvatarBtn />
         </>
@@ -186,22 +155,19 @@ export default function Home(_props: PageProps) {
     const nw = deck ? newAvailable(s, deck) : 0;
     const ns = nextStep(s, u.id);
     const act = s.activity[today()] || { reviews: 0, exercises: 0, reads: 0 };
-    const total = Object.keys(s.cards).length;
     const library = lib || [];
     const suggest = unitText || library.find((t) => t.level === u.level && !s.textsRead[t.id]);
     const reviewsDone = (act.reviews || 0) > 0 && due === 0 && nw === 0;
     const lessonToday = (act.exercises || 0) > 0 || !ns;
     const readToday = (act.reads || 0) > 0;
     const planDone = [reviewsDone, lessonToday, readToday].filter(Boolean).length;
-    const forYou = library
-        .filter((t) => !s.textsRead[t.id] && t.kind !== 'dialogue' && t.level === u.level)
-        .slice(0, 10);
     const fits = (t: { level: string; id: string }) =>
         !s.textsRead[t.id] && (LEVEL_ORDER[t.level] || 0) <= LEVEL_ORDER[u.level] + 1;
-    const dlgs = library.filter((t) => t.kind === 'dialogue' && t.cat === 'Диалоги из игр' && fits(t)).slice(0, 10);
-    const scenes = library
-        .filter((t) => t.kind === 'dialogue' && t.cat === 'Диалоги из фильмов и сериалов' && fits(t))
-        .slice(0, 10);
+    // сначала статьи ровно по уровню, затем диалоги из игр и кино — одна подборка вместо трёх
+    const forYou = [
+        ...library.filter((t) => t.kind !== 'dialogue' && t.level === u.level && !s.textsRead[t.id]).slice(0, 6),
+        ...library.filter((t) => t.kind === 'dialogue' && fits(t)).slice(0, 4),
+    ];
     const bookList = (books || []).filter(
         (b) => b.kind === 'adapted' && LEVEL_ORDER[b.level] <= LEVEL_ORDER[u.level] + 1,
     );
@@ -212,7 +178,6 @@ export default function Home(_props: PageProps) {
     return (
         <Page>
             <TopBar title={hello} right={right} sub={date + (planDone === 3 ? ' · план выполнен' : '')} />
-            <PlacementHint s={s} offerOnly />
             <div className="duo">
                 <a className="continue-card" href={unitHref}>
                     <div className="cc-ill">
@@ -220,11 +185,11 @@ export default function Home(_props: PageProps) {
                     </div>
                     <div className="cc-body">
                         <div className="cc-eyebrow">
-                            Курс · {u.level} · юнит {u.num}
+                            Курс · {u.level} · урок {u.num}
                         </div>
                         <div className="cc-title">{u.title}</div>
                         <div className="cc-sub">
-                            {ns ? 'Дальше: ' + ns.label : 'Юнит пройден'} · {p}%
+                            {ns ? 'Дальше: ' + ns.label : 'Урок пройден'} · {p}%
                         </div>
                         <div className="cc-bar">
                             <i style={{ width: p + '%' }} />
@@ -232,103 +197,48 @@ export default function Home(_props: PageProps) {
                     </div>
                     <span className="pill-btn light">{p ? 'ПРОДОЛЖИТЬ' : 'НАЧАТЬ'}</span>
                 </a>
-                <GoalCard />
+                <GoalCard
+                    links={{
+                        cards: cardsLeft ? '#/review' : '#/cards',
+                        ex: unitHref,
+                        read: suggest ? '#/read/' + suggest.id : '#/library',
+                        exHint: ns ? `урок ${u.num} · дальше: ${ns.label.toLowerCase()}` : undefined,
+                        readHint: suggest ? '«' + suggest.title + '»' : undefined,
+                    }}
+                />
             </div>
+            <PlacementHint s={s} offerOnly />
             <AuthBanner />
-            <section className="sec">
-                <div className="sec-head">
-                    <h2>План на сегодня</h2>
-                    <span className="see-all muted">{planDone}/3</span>
-                </div>
-                <div className="stack plan-grid">
-                    <Task
-                        done={reviewsDone}
-                        icon="cards"
-                        title="Карточки"
-                        sub={
-                            cardsLeft
-                                ? `${due} на повторение, ${nw} ${plural(nw, 'новая', 'новые', 'новых')}`
-                                : total
-                                  ? 'На сегодня всё повторено'
-                                  : 'Слова появятся после шага «Слова» в уроке'
-                        }
-                        href={cardsLeft ? '#/review' : '#/cards'}
-                        btn={cardsLeft ? 'НАЧАТЬ' : ''}
-                    />
-                    <Task
-                        done={lessonToday}
-                        icon="book-open"
-                        title={`Урок ${u.num}: ${u.title}`}
-                        sub={ns ? 'Следующий шаг: ' + ns.label : 'Юнит пройден'}
-                        href={unitHref}
-                        btn={ns ? 'УРОК' : ''}
-                    />
-                    <Task
-                        done={readToday}
-                        icon="headphones"
-                        title="Чтение и аудирование"
-                        sub={
-                            suggest
-                                ? '«' + suggest.title + '» — прочитайте, прослушайте, повторите вслух'
-                                : 'Выберите статью или книгу в библиотеке'
-                        }
-                        href={suggest ? '#/read/' + suggest.id : '#/library'}
-                        btn="ЧИТАТЬ"
-                    />
-                    <div className="task">
-                        <div className="num">
-                            <Icon name="globe-hemisphere-west" />
-                        </div>
-                        <div className="body">
-                            <b>Вне сайта: 20+ минут английского</b>
-                            <span className="muted small">{tipOfDay()}</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <Section title="Для вас" href="#/library" sub={`Статьи уровня ${u.level} о сериалах, играх и мультфильмах`}>
+            <Section
+                title="Для вас"
+                href="#/library"
+                sub={`Статьи и диалоги уровня ${u.level} — о сериалах, играх и кино`}
+            >
                 {forYou.map((t) => (
                     <TextPoster key={t.id} t={t} />
                 ))}
             </Section>
-            <Section
-                title={
-                    <>
-                        <Icon name="chat-circle-dots" /> Диалоги из игр
-                    </>
-                }
-                href={'#/library/all/' + encodeURIComponent('Диалоги из игр')}
-            >
-                {dlgs.map((t) => (
-                    <TextPoster key={t.id} t={t} />
-                ))}
-            </Section>
-            {scenes.length ? (
+            {bookList.length ? (
                 <Section
                     title={
                         <>
-                            <Icon name="film-reel" /> Сцены из кино и сериалов
+                            <Icon name="books" /> Книги под ваш уровень
                         </>
                     }
-                    href={'#/library/all/' + encodeURIComponent('Диалоги из фильмов и сериалов')}
+                    href="#/library/books"
                 >
-                    {scenes.map((t) => (
-                        <TextPoster key={t.id} t={t} />
+                    {bookList.map((b) => (
+                        <BookPoster key={b.id} b={b} />
                     ))}
                 </Section>
             ) : null}
-            <Section
-                title={
-                    <>
-                        <Icon name="books" /> Книги
-                    </>
-                }
-                href="#/library/books"
-            >
-                {bookList.map((b) => (
-                    <BookPoster key={b.id} b={b} />
-                ))}
-            </Section>
+            <div className="tip-card">
+                <Icon name="lightbulb" fill />
+                <div>
+                    <b>Совет дня · 20 минут вне сайта</b>
+                    <span className="small muted">{tipOfDay()}</span>
+                </div>
+            </div>
             <NearAwards s={s} />
         </Page>
     );

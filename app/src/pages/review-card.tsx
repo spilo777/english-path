@@ -62,9 +62,10 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
     // null — места под картинку нет; '' — ищем картинку; строка — адрес
     const [img, setImg] = useState<string | null>(() => c.img || (wantsImg(c, pos) ? '' : null));
     const [loaded, setLoaded] = useState(false);
-    const [formOpen, setFormOpen] = useState(false);
+    const [toolsOpen, setToolsOpen] = useState(false);
     const [url, setUrl] = useState(c.img || '');
     const urlRef = useRef<HTMLInputElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (m === 'en-ru') speak(c.en);
@@ -108,10 +109,6 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
         return () => document.removeEventListener('keydown', onKey);
     }, []);
 
-    useEffect(() => {
-        if (formOpen) urlRef.current?.focus();
-    }, [formOpen]);
-
     const hideImg = () => {
         update((s) => {
             const k = s.cards[id];
@@ -151,7 +148,7 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
         });
         setImg(v || null);
         setLoaded(false);
-        setFormOpen(false);
+        setToolsOpen(false);
         toast(v ? 'Картинка сохранена' : 'Картинка убрана');
     };
 
@@ -184,17 +181,17 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
         ) : null;
 
     const q = encodeURIComponent(c.en);
-    const tools = (
-        <>
+    // поиск и своя картинка — редкое действие, поэтому за одной кнопкой в строке озвучки
+    const tools = toolsOpen ? (
+        <div className="img-panel" ref={panelRef}>
             <div className="img-tools">
-                <span className="tiny muted">Картинка:</span>
                 <a
                     className="btn small"
                     target="_blank"
                     rel="noopener"
                     href={'https://yandex.ru/images/search?text=' + q}
                 >
-                    Яндекс
+                    Найти в Яндексе
                 </a>
                 <a
                     className="btn small"
@@ -202,34 +199,29 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
                     rel="noopener"
                     href={'https://www.google.com/search?tbm=isch&q=' + q}
                 >
-                    Google
+                    Найти в Google
                 </a>
-                <button type="button" className="btn small" onClick={() => setFormOpen((o) => !o)}>
-                    <Icon name="pencil-simple" /> Своя
+            </div>
+            <div className="img-form">
+                <input
+                    className="input"
+                    ref={urlRef}
+                    placeholder="Вставьте адрес картинки"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.stopPropagation();
+                            saveImg();
+                        }
+                    }}
+                />
+                <button type="button" className="btn small primary" onClick={saveImg}>
+                    OK
                 </button>
             </div>
-            {formOpen ? (
-                <div className="img-form">
-                    <input
-                        className="input"
-                        ref={urlRef}
-                        placeholder="Вставьте адрес картинки (ПКМ по картинке — «Копировать адрес»)"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.stopPropagation();
-                                saveImg();
-                            }
-                        }}
-                    />
-                    <button type="button" className="btn small primary" onClick={saveImg}>
-                        OK
-                    </button>
-                </div>
-            ) : null}
-        </>
-    );
+        </div>
+    ) : null;
 
     let front: ReactNode, back: ReactNode;
     if (m === 'en-ru') {
@@ -248,7 +240,6 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
             <div className="back">
                 {c.ru}
                 {c.exRu ? <div className="exru">{c.exRu}</div> : null}
-                {tools}
             </div>
         );
     } else {
@@ -268,7 +259,6 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
                         <ExText text={c.ex} />
                     </div>
                 ) : null}
-                {tools}
             </div>
         );
     }
@@ -292,21 +282,32 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
                 {front}
                 {shown ? back : null}
                 <div className="row fc-say">
-                    <button
-                        type="button"
-                        className="icon-btn"
-                        title="Послушать"
-                        aria-label="Послушать"
-                        onClick={() => speak(c.en)}
-                    >
-                        <Icon name="speaker-high" />
+                    <button type="button" className="btn small ghost" onClick={() => speak(c.en)}>
+                        <Icon name="speaker-high" /> Слово
                     </button>
                     {exPlain ? (
                         <button type="button" className="btn small ghost" onClick={() => speak(exPlain)}>
                             <Icon name="speaker-high" /> Пример
                         </button>
                     ) : null}
+                    {shown ? (
+                        <button
+                            type="button"
+                            className={'btn small ghost' + (toolsOpen ? ' on' : '')}
+                            aria-expanded={toolsOpen}
+                            onClick={() => {
+                                setToolsOpen((o) => !o);
+                                // кнопки оценок прилипают к низу экрана — прокрутить, чтобы панель была видна
+                                requestAnimationFrame(() =>
+                                    panelRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }),
+                                );
+                            }}
+                        >
+                            <Icon name="image" /> Картинка
+                        </button>
+                    ) : null}
                 </div>
+                {shown ? tools : null}
             </div>
             <div className="fc-actions">
                 {!shown ? (

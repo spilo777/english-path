@@ -131,3 +131,29 @@
     margin-top: 6px;
     font-weight: 650;
 }
+
+/* Слова по темам: чипы-категории листаются вбок, под ними сетка коллекций */
+.chips-row.topic-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -16px 14px;
+    padding: 2px 16px;
+}
+.chips-row.topic-chips::-webkit-scrollbar {
+    display: none;
+}
+.topic-chips .fchip {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+@media (max-width: 760px) {
+    .topic-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -48,3 +48,23 @@
         background: transparent;
     }
 }
+
+/* Совет дня: одна строка-подсказка вместо отдельной задачи в плане */
+.tip-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: color-mix(in srgb, #e3a21a 11%, var(--surface));
+}
+.tip-card > .ph-fill {
+    color: #e3a21a;
+    font-size: 22px;
+    margin-top: 1px;
+}
+.tip-card > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}

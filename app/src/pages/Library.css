@@ -164,3 +164,28 @@
         flex-basis: 100%;
     }
 }
+
+/* Быстрые переходы под заголовком библиотеки */
+.chips-row.lib-jump {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 2px 16px;
+}
+.chips-row.lib-jump::-webkit-scrollbar {
+    display: none;
+}
+.lib-jump .fchip {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.lib-jump .fchip:not(.on) {
+    color: var(--text);
+}
+.chips-row.lib-genres {
+    margin-bottom: 12px;
+}

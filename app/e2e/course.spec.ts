@@ -46,8 +46,8 @@ test('главная: продолжить текущий урок и план',
     const errors = watch(page);
     await page.goto('#/');
     await page.reload();
-    await expect(page.locator('.continue-card')).toContainText('юнит 4');
-    await expect(page.locator('.plan-grid .task')).toHaveCount(4);
+    await expect(page.locator('.continue-card')).toContainText('урок 4');
+    await expect(page.locator('.goal-card a.goal-row')).toHaveCount(3);
     await page.locator('.continue-card').click();
     await expect(page).toHaveURL(/#\/unit\/a1-4\/reading/);
     expect(errors).toEqual([]);

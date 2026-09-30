@@ -176,22 +176,6 @@ function ProfileHome() {
                     <span>наград из {ACH_LIST.length}</span>
                 </div>
             </div>
-            <StreakCal s={s} />
-            {recent.length && ctx ? (
-                <section className="sec">
-                    <div className="sec-head">
-                        <h2>Последние награды</h2>
-                        <a className="see-all" href="#/achievements">
-                            См. все
-                        </a>
-                    </div>
-                    <div className="ach-list">
-                        {recent.map((a) => (
-                            <AchCard key={a.id} a={a} ctx={ctx} />
-                        ))}
-                    </div>
-                </section>
-            ) : null}
             <div className="menu-list">
                 <a href="#/achievements">
                     <span className="mi" style={cssVar('--c', '#E3A21A')}>
@@ -217,13 +201,6 @@ function ProfileHome() {
                     <span>Прогресс и статистика</span>
                     <Icon name="caret-right" />
                 </a>
-                <a href="#/account">
-                    <span className="mi" style={cssVar('--c', '#1FA865')}>
-                        <Icon name="cloud" fill />
-                    </span>
-                    <span>{email ? 'Аккаунт и синхронизация' : 'Войти или создать аккаунт'}</span>
-                    <Icon name="caret-right" />
-                </a>
                 <a href="#/settings">
                     <span className="mi" style={cssVar('--c', '#8E8E99')}>
                         <Icon name="gear-six" fill />
@@ -232,6 +209,22 @@ function ProfileHome() {
                     <Icon name="caret-right" />
                 </a>
             </div>
+            <StreakCal s={s} />
+            {recent.length && ctx ? (
+                <section className="sec">
+                    <div className="sec-head">
+                        <h2>Последние награды</h2>
+                        <a className="see-all" href="#/achievements">
+                            См. все
+                        </a>
+                    </div>
+                    <div className="ach-list">
+                        {recent.map((a) => (
+                            <AchCard key={a.id} a={a} ctx={ctx} />
+                        ))}
+                    </div>
+                </section>
+            ) : null}
         </Page>
     );
 }
