@@ -1,55 +1,232 @@
 /* Карточка достижения */
-.ach-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px; }
-@media (max-width: 760px) { .ach-list { grid-template-columns: 1fr; } }
+.ach-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 10px;
+}
+@media (max-width: 760px) {
+    .ach-list {
+        grid-template-columns: 1fr;
+    }
+}
 
-.ach { position: relative; overflow: hidden; display: flex; gap: 14px; align-items: flex-start; padding: 15px; border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.ach::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--t-common); }
-.ach.r-uncommon::before { background: var(--t-uncommon); }
-.ach.r-rare::before { background: var(--t-rare); }
-.ach.r-epic::before { background: var(--t-epic); }
-.ach.r-legend::before { background: linear-gradient(var(--t-legend), #ffe08a, var(--t-legend)); }
-.ach.got.r-legend { background: linear-gradient(120deg, color-mix(in srgb, var(--t-legend) 10%, var(--surface)), var(--surface) 60%); }
-.ach.got.r-epic { background: linear-gradient(120deg, color-mix(in srgb, var(--t-epic) 8%, var(--surface)), var(--surface) 60%); }
-.ach.locked { box-shadow: none; }
-.ach.locked b { color: var(--text-2); }
-.ach-body { flex: 1; min-width: 0; }
-.ach-prog { margin-top: 8px; }
-.ach-count { margin-top: 3px; }
-.ach-date { margin-top: 4px; }
+.ach {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 15px;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+.ach::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--t-common);
+}
+.ach.r-uncommon::before {
+    background: var(--t-uncommon);
+}
+.ach.r-rare::before {
+    background: var(--t-rare);
+}
+.ach.r-epic::before {
+    background: var(--t-epic);
+}
+.ach.r-legend::before {
+    background: linear-gradient(var(--t-legend), #ffe08a, var(--t-legend));
+}
+.ach.got.r-legend {
+    background: linear-gradient(120deg, color-mix(in srgb, var(--t-legend) 10%, var(--surface)), var(--surface) 60%);
+}
+.ach.got.r-epic {
+    background: linear-gradient(120deg, color-mix(in srgb, var(--t-epic) 8%, var(--surface)), var(--surface) 60%);
+}
+.ach.locked {
+    box-shadow: none;
+}
+.ach.locked b {
+    color: var(--text-2);
+}
+.ach-body {
+    flex: 1;
+    min-width: 0;
+}
+.ach-prog {
+    margin-top: 8px;
+}
+.ach-count {
+    margin-top: 3px;
+}
+.ach-date {
+    margin-top: 4px;
+}
 
 /* значок: фон — цвет достижения, рамка и свечение — редкость */
-.ach-icon { position: relative; width: 54px; height: 54px; margin: 4px; flex-shrink: 0; border-radius: 15px; display: grid; place-items: center; background: linear-gradient(145deg, var(--c1), var(--c2)); box-shadow: 0 6px 14px -6px var(--c2), inset 0 1px 0 rgba(255,255,255,.3); }
-.ach-icon::after { content: ''; position: absolute; inset: -4px; border-radius: 18px; border: 2.5px solid var(--t-common); pointer-events: none; }
-.ach-icon.uncommon::after { border-color: var(--t-uncommon); }
-.ach-icon.rare::after { border-color: var(--t-rare); box-shadow: 0 0 12px -2px var(--t-rare); }
-.ach-icon.epic::after { border-color: var(--t-epic); box-shadow: 0 0 14px -2px var(--t-epic); }
-.ach-icon.legend::after { border-color: var(--t-legend); box-shadow: 0 0 18px -1px var(--t-legend); }
+.ach-icon {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    margin: 4px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, var(--c1), var(--c2));
+    box-shadow:
+        0 6px 14px -6px var(--c2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.ach-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 18px;
+    border: 2.5px solid var(--t-common);
+    pointer-events: none;
+}
+.ach-icon.uncommon::after {
+    border-color: var(--t-uncommon);
+}
+.ach-icon.rare::after {
+    border-color: var(--t-rare);
+    box-shadow: 0 0 12px -2px var(--t-rare);
+}
+.ach-icon.epic::after {
+    border-color: var(--t-epic);
+    box-shadow: 0 0 14px -2px var(--t-epic);
+}
+.ach-icon.legend::after {
+    border-color: var(--t-legend);
+    box-shadow: 0 0 18px -1px var(--t-legend);
+}
 /* сильнее старых правил .ach-icon.* i из ui.css */
-.ach-icon.ach-icon > i { font-size: 26px; color: #fff; filter: drop-shadow(0 2px 3px rgba(0,0,0,.25)); }
+.ach-icon.ach-icon > i {
+    font-size: 26px;
+    color: #fff;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
 /* ещё не получено — всё серое: значок, рамка редкости, полоска слева */
-.ach.locked { background: var(--surface-2); border-color: transparent; }
-.ach.locked::before { background: var(--line-strong); }
-.ach.locked .ach-icon { filter: grayscale(1); opacity: .45; box-shadow: none; }
-.ach.locked .ach-icon::after { border-color: var(--line-strong); box-shadow: none; }
-.ach.locked .ach-body > b { color: var(--muted); }
-.ach.locked .rar-pill { background: var(--muted); color: var(--surface); opacity: .7; }
-.ach.locked .ach-rar > span:last-child { color: var(--muted); }
-.ach-lock { position: absolute; right: -6px; bottom: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.2); z-index: 2; }
-.ach-lock.ach-lock > i { font-size: 12px; color: var(--muted); filter: none; }
+.ach.locked {
+    background: var(--surface-2);
+    border-color: transparent;
+}
+.ach.locked::before {
+    background: var(--line-strong);
+}
+.ach.locked .ach-icon {
+    filter: grayscale(1);
+    opacity: 0.45;
+    box-shadow: none;
+}
+.ach.locked .ach-icon::after {
+    border-color: var(--line-strong);
+    box-shadow: none;
+}
+.ach.locked .ach-body > b {
+    color: var(--muted);
+}
+.ach.locked .rar-pill {
+    background: var(--muted);
+    color: var(--surface);
+    opacity: 0.7;
+}
+.ach.locked .ach-rar > span:last-child {
+    color: var(--muted);
+}
+.ach-lock {
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+.ach-lock.ach-lock > i {
+    font-size: 12px;
+    color: var(--muted);
+    filter: none;
+}
 
 /* редкость справа */
-.ach-rar { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; flex-shrink: 0; font-weight: 750; font-size: 15px; font-variant-numeric: tabular-nums; }
-.rar-pill { font-size: 11px; font-weight: 750; padding: 2px 8px; border-radius: 99px; color: #fff; background: var(--t-common); letter-spacing: .02em; }
-.rar-pill.uncommon { background: var(--t-uncommon); }
-.rar-pill.rare { background: var(--t-rare); }
-.rar-pill.epic { background: var(--t-epic); }
-.rar-pill.legend { background: linear-gradient(135deg, #f5b301, #e08a00); }
-.tier-common { color: var(--t-common); } .tier-uncommon { color: var(--t-uncommon); } .tier-rare { color: var(--t-rare); } .tier-epic { color: var(--t-epic); } .tier-legend { color: var(--t-legend); }
+.ach-rar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    text-align: right;
+    flex-shrink: 0;
+    font-weight: 750;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+}
+.rar-pill {
+    font-size: 11px;
+    font-weight: 750;
+    padding: 2px 8px;
+    border-radius: 99px;
+    color: #fff;
+    background: var(--t-common);
+    letter-spacing: 0.02em;
+}
+.rar-pill.uncommon {
+    background: var(--t-uncommon);
+}
+.rar-pill.rare {
+    background: var(--t-rare);
+}
+.rar-pill.epic {
+    background: var(--t-epic);
+}
+.rar-pill.legend {
+    background: linear-gradient(135deg, #f5b301, #e08a00);
+}
+.tier-common {
+    color: var(--t-common);
+}
+.tier-uncommon {
+    color: var(--t-uncommon);
+}
+.tier-rare {
+    color: var(--t-rare);
+}
+.tier-epic {
+    color: var(--t-epic);
+}
+.tier-legend {
+    color: var(--t-legend);
+}
 
 @media (max-width: 760px) {
-  .ach { padding: 13px; gap: 12px; }
-  .ach-icon { width: 46px; height: 46px; border-radius: 13px; }
-  .ach-icon.ach-icon > i { font-size: 23px; }
-  .ach-body > b { font-size: 16px; }
-  .ach-body .small { font-size: 14px; line-height: 1.4; }
+    .ach {
+        padding: 13px;
+        gap: 12px;
+    }
+    .ach-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+    }
+    .ach-icon.ach-icon > i {
+        font-size: 23px;
+    }
+    .ach-body > b {
+        font-size: 16px;
+    }
+    .ach-body .small {
+        font-size: 14px;
+        line-height: 1.4;
+    }
 }

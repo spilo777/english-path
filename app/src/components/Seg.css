@@ -1,8 +1,32 @@
 /* Сегментный переключатель */
-.seg { display: inline-flex; background: var(--surface-2); border-radius: 13px; padding: 4px; }
-.seg button { border: 0; background: transparent; padding: 7px 15px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--muted); }
-.seg button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.seg {
+    display: inline-flex;
+    background: var(--surface-2);
+    border-radius: 13px;
+    padding: 4px;
+}
+.seg button {
+    border: 0;
+    background: transparent;
+    padding: 7px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+}
+.seg button.on {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+}
 @media (max-width: 760px) {
-  .seg { width: 100%; }
-  .seg button { flex: 1; padding: 8px 6px; font-size: 13px; }
+    .seg {
+        width: 100%;
+    }
+    .seg button {
+        flex: 1;
+        padding: 8px 6px;
+        font-size: 13px;
+    }
 }

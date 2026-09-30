@@ -12,36 +12,74 @@ const AchPopups = lazy(() => import('../components/AchPopups').then((m) => ({ de
 
 /** true, когда первый экран нарисован и браузер свободен: фоновые загрузки не мешают открытию страницы */
 function useIdle(): boolean {
-  const [idle, setIdle] = useState(false);
-  useEffect(() => {
-    const w = window as unknown as { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
-    if (w.requestIdleCallback) { const id = w.requestIdleCallback(() => setIdle(true), { timeout: 2500 }); return () => w.cancelIdleCallback?.(id); }
-    const t = setTimeout(() => setIdle(true), 1200);
-    return () => clearTimeout(t);
-  }, []);
-  return idle;
+    const [idle, setIdle] = useState(false);
+    useEffect(() => {
+        const w = window as unknown as {
+            requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number;
+            cancelIdleCallback?: (id: number) => void;
+        };
+        if (w.requestIdleCallback) {
+            const id = w.requestIdleCallback(() => setIdle(true), { timeout: 2500 });
+            return () => w.cancelIdleCallback?.(id);
+        }
+        const t = setTimeout(() => setIdle(true), 1200);
+        return () => clearTimeout(t);
+    }, []);
+    return idle;
 }
 
 /** В свободное время заранее подгружаем главные экраны и лёгкие данные — переходы по меню без ожидания */
 function prefetch() {
-  const pages = [() => import('../pages/Home'), () => import('../pages/Course'), () => import('../pages/Unit'), () => import('../pages/Library'),
-    () => import('../pages/Dictionary'), () => import('../pages/Review'), () => import('../pages/Profile'), () => import('../pages/Reader')];
-  let i = 0;
-  const next = () => { if (i < pages.length) pages[i++]().catch(() => undefined).finally(() => setTimeout(next, 60)); };
-  next();
-  [paths.course, paths.lessons].forEach((p) => { loadJSON(p).catch(() => undefined); });
+    const pages = [
+        () => import('../pages/Home'),
+        () => import('../pages/Course'),
+        () => import('../pages/Unit'),
+        () => import('../pages/Library'),
+        () => import('../pages/Dictionary'),
+        () => import('../pages/Review'),
+        () => import('../pages/Profile'),
+        () => import('../pages/Reader'),
+    ];
+    let i = 0;
+    const next = () => {
+        if (i < pages.length)
+            pages[i++]()
+                .catch(() => undefined)
+                .finally(() => setTimeout(next, 60));
+    };
+    next();
+    [paths.course, paths.lessons].forEach((p) => {
+        loadJSON(p).catch(() => undefined);
+    });
 }
 
 export function AppChrome({ children }: { children: (badge: number) => ReactNode }) {
-  const s = useProgress();
-  const idle = useIdle();
-  const deck = useDeck(idle); // словарь для счётчика «новых» — после первого экрана
-  const badge = deck ? dueCards(s).length + newAvailable(s, deck) : dueCards(s).length;
-  // облако: сразу, если вы вошли; иначе — в фоне после первого экрана (повторные вызовы игнорируются)
-  useEffect(() => { if (idle || hasSession()) Cloud.init(); }, [idle]);
-  useEffect(() => { if (idle) prefetch(); }, [idle]);
-  // вошли — записаться в лигу этой недели (если имя для лиги уже выбрано), чтобы очки считались без захода на страницу лиги
-  const cloud = useCloud();
-  useEffect(() => { if (idle && cloud.user) touchLeague(); }, [idle, cloud.user]);
-  return <>{children(badge)}{idle ? <Suspense fallback={null}><AchPopups /></Suspense> : null}<PopoverHost /><PlacementModalHost /></>;
+    const s = useProgress();
+    const idle = useIdle();
+    const deck = useDeck(idle); // словарь для счётчика «новых» — после первого экрана
+    const badge = deck ? dueCards(s).length + newAvailable(s, deck) : dueCards(s).length;
+    // облако: сразу, если вы вошли; иначе — в фоне после первого экрана (повторные вызовы игнорируются)
+    useEffect(() => {
+        if (idle || hasSession()) Cloud.init();
+    }, [idle]);
+    useEffect(() => {
+        if (idle) prefetch();
+    }, [idle]);
+    // вошли — записаться в лигу этой недели (если имя для лиги уже выбрано), чтобы очки считались без захода на страницу лиги
+    const cloud = useCloud();
+    useEffect(() => {
+        if (idle && cloud.user) touchLeague();
+    }, [idle, cloud.user]);
+    return (
+        <>
+            {children(badge)}
+            {idle ? (
+                <Suspense fallback={null}>
+                    <AchPopups />
+                </Suspense>
+            ) : null}
+            <PopoverHost />
+            <PlacementModalHost />
+        </>
+    );
 }
