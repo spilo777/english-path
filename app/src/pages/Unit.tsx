@@ -8,11 +8,25 @@ import { esc, Html, useLessonEnhance } from '../components/Enhance';
 import { dlgLines, minsIn, wordsIn } from '../components/Posters';
 import { Walk } from '../components/Walk';
 import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle, toast } from '../components/ui';
-import { isUnlocked, mainUnits, nextStep, passed, STEPS, unitBooksParts, type StepKey } from '../lib/course';
-import { useCourse, useSyllabus, useUnit } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import {
+    afterTest,
+    isPassing,
+    mainUnits,
+    nextStep,
+    passed,
+    recordPractice,
+    recordTest,
+    STEPS,
+    syllabus as syllabusSrc,
+    unitBody,
+    unitBooksParts,
+    type StepKey,
+} from '../content/lessons';
 import { speak } from '../lib/speech';
 import { addCard, cardId } from '../lib/srs';
-import { getState, PASS, resetUnit, tomb, track, unitState, update, useProgress } from '../lib/store';
+import { getState, resetUnit, tomb, track, unitState, update, useProgress } from '../lib/store';
 import type { BookRefs, CourseIndex, Level, Syllabus, Unit as UnitData, UnitMeta } from '../lib/types';
 import './Unit.css';
 
@@ -313,9 +327,7 @@ function ReadingTab({ unit }: { unit: UnitData }) {
 function PracticeTab({ unit }: { unit: UnitData }) {
     const list = useMemo(() => shuffle(unit.practice || []), [unit]);
     const finish = (): ReactNode => {
-        update((s) => {
-            unitState(s, unit.id).steps.practice = true;
-        });
+        update((s) => recordPractice(s, unit.id));
         return (
             <a className="btn primary" href={unitHref(unit.id, 'test')}>
                 Перейти к тесту <Icon name="arrow-right" />
@@ -336,23 +348,9 @@ function TestTab({ unit, course }: { unit: UnitData; course: CourseIndex }) {
 
     const finish = (score: number): ReactNode => {
         const wasPassed = passed(getState(), unit.id);
-        update((x) => {
-            const st = x.stats;
-            st.attempts = st.attempts || {};
-            st.perfect = st.perfect || {};
-            st.firstTryUnits = st.firstTryUnits || {};
-            st.attempts[unit.id] = (st.attempts[unit.id] || 0) + 1;
-            if (score >= 1) st.perfect[unit.id] = true;
-            if (score >= PASS && st.attempts[unit.id] === 1) st.firstTryUnits[unit.id] = true;
-            if (score >= PASS && st.attempts[unit.id] > 1 && !wasPassed) st.retry = 1;
-            const u = unitState(x, unit.id);
-            u.testBest = Math.max(u.testBest || 0, score);
-        });
-        if (score >= PASS) {
-            const main = mainUnits(course);
-            const i = main.findIndex((m) => m.id === unit.id);
-            const nx = i >= 0 ? main[i + 1] : undefined;
-            const gm = course.units.find((m) => m.track === 'games' && !passed(getState(), m.id));
+        update((x) => recordTest(x, unit.id, score, wasPassed));
+        if (isPassing(score)) {
+            const { next: nx, game: gm } = afterTest(getState(), course, unit.id);
             return (
                 <>
                     <p className="ut-res-msg">
@@ -477,12 +475,13 @@ function Stub({ icon, title, text, children }: { icon: string; title: string; te
 export default function Unit({ params }: PageProps) {
     const id = params[1] || '';
     const s = useProgress();
-    const { data: course, error: cErr } = useCourse();
-    const { data: syllabus } = useSyllabus();
+    const { def, index } = useMainCourse();
+    const { data: course, error: cErr } = index;
+    const { data: syllabus } = useSource(syllabusSrc);
     const meta: UnitMeta | undefined = course?.units.find((u) => u.id === id);
-    const unlocked = !!(meta && course && isUnlocked(s, meta, course));
+    const unlocked = !!(meta && course && def.isUnlocked(s, meta, course));
     // файл юнита грузим, только когда урок открыт
-    const { data: uData, error: uLoadErr } = useUnit(meta && unlocked ? id : null);
+    const { data: uData, error: uLoadErr } = useSource(meta && unlocked ? unitBody(id) : null);
     // при переходе между уроками хук ещё отдаёт прошлый юнит — не показываем его
     const unit = uData?.id === id ? uData : undefined;
     // файла нет (404) — как раньше «юнита нет в файле уровня»: «Готовится»

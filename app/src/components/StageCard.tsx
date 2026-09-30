@@ -1,18 +1,19 @@
 // Карточка «Этап курса»: текущий урок, следующий шаг и прогресс — видна сверху раздела «Словарь»
-import { currentUnit, nextStep, stageHref, unitProgress } from '../lib/course';
-import { useCourse } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { nextStep } from '../content/lessons';
 import { useProgress } from '../lib/store';
 import { Icon } from './ui';
 
 export function StageCard() {
     const s = useProgress();
-    const { data: course } = useCourse();
-    const u = course ? currentUnit(s, course) : undefined;
+    const { def, index } = useMainCourse();
+    const course = index.data;
+    const u = course ? def.current(s, course) : undefined;
     if (!u) return null;
     const ns = nextStep(s, u.id);
-    const p = Math.round(unitProgress(s, u.id) * 100);
+    const p = Math.round(def.progress(s, u.id) * 100);
     return (
-        <a className="continue-card" href={stageHref(s, course)}>
+        <a className="continue-card" href={`#/unit/${u.id}/${ns ? ns.k : 'words'}`}>
             <div className="cc-ill">
                 <Icon name="graduation-cap" fill />
             </div>

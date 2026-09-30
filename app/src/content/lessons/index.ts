@@ -10,6 +10,7 @@ export { A1_Lessons, A2_Lessons, B1_Lessons, B2_Lessons, Games_Lessons };
 export const LEVEL_Lessons = [A1_Lessons, A2_Lessons, B1_Lessons, B2_Lessons];
 
 export * from './define';
+export * from './finish';
 export type * from './model';
 export * from './murphy';
 export * from './progress';

@@ -4,7 +4,7 @@
 //       .extraTrack('games', new Collection().addLessons(Games_Lessons))
 // Правила открытия уроков и «текущего урока» — те же, что в content/lessons/progress.
 import { levelRank, type Level } from '@utils/level';
-import { all, derive, type Source } from '../content/base/source';
+import { all, chain, derive, staticSource, type Source } from '../content/base/source';
 import type { CourseIndex, UnitMeta } from '../content/lessons/model';
 import { currentUnit, isUnlocked, passed, STEPS, unitProgress, type StepKey } from '../content/lessons/progress';
 import type { Lesson } from '../content/lessons/sources';
@@ -18,6 +18,7 @@ export class Course {
     private readonly tr: Record<string, Collection | CollectionDef> = {};
     private stepKeys: readonly StepKey[] = STEPS.map(([k]) => k);
     private policy: UnlockPolicy = isUnlocked;
+    private levelInfo: Source<CourseIndex['levels']> = staticSource('levels:none', []);
 
     constructor(meta: CourseMeta) {
         this.meta = { ...meta };
@@ -42,6 +43,12 @@ export class Course {
         return this;
     }
 
+    /** Описания уровней для страницы курса: название и цель (course.json → levels) */
+    describeLevels(src: Source<CourseIndex['levels']>): this {
+        this.levelInfo = src;
+        return this;
+    }
+
     /** Своё правило открытия уроков (по умолчанию — по порядку, ниже стартового уровня всё открыто) */
     unlock(p: UnlockPolicy): this {
         this.policy = p;
@@ -59,8 +66,13 @@ export class Course {
         const policy = this.policy;
         const cols = () => [...levels.values(), ...Object.values(tracks)];
         const lessonSources = cols().flatMap((c) => c.of('lesson').map((s) => s.source));
-        const lessons = all<Lesson[]>('course:' + this.meta.id + ':lessons', lessonSources);
-        const index = derive(lessons, 'course:' + this.meta.id, toIndex);
+        const key = 'course:' + this.meta.id;
+        const lessons = all<Lesson[]>(key + ':lessons', lessonSources);
+        const withLevels = (info: CourseIndex['levels']) => {
+            const build = (parts: Lesson[][]) => toIndex(info, parts);
+            return derive(lessons, key + ':index', build);
+        };
+        const index = chain(this.levelInfo, key, withLevels);
         const def: CourseDef = {
             ...this.meta,
             levels,
@@ -83,8 +95,8 @@ function currentWith(s: Progress, idx: CourseIndex, policy: UnlockPolicy): UnitM
     return main.find((u) => policy(s, u, idx) && !passed(s, u.id)) || main[main.length - 1];
 }
 
-/** Индекс курса из уроков его наборов: уровни по порядку, затем ветки */
-const toIndex = (parts: Lesson[][]): CourseIndex => ({ levels: [], units: parts.flat() });
+/** Индекс курса (как course.json): описания уровней + уроки его наборов — уровни по порядку, затем ветки */
+const toIndex = (levels: CourseIndex['levels'], parts: Lesson[][]): CourseIndex => ({ levels, units: parts.flat() });
 
 /** Коллекция уровня получает уровень, если он не задан */
 const withLevel = (c: CollectionDef, l: Level): CollectionDef => (c.level ? c : Object.freeze({ ...c, level: l }));

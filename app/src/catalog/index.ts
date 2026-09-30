@@ -3,6 +3,8 @@ import { ENEngine } from '@engine';
 import { grammarCategory, libraryCategory, profileCategory, wordsCategory } from './categories';
 import { engineConfig } from './engine.config';
 
+export { MAIN_COURSE } from './courses/grammar';
+
 export const engine = new ENEngine(engineConfig)
     .addCategory(grammarCategory)
     .addCategory(wordsCategory)

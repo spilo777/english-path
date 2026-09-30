@@ -1,5 +1,6 @@
 // Грамматика по Мёрфи: уроки A1–B2 (слова, грамматика, чтение, практика, тест) и ветка уроков-игр
 import { Collection, Course } from '@engine';
+import { derive } from '../../content/base/source';
 import { A1_Lectures } from '../../content/lectures/a1';
 import { A2_Lectures } from '../../content/lectures/a2';
 import { B1_Lectures } from '../../content/lectures/b1';
@@ -9,8 +10,16 @@ import { A2_Lessons } from '../../content/lessons/a2';
 import { B1_Lessons } from '../../content/lessons/b1';
 import { B2_Lessons } from '../../content/lessons/b2';
 import { Games_Lessons } from '../../content/lessons/games';
+import { courseIndex } from '../../content/lessons/sources';
 
-export const grammarCourse = new Course({ id: 'grammar', title: 'Грамматика', icon: 'graduation-cap' })
+/** id основного курса — по нему страницы берут курс из движка */
+export const MAIN_COURSE = 'grammar';
+
+/** Названия и цели уровней — из course.json */
+const levelInfo = derive(courseIndex, 'course:levels', (c) => c.levels);
+
+export const grammarCourse = new Course({ id: MAIN_COURSE, title: 'Грамматика', icon: 'graduation-cap' })
+    .describeLevels(levelInfo)
     .level('A1', new Collection({ id: 'grammar-A1' }).addLessons(A1_Lessons).addLectures(A1_Lectures))
     .level('A2', new Collection({ id: 'grammar-A2' }).addLessons(A2_Lessons).addLectures(A2_Lectures))
     .level('B1', new Collection({ id: 'grammar-B1' }).addLessons(B1_Lessons).addLectures(B1_Lectures))

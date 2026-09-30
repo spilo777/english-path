@@ -2,17 +2,10 @@
 import { useRef, useState } from 'react';
 import { lsJSON, lsSetJSON } from '@utils/storage';
 import type { PageProps } from '../app/App';
-import {
-    belowStart,
-    BOOK_KEYS,
-    currentUnit,
-    isUnlocked,
-    mainUnits,
-    passed,
-    rangeTxt,
-    unitProgress,
-} from '../lib/course';
-import { useCourse, useSyllabus } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import { belowStart, BOOK_KEYS, mainUnits, passed, rangeTxt, syllabus } from '../content/lessons';
+import type { CourseDef } from '../engine';
 import { useProgress } from '../lib/store';
 import type { CourseIndex, Progress, Syllabus, UnitMeta } from '../lib/types';
 import { Icon, LoadError, Loading, Page, plural } from '../components/ui';
@@ -27,9 +20,9 @@ const readOpen = (): OpenMap | null => lsJSON<OpenMap>(OPEN_KEY);
 const saveOpen = (m: OpenMap) => lsSetJSON(OPEN_KEY, m);
 
 /** Строка урока: номер/галочка/замок, описание, прогресс, лучший результат теста */
-function UnitRow({ u, s, course }: { u: UnitMeta; s: Progress; course: CourseIndex }) {
-    const unlocked = isUnlocked(s, u, course);
-    const p = unitProgress(s, u.id);
+function UnitRow({ u, s, course, def }: { u: UnitMeta; s: Progress; course: CourseIndex; def: CourseDef }) {
+    const unlocked = def.isUnlocked(s, u, course);
+    const p = def.progress(s, u.id);
     const ok = passed(s, u.id);
     const best = s.units[u.id]?.testBest;
     return (
@@ -70,6 +63,7 @@ type LevelInfo = CourseIndex['levels'][number];
 function Level({
     l,
     course,
+    def,
     syl,
     s,
     open,
@@ -77,6 +71,7 @@ function Level({
 }: {
     l: LevelInfo;
     course: CourseIndex;
+    def: CourseDef;
     syl: Syllabus;
     s: Progress;
     open: boolean;
@@ -88,7 +83,7 @@ function Level({
     const planned = syl.lessons.filter((x) => x.level === l.id && !course.units.some((u) => u.id === x.id));
     const total = us.length + planned.length;
     const done = us.filter((u) => passed(s, u.id)).length;
-    const nextU = us.find((u) => isUnlocked(s, u, course) && !passed(s, u.id));
+    const nextU = us.find((u) => def.isUnlocked(s, u, course) && !passed(s, u.id));
     const state = !us.length
         ? 'Готовится'
         : done === us.length && !planned.length
@@ -124,7 +119,7 @@ function Level({
                 <div className="lvl-body">
                     <p className="muted small lvl-goal">{l.goal}</p>
                     {us.map((u) => (
-                        <UnitRow key={u.id} u={u} s={s} course={course} />
+                        <UnitRow key={u.id} u={u} s={s} course={course} def={def} />
                     ))}
                     {planned.map((x) => (
                         <div key={x.id} className="unit-row locked planned">
@@ -148,7 +143,7 @@ function Level({
                                 <Icon name="game-controller" /> Игровой трек
                             </div>
                             {games.map((u) => (
-                                <UnitRow key={u.id} u={u} s={s} course={course} />
+                                <UnitRow key={u.id} u={u} s={s} course={course} def={def} />
                             ))}
                         </>
                     ) : null}
@@ -163,8 +158,9 @@ const SUB =
 
 export default function Course(_props: PageProps) {
     const s = useProgress();
-    const { data: course, error } = useCourse();
-    const { data: syl, error: e2 } = useSyllabus();
+    const { def, index } = useMainCourse();
+    const { data: course, error } = index;
+    const { data: syl, error: e2 } = useSource(syllabus);
     const [openMap, setOpenMap] = useState<OpenMap | null>(readOpen);
     const err = error || e2;
     const head = <CourseHead tab="lessons" sub={SUB} />;
@@ -182,7 +178,7 @@ export default function Course(_props: PageProps) {
                 <Loading />
             </Page>
         );
-    const cur = currentUnit(s, course);
+    const cur = def.current(s, course);
     // по умолчанию открыт уровень текущего урока
     const opened: OpenMap = openMap || { [cur ? cur.level : 'A1']: true };
     const toggle = (el: HTMLElement, id: string, on: boolean) => {
@@ -204,7 +200,16 @@ export default function Course(_props: PageProps) {
             <PlacementHint s={s} />
             <div className="lvl-list">
                 {course.levels.map((l) => (
-                    <Level key={l.id} l={l} course={course} syl={syl} s={s} open={!!opened[l.id]} onToggle={toggle} />
+                    <Level
+                        key={l.id}
+                        l={l}
+                        course={course}
+                        def={def}
+                        syl={syl}
+                        s={s}
+                        open={!!opened[l.id]}
+                        onToggle={toggle}
+                    />
                 ))}
             </div>
         </Page>
