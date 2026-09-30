@@ -1,0 +1,44 @@
+name: word-images
+# Картинки-ассоциации для карточек: build/word-images.mjs ищет их в Википедии и Wikimedia Commons
+# и сохраняет в app/public/data/word-img.json (коммитом в main). Затем запускает сборку сайта (app.yml).
+# Запускается при изменении скрипта или вручную (Actions → word-images → Run workflow).
+on:
+  push:
+    branches: [main]
+    paths: ['build/word-images.mjs', '.github/workflows/word-images.yml']
+  workflow_dispatch:
+    inputs:
+      retry_empty:
+        description: 'Заново искать слова, для которых картинки не нашлось'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  actions: write
+concurrency: { group: word-images, cancel-in-progress: false }
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: look up images
+        run: node build/word-images.mjs ${{ inputs.retry_empty && '--retry-empty' || '' }}
+      - name: save
+        run: |
+          git config user.name ci && git config user.email ci@users.noreply.github.com
+          git add app/public/data/word-img.json
+          git commit -qm "data: картинки для карточек ($(head -1 word-images.log))" || { echo "нет изменений"; exit 0; }
+          for i in 1 2 3; do git push -q origin HEAD:main && break; git pull -q --rebase origin main; done
+      - name: report
+        if: always()
+        run: |
+          mkdir -p /tmp/r && cp word-images.log /tmp/r/ 2>/dev/null || true
+          cd /tmp/r && git init -q && git checkout -q -b word-images-report && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "report $GITHUB_SHA" || exit 0
+          git push -f -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" word-images-report
+      - name: rebuild site
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: gh workflow run app.yml --ref main

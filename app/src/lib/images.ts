@@ -2,7 +2,7 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { DAY, getState, update } from './store';
 import { LIB_COMMONS, LIB_WIKI } from './images-map';
-import { paths, peekJSON } from './data';
+import { loadJSON, paths, peekJSON } from './data';
 import type { BookMeta, TextItem } from './types';
 
 // ───────── обложки ─────────
@@ -212,9 +212,27 @@ interface Summary {
     thumbnail?: { source?: string };
 }
 
+/** Ключ картинки: id карточки; для форм «go — went — gone» — первое слово */
+export const imgKey = (en: string) => {
+    const id = en.toLowerCase().trim();
+    return id.includes(' — ') ? id.split(' — ')[0].trim() : id;
+};
+
+/** Картинки, подобранные заранее при сборке: слово → адрес, '' — подходящей нет */
+let wordImgs: Promise<Record<string, string>> | null = null;
+const bakedWords = () =>
+    (wordImgs ||= loadJSON<Record<string, string>>(paths.wordImg).catch(() => ({}) as Record<string, string>));
+
+/** Сначала готовая таблица со сборки; слова, которых в ней нет (свои слова), ищутся на ходу */
+export async function autoImage(en: string): Promise<string | null> {
+    const k = imgKey(en);
+    const m = await bakedWords();
+    if (k in m) return m[k] || null;
+    return liveImage(k);
+}
+
 /** Википедия (главное фото статьи), затем Wikimedia Commons. Результат — в прогрессе (imgCache) */
-export function autoImage(en: string): Promise<string | null> {
-    const k = en.toLowerCase().trim();
+function liveImage(k: string): Promise<string | null> {
     const cache = getState().imgCache || {};
     if (k in cache) return Promise.resolve(cache[k] || null);
     if (k in imgPending) return imgPending[k];

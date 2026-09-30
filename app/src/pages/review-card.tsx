@@ -1,7 +1,7 @@
 // Одна карточка в сессии повторения: лицо/оборот, картинка-ассоциация, транскрипция, оценки
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Icon, toast } from '../components/ui';
-import { autoImage } from '../lib/images';
+import { autoImage, imgKey } from '../lib/images';
 import { ding } from '../lib/sfx';
 import { fmtIvl, schedule } from '../lib/srs';
 import { liveAudio, speak, useIpa } from '../lib/speech';
@@ -11,15 +11,20 @@ import type { Card } from '../lib/types';
 export type Grade = 0 | 1 | 2 | 3;
 export type Side = 'en-ru' | 'ru-en';
 
-const ABSTRACT_POS = /^(pron|det|prep|conj|modal|num|excl|adv)$/;
+/** Служебные слова: картинка к ним не помогает запомнить */
+const ABSTRACT_POS = /^(pron|det|prep|conj|modal|excl)$/;
 
-/** Нужна ли карточке картинка: только конкретные одиночные слова */
-export const wantsImg = (c: Card, pos: string | undefined) =>
-    getState().settings.autoImg !== false &&
-    !c.noImg &&
-    c.id.length > 2 &&
-    !c.id.includes(' ') &&
-    !(pos && ABSTRACT_POS.test(pos));
+/** Нужна ли карточке картинка: одиночные слова (у форм «go — went» — по первому), кроме служебных */
+export const wantsImg = (c: Card, pos: string | undefined) => {
+    const k = imgKey(c.id);
+    return (
+        getState().settings.autoImg !== false &&
+        !c.noImg &&
+        k.length > 2 &&
+        !k.includes(' ') &&
+        !(pos && ABSTRACT_POS.test(pos))
+    );
+};
 
 /** Можно ли искать живую запись произношения (как в lib/speech) */
 export const liveOk = (w: string, inDeck: boolean) =>

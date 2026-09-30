@@ -88,6 +88,8 @@ export const paths = {
     placement: 'placement.json',
     syllabus: 'syllabus.json',
     words: 'words.json',
+    /** картинки для карточек, подобранные при сборке (build/word-images.mjs) */
+    wordImg: 'word-img.json',
     dict: 'dict.json',
     forms: 'forms.json',
     library: 'library.json',
