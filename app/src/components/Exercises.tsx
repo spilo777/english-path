@@ -1,5 +1,6 @@
 // Упражнения урока: выбор, пропуск, порядок слов, перевод, на слух. Практика повторяет ошибки, тест — нет.
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { pickOne } from '@utils/random';
 import { ding } from '../lib/sfx';
 import { speak } from '../lib/speech';
 import { PASS, recordAnswer, update } from '../lib/store';
@@ -56,7 +57,6 @@ export function displayAnswer(e: Exercise): string {
 }
 
 const PRAISE = ['Верно!', 'Отлично!', 'Так держать!', 'Правильно!'];
-const pickOne = <T,>(a: T[]): T => a[Math.floor(Math.random() * a.length)];
 
 function label(e: Exercise): string {
     switch (e.t) {

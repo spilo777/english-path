@@ -1,5 +1,8 @@
 // «Слушать»: YouTube-каналы для аудирования. Свежие видео — функция yt в Supabase (RSS-ленты YouTube, кеш 3 часа)
 import { useEffect, useState } from 'react';
+import { DAY } from '@utils/date';
+import { ALL_LEVELS } from '@utils/level';
+import { lsJSON, lsSetJSON } from '@utils/storage';
 import type { Level } from './types';
 
 export interface Channel {
@@ -244,7 +247,7 @@ export const CHANNELS: Channel[] = [
         banner: 'https://yt3.googleusercontent.com/vKCjlk5C1qvmhiW1PdLC5Tj1P6fuEtuYNbyB-qpzkHXr8Vki7ji8DHXUxOBSiJEImNmJ926M1Q=w1280-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj',
     },
 ];
-const LV = ['A1', 'A2', 'B1', 'B2', 'C1'];
+const LV: readonly string[] = ALL_LEVELS;
 CHANNELS.sort(
     (a, b) => LV.indexOf(a.levels[0]) - LV.indexOf(b.levels[0]) || LV.indexOf(a.levels[1]) - LV.indexOf(b.levels[1]),
 );
@@ -266,12 +269,8 @@ let inflight: Promise<Feed> | null = null;
 const artSubs = new Set<() => void>();
 
 function readCache(): { at: number; channels: Feed; meta?: Arts } | null {
-    try {
-        const x = JSON.parse(localStorage.getItem(KEY) || 'null');
-        return x && x.channels ? x : null;
-    } catch {
-        return null;
-    }
+    const x = lsJSON<{ at: number; channels: Feed; meta?: Arts }>(KEY);
+    return x && x.channels ? x : null;
 }
 function setArts(m: Arts | undefined) {
     if (m && Object.keys(m).length) {
@@ -292,11 +291,7 @@ export function loadFeed(): Promise<Feed> {
             .then((j: { channels?: Feed; meta?: Arts }) => {
                 const ch = j && j.channels ? j.channels : {};
                 setArts(j && j.meta);
-                try {
-                    localStorage.setItem(KEY, JSON.stringify({ at: Date.now(), channels: ch, meta: arts }));
-                } catch {
-                    /* приватный режим */
-                }
+                lsSetJSON(KEY, { at: Date.now(), channels: ch, meta: arts });
                 return (mem = ch);
             })
             .catch(() => (c ? c.channels : {}))
@@ -348,7 +343,7 @@ export function findVideo(feed: Feed | null, vid: string): { v: Video; ch: Chann
 
 export const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
 export const ago = (iso: string) => {
-    const d = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 86400000));
+    const d = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / DAY));
     return d === 0
         ? 'сегодня'
         : d === 1

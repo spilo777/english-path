@@ -1,6 +1,8 @@
 // Библиотека (вкладки Читать / Слушать / Книги): #/library — витрина статей и диалогов; #/library/all[/<тема>] — все статьи с фильтрами;
 // #/library/new — форма «Свой текст»; #/library/find — поиск; #/library/books — все книги
 import { useEffect, useRef, useState } from 'react';
+import { levelRank } from '@utils/level';
+import { ssGet, ssSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { BookPoster, CAT_ICON, LibCard, TextPoster, wordsIn } from '../components/Posters';
@@ -9,7 +11,6 @@ import { currentUnit, isUnlocked } from '../lib/course';
 import { useBookIndex, useCourse, useLessons, useLibrary } from '../lib/data';
 import { tomb, update, useProgress } from '../lib/store';
 import {
-    LEVEL_ORDER,
     type BookMeta,
     type CourseIndex,
     type Level,
@@ -103,8 +104,8 @@ function LibraryHome() {
     const LIB = lib.data,
         BOOKS = books.data;
     const lvl = myLevel(s, course),
-        LV = LEVEL_ORDER[lvl];
-    const lo = (t: { level: string }) => LEVEL_ORDER[t.level] || 0;
+        LV = levelRank(lvl);
+    const lo = (t: { level: string }) => levelRank(t.level);
     const dist = (t: TextItem) => Math.abs(lo(t) - LV) + (lo(t) > LV + 1 ? 2 : 0);
     const rank = (x: TextItem, y: TextItem) =>
         (s.textsRead[x.id] ? 1 : 0) - (s.textsRead[y.id] ? 1 : 0) || dist(x) - dist(y) || lo(x) - lo(y);
@@ -241,20 +242,6 @@ function LibraryHome() {
 }
 
 // ───────── все статьи ─────────
-const ssGet = (k: string) => {
-    try {
-        return sessionStorage.getItem(k) || '';
-    } catch {
-        return '';
-    }
-};
-const ssSet = (k: string, v: string) => {
-    try {
-        sessionStorage.setItem(k, v);
-    } catch {
-        /* приватный режим */
-    }
-};
 
 function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
     const s = useProgress();
@@ -277,7 +264,7 @@ function LibraryAll({ mode, cat: catParam }: { mode: string; cat?: string }) {
     const [lvlSaved, setLvl] = useState(() => lsGet('ep.libLevel', ''));
     const lvl = lvlSaved || lvlDefault;
     const [hideRead, setHide] = useState(() => lsGet('ep.libHideRead', '') === '1');
-    const [q, setQ] = useState(() => ssGet('ep.libQ'));
+    const [q, setQ] = useState(() => ssGet('ep.libQ', ''));
     const [formOpen, setFormOpen] = useState(mode === 'new');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');

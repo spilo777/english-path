@@ -1,5 +1,5 @@
 // Курс: доступность уроков и прогресс по шагам. Работает с индексом курса (CourseIndex), без полных уроков.
-import { LEVEL_ORDER } from './types';
+import { levelRank } from '@utils/level';
 import type { BookRefs, CourseIndex, Level, Progress, Syllabus, UnitMeta } from './types';
 import { PASS } from './store';
 
@@ -19,7 +19,7 @@ export function mainUnits(course: CourseIndex): UnitMeta[] {
     if (!list) {
         list = course.units
             .filter((u) => u.track === 'main')
-            .sort((a, b) => (LEVEL_ORDER[a.level] || 0) - (LEVEL_ORDER[b.level] || 0) || a.num - b.num);
+            .sort((a, b) => levelRank(a.level) - levelRank(b.level) || a.num - b.num);
         mainCache.set(course, list);
     }
     return list;
@@ -34,7 +34,7 @@ export function passed(s: Progress, id: string): boolean {
 /** Уровень, с которого человек начинает (настройка или тест на уровень); по умолчанию A1 */
 export const startLevel = (s: Progress): Level => s.settings.startLevel || 'A1';
 /** Урок ниже стартового уровня — открыт без прохождения */
-export const belowStart = (s: Progress, level: string) => (LEVEL_ORDER[level] || 0) < (LEVEL_ORDER[startLevel(s)] || 1);
+export const belowStart = (s: Progress, level: string) => levelRank(level) < (levelRank(startLevel(s)) || 1);
 
 /** Основные — по порядку (открыт, если сдан предыдущий); ниже стартового уровня — все открыты;
  *  игровые — после unlockAfter (или a1-0) */

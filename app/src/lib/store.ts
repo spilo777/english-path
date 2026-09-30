@@ -1,10 +1,11 @@
 // Хранилище прогресса: один объект в localStorage, подписка для React через useSyncExternalStore.
 // Формат совместим со старым сайтом (ключ englishpath.v1) — прогресс и облачная синхронизация переносятся как есть.
 import { useSyncExternalStore } from 'react';
+import { DAY, dayKey, today } from '@utils/date';
 import type { Progress, Settings, UnitProgress } from './types';
 
 export const STORE_KEY = 'englishpath.v1';
-export const DAY = 86_400_000;
+export { DAY, today };
 export const PASS = 0.8;
 
 export const defaultSettings = (): Settings => ({
@@ -131,12 +132,6 @@ export function useProgress(): Progress {
 }
 
 // ───────── общие операции ─────────
-export const today = () => {
-    const d = new Date();
-    return (
-        d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')
-    );
-};
 
 /** Прогресс урока для изменения (вызывать внутри update): заодно отмечает время изменения */
 export function unitState(s: Progress, id: string): UnitProgress {
@@ -186,10 +181,8 @@ export function recordAnswer(s: Progress, ok: boolean) {
 export function streak(s: Progress): number {
     const d = new Date();
     let n = 0;
-    const key = (x: Date) =>
-        x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
-    if (!s.activity[key(d)]) d.setDate(d.getDate() - 1);
-    while (s.activity[key(d)]) {
+    if (!s.activity[dayKey(d)]) d.setDate(d.getDate() - 1);
+    while (s.activity[dayKey(d)]) {
         n++;
         d.setDate(d.getDate() - 1);
     }

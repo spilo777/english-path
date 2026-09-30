@@ -1,5 +1,6 @@
 // Раздел «Грамматика» → «Уроки» (открывается первым): карточка этапа, уровни A1…C1 (сворачиваются), уроки с прогрессом и замками, готовящиеся уроки, игровой трек
 import { useRef, useState } from 'react';
+import { lsJSON, lsSetJSON } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import {
     belowStart,
@@ -22,21 +23,8 @@ import './Course.css';
 
 const OPEN_KEY = 'ep.courseOpen';
 type OpenMap = Record<string, boolean>;
-function readOpen(): OpenMap | null {
-    try {
-        const v = localStorage.getItem(OPEN_KEY);
-        return v ? (JSON.parse(v) as OpenMap) : null;
-    } catch {
-        return null;
-    }
-}
-function saveOpen(m: OpenMap) {
-    try {
-        localStorage.setItem(OPEN_KEY, JSON.stringify(m));
-    } catch {
-        /* приватный режим */
-    }
-}
+const readOpen = (): OpenMap | null => lsJSON<OpenMap>(OPEN_KEY);
+const saveOpen = (m: OpenMap) => lsSetJSON(OPEN_KEY, m);
 
 /** Строка урока: номер/галочка/замок, описание, прогресс, лучший результат теста */
 function UnitRow({ u, s, course }: { u: UnitMeta; s: Progress; course: CourseIndex }) {

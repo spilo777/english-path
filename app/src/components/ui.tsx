@@ -1,24 +1,12 @@
 // Общие элементы интерфейса: шапка страницы, секции-карусели, обложки, вкладки, тосты
 import { useSyncExternalStore, type ReactNode } from 'react';
+import { clamp } from '@utils/math';
 import { streak, today, useProgress } from '../lib/store';
 import './ui.css';
 
-export const plural = (n: number, one: string, few: string, many: string) => {
-    const m10 = n % 10,
-        m100 = n % 100;
-    if (m10 === 1 && m100 !== 11) return one;
-    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
-    return many;
-};
-
-export const shuffle = <T,>(a: T[]): T[] => {
-    const b = a.slice();
-    for (let i = b.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [b[i], b[j]] = [b[j], b[i]];
-    }
-    return b;
-};
+// склонение и перемешивание теперь в utils; реэкспорт — чтобы не трогать все импорты
+export { plural } from '@utils/plural';
+export { shuffle } from '@utils/random';
 
 export const Icon = ({ name, fill, className }: { name: string; fill?: boolean; className?: string }) => (
     <i className={`${fill ? 'ph-fill' : 'ph'} ph-${name}${className ? ' ' + className : ''}`} aria-hidden="true" />
@@ -154,7 +142,7 @@ export function Tabs({
 export function Progress({ value }: { value: number }) {
     return (
         <div className="progress">
-            <i style={{ width: Math.round(Math.max(0, Math.min(1, value)) * 100) + '%' }} />
+            <i style={{ width: Math.round(clamp(value, 0, 1) * 100) + '%' }} />
         </div>
     );
 }

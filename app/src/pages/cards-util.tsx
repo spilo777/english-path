@@ -1,10 +1,11 @@
 // Общие помощники раздела «Словарь»: статусы слов, «Знаю», коллекции по темам
+import { wordId } from '@utils/text';
 import { speak } from '../lib/speech';
 import { tomb, update } from '../lib/store';
 import type { Card, DeckWord, Progress, TopicCat, TopicCol } from '../lib/types';
 import { Icon } from '../components/ui';
 
-export const wid = (en: string) => en.toLowerCase().trim();
+export const wid = wordId;
 
 /** Пометка «**слово**» в примере — чтобы на карточке слово было выделено */
 export const exMark = (sentence: string, raw: string) =>

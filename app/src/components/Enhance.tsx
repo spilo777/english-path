@@ -4,6 +4,8 @@
 // выводите через <Html html=…/> (а не JSX-текстом). React 19 перезаписывает innerHTML при каждом
 // новом объекте {__html}, поэтому Html держит объект стабильным — иначе обёртка и мини-проверки слетают.
 import { createElement, useEffect, useMemo, useState, type DependencyList, type RefObject } from 'react';
+import { levelRank } from '@utils/level';
+import { esc } from '@utils/text';
 import { mainUnits, passed } from '../lib/course';
 import { paths, useCourse, useJSON } from '../lib/data';
 import { candidates, ensureDict, isDictReady, lookup } from '../lib/lookup';
@@ -11,7 +13,7 @@ import { ding } from '../lib/sfx';
 import { speak } from '../lib/speech';
 import { recordAnswer, update, useProgress } from '../lib/store';
 import { autoTranslate } from '../lib/translate';
-import { LEVEL_ORDER, type CourseIndex, type LessonUnit, type Level, type Progress } from '../lib/types';
+import { type CourseIndex, type LessonUnit, type Level, type Progress } from '../lib/types';
 import { Icon } from './ui';
 import { openWord } from './Popover';
 import './Enhance.css';
@@ -31,11 +33,8 @@ export function Html({
     return createElement(tag, { className, dangerouslySetInnerHTML: inner });
 }
 
-export const esc = (x: string) =>
-    String(x).replace(
-        /[&<>"']/g,
-        (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string,
-    );
+// экранирование HTML — в utils; реэкспорт для Walk, Exercises, Tenses
+export { esc };
 /** Вопрос с пропуском: ___ → подчёркнутое место (HTML) */
 export const fmtQ = (q: string) => esc(q).replace(/_{2,}/g, '<span class="blank">&nbsp;</span>');
 
@@ -138,7 +137,7 @@ export function useKnownWords(unitId?: string): Set<string> {
         const cur = unitId ? course.units.find((u) => u.id === unitId) : undefined;
         const lv = new Set<Level>();
         course.units.forEach((u) => {
-            if (cur ? (LEVEL_ORDER[u.level] || 0) <= (LEVEL_ORDER[cur.level] || 0) : passed(s, u.id)) lv.add(u.level);
+            if (cur ? levelRank(u.level) <= levelRank(cur.level) : passed(s, u.id)) lv.add(u.level);
         });
         return [...lv].sort().join(',');
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,6 @@
 // Озвучка: живые записи носителей (Викисловарь: dictionaryapi.dev + Wikimedia Commons), иначе голос браузера (TTS).
 import { useEffect, useState } from 'react';
+import { lsJSON, lsSetJSON } from '@utils/storage';
 import { toast } from '../components/ui';
 import { paths, peekJSON } from './data';
 import { getState, update } from './store';
@@ -87,22 +88,14 @@ interface AudioRec {
     ipa?: string;
 }
 const AUDIO_KEY = 'ep.audio.v1';
-let audioMap: Record<string, AudioRec> = {};
-try {
-    audioMap = JSON.parse(localStorage.getItem(AUDIO_KEY) || '{}') as Record<string, AudioRec>;
-} catch {
-    audioMap = {};
-}
+let audioMap: Record<string, AudioRec> = lsJSON<Record<string, AudioRec>>(AUDIO_KEY) || {};
 const audioPending: Record<string, Promise<AudioRec | null>> = {};
 let audioSaveT: ReturnType<typeof setTimeout> | undefined;
 const audioSave = () => {
     clearTimeout(audioSaveT);
     audioSaveT = setTimeout(() => {
-        try {
-            localStorage.setItem(AUDIO_KEY, JSON.stringify(audioMap));
-        } catch {
-            audioMap = {};
-        }
+        // не влезло в хранилище — начинаем кеш заново
+        if (!lsSetJSON(AUDIO_KEY, audioMap)) audioMap = {};
     }, 400);
 };
 

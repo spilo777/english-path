@@ -3,6 +3,8 @@
 // Клиент supabase-js берётся из window.supabase: UMD-скрипт из CDN подгружается сам после первого экрана (init),
 // чтобы не задерживать открытие сайта.
 import { useSyncExternalStore } from 'react';
+import { unionKeys } from '@utils/collections';
+import { lsGet } from '@utils/storage';
 import { getState, onSave, replaceState } from './store';
 import type { Card, DayActivity, Progress, UnitProgress, UserText } from './types';
 
@@ -181,7 +183,7 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
     const ca = a.cards || {},
         cb = b.cards || {};
     const cards: Record<string, Card> = {};
-    new Set([...Object.keys(ca), ...Object.keys(cb)]).forEach((id) => {
+    unionKeys(ca, cb).forEach((id) => {
         const x = ca[id],
             y = cb[id];
         let c: Card | null = !x
@@ -205,7 +207,7 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
     const ua = a.units || {},
         ub = b.units || {};
     const units: Progress['units'] = {};
-    new Set([...Object.keys(ua), ...Object.keys(ub)]).forEach((id) => {
+    unionKeys(ua, ub).forEach((id) => {
         const reset = num(deleted['unit:' + id]);
         const alive = (u: UnitProgress | undefined): UnitProgress | null =>
             u && (!reset || num(u.mod) >= reset) ? u : null;
@@ -248,11 +250,11 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
     const aa = a.activity || {},
         ab = b.activity || {};
     const act: Record<string, DayActivity> = {};
-    new Set([...Object.keys(aa), ...Object.keys(ab)]).forEach((d) => {
+    unionKeys(aa, ab).forEach((d) => {
         const x: Obj = aa[d] || {},
             y: Obj = ab[d] || {};
         const day: Record<string, number> = {};
-        new Set([...Object.keys(x), ...Object.keys(y)]).forEach((k) => {
+        unionKeys(x, y).forEach((k) => {
             day[k] = Math.max(num(x[k]), num(y[k]));
         });
         act[d] = day as DayActivity;
@@ -285,7 +287,7 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
     const sa: Obj = a.stats || {},
         sbb: Obj = b.stats || {};
     const st: Obj = {};
-    new Set([...Object.keys(sa), ...Object.keys(sbb)]).forEach((k) => {
+    unionKeys(sa, sbb).forEach((k) => {
         const x = sa[k],
             y = sbb[k];
         if ((x && typeof x === 'object') || (y && typeof y === 'object')) {
@@ -533,13 +535,7 @@ async function yandex(q: string, mode?: 'word' | 'text'): Promise<YandexResult |
 export const cloudClient = (): SbClient | null => client();
 
 /** Есть сохранённый вход — облако нужно сразу, а не «когда-нибудь потом» */
-export const hasSession = (): boolean => {
-    try {
-        return !!localStorage.getItem('englishpath.auth');
-    } catch {
-        return false;
-    }
-};
+export const hasSession = (): boolean => !!lsGet('englishpath.auth');
 
 export const Cloud = {
     /** Облако доступно (клиент supabase загружен) */

@@ -2,6 +2,7 @@
 // Снимки делает сама база (триггер на таблице progress); восстановление — RPC progress_restore,
 // которое перед заменой сохраняет текущее состояние отдельной копией «до восстановления».
 import { useEffect, useState } from 'react';
+import { DAY } from '@utils/date';
 import { cloudClient, useCloud } from '../lib/cloud';
 import { defaults, normalize, replaceState } from '../lib/store';
 import type { Progress } from '../lib/types';
@@ -22,7 +23,7 @@ const fmtDay = (d: string) => {
     const t = new Date(d + 'T12:00:00');
     const today = new Date();
     today.setHours(12, 0, 0, 0);
-    const diff = Math.round((today.getTime() - t.getTime()) / 86400000);
+    const diff = Math.round((today.getTime() - t.getTime()) / DAY);
     const s = t.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
     return diff === 0 ? 'Сегодня' : diff === 1 ? 'Вчера · ' + s : s;
 };

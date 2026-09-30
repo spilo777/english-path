@@ -1,5 +1,6 @@
 // Профиль (#/profile): карточки-блоки — кто я, лига, друзья, XP, активность, слова, понимание, успеваемость
 import { useEffect, useState, type ReactNode } from 'react';
+import { dayKey, mondayOf, weekOf } from '@utils/date';
 import { Avatar } from '../components/Avatar';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { BackLink, Icon, Loading, Page, RoundBtn, TopBar, plural, toast } from '../components/ui';
@@ -21,18 +22,8 @@ import { cardKind } from '../lib/srs';
 import { streak, useProgress } from '../lib/store';
 import type { DayActivity, Level, Progress } from '../lib/types';
 
-const dayKey = (x: Date) =>
-    x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
-
 /** Очки как в лиге на сервере: 1 за карточку, 2 за упражнение, 10 за текст */
 const dayXp = (a: DayActivity) => (a.reviews || 0) + 2 * (a.exercises || 0) + 10 * (a.reads || 0);
-
-/** Понедельник недели, в которую попадает день (ключ YYYY-MM-DD) */
-function weekOf(key: string): string {
-    const d = new Date(key + 'T12:00:00');
-    d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
-    return dayKey(d);
-}
 
 function xpStats(s: Progress) {
     const weeks: Record<string, number> = {};
@@ -127,8 +118,7 @@ function Pair({ a, b }: { a: [ReactNode, string]; b: [ReactNode, string] }) {
 /** Неделя: семь кружков пн–вс, закрашены дни с занятиями */
 function WeekDots({ s }: { s: Progress }) {
     const now = new Date();
-    const mon = new Date(now);
-    mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+    const mon = mondayOf(now);
     const names = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     const today = dayKey(now);
     return (

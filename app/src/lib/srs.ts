@@ -1,8 +1,10 @@
 // Интервальные повторения (вариант SM-2) и работа с карточками
+import { wordId } from '@utils/text';
 import { DAY, today } from './store';
 import type { Card, DeckWord, Progress } from './types';
 
-export const cardId = (en: string) => en.toLowerCase().trim();
+/** id карточки = id слова */
+export const cardId = wordId;
 
 /** Добавить карточку. false — если такая уже есть */
 export function addCard(s: Progress, en: string, ru: string, ex = '', exRu = '', src = ''): boolean {

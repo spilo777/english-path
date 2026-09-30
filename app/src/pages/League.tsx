@@ -1,5 +1,6 @@
 // Лига и друзья: недельное соревнование в группе до 30 человек и список друзей по коду
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
+import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { LeagueEmblem } from '../components/LeagueEmblem';
 import { Seg } from '../components/Seg';
@@ -197,19 +198,10 @@ function LeagueTab({ prof, onRename }: { prof: LeagueProfile; onRename: (p: Leag
     const size = rows ? rows.length : 0;
     const z = zones(size);
     const left = daysLeft();
-    let seen = '';
-    try {
-        seen = localStorage.getItem(SEEN_KEY) || '';
-    } catch {
-        /* приватный режим */
-    }
+    const seen = lsGet(SEEN_KEY) || '';
     const showLast = last && last.week !== seen;
     const hideLast = () => {
-        try {
-            if (last) localStorage.setItem(SEEN_KEY, last.week);
-        } catch {
-            /* приватный режим */
-        }
+        if (last) lsSet(SEEN_KEY, last.week);
         setLast(null);
     };
 

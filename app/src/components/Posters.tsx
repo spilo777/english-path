@@ -1,5 +1,6 @@
 // Обложки и постеры статей/книг (карусели, сетки, карточки библиотеки)
 import { useEffect, useState, type ReactNode } from 'react';
+import { dlgLines, minsIn, wordsIn } from '@utils/text';
 import { useCover } from '../lib/images';
 import { useProgress } from '../lib/store';
 import type { BookMeta, TextItem } from '../lib/types';
@@ -18,10 +19,8 @@ export const CAT_ICON: Record<string, string> = {
 };
 export const catIdx = (c?: string) => Object.keys(CAT_ICON).indexOf(c || '');
 export const catIcon = (c?: string) => CAT_ICON[c || ''] || 'book-open-text';
-export const wordsIn = (t: { text: string }) => t.text.split(/\s+/).filter(Boolean).length;
-export const minsIn = (t: { text: string }) => Math.max(1, Math.round(wordsIn(t) / 90));
-export const dlgLines = (t: { text: string }) =>
-    t.text.split(/\n+/).filter((l) => /^[A-Z][\w .'’-]{0,24}:/.test(l.trim())).length;
+// объём текста — в utils; реэкспорт для Library, Book, Reader
+export { dlgLines, minsIn, wordsIn };
 
 /** Цветная обложка с иконкой; картинка из Википедии поверх, когда загрузится */
 export function Cover({

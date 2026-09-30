@@ -1,5 +1,7 @@
 // Профиль (#/profile), награды (#/achievements) и статистика (#/stats)
 import { useState } from 'react';
+import { dayKey } from '@utils/date';
+import { ssGet, ssSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { AchCard } from '../components/AchCard';
 import { Seg } from '../components/Seg';
@@ -29,8 +31,6 @@ export default function Profile({ params }: PageProps) {
     return <ProfileHome />;
 }
 
-const dayKey = (x: Date) =>
-    x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
 /** Выучено надолго: интервал 3+ недели */
 const learnedCards = (s: Progress) => Object.values(s.cards).filter((c) => c.state === 'review' && c.ivl >= 21).length;
 const BackToProfile = () => <BackLink href="#/profile" label="Профиль" />;
@@ -97,12 +97,8 @@ function EngagementCard({ e }: { e: Engagement }) {
 // ───────── награды ─────────
 type AchFilter = 'all' | 'got' | 'todo';
 const readFilter = (): AchFilter => {
-    try {
-        const f = sessionStorage.getItem('achFilter');
-        return f === 'got' || f === 'todo' ? f : 'all';
-    } catch {
-        return 'all';
-    }
+    const f = ssGet('achFilter');
+    return f === 'got' || f === 'todo' ? f : 'all';
 };
 
 function Achievements() {
@@ -117,11 +113,7 @@ function Achievements() {
     const cats = [...new Set(all.map((a) => a.cat))];
     const pass = (id: string) => filter === 'all' || (filter === 'got' ? !!s.ach[id] : !s.ach[id]);
     const pick = (f: AchFilter) => {
-        try {
-            sessionStorage.setItem('achFilter', f);
-        } catch {
-            /* приватный режим */
-        }
+        ssSet('achFilter', f);
         setFilter(f);
     };
     return (

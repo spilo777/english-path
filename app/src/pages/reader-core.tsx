@@ -1,6 +1,7 @@
 // Экран чтения: текст с переводом по нажатию (слово / предложение / выделенная фраза), диалоги пузырями,
 // озвучка по предложениям, вопросы на понимание, «Прочитано». Общий для статей, текстов уроков, своих текстов и глав книг.
 import { useEffect, useMemo, useRef, useState, type MouseEvent as RMouseEvent } from 'react';
+import { lsGet, lsSet } from '@utils/storage';
 import { closePopover, openSentence, openWord } from '../components/Popover';
 import { Cover, CAT_ICON, catIdx, catIcon, minsIn } from '../components/Posters';
 import { BackLink, Icon, Page, toast } from '../components/ui';
@@ -22,21 +23,8 @@ export interface ReadCtx {
     lib?: TextItem[];
 }
 
-export const lsGet = (k: string, d: string): string => {
-    try {
-        const v = localStorage.getItem(k);
-        return v == null ? d : v;
-    } catch {
-        return d;
-    }
-};
-export const lsSet = (k: string, v: string) => {
-    try {
-        localStorage.setItem(k, v);
-    } catch {
-        /* приватный режим */
-    }
-};
+// хранилище без исключений — в utils; реэкспорт для Library, Listen, Book
+export { lsGet, lsSet };
 
 // ───────── разбор текста: абзацы → реплики → предложения → слова ─────────
 interface Tok {

@@ -1,4 +1,5 @@
 // Лиги и друзья: обёртки над RPC в Supabase (очки недели сервер считает сам по облачному прогрессу)
+import { clamp } from '@utils/math';
 import { cloudClient } from './cloud';
 
 export interface LeagueProfile {
@@ -46,7 +47,7 @@ export const LEAGUES: { name: string; color: string; img: string }[] = [
     { name: 'Обсидиановая', color: '#334155', img: 'league-09' },
     { name: 'Алмазная', color: '#0EA5C6', img: 'league-10' },
 ];
-export const leagueOf = (i: number) => LEAGUES[Math.max(0, Math.min(LEAGUES.length - 1, i))];
+export const leagueOf = (i: number) => LEAGUES[clamp(i, 0, LEAGUES.length - 1)];
 
 /** Сколько поднимается и опускается в группе такого размера (как в league_rollover на сервере) */
 export const zones = (size: number) => ({

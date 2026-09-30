@@ -1,5 +1,7 @@
 // Раздел «Курс» → «Времена»: карта всех времён, страница времени (объяснение / упражнения), тренажёр «выбери время»
 import { useMemo, useRef, useState, type ReactNode } from 'react';
+import { isLevel } from '@utils/level';
+import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { currentUnit } from '../lib/course';
 import { useCourse, useTenses } from '../lib/data';
@@ -505,21 +507,6 @@ function TensePage({
 
 // ───────── тренажёр ─────────
 const LVL_KEY = 'ep.tenseLvl';
-const lsGet = (k: string): string | null => {
-    try {
-        return localStorage.getItem(k);
-    } catch {
-        return null;
-    }
-};
-const lsSet = (k: string, v: string) => {
-    try {
-        localStorage.setItem(k, v);
-    } catch {
-        /* приватный режим */
-    }
-};
-const isLevel = (x: string | null): x is Level => !!x && x in LEVEL_ORDER;
 
 function TenseTrain({ list, byId }: { list: Tense[]; byId: Record<string, Tense> }) {
     const s = useProgress();

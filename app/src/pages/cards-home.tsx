@@ -1,5 +1,6 @@
 // Словарь: «Сейчас учу» (повторение), плитки статусов, колоды по уровням, добавление слова, слова по темам (фильтр-чипы)
 import { useMemo, useRef, useState, type RefObject } from 'react';
+import { ssGet, ssSet } from '@utils/storage';
 import { Icon, RoundBtn, TopBar, plural, toast } from '../components/ui';
 import { go } from '../app/router';
 import { useCourse } from '../lib/data';
@@ -155,21 +156,12 @@ function AddBox({
 function Topics({ s, cats, cols }: { s: Progress; cats: TopicCat[]; cols: TopicCol[] }) {
     const list = cats.filter((c) => cols.some((x) => x.cat === c.id));
     const [cat, setCat] = useState(() => {
-        try {
-            const v = sessionStorage.getItem('ep.topicCat');
-            if (v && list.some((c) => c.id === v)) return v;
-        } catch {
-            /* приватный режим */
-        }
-        return list[0]?.id || '';
+        const v = ssGet('ep.topicCat');
+        return v && list.some((c) => c.id === v) ? v : list[0]?.id || '';
     });
     const pick = (id: string) => {
         setCat(id);
-        try {
-            sessionStorage.setItem('ep.topicCat', id);
-        } catch {
-            /* приватный режим */
-        }
+        ssSet('ep.topicCat', id);
     };
     const shown = cols.filter((c) => c.cat === cat);
     return (

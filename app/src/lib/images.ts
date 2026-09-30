@@ -1,5 +1,6 @@
 // Картинки: обложки статей/книг (Википедия / Wikimedia Commons, только ссылки) и картинки-ассоциации для карточек
 import { useEffect, useSyncExternalStore } from 'react';
+import { lsJSON, lsSetJSON } from '@utils/storage';
 import { DAY, getState, update } from './store';
 import { LIB_COMMONS, LIB_WIKI } from './images-map';
 import { loadJSON, paths, peekJSON } from './data';
@@ -31,14 +32,10 @@ interface CommonsResp {
 
 let covers: Record<string, string> = {};
 let cacheValid = false;
-try {
-    const c = JSON.parse(localStorage.getItem(COVER_KEY) || 'null') as { t: number; m: Record<string, string> } | null;
-    if (c && c.m && Date.now() - c.t < COVER_TTL && Object.keys(c.m).length > 50) {
-        covers = c.m;
-        cacheValid = true;
-    }
-} catch {
-    /* нет кеша */
+const savedCovers = lsJSON<{ t: number; m: Record<string, string> }>(COVER_KEY);
+if (savedCovers && savedCovers.m && Date.now() - savedCovers.t < COVER_TTL && Object.keys(savedCovers.m).length > 50) {
+    covers = savedCovers.m;
+    cacheValid = true;
 }
 
 let baseRequested = false; // пакет по картам LIB_WIKI/LIB_COMMONS
@@ -152,11 +149,7 @@ function flush() {
         covers = Object.assign({}, covers, m);
         if (full) cacheValid = Object.keys(covers).length > 50;
         if (Object.keys(covers).length > 50) {
-            try {
-                localStorage.setItem(COVER_KEY, JSON.stringify({ t: Date.now(), m: covers }));
-            } catch {
-                /* переполнение */
-            }
+            lsSetJSON(COVER_KEY, { t: Date.now(), m: covers });
         }
         notify();
     });

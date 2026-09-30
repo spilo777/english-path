@@ -1,5 +1,6 @@
 // Книга: #/book/<id> — карточка книги и список глав; #/book/<id>/<глава> — чтение главы
 import { useEffect } from 'react';
+import { clamp } from '@utils/math';
 import type { PageProps } from '../app/App';
 import { go } from '../app/router';
 import { Cover, minsIn, wordsIn } from '../components/Posters';
@@ -54,7 +55,7 @@ export default function Book({ params }: PageProps) {
     const b = full.data;
     const n = b.chapters.length;
     if (chParam != null && chParam !== '') {
-        const i = Math.max(0, Math.min(n - 1, parseInt(chParam, 10) || 0));
+        const i = clamp(parseInt(chParam, 10) || 0, 0, n - 1);
         return <Chapter key={id + '#' + i} meta={{ ...meta, chapters: n }} b={b} i={i} />;
     }
     return <BookCard meta={meta} b={b} all={idx.data || []} />;
@@ -80,7 +81,7 @@ function BookCard({ meta, b, all }: { meta: BookMeta; b: BookT; all: BookMeta[] 
     for (let i = 0; i < n; i++) if (readCh(i)) d++;
     const firstUnread = b.chapters.findIndex((_, i) => !readCh(i));
     const saved = lsGet('ep.bookAt.' + b.id, '');
-    const at = Math.max(0, Math.min(n - 1, saved !== '' ? +saved : firstUnread));
+    const at = clamp(saved !== '' ? +saved : firstUnread, 0, n - 1);
     const words = b.chapters.reduce((sum, c) => sum + wordsIn(c), 0);
     const orig = meta.kind === 'original';
     const pair = all.find((x) => x.id !== b.id && !!x.wiki && x.wiki === meta.wiki);

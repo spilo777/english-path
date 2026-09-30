@@ -1,8 +1,9 @@
 // Типы контента (JSON из public/data) и прогресса ученика
 
-export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
-export const LEVELS: Level[] = ['A1', 'A2', 'B1', 'B2'];
-export const LEVEL_ORDER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5 };
+import type { Level } from '@utils/level';
+// уровни живут в utils/level; реэкспорт для старых импортов
+export type { Level };
+export { LEVELS, LEVEL_ORDER } from '@utils/level';
 
 /** Слово урока: [english, перевод, пример, перевод примера] */
 export type UnitWord = [string, string, string, string];

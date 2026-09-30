@@ -1,6 +1,7 @@
 // Достижения. pct — оценочная доля учеников, которые его получают (как «редкость» в Steam).
 // val(c) — текущее значение, need — цель. hidden — секретное (описание скрыто до получения).
 import { useEffect, useMemo, useState } from 'react';
+import { dayKey } from '@utils/date';
 import { Cloud, useCloud } from './cloud';
 import { loadJSON, paths, useCourse, useDeck, useLibrary } from './data';
 import { bestStreak, DAY, PASS, useProgress } from './store';
@@ -599,8 +600,6 @@ const passedU = (s: Progress, id: string) => {
     const u = s.units[id];
     return !!(u && u.testBest != null && u.testBest >= PASS);
 };
-const dayKey = (x: Date) =>
-    x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
 
 /** Слова колоды уровня: всего / выучено / «знаю» */
 export function deckStats(s: Progress, deck: DeckWord[], lvl: Level) {
