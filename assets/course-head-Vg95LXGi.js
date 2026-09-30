@@ -1,2 +1,0 @@
-import{j as e,T as o,z as t}from"./index-CIoB2gln.js";const a=[{key:"lessons",href:"#/",icon:"book-open",label:"Уроки"},{key:"tenses",href:"#/tenses",icon:"clock-countdown",label:"Времена"}];function l({tab:n,sub:s}){return e.jsxs(e.Fragment,{children:[e.jsx(o,{title:"Грамматика"}),e.jsx(t,{items:a,active:n}),s?e.jsx("p",{className:"page-sub",children:s}):null]})}export{l as C};
-//# sourceMappingURL=course-head-Vg95LXGi.js.map
