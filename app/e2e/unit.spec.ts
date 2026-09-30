@@ -39,7 +39,7 @@ async function unlockUpTo(page: Page, id: string) {
     );
 }
 
-const squash = (x: string) => x.replace(/[\s_ ]+/g, '').toLowerCase();
+const squash = (x: string) => x.replace(/[\s_\u00a0]+/g, '').toLowerCase();
 
 test('урок a1-0: слова, грамматика, тест, сброс', async ({ page }) => {
     const errors = watchErrors(page);

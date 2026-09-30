@@ -286,6 +286,8 @@ export interface Progress {
     newToday: { date: string; count: number };
     known: Record<string, number>;
     settings: Settings;
+    // счётчики достижений: числа и вложенные объекты вперемешку
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     stats: Record<string, any>;
     ach: Record<string, number>;
     quiz?: Record<string, number>;
