@@ -3,12 +3,22 @@ import { useMemo, useRef, useState, type ReactNode } from 'react';
 import { isLevel } from '@utils/level';
 import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
-import { currentUnit } from '../lib/course';
-import { useCourse, useTenses } from '../lib/data';
+import { useMainCourse } from '../catalog/hooks';
+import { useSource } from '../content/base/hooks';
+import {
+    recordTrainRound,
+    saveTenseResult,
+    tenseBest,
+    tenseMastered,
+    tenses as tensesSrc,
+    tensesUpTo,
+    trainerLevel,
+    trainerQuestions,
+} from '../content/tenses';
 import { ding } from '../lib/sfx';
 import { speakTTS } from '../lib/speech';
 import { recordAnswer, update, useProgress } from '../lib/store';
-import { LEVEL_ORDER, LEVELS, type Level, type Progress, type Tense, type TenseEx } from '../lib/types';
+import { LEVELS, type Level, type Progress, type Tense, type TenseEx } from '../lib/types';
 import { esc, Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
 import { BackLink, Icon, LoadError, Loading, Page, plural, shuffle } from '../components/ui';
 import { CourseHead } from './course-head';
@@ -19,8 +29,6 @@ type Time = Tense['time'];
 const TIMES: Time[] = ['present', 'past', 'future'];
 const TIME_RU: Record<Time, string> = { present: 'Настоящее', past: 'Прошедшее', future: 'Будущее' };
 const TIME_ICO: Record<Time, string> = { present: 'clock', past: 'clock-counter-clockwise', future: 'clock-clockwise' };
-
-const tenseBest = (s: Progress, id: string): number | undefined => s.tenses?.[id]?.best;
 
 // ───────── мелкие элементы ─────────
 /** Схема времени на линии «прошлое → сейчас → будущее» */
@@ -131,7 +139,7 @@ function TenseTile({ t, s }: { t: Tense; s: Progress }) {
 
 // ───────── карта времён ─────────
 function TenseMap({ list, s }: { list: Tense[]; s: Progress }) {
-    const done = list.filter((t) => (tenseBest(s, t.id) || 0) >= 0.8).length;
+    const done = list.filter((t) => tenseMastered(s, t.id)).length;
     return (
         <Page>
             <CourseHead
@@ -403,13 +411,7 @@ function TensePage({
     const qs = useMemo(() => t.ex.map((e) => ({ ...e, tid: t.id })), [t]);
     const markers = useMemo(() => t.markers.map((m) => `<span class="say mk">${esc(m)}</span>`).join(' '), [t.markers]);
     const compare = (t.compare || []).filter((c) => byId[c]);
-    const save = (score: number) =>
-        update((st) => {
-            st.tenses = st.tenses || {};
-            const r = (st.tenses[t.id] = st.tenses[t.id] || {});
-            r.best = Math.max(r.best || 0, score);
-            r.at = Date.now();
-        });
+    const save = (score: number) => update((st) => saveTenseResult(st, t.id, score));
     return (
         <Page>
             <div ref={ref} key={t.id + '/' + (practice ? 'p' : 'e')} className="tense-page">
@@ -510,27 +512,23 @@ const LVL_KEY = 'ep.tenseLvl';
 
 function TenseTrain({ list, byId }: { list: Tense[]; byId: Record<string, Tense> }) {
     const s = useProgress();
-    const { data: course } = useCourse();
+    const { def, index } = useMainCourse();
+    const course = index.data;
     const ref = useRef<HTMLDivElement>(null);
-    const my: Level = (course && currentUnit(s, course)?.level) || 'A1';
+    const my: Level = (course && def.current(s, course)?.level) || 'A1';
     const saved = lsGet(LVL_KEY);
     const [pick, setPick] = useState<Level | null>(isLevel(saved) ? saved : null);
     const [round, setRound] = useState(0);
-    const lv: Level = pick || (LEVEL_ORDER[my] >= 2 ? my : 'A2');
-    const upTo = (l: Level) => list.filter((t) => LEVEL_ORDER[t.level] <= LEVEL_ORDER[l]);
-    const pool = upTo(lv);
+    const lv: Level = trainerLevel(my, pick);
+    const pool = tensesUpTo(list, lv);
     // 20 случайных вопросов; новый набор — при смене уровня или повторном выборе
     const qs = useMemo(
-        () => shuffle(upTo(lv).flatMap((t) => t.ex.map((e) => ({ ...e, tid: t.id })))).slice(0, 20),
+        () => trainerQuestions(list, lv),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [list, lv, round],
     );
     useLessonEnhance(ref, [lv, round]);
-    const done = (sc: number) =>
-        update((st) => {
-            st.stats.tenseTrain = (st.stats.tenseTrain || 0) + 1;
-            st.stats.tenseBest = Math.max(st.stats.tenseBest || 0, sc);
-        });
+    const done = (sc: number) => update((st) => recordTrainRound(st, sc));
     return (
         <Page>
             <BackLink href="#/tenses" />
@@ -552,7 +550,7 @@ function TenseTrain({ list, byId }: { list: Tense[]; byId: Record<string, Tense>
                             setRound((r) => r + 1);
                         }}
                     >
-                        до {l} · {upTo(l).length}
+                        до {l} · {tensesUpTo(list, l).length}
                     </a>
                 ))}
             </div>
@@ -565,7 +563,7 @@ function TenseTrain({ list, byId }: { list: Tense[]; byId: Record<string, Tense>
 
 export default function Tenses({ params }: PageProps) {
     const s = useProgress();
-    const { data: list, error } = useTenses();
+    const { data: list, error } = useSource(tensesSrc);
     const byId = useMemo(() => Object.fromEntries((list || []).map((t) => [t.id, t])) as Record<string, Tense>, [list]);
     if (error)
         return (
