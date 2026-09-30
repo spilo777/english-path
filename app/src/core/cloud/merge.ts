@@ -150,6 +150,41 @@ export function merge(a0: Partial<Progress> | null | undefined, b0: Partial<Prog
         quiz[k] = Math.max(num(quiz[k]), num(v));
     });
     out.quiz = quiz;
+    // тренажёр времён: лучший результат и самая поздняя попытка
+    if (a.tenses || b.tenses) {
+        const ta = a.tenses || {},
+            tb = b.tenses || {};
+        const tenses: NonNullable<Progress['tenses']> = {};
+        unionKeys(ta, tb).forEach((k) => {
+            const x = obj(ta[k]),
+                y = obj(tb[k]);
+            const r: { best?: number; at?: number } = {};
+            if (x.best != null || y.best != null) r.best = Math.max(num(x.best), num(y.best));
+            if (x.at != null || y.at != null) r.at = Math.max(num(x.at), num(y.at));
+            tenses[k] = r;
+        });
+        out.tenses = tenses;
+    }
+    // позиция в книге: дальняя глава
+    if (a.bookPos || b.bookPos) {
+        const pa = a.bookPos || {},
+            pb = b.bookPos || {};
+        const pos: Record<string, number> = {};
+        unionKeys(pa, pb).forEach((k) => {
+            pos[k] = Math.max(num(pa[k]), num(pb[k]));
+        });
+        out.bookPos = pos;
+    }
+    // время суток занятий (утро 1, день 2, вечер 4): объединение битов
+    if (a.dayParts || b.dayParts) {
+        const da = a.dayParts || {},
+            db = b.dayParts || {};
+        const parts: Record<string, number> = {};
+        unionKeys(da, db).forEach((k) => {
+            parts[k] = num(da[k]) | num(db[k]);
+        });
+        out.dayParts = parts;
+    }
     return out;
 }
 

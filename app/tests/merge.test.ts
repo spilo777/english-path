@@ -171,4 +171,41 @@ describe('слияние прогресса', () => {
         expect(m.units.u.testBest).toBe(0.85);
         expect(m.units.u.walk).toEqual({ part: 2, step: 1, done: false });
     });
+    it('времена: лучший результат и последняя попытка с обоих устройств', () => {
+        const a = st((s) => {
+            s.tenses = { ps: { best: 0.8, at: 100 }, pc: { best: 0.5, at: 50 } };
+        });
+        const b = st((s) => {
+            s.tenses = { ps: { best: 0.9, at: 90 }, fs: { best: 0.7, at: 70 } };
+        });
+        expect(merge(a, b).tenses).toEqual({
+            ps: { best: 0.9, at: 100 },
+            pc: { best: 0.5, at: 50 },
+            fs: { best: 0.7, at: 70 },
+        });
+    });
+    it('книги: берётся дальняя глава, книги с другого устройства не теряются', () => {
+        const a = st((s) => {
+            s.bookPos = { aesop: 4 };
+        });
+        const b = st((s) => {
+            s.bookPos = { aesop: 6, oz: 2 };
+        });
+        expect(merge(a, b).bookPos).toEqual({ aesop: 6, oz: 2 });
+    });
+    it('время суток занятий объединяется по битам', () => {
+        const a = st((s) => {
+            s.dayParts = { '2026-09-21': 3 };
+        });
+        const b = st((s) => {
+            s.dayParts = { '2026-09-21': 4, '2026-09-25': 1 };
+        });
+        expect(merge(a, b).dayParts).toEqual({ '2026-09-21': 7, '2026-09-25': 1 });
+    });
+    it('нет данных ни на одном устройстве — поле не появляется', () => {
+        const m = merge(defaults(), defaults());
+        expect(m.tenses).toBeUndefined();
+        expect(m.bookPos).toBeUndefined();
+        expect(m.dayParts).toBeUndefined();
+    });
 });

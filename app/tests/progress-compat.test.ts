@@ -1,6 +1,7 @@
 // Совместимость формата прогресса: localStorage['englishpath.v1'] и состояние в облаке (Supabase).
-// Эталон (fixtures/progress-v1.golden.json) снят с кода до перестройки на слои. Если тест упал —
-// формат или слияние изменились: это допустимо только осознанно, с обновлением эталона в том же коммите.
+// Эталон (fixtures/progress-v1.golden.json) снят с кода до перестройки на слои; единственное осознанное
+// изменение с тех пор — слияние tenses / bookPos / dayParts (раньше терялись данные второго устройства).
+// Если тест упал — формат или слияние изменились: допустимо только осознанно, с обновлением эталона в том же коммите.
 import { beforeAll, describe, expect, it } from 'vitest';
 import local from './fixtures/progress-v1.json';
 import remote from './fixtures/progress-v1-remote.json';
