@@ -1,7 +1,7 @@
 // Повторение карточек: #/review (все карточки) и #/review/topic/<id> (одна коллекция)
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PageProps } from '../app/App';
-import { BackLink, Icon, LoadError, Loading, Page, Progress as Bar, toast } from '../components/ui';
+import { BackLink, Icon, LoadError, Loading, Page, plural, Progress as Bar, toast } from '../components/ui';
 import { useDeck, useTopics } from '../lib/data';
 import { addCard, countNew, dueCards, newLeftToday, schedule, takeNew } from '../lib/srs';
 import { getState, tomb, track, update, useProgress } from '../lib/store';
@@ -10,7 +10,8 @@ import { exMark, wid } from './cards-util';
 import { FlashCard, prefetchCard, type Grade, type Side } from './review-card';
 import './Review.css';
 
-interface Sess { queue: string[]; done: number; graded: number; agains: number; start: number; total: number; finished: boolean }
+/** queue — карточки по порядку; wait — изучаемые слова, которые ждут своего времени (через 1, 5, 10 минут) */
+interface Sess { queue: string[]; wait: string[]; done: number; graded: number; agains: number; start: number; total: number; finished: boolean }
 
 const EXTRA_REV = 10, EXTRA_NEW = 10;
 
@@ -57,6 +58,27 @@ function buildQueue(deck: DeckWord[], tc: TopicCol | undefined, extra = false): 
   return q;
 }
 
+const mmss = (ms: number) => { const t = Math.ceil(ms / 1000); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
+
+/** Остались только слова, которые ещё рано повторять: таймер до ближайшего и кнопка «Повторить сейчас» */
+function WaitScreen({ due, count, onReady, onNow, back }: { due: number; count: number; onReady: () => void; onNow: () => void; back: string }) {
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
+  const left = due - now;
+  useEffect(() => { if (left <= 0) onReady(); }, [left <= 0]);
+  return (
+    <div className="card result rv-wait">
+      <div className="big"><Icon name="hourglass-medium" /></div>
+      <h2>Следующее слово через {mmss(Math.max(0, left))}</h2>
+      <p className="muted">В изучении {count} {plural(count, 'слово', 'слова', 'слов')}. Повторять раньше времени почти бесполезно — памяти нужно чуть «остыть». Подождите здесь, займитесь уроком или вернитесь позже: слова дождутся.</p>
+      <div className="row rv-end">
+        <button type="button" className="btn primary" onClick={onNow}>Повторить сейчас</button>
+        <a className="btn" href={back}>Закончить</a>
+      </div>
+    </div>
+  );
+}
+
 function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?: boolean }) {
   const s = useProgress();
   const sess = useRef<Sess | null>(null);
@@ -66,7 +88,7 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
   useEffect(() => {
     if (sess.current) return;
     const queue = extra ? buildQueue(deck, undefined, true) : buildQueue(deck, tc);
-    sess.current = { queue, done: 0, graded: 0, agains: 0, start: Date.now(), total: queue.length, finished: false };
+    sess.current = { queue, wait: [], done: 0, graded: 0, agains: 0, start: Date.now(), total: queue.length, finished: false };
     setTurn(1);
   }, [deck, tc, extra]);
 
@@ -74,8 +96,13 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
   const next = () => {
     const x = sess.current; if (!x) return;
     const cards = getState().cards;
+    const now = Date.now();
+    // изучаемые слова, чьё время подошло, идут первыми — как в Anki
+    x.wait = x.wait.filter((id) => cards[id]);
+    const ready = x.wait.filter((id) => cards[id].due <= now).sort((a, b) => cards[a].due - cards[b].due);
+    if (ready.length) { x.wait = x.wait.filter((id) => !ready.includes(id)); x.queue.unshift(...ready); }
     while (x.queue.length && !cards[x.queue[0]]) x.queue.shift();
-    if (!x.queue.length && !x.finished) {
+    if (!x.queue.length && !x.wait.length && !x.finished) {
       x.finished = true;
       if (x.graded >= 20 && x.agains === 0) update((st) => { st.stats.cleanSessions = (st.stats.cleanSessions || 0) + 1; });
     }
@@ -109,7 +136,7 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
     });
     x.graded++; if (g === 0) x.agains++;
     x.queue.shift();
-    if (!early && n.state === 'learn') x.queue.splice(Math.min(x.queue.length, g === 0 ? 3 : 6), 0, id); // вернётся через несколько карточек
+    if (!early && n.state === 'learn') x.wait.push(id); // вернётся, когда пройдёт интервал (1, 5 или 10 минут)
     else x.done++;
     next();
   };
@@ -128,6 +155,16 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
     next();
   };
 
+  // «Повторить сейчас» на экране ожидания: ближайшее слово — без ожидания
+  const takeNext = () => {
+    if (!x || !x.wait.length) return;
+    const cards = getState().cards;
+    const id = [...x.wait].sort((a, b) => (cards[a]?.due || 0) - (cards[b]?.due || 0))[0];
+    x.wait = x.wait.filter((k) => k !== id);
+    x.queue.unshift(id);
+    setTurn((t) => t + 1);
+  };
+
   const side: Side = useMemo(() => {
     const mode = getState().settings.cardMode;
     return mode === 'mix' ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en') : mode;
@@ -143,6 +180,10 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
         {!extra && !tc ? <div className="rv-end"><a className="btn" href="#/review/extra">Занятие вне очереди</a></div> : null}
       </div>
     );
+  } else if (!head && x.wait.length) {
+    const cards = s.cards;
+    const nextDue = Math.min(...x.wait.map((id) => cards[id]?.due || Date.now()));
+    body = <WaitScreen due={nextDue} count={x.wait.length} onReady={next} onNow={takeNext} back={tc ? '#/topic/' + tc.id : '#/cards'} />;
   } else if (!head) {
     body = (
       <div className="card result">
@@ -172,7 +213,7 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
         </select>
       </div>
       {x && x.total ? (
-        <div className="ex-head"><Bar value={x.done / Math.max(1, x.total)} /><span className="tiny muted">{x.queue.length ? `осталось ${x.queue.length}` : ''}</span></div>
+        <div className="ex-head"><Bar value={x.done / Math.max(1, x.total)} /><span className="tiny muted">{x.queue.length + x.wait.length ? `осталось ${x.queue.length + x.wait.length}` : ''}</span></div>
       ) : null}
       {body}
     </>
