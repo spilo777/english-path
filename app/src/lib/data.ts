@@ -1,12 +1,13 @@
 // Типизированная загрузка контента. Загрузчик — в core/data; эти хуки переедут в content/* (шаг 5)
 import { useJSON } from '../core/data/hooks';
 import { paths } from '../core/data/paths';
+import { useSource } from '../content/base/hooks';
+import { deck } from '../content/word-cards/sources';
 import type {
     Book,
     BookMeta,
     CourseIndex,
     DeckWord,
-    DeckWordRow,
     LessonUnit,
     Syllabus,
     Tense,
@@ -31,22 +32,7 @@ export const useTenses = () => useJSON<Tense[]>(paths.tenses);
 export const useBookIndex = () => useJSON<BookMeta[]>(paths.bookIndex);
 export const useBook = (id: string | null) => useJSON<Book>(id ? paths.book(id) : null);
 
-let deckCache: DeckWord[] | null = null;
-export const toDeck = (rows: DeckWordRow[]): DeckWord[] =>
-    (deckCache =
-        deckCache ||
-        rows.map((w) => ({
-            id: w[0].toLowerCase(),
-            en: w[0],
-            ru: w[1],
-            ex: w[2],
-            exRu: w[3],
-            lvl: w[4],
-            pos: w[5],
-            rank: w[6],
-        })));
-/** Частотная колода ~4000 слов */
+/** Частотная колода ~4000 слов (источник — content/word-cards) */
 export function useDeck(enabled = true): DeckWord[] | undefined {
-    const { data } = useJSON<DeckWordRow[]>(enabled ? paths.words : null);
-    return data ? toDeck(data) : undefined;
+    return useSource(enabled ? deck : null).data;
 }

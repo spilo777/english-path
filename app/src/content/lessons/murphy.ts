@@ -1,0 +1,52 @@
+// Учебники Мёрфи (красный, синий, зелёный): какие юниты книг проходит урок
+import type { BookRefs, Syllabus, UnitMeta } from './model';
+
+export const BOOK_KEYS = ['red', 'blue', 'green'] as const;
+export const BOOK_COL: Record<(typeof BOOK_KEYS)[number], string> = {
+    red: '#E0453C',
+    blue: '#3B6FE0',
+    green: '#1FA865',
+};
+
+/** Юниты книг для урока: из самого урока или из программы */
+export function unitBooks(meta: Pick<UnitMeta, 'id' | 'books'>, syllabus?: Syllabus): BookRefs {
+    if (meta.books) return meta.books;
+    const l = syllabus?.lessons.find((x) => x.id === meta.id);
+    return l ? { red: l.red, blue: l.blue, green: l.green } : {};
+}
+
+/** 1,2,3,5 → «1–3, 5» */
+export function rangeTxt(a: number[]): string {
+    const r: [number, number][] = [];
+    a.slice()
+        .sort((x, y) => x - y)
+        .forEach((n) => {
+            const l = r[r.length - 1];
+            if (l && n === l[1] + 1) l[1] = n;
+            else r.push([n, n]);
+        });
+    return r.map(([x, y]) => (x === y ? String(x) : x + '–' + y)).join(', ');
+}
+
+/** Части для чипов: «Красный Мерфи: юниты 1–3» по каждой книге */
+export function unitBooksParts(
+    meta: Pick<UnitMeta, 'id' | 'books'>,
+    syllabus?: Syllabus,
+): { key: (typeof BOOK_KEYS)[number]; color: string; text: string }[] {
+    const b = unitBooks(meta, syllabus);
+    return BOOK_KEYS.filter((k) => b[k] && b[k]!.length).map((k) => {
+        const n = b[k]!;
+        return {
+            key: k,
+            color: BOOK_COL[k],
+            text: `${syllabus?.books[k]?.short || k}: ${n.length > 1 ? 'юниты' : 'юнит'} ${rangeTxt(n)}`,
+        };
+    });
+}
+
+/** Книги урока одной строкой: «Красный Мерфи: юниты 1–3 · Синий Мерфи: юнит 5» */
+export function unitBooksText(meta: Pick<UnitMeta, 'id' | 'books'>, syllabus?: Syllabus): string {
+    return unitBooksParts(meta, syllabus)
+        .map((p) => p.text)
+        .join(' · ');
+}
