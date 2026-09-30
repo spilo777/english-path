@@ -1,6 +1,7 @@
 // «Слушать»: YouTube-каналы для аудирования. Свежие видео — функция yt в Supabase (RSS-ленты YouTube, кеш 3 часа)
 import { useEffect, useState } from 'react';
 import { DAY } from '@utils/date';
+import { functionUrl } from '../core/cloud/config';
 import { ALL_LEVELS } from '@utils/level';
 import { lsJSON, lsSetJSON } from '@utils/storage';
 import type { Level } from './types';
@@ -259,7 +260,7 @@ export const channelsFor = (lvl: Level) => {
     return [...CHANNELS.filter(fit), ...CHANNELS.filter((c) => !fit(c))];
 };
 
-const URL_ = 'https://rxpmzsresfuevebkirsk.supabase.co/functions/v1/yt';
+const URL_ = functionUrl('yt');
 const KEY = 'ep.yt';
 type Feed = Record<string, Video[]>;
 type Arts = Record<string, ChannelArt>;
