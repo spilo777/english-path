@@ -25,10 +25,10 @@ export interface Lesson extends UnitMeta {
 const toLesson = (u: UnitMeta): Lesson => ({ ...u, body: unitBody(u.id) });
 
 /** Основные уроки уровня по порядку */
-export const lessonsByLevel = (l: Level): Source<Lesson[]> =>
-    derive(courseIndex, 'lessons:' + l, (c) => mainUnits(c).filter((u) => u.level === l).map(toLesson));
+export function lessonsByLevel(l: Level): Source<Lesson[]> {
+    return derive(courseIndex, 'lessons:' + l, (c) => mainUnits(c).filter((u) => u.level === l).map(toLesson));
+}
 
+const games = (c: CourseIndex): Lesson[] => c.units.filter((u) => u.track === 'games').map(toLesson);
 /** Игровые уроки (отдельная ветка курса) */
-export const gameLessons: Source<Lesson[]> = derive(courseIndex, 'lessons:games', (c) =>
-    c.units.filter((u) => u.track === 'games').map(toLesson),
-);
+export const gameLessons: Source<Lesson[]> = derive(courseIndex, 'lessons:games', games);

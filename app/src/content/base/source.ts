@@ -49,3 +49,37 @@ export function derive<A extends object, T>(from: Source<A>, key: string, fn: (a
 export function staticSource<T>(key: string, value: T): Source<T> {
     return { key, load: () => Promise.resolve(value), peek: () => value };
 }
+
+/** Несколько источников как один: массив их значений (готов, когда готовы все) */
+export function all<T>(key: string, parts: readonly Source<T>[]): Source<T[]> {
+    let last: { vals: T[]; out: T[] } | null = null;
+    return {
+        key,
+        load: () => Promise.all(parts.map((p) => p.load())),
+        peek: () => {
+            const vals: T[] = [];
+            for (const p of parts) {
+                const v = p.peek();
+                if (v === undefined) return undefined;
+                vals.push(v);
+            }
+            // та же ссылка, пока значения частей не изменились
+            if (!last || last.vals.length !== vals.length || last.vals.some((v, i) => v !== vals[i]))
+                last = { vals, out: vals.slice() };
+            return last.out;
+        },
+    };
+}
+
+/** Источник, который зависит от значения другого: например, уроки уровня → их тела */
+export function chain<A extends object, T>(from: Source<A>, key: string, next: (a: A) => Source<T>): Source<T> {
+    const pick = memo(next);
+    return {
+        key,
+        load: () => from.load().then((a) => pick(a).load()),
+        peek: () => {
+            const a = from.peek();
+            return a === undefined ? undefined : pick(a).peek();
+        },
+    };
+}

@@ -1,0 +1,2172 @@
+{
+ "list": [
+  {
+   "id": "rev_1",
+   "cat": "Слова и карточки",
+   "icon": "cards",
+   "title": "Первая карточка",
+   "desc": "Повторите первую карточку",
+   "pct": 94,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "rev_100",
+   "cat": "Слова и карточки",
+   "icon": "stack",
+   "title": "Сотня",
+   "desc": "Сделайте 100 повторений",
+   "pct": 72,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "rev_500",
+   "cat": "Слова и карточки",
+   "icon": "stack-plus",
+   "title": "Втянулся",
+   "desc": "Сделайте 500 повторений",
+   "pct": 54,
+   "need": 500,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "rev_1000",
+   "cat": "Слова и карточки",
+   "icon": "books",
+   "title": "Тысячник",
+   "desc": "Сделайте 1 000 повторений",
+   "pct": 41,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "rev_5000",
+   "cat": "Слова и карточки",
+   "icon": "brain",
+   "title": "Машина повторений",
+   "desc": "Сделайте 5 000 повторений",
+   "pct": 17,
+   "need": 5000,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "rev_10000",
+   "cat": "Слова и карточки",
+   "icon": "gear-fine",
+   "title": "Десять тысяч",
+   "desc": "Сделайте 10 000 повторений",
+   "pct": 8.5,
+   "need": 10000,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "rev_25000",
+   "cat": "Слова и карточки",
+   "icon": "bank",
+   "title": "Монумент",
+   "desc": "Сделайте 25 000 повторений",
+   "pct": 2.6,
+   "need": 25000,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "learn_10",
+   "cat": "Слова и карточки",
+   "icon": "plant",
+   "title": "Первые ростки",
+   "desc": "Выучите 10 слов надолго (интервал 3+ недели)",
+   "pct": 61,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "learn_50",
+   "cat": "Слова и карточки",
+   "icon": "leaf",
+   "title": "Полсотни",
+   "desc": "Выучите 50 слов",
+   "pct": 46,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "learn_100",
+   "cat": "Слова и карточки",
+   "icon": "tree",
+   "title": "Сотня слов",
+   "desc": "Выучите 100 слов",
+   "pct": 35,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "learn_250",
+   "cat": "Слова и карточки",
+   "icon": "chats-circle",
+   "title": "Уже можно объясниться",
+   "desc": "Выучите 250 слов",
+   "pct": 24,
+   "need": 250,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "learn_500",
+   "cat": "Слова и карточки",
+   "icon": "map-trifold",
+   "title": "Путешественник",
+   "desc": "Выучите 500 слов",
+   "pct": 16,
+   "need": 500,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "learn_1000",
+   "cat": "Слова и карточки",
+   "icon": "castle-turret",
+   "title": "Тысяча слов",
+   "desc": "Выучите 1 000 слов — это уже 85% бытовой речи",
+   "pct": 9.2,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "learn_2000",
+   "cat": "Слова и карточки",
+   "icon": "game-controller",
+   "title": "Играю без словаря",
+   "desc": "Выучите 2 000 слов",
+   "pct": 4.8,
+   "need": 2000,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "learn_3000",
+   "cat": "Слова и карточки",
+   "icon": "book-open-text",
+   "title": "Читаю книги",
+   "desc": "Выучите 3 000 слов",
+   "pct": 2.3,
+   "need": 3000,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "learn_4000",
+   "cat": "Слова и карточки",
+   "icon": "crown",
+   "title": "Словарь в голове",
+   "desc": "Выучите 4 000 слов",
+   "pct": 1.1,
+   "need": 4000,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "master_100",
+   "cat": "Слова и карточки",
+   "icon": "shield-check",
+   "title": "Железная память",
+   "desc": "100 слов с интервалом больше 3 месяцев",
+   "pct": 7.5,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "master_1000",
+   "cat": "Слова и карточки",
+   "icon": "diamond",
+   "title": "Алмазная память",
+   "desc": "1 000 слов с интервалом больше 3 месяцев",
+   "pct": 1.6,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "deck_A1",
+   "cat": "Слова и карточки",
+   "icon": "medal",
+   "title": "A1 покорён",
+   "desc": "Выучите или отметьте «знаю» все слова колоды A1",
+   "pct": 12,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "deck_A2",
+   "cat": "Слова и карточки",
+   "icon": "medal-military",
+   "title": "A2 покорён",
+   "desc": "Закройте колоду A2",
+   "pct": 6.8,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "deck_B1",
+   "cat": "Слова и карточки",
+   "icon": "trophy",
+   "title": "B1 покорён",
+   "desc": "Закройте колоду B1",
+   "pct": 3.2,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "deck_B2",
+   "cat": "Слова и карточки",
+   "icon": "crown-simple",
+   "title": "B2 покорён",
+   "desc": "Закройте колоду B2",
+   "pct": 1.3,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "known_50",
+   "cat": "Слова и карточки",
+   "icon": "sunglasses",
+   "title": "Я это знаю",
+   "desc": "Отметьте «знаю» 50 слов",
+   "pct": 31,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "known_300",
+   "cat": "Слова и карточки",
+   "icon": "student",
+   "title": "Не новичок",
+   "desc": "Отметьте «знаю» 300 слов",
+   "pct": 9.8,
+   "need": 300,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "ruen_100",
+   "cat": "Слова и карточки",
+   "icon": "arrows-left-right",
+   "title": "Обратная сторона",
+   "desc": "100 повторений в режиме «рус → англ»",
+   "pct": 21,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "ruen_1000",
+   "cat": "Слова и карточки",
+   "icon": "microphone",
+   "title": "Говорю сам",
+   "desc": "1 000 повторений в режиме «рус → англ»",
+   "pct": 5.9,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "clean_1",
+   "cat": "Слова и карточки",
+   "icon": "sparkle",
+   "title": "Без единой ошибки",
+   "desc": "Сессия из 20+ карточек без «Снова»",
+   "pct": 26,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "clean_10",
+   "cat": "Слова и карточки",
+   "icon": "star-four",
+   "title": "Чистая работа",
+   "desc": "10 сессий из 20+ карточек без «Снова»",
+   "pct": 7.2,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "day_100",
+   "cat": "Слова и карточки",
+   "icon": "person-simple-run",
+   "title": "Марафон",
+   "desc": "100 повторений за один день",
+   "pct": 15,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "day_300",
+   "cat": "Слова и карточки",
+   "icon": "rocket-launch",
+   "title": "Ультрамарафон",
+   "desc": "300 повторений за один день",
+   "pct": 3.9,
+   "need": 300,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "manual_1",
+   "cat": "Слова и карточки",
+   "icon": "pencil-simple-line",
+   "title": "Своё слово",
+   "desc": "Добавьте слово в карточки вручную или из текста",
+   "pct": 48,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "manual_50",
+   "cat": "Слова и карточки",
+   "icon": "basket",
+   "title": "Собиратель",
+   "desc": "Добавьте 50 своих слов",
+   "pct": 11,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "streak_3",
+   "cat": "Регулярность",
+   "icon": "flame",
+   "title": "Разогрев",
+   "desc": "Занимайтесь 3 дня подряд",
+   "pct": 66,
+   "need": 3,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "streak_7",
+   "cat": "Регулярность",
+   "icon": "calendar-check",
+   "title": "Неделя",
+   "desc": "7 дней подряд",
+   "pct": 44,
+   "need": 7,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "streak_14",
+   "cat": "Регулярность",
+   "icon": "calendar-dots",
+   "title": "Две недели",
+   "desc": "14 дней подряд",
+   "pct": 29,
+   "need": 14,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "streak_30",
+   "cat": "Регулярность",
+   "icon": "moon-stars",
+   "title": "Месяц без пропусков",
+   "desc": "30 дней подряд",
+   "pct": 15,
+   "need": 30,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "streak_60",
+   "cat": "Регулярность",
+   "icon": "shooting-star",
+   "title": "Привычка",
+   "desc": "60 дней подряд",
+   "pct": 7.8,
+   "need": 60,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "streak_100",
+   "cat": "Регулярность",
+   "icon": "fire",
+   "title": "Сто дней",
+   "desc": "100 дней подряд",
+   "pct": 3.7,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "streak_180",
+   "cat": "Регулярность",
+   "icon": "mountains",
+   "title": "Полгода",
+   "desc": "180 дней подряд",
+   "pct": 1.7,
+   "need": 180,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "streak_365",
+   "cat": "Регулярность",
+   "icon": "globe-hemisphere-west",
+   "title": "Год английского",
+   "desc": "365 дней подряд",
+   "pct": 0.7,
+   "need": 365,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "days_10",
+   "cat": "Регулярность",
+   "icon": "push-pin",
+   "title": "Десять дней",
+   "desc": "Занимайтесь 10 разных дней",
+   "pct": 52,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "days_50",
+   "cat": "Регулярность",
+   "icon": "map-pin",
+   "title": "Пятьдесят дней",
+   "desc": "Занимайтесь 50 разных дней",
+   "pct": 21,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "days_100",
+   "cat": "Регулярность",
+   "icon": "compass",
+   "title": "Сто дней в пути",
+   "desc": "Занимайтесь 100 разных дней",
+   "pct": 11,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "days_250",
+   "cat": "Регулярность",
+   "icon": "anchor",
+   "title": "Скала",
+   "desc": "Занимайтесь 250 разных дней",
+   "pct": 3.4,
+   "need": 250,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "weekend_10",
+   "cat": "Регулярность",
+   "icon": "couch",
+   "title": "Выходной — не повод",
+   "desc": "Занимайтесь в 10 разных выходных дней",
+   "pct": 28,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "early",
+   "cat": "Регулярность",
+   "icon": "sun-horizon",
+   "title": "Ранняя пташка",
+   "desc": "Занимайтесь до 7 утра",
+   "pct": 24,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "owl",
+   "cat": "Регулярность",
+   "icon": "moon",
+   "title": "Сова",
+   "desc": "Занимайтесь после полуночи",
+   "pct": 22,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "comeback",
+   "cat": "Регулярность",
+   "icon": "arrow-u-up-left",
+   "title": "Возвращение",
+   "desc": "Вернитесь к занятиям после перерыва в неделю и больше",
+   "pct": 13,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "unit_0",
+   "cat": "Курс",
+   "icon": "footprints",
+   "title": "Первый шаг",
+   "desc": "Пройдите юнит 0",
+   "pct": 86,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "units_3",
+   "cat": "Курс",
+   "icon": "stairs",
+   "title": "Лестница",
+   "desc": "Пройдите 3 юнита",
+   "pct": 58,
+   "need": 3,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "units_6",
+   "cat": "Курс",
+   "icon": "wall",
+   "title": "Фундамент",
+   "desc": "Пройдите 6 юнитов",
+   "pct": 34,
+   "need": 6,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "a1_done",
+   "cat": "Курс",
+   "icon": "graduation-cap",
+   "title": "Выпускник A1",
+   "desc": "Пройдите все юниты уровня A1",
+   "pct": 18,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "a2_done",
+   "cat": "Курс",
+   "icon": "graduation-cap",
+   "title": "Выпускник A2",
+   "desc": "Пройдите все юниты уровня A2",
+   "pct": 8.9,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "b1_done",
+   "cat": "Курс",
+   "icon": "graduation-cap",
+   "title": "Выпускник B1",
+   "desc": "Пройдите все юниты уровня B1",
+   "pct": 3.8,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "b2_done",
+   "cat": "Курс",
+   "icon": "seal-check",
+   "title": "Выпускник B2",
+   "desc": "Пройдите все юниты уровня B2. Цель курса достигнута",
+   "pct": 1.4,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "perfect_1",
+   "cat": "Курс",
+   "icon": "star",
+   "title": "Отличник",
+   "desc": "Сдайте тест на 100%",
+   "pct": 51,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "perfect_5",
+   "cat": "Курс",
+   "icon": "scroll",
+   "title": "Круглый отличник",
+   "desc": "Сдайте 5 разных тестов на 100%",
+   "pct": 23,
+   "need": 5,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "perfect_all",
+   "cat": "Курс",
+   "icon": "eye",
+   "title": "Перфекционист",
+   "desc": "Сдайте все тесты A1 на 100%",
+   "pct": 4.6,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "first_try",
+   "cat": "Курс",
+   "icon": "target",
+   "title": "С первой попытки",
+   "desc": "Сдайте 5 тестов с первой попытки",
+   "pct": 27,
+   "need": 5,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "games_1",
+   "cat": "Курс",
+   "icon": "joystick",
+   "title": "Игрок",
+   "desc": "Пройдите первый игровой модуль",
+   "pct": 62,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "games_3",
+   "cat": "Курс",
+   "icon": "game-controller",
+   "title": "Геймер",
+   "desc": "Пройдите три игровых модуля",
+   "pct": 21,
+   "need": 3,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "ex_50",
+   "cat": "Упражнения",
+   "icon": "pencil",
+   "title": "Разминка",
+   "desc": "Выполните 50 заданий",
+   "pct": 71,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "ex_250",
+   "cat": "Упражнения",
+   "icon": "note-pencil",
+   "title": "Практик",
+   "desc": "Выполните 250 заданий",
+   "pct": 45,
+   "need": 250,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "ex_1000",
+   "cat": "Упражнения",
+   "icon": "notebook",
+   "title": "Тренировка",
+   "desc": "Выполните 1 000 заданий",
+   "pct": 22,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "ex_5000",
+   "cat": "Упражнения",
+   "icon": "barbell",
+   "title": "Железная воля",
+   "desc": "Выполните 5 000 заданий",
+   "pct": 4.9,
+   "need": 5000,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "exs_10",
+   "cat": "Упражнения",
+   "icon": "lightning",
+   "title": "Серия 10",
+   "desc": "10 правильных ответов подряд",
+   "pct": 56,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "exs_25",
+   "cat": "Упражнения",
+   "icon": "lightning",
+   "title": "Серия 25",
+   "desc": "25 правильных ответов подряд",
+   "pct": 26,
+   "need": 25,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "exs_50",
+   "cat": "Упражнения",
+   "icon": "cloud-lightning",
+   "title": "Безошибочный",
+   "desc": "50 правильных ответов подряд",
+   "pct": 7.9,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "listen_ex_50",
+   "cat": "Упражнения",
+   "icon": "ear",
+   "title": "Чуткое ухо",
+   "desc": "Правильно запишите на слух 50 фраз",
+   "pct": 19,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "read_1",
+   "cat": "Чтение и аудио",
+   "icon": "book-open",
+   "title": "Читатель",
+   "desc": "Прочитайте первый текст",
+   "pct": 81,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "read_10",
+   "cat": "Чтение и аудио",
+   "icon": "books",
+   "title": "Библиотекарь",
+   "desc": "Прочитайте 10 текстов",
+   "pct": 42,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "read_all",
+   "cat": "Чтение и аудио",
+   "icon": "bookmarks",
+   "title": "Книжный червь",
+   "desc": "Прочитайте все тексты курса",
+   "pct": 14,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "user_1",
+   "cat": "Чтение и аудио",
+   "icon": "download-simple",
+   "title": "Свой контент",
+   "desc": "Добавьте свой текст",
+   "pct": 32,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "user_10",
+   "cat": "Чтение и аудио",
+   "icon": "archive",
+   "title": "Куратор",
+   "desc": "Добавьте 10 своих текстов",
+   "pct": 7.7,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "look_50",
+   "cat": "Чтение и аудио",
+   "icon": "magnifying-glass",
+   "title": "Любопытный",
+   "desc": "Посмотрите перевод 50 слов в текстах",
+   "pct": 54,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "look_500",
+   "cat": "Чтение и аудио",
+   "icon": "binoculars",
+   "title": "Исследователь",
+   "desc": "Посмотрите перевод 500 слов",
+   "pct": 19,
+   "need": 500,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "look_2000",
+   "cat": "Чтение и аудио",
+   "icon": "planet",
+   "title": "Первооткрыватель",
+   "desc": "Посмотрите перевод 2 000 слов",
+   "pct": 5.6,
+   "need": 2000,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "listen_1",
+   "cat": "Чтение и аудио",
+   "icon": "headphones",
+   "title": "Аудиофил",
+   "desc": "Прослушайте текст целиком",
+   "pct": 47,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "listen_25",
+   "cat": "Чтение и аудио",
+   "icon": "radio",
+   "title": "Радиоволна",
+   "desc": "Прослушайте целиком 25 текстов",
+   "pct": 11,
+   "need": 25,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "backup",
+   "cat": "Разное",
+   "icon": "floppy-disk",
+   "title": "Страховка",
+   "desc": "Сохраните резервную копию прогресса",
+   "pct": 16,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "voice",
+   "cat": "Разное",
+   "icon": "waveform",
+   "title": "Свой голос",
+   "desc": "Выберите голос озвучки в настройках",
+   "pct": 19,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "ach_10",
+   "cat": "Разное",
+   "icon": "medal",
+   "title": "Коллекционер",
+   "desc": "Получите 10 достижений",
+   "pct": 38,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "ach_30",
+   "cat": "Разное",
+   "icon": "trophy",
+   "title": "Охотник за ачивками",
+   "desc": "Получите 30 достижений",
+   "pct": 13,
+   "need": 30,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "ach_60",
+   "cat": "Разное",
+   "icon": "sparkle",
+   "title": "Легенда",
+   "desc": "Получите 60 достижений",
+   "pct": 2.1,
+   "need": 60,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "platinum",
+   "cat": "Разное",
+   "icon": "diamonds-four",
+   "title": "Платина",
+   "desc": "Получите все остальные достижения",
+   "pct": 0.2,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "logo",
+   "cat": "Секретные",
+   "icon": "egg",
+   "title": "Пасхалка",
+   "desc": "Нажмите на логотип 10 раз",
+   "pct": 2.9,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "insomnia",
+   "cat": "Секретные",
+   "icon": "moon-stars",
+   "title": "Бессонница",
+   "desc": "Занимайтесь между 3 и 5 часами ночи",
+   "pct": 1.9,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "newyear",
+   "cat": "Секретные",
+   "icon": "tree-evergreen",
+   "title": "Новогоднее чудо",
+   "desc": "Занимайтесь 1 января",
+   "pct": 1.2,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "speedrun",
+   "cat": "Секретные",
+   "icon": "timer",
+   "title": "Спидран",
+   "desc": "50 повторений меньше чем за 5 минут",
+   "pct": 3.3,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "no_idk",
+   "cat": "Секретные",
+   "icon": "robot",
+   "title": "Без подсказок",
+   "desc": "Пройдите практику юнита, ни разу не нажав «Не знаю» и без ошибок",
+   "pct": 9.4,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "rev_250",
+   "cat": "Слова и карточки",
+   "icon": "stack-simple",
+   "title": "Четверть тысячи",
+   "desc": "Сделайте 250 повторений",
+   "pct": 63,
+   "need": 250,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "rev_2500",
+   "cat": "Слова и карточки",
+   "icon": "lightning-a",
+   "title": "Разгон",
+   "desc": "Сделайте 2 500 повторений",
+   "pct": 27,
+   "need": 2500,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "learn_25",
+   "cat": "Слова и карточки",
+   "icon": "flower",
+   "title": "Первые всходы",
+   "desc": "Выучите 25 слов",
+   "pct": 53,
+   "need": 25,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "learn_750",
+   "cat": "Слова и карточки",
+   "icon": "mountains",
+   "title": "Горная тропа",
+   "desc": "Выучите 750 слов",
+   "pct": 12.5,
+   "need": 750,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "learn_1500",
+   "cat": "Слова и карточки",
+   "icon": "television-simple",
+   "title": "Смотрю сериалы",
+   "desc": "Выучите 1 500 слов",
+   "pct": 6.7,
+   "need": 1500,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "learn_2500",
+   "cat": "Слова и карточки",
+   "icon": "chat-circle-dots",
+   "title": "Свободный разговор",
+   "desc": "Выучите 2 500 слов",
+   "pct": 3.5,
+   "need": 2500,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "deck_A1_half",
+   "cat": "Слова и карточки",
+   "icon": "circle-half",
+   "title": "Половина пути A1",
+   "desc": "Выучите или отметьте «знаю» половину колоды A1",
+   "pct": 24,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "deck_A2_half",
+   "cat": "Слова и карточки",
+   "icon": "circle-half-tilt",
+   "title": "Половина пути A2",
+   "desc": "Половина колоды A2",
+   "pct": 13,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "known_1000",
+   "cat": "Слова и карточки",
+   "icon": "brain",
+   "title": "Уже многое знаю",
+   "desc": "Отметьте «знаю» 1 000 слов",
+   "pct": 2.8,
+   "need": 1000,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "mix_200",
+   "cat": "Слова и карточки",
+   "icon": "shuffle",
+   "title": "Вперемешку",
+   "desc": "200 повторений в режиме «вперемешку»",
+   "pct": 14,
+   "need": 200,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "phrase_10",
+   "cat": "Слова и карточки",
+   "icon": "quotes",
+   "title": "Фразёр",
+   "desc": "Добавьте в карточки 10 фраз из текстов",
+   "pct": 17,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "img_10",
+   "cat": "Слова и карточки",
+   "icon": "image",
+   "title": "Визуал",
+   "desc": "Поставьте 10 своих картинок в карточки",
+   "pct": 9,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "streak_21",
+   "cat": "Регулярность",
+   "icon": "repeat",
+   "title": "Привычка сформирована",
+   "desc": "21 день подряд",
+   "pct": 22,
+   "need": 21,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "streak_45",
+   "cat": "Регулярность",
+   "icon": "flame",
+   "title": "Горю английским",
+   "desc": "45 дней подряд",
+   "pct": 10.5,
+   "need": 45,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "streak_250",
+   "cat": "Регулярность",
+   "icon": "sun",
+   "title": "Солнцестояние",
+   "desc": "250 дней подряд",
+   "pct": 1.2,
+   "need": 250,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "days_365",
+   "cat": "Регулярность",
+   "icon": "calendar-star",
+   "title": "Целый год занятий",
+   "desc": "Занимайтесь 365 разных дней",
+   "pct": 1.5,
+   "need": 365,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "late_100",
+   "cat": "Регулярность",
+   "icon": "moon",
+   "title": "Вечерний режим",
+   "desc": "100 повторений после 23:00",
+   "pct": 11,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "weekend_full",
+   "cat": "Регулярность",
+   "icon": "confetti",
+   "title": "Полные выходные",
+   "desc": "Занимайтесь и в субботу, и в воскресенье одних выходных",
+   "pct": 34,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "units_9",
+   "cat": "Курс",
+   "icon": "buildings",
+   "title": "Этажи знаний",
+   "desc": "Пройдите 9 юнитов",
+   "pct": 21,
+   "need": 9,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "mini_20",
+   "cat": "Курс",
+   "icon": "question",
+   "title": "Любознательный",
+   "desc": "Ответьте на 20 мини-проверок в грамматике",
+   "pct": 58,
+   "need": 20,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "mini_100",
+   "cat": "Курс",
+   "icon": "chalkboard-teacher",
+   "title": "Грамотей",
+   "desc": "Ответьте на 100 мини-проверок",
+   "pct": 16,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "mini_right_100",
+   "cat": "Курс",
+   "icon": "exam",
+   "title": "Грамматик",
+   "desc": "100 правильных ответов в мини-проверках",
+   "pct": 11,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "test_retry",
+   "cat": "Курс",
+   "icon": "arrow-counter-clockwise",
+   "title": "Не сдаюсь",
+   "desc": "Пересдайте тест, который не получился с первого раза",
+   "pct": 33,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "order_50",
+   "cat": "Упражнения",
+   "icon": "puzzle-piece",
+   "title": "Конструктор",
+   "desc": "Соберите 50 предложений из слов",
+   "pct": 26,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "tr_100",
+   "cat": "Упражнения",
+   "icon": "translate",
+   "title": "Переводчик",
+   "desc": "Сделайте 100 переводов на английский",
+   "pct": 18,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "gap_100",
+   "cat": "Упражнения",
+   "icon": "text-aa",
+   "title": "Вставлю слово",
+   "desc": "Заполните 100 пропусков",
+   "pct": 24,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "exs_100",
+   "cat": "Упражнения",
+   "icon": "star-four",
+   "title": "Сотня без ошибок",
+   "desc": "100 правильных ответов подряд",
+   "pct": 2.4,
+   "need": 100,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "ex_10000",
+   "cat": "Упражнения",
+   "icon": "mountains",
+   "title": "Эверест",
+   "desc": "Выполните 10 000 заданий",
+   "pct": 1.6,
+   "need": 10000,
+   "hidden": false,
+   "color": [
+    "#0ea5e9",
+    "#0369a1"
+   ]
+  },
+  {
+   "id": "read_25",
+   "cat": "Чтение и аудио",
+   "icon": "book-bookmark",
+   "title": "Запойный читатель",
+   "desc": "Прочитайте 25 текстов",
+   "pct": 19,
+   "need": 25,
+   "hidden": false,
+   "color": [
+    "#06b6d4",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "read_50",
+   "cat": "Чтение и аудио",
+   "icon": "books",
+   "title": "Полка статей",
+   "desc": "Прочитайте 50 текстов",
+   "pct": 8.5,
+   "need": 50,
+   "hidden": false,
+   "color": [
+    "#14b8a6",
+    "#0f766e"
+   ]
+  },
+  {
+   "id": "read_lib_all",
+   "cat": "Чтение и аудио",
+   "icon": "crown-simple",
+   "title": "Весь каталог",
+   "desc": "Прочитайте все статьи библиотеки",
+   "pct": 1.9,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#f43f5e",
+    "#9f1239"
+   ]
+  },
+  {
+   "id": "read_b2",
+   "cat": "Чтение и аудио",
+   "icon": "rocket",
+   "title": "Первая статья B2",
+   "desc": "Прочитайте статью уровня B2",
+   "pct": 9.6,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#22c55e",
+    "#15803d"
+   ]
+  },
+  {
+   "id": "cat_series",
+   "cat": "Чтение и аудио",
+   "icon": "television",
+   "title": "Сериаломан",
+   "desc": "Прочитайте 10 статей о сериалах",
+   "pct": 13,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#ef4444",
+    "#b91c1c"
+   ]
+  },
+  {
+   "id": "cat_cartoons",
+   "cat": "Чтение и аудио",
+   "icon": "palette",
+   "title": "Мультипликатор",
+   "desc": "Прочитайте 10 статей о мультфильмах",
+   "pct": 13,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#6366f1",
+    "#4338ca"
+   ]
+  },
+  {
+   "id": "cat_games",
+   "cat": "Чтение и аудио",
+   "icon": "game-controller",
+   "title": "Читающий геймер",
+   "desc": "Прочитайте 8 статей об играх",
+   "pct": 15,
+   "need": 8,
+   "hidden": false,
+   "color": [
+    "#ec4899",
+    "#be185d"
+   ]
+  },
+  {
+   "id": "cat_anime",
+   "cat": "Чтение и аудио",
+   "icon": "flower-lotus",
+   "title": "Отаку",
+   "desc": "Прочитайте все статьи об аниме",
+   "pct": 12,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#a855f7",
+    "#7e22ce"
+   ]
+  },
+  {
+   "id": "quiz_perfect_10",
+   "cat": "Чтение и аудио",
+   "icon": "check-square",
+   "title": "Всё понял",
+   "desc": "10 статей с вопросами на 100%",
+   "pct": 16,
+   "need": 10,
+   "hidden": false,
+   "color": [
+    "#8b5cf6",
+    "#5b21b6"
+   ]
+  },
+  {
+   "id": "speak_300",
+   "cat": "Чтение и аудио",
+   "icon": "speaker-high",
+   "title": "Меломан",
+   "desc": "Нажмите «послушать» 300 раз",
+   "pct": 29,
+   "need": 300,
+   "hidden": false,
+   "color": [
+    "#3b82f6",
+    "#1d4ed8"
+   ]
+  },
+  {
+   "id": "cloud",
+   "cat": "Разное",
+   "icon": "cloud-check",
+   "title": "В облаке",
+   "desc": "Создайте аккаунт и войдите",
+   "pct": 41,
+   "need": 1,
+   "hidden": false,
+   "color": [
+    "#84cc16",
+    "#4d7c0f"
+   ]
+  },
+  {
+   "id": "ach_45",
+   "cat": "Разное",
+   "icon": "medal",
+   "title": "Полпути к платине",
+   "desc": "Получите 45 достижений",
+   "pct": 7.3,
+   "need": 45,
+   "hidden": false,
+   "color": [
+    "#f97316",
+    "#c2410c"
+   ]
+  },
+  {
+   "id": "ach_90",
+   "cat": "Разное",
+   "icon": "crown",
+   "title": "Коллекционер легенд",
+   "desc": "Получите 90 достижений",
+   "pct": 0.9,
+   "need": 90,
+   "hidden": false,
+   "color": [
+    "#eab308",
+    "#a16207"
+   ]
+  },
+  {
+   "id": "halloween",
+   "cat": "Секретные",
+   "icon": "ghost",
+   "title": "Кошелёк или жизнь",
+   "desc": "Занимайтесь 31 октября",
+   "pct": 2.2,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "midnight",
+   "cat": "Секретные",
+   "icon": "clock-countdown",
+   "title": "Ровно полночь",
+   "desc": "Ответьте на карточку ровно в 00:00",
+   "pct": 0.8,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  },
+  {
+   "id": "marathon_day",
+   "cat": "Секретные",
+   "icon": "person-simple-run",
+   "title": "Английский весь день",
+   "desc": "Занимайтесь утром, днём и вечером одного дня",
+   "pct": 4.1,
+   "need": 1,
+   "hidden": true,
+   "color": [
+    "#475569",
+    "#0f172a"
+   ]
+  }
+ ],
+ "vals": {
+  "rev_1": 35,
+  "rev_100": 35,
+  "rev_500": 35,
+  "rev_1000": 35,
+  "rev_5000": 35,
+  "rev_10000": 35,
+  "rev_25000": 35,
+  "learn_10": 0,
+  "learn_50": 0,
+  "learn_100": 0,
+  "learn_250": 0,
+  "learn_500": 0,
+  "learn_1000": 0,
+  "learn_2000": 0,
+  "learn_3000": 0,
+  "learn_4000": 0,
+  "master_100": 0,
+  "master_1000": 0,
+  "deck_A1": 0,
+  "deck_A2": 0,
+  "deck_B1": 0,
+  "deck_B2": 0,
+  "known_50": 2,
+  "known_300": 2,
+  "ruen_100": 11,
+  "ruen_1000": 11,
+  "clean_1": 4,
+  "clean_10": 4,
+  "day_100": 30,
+  "day_300": 30,
+  "manual_1": 0,
+  "manual_50": 0,
+  "streak_3": 2,
+  "streak_7": 2,
+  "streak_14": 2,
+  "streak_30": 2,
+  "streak_60": 2,
+  "streak_100": 2,
+  "streak_180": 2,
+  "streak_365": 2,
+  "days_10": 2,
+  "days_50": 2,
+  "days_100": 2,
+  "days_250": 2,
+  "weekend_10": 1,
+  "early": 0,
+  "owl": 0,
+  "comeback": 0,
+  "unit_0": 1,
+  "units_3": 1,
+  "units_6": 1,
+  "a1_done": 0,
+  "a2_done": 0,
+  "b1_done": 0,
+  "b2_done": 0,
+  "perfect_1": 1,
+  "perfect_5": 1,
+  "perfect_all": 0,
+  "first_try": 1,
+  "games_1": 0,
+  "games_3": 0,
+  "ex_50": 12,
+  "ex_250": 12,
+  "ex_1000": 12,
+  "ex_5000": 12,
+  "exs_10": 25,
+  "exs_25": 25,
+  "exs_50": 25,
+  "listen_ex_50": 9,
+  "read_1": 3,
+  "read_10": 3,
+  "read_all": 0,
+  "user_1": 1,
+  "user_10": 1,
+  "look_50": 42,
+  "look_500": 42,
+  "look_2000": 42,
+  "listen_1": 17,
+  "listen_25": 17,
+  "backup": 0,
+  "voice": 0,
+  "ach_10": 2,
+  "ach_30": 2,
+  "ach_60": 2,
+  "platinum": 0,
+  "logo": 0,
+  "insomnia": 0,
+  "newyear": 0,
+  "speedrun": 0,
+  "no_idk": 0,
+  "rev_250": 35,
+  "rev_2500": 35,
+  "learn_25": 0,
+  "learn_750": 0,
+  "learn_1500": 0,
+  "learn_2500": 0,
+  "deck_A1_half": 0,
+  "deck_A2_half": 0,
+  "known_1000": 2,
+  "mix_200": 0,
+  "phrase_10": 0,
+  "img_10": 1,
+  "streak_21": 2,
+  "streak_45": 2,
+  "streak_250": 2,
+  "days_365": 2,
+  "late_100": 0,
+  "weekend_full": 0,
+  "units_9": 1,
+  "mini_20": 0,
+  "mini_100": 0,
+  "mini_right_100": 0,
+  "test_retry": 0,
+  "order_50": 0,
+  "tr_100": 0,
+  "gap_100": 0,
+  "exs_100": 25,
+  "ex_10000": 12,
+  "read_25": 3,
+  "read_50": 3,
+  "read_lib_all": 0,
+  "read_b2": 0,
+  "cat_series": 0,
+  "cat_cartoons": 1,
+  "cat_games": 0,
+  "cat_anime": 0,
+  "quiz_perfect_10": 0,
+  "speak_300": 0,
+  "cloud": 0,
+  "ach_45": 2,
+  "ach_90": 2,
+  "halloween": 0,
+  "midnight": 0,
+  "marathon_day": 1
+ },
+ "fresh": [
+  "rev_1",
+  "clean_1",
+  "unit_0",
+  "perfect_1",
+  "exs_10",
+  "exs_25",
+  "read_1",
+  "user_1",
+  "listen_1",
+  "marathon_day",
+  "ach_10"
+ ],
+ "engagement": {
+  "xp": 236,
+  "lvl": 4,
+  "into": 7,
+  "need": 118,
+  "rank": "Ученик"
+ },
+ "near": [
+  [
+   "exs_10",
+   1
+  ],
+  [
+   "exs_25",
+   1
+  ],
+  [
+   "look_50",
+   0.84
+  ],
+  [
+   "listen_25",
+   0.68
+  ],
+  [
+   "streak_3",
+   0.6666666666666666
+  ]
+ ],
+ "ladder": [
+  {
+   "rank": "Новичок",
+   "from": 1,
+   "to": 2,
+   "xp": 0
+  },
+  {
+   "rank": "Ученик",
+   "from": 3,
+   "to": 4,
+   "xp": 135
+  },
+  {
+   "rank": "Старательный",
+   "from": 5,
+   "to": 6,
+   "xp": 347
+  },
+  {
+   "rank": "Упорный",
+   "from": 7,
+   "to": 8,
+   "xp": 680
+  },
+  {
+   "rank": "Знаток",
+   "from": 9,
+   "to": 10,
+   "xp": 1200
+  },
+  {
+   "rank": "Мастер слов",
+   "from": 11,
+   "to": 12,
+   "xp": 2012
+  },
+  {
+   "rank": "Эксперт",
+   "from": 13,
+   "to": 14,
+   "xp": 3281
+  },
+  {
+   "rank": "Полиглот",
+   "from": 15,
+   "to": 16,
+   "xp": 5263
+  },
+  {
+   "rank": "Грандмастер",
+   "from": 17,
+   "to": 18,
+   "xp": 8359
+  },
+  {
+   "rank": "Легенда",
+   "from": 19,
+   "to": 20,
+   "xp": 13197
+  }
+ ],
+ "tiers": [
+  [
+   "legend",
+   97
+  ],
+  [
+   "epic",
+   66
+  ],
+  [
+   "rare",
+   45
+  ],
+  [
+   "uncommon",
+   26
+  ],
+  [
+   "common",
+   7
+  ]
+ ],
+ "catColors": {
+  "Слова и карточки": [
+   "#8b5cf6",
+   "#5b4ff5"
+  ],
+  "Регулярность": [
+   "#fb923c",
+   "#ef4444"
+  ],
+  "Курс": [
+   "#38bdf8",
+   "#2563eb"
+  ],
+  "Упражнения": [
+   "#4ade80",
+   "#16a34a"
+  ],
+  "Чтение и аудио": [
+   "#2dd4bf",
+   "#0e7490"
+  ],
+  "Разное": [
+   "#f472b6",
+   "#be185d"
+  ],
+  "Секретные": [
+   "#64748b",
+   "#1e293b"
+  ]
+ }
+}
