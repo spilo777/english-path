@@ -1,2 +1,0 @@
-import{j as e,T as r,Y as o}from"./index-13YiMP4-.js";const t=[{key:"words",href:"#/",icon:"cards",label:"Слова"},{key:"lessons",href:"#/course",icon:"graduation-cap",label:"Грамматика"},{key:"tenses",href:"#/tenses",icon:"clock-countdown",label:"Времена"}];function l({tab:a,sub:s,right:n}){return e.jsxs(e.Fragment,{children:[e.jsx(r,{title:"Словарь",right:n}),e.jsx(o,{items:t,active:a}),s?e.jsx("p",{className:"page-sub",children:s}):null]})}export{l as L};
-//# sourceMappingURL=course-head-CaWa7SIw.js.map
