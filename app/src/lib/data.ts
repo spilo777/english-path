@@ -1,5 +1,6 @@
-// Загрузка контента из public/data/*.json: кеш в памяти + React-хук
-import { useEffect, useState } from 'react';
+// Типизированная загрузка контента. Загрузчик — в core/data; эти хуки переедут в content/* (шаг 5)
+import { useJSON } from '../core/data/hooks';
+import { paths } from '../core/data/paths';
 import type {
     Book,
     BookMeta,
@@ -15,89 +16,8 @@ import type {
     Unit,
 } from './types';
 
-const cache = new Map<string, Promise<unknown>>();
-const ready = new Map<string, unknown>();
-
-// версия сборки в адресе: данные одной выкладки кешируются навсегда (service worker), новая выкладка — свежие файлы
-const BUILD = (import.meta.env.VITE_BUILD as string | undefined) || '';
-export const dataUrl = (path: string) =>
-    new URL('data/' + path + (BUILD ? '?v=' + BUILD.slice(0, 10) : ''), document.baseURI).toString();
-
-export function loadJSON<T>(path: string): Promise<T> {
-    if (!cache.has(path)) {
-        const p = fetch(dataUrl(path))
-            .then((r) => {
-                if (!r.ok) throw new Error(`${path}: ${r.status}`);
-                return r.json();
-            })
-            .then((j) => {
-                ready.set(path, j);
-                return j;
-            })
-            .catch((e) => {
-                cache.delete(path);
-                throw e;
-            });
-        cache.set(path, p);
-    }
-    return cache.get(path) as Promise<T>;
-}
-
-/** Уже загруженные данные (или undefined) — без ожидания */
-export const peekJSON = <T>(path: string): T | undefined => ready.get(path) as T | undefined;
-
-export interface Loaded<T> {
-    data: T | undefined;
-    error: Error | null;
-}
-
-/** Хук: загрузить один или несколько файлов. Пока грузится — data undefined */
-export function useJSON<T>(path: string | null): Loaded<T> {
-    const [st, setSt] = useState<Loaded<T>>(() => ({ data: path ? peekJSON<T>(path) : undefined, error: null }));
-    useEffect(() => {
-        if (!path) {
-            setSt({ data: undefined, error: null });
-            return;
-        }
-        const now = peekJSON<T>(path);
-        if (now) {
-            setSt({ data: now, error: null });
-            return;
-        }
-        let alive = true;
-        setSt({ data: undefined, error: null });
-        loadJSON<T>(path)
-            .then((d) => {
-                if (alive) setSt({ data: d, error: null });
-            })
-            .catch((e) => {
-                if (alive) setSt({ data: undefined, error: e });
-            });
-        return () => {
-            alive = false;
-        };
-    }, [path]);
-    return st;
-}
-
-// ───────── типизированные пути ─────────
-export const paths = {
-    course: 'course.json',
-    unit: (id: string) => `units/${id}.json`,
-    lessons: 'lessons.json',
-    placement: 'placement.json',
-    syllabus: 'syllabus.json',
-    words: 'words.json',
-    /** картинки для карточек, подобранные при сборке (build/word-images.mjs) */
-    wordImg: 'word-img.json',
-    dict: 'dict.json',
-    forms: 'forms.json',
-    library: 'library.json',
-    topics: 'topics.json',
-    tenses: 'tenses.json',
-    bookIndex: 'books/index.json',
-    book: (id: string) => `books/${id}.json`,
-};
+export * from '../core/data';
+export { useJSON };
 
 export const useCourse = () => useJSON<CourseIndex>(paths.course);
 /** Один юнит целиком (грамматика, упражнения, тексты) */

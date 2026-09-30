@@ -2,7 +2,8 @@
 import { wordId } from '@utils/text';
 import { speak } from '../lib/speech';
 import { tomb, update } from '../lib/store';
-import type { Card, DeckWord, Progress, TopicCat, TopicCol } from '../lib/types';
+import { cardLearned as learnedCard } from '../lib/srs';
+import type { DeckWord, Progress, TopicCat, TopicCol } from '../lib/types';
 import { Icon } from '../components/ui';
 
 export const wid = wordId;
@@ -11,7 +12,8 @@ export const wid = wordId;
 export const exMark = (sentence: string, raw: string) =>
     (sentence || '').replace(new RegExp('\\b(' + raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'i'), '**$1**');
 
-export const learnedCard = (c: Card | undefined) => !!c && c.state === 'review' && c.ivl >= 21;
+// правило «выучено» — одно на всё приложение (core/srs)
+export { learnedCard };
 
 /** «Знаю» ↔ «Вернуть»: знакомое слово убирается из очереди новых карточек */
 export function toggleKnown(id: string) {

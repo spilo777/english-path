@@ -2,6 +2,7 @@
 // val(c) — текущее значение, need — цель. hidden — секретное (описание скрыто до получения).
 import { useEffect, useMemo, useState } from 'react';
 import { dayKey } from '@utils/date';
+import { cardLearned } from '../core/srs/classify';
 import { Cloud, useCloud } from './cloud';
 import { loadJSON, paths, useCourse, useDeck, useLibrary } from './data';
 import { bestStreak, DAY, PASS, useProgress } from './store';
@@ -612,7 +613,7 @@ export function deckStats(s: Progress, deck: DeckWord[], lvl: Level) {
         total++;
         const c = s.cards[w.id];
         if (s.known[w.id]) known++;
-        else if (c && c.state === 'review' && c.ivl >= 21) learned++;
+        else if (cardLearned(c)) learned++;
         else if (c && c.state !== 'new') study++;
     });
     return { total, learned, study, known };
@@ -646,7 +647,7 @@ export function achCtx(s: Progress, extra: AchExtra): AchCtx {
         activeDays: acts.length,
         weekendDays: acts.filter(([d]) => [0, 6].includes(new Date(d + 'T12:00').getDay())).length,
         bestStreak: bestStreak(s),
-        learned: cards.filter((c) => c.state === 'review' && c.ivl >= 21).length,
+        learned: cards.filter(cardLearned).length,
         mastered: cards.filter((c) => c.state === 'review' && c.ivl >= 90).length,
         known: Object.keys(s.known).length,
         ownCards: cards.filter((c) => c.src === 'manual' || String(c.src).startsWith('text:')).length,

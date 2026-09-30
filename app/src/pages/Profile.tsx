@@ -17,6 +17,7 @@ import {
     type Engagement,
 } from '../lib/achievements';
 import { useCloud } from '../lib/cloud';
+import { cardLearned } from '../lib/srs';
 import { mainUnits, passed } from '../lib/course';
 import { useCourse, useDeck } from '../lib/data';
 import { DAY, streak, useProgress } from '../lib/store';
@@ -32,7 +33,7 @@ export default function Profile({ params }: PageProps) {
 }
 
 /** Выучено надолго: интервал 3+ недели */
-const learnedCards = (s: Progress) => Object.values(s.cards).filter((c) => c.state === 'review' && c.ivl >= 21).length;
+const learnedCards = (s: Progress) => Object.values(s.cards).filter(cardLearned).length;
 const BackToProfile = () => <BackLink href="#/profile" label="Профиль" />;
 
 // ───────── уровень вовлечённости и лестница званий ─────────
@@ -200,7 +201,7 @@ function Stats() {
     const deck = useDeck();
     const cards = Object.values(s.cards);
     const learned = learnedCards(s);
-    const inProgress = cards.filter((c) => c.state !== 'new' && !(c.state === 'review' && c.ivl >= 21)).length;
+    const inProgress = cards.filter((c) => c.state !== 'new' && !cardLearned(c)).length;
     const newN = cards.filter((c) => c.state === 'new').length;
     const known = Object.keys(s.known).length;
     const days: DayBar[] = [];
