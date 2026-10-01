@@ -18,6 +18,9 @@
     position: absolute;
     inset: 0;
     z-index: -1;
+    background: var(--lv-img) center / cover no-repeat;
+}
+.lhero.has-img.dim::before {
     background:
         linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
         var(--lv-img) center / cover no-repeat;
@@ -134,6 +137,12 @@
     .lhero {
         min-height: 240px;
         border-radius: 20px;
+    }
+    .lhero.has-img::before {
+        background-image: var(--lv-img-m);
+    }
+    .lhero.has-img.dim::before {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--lv-img-m);
     }
     .lhero-lv {
         top: 50%;
