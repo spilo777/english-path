@@ -6,16 +6,15 @@ import { useProgress } from '@core/progress/hooks';
 import './LessonHero.css';
 
 /**
- * Оформление уровней: цвет плашки и картинка-ковёр (img/levels/<уровень>.jpg, для телефона — <уровень>-m.jpg,
- * вырезанный центр). Картинки приходят уже затемнёнными; dim — добавить затемнение 20 %, если нет.
+ * Оформление уровней — как обложки учебников Мерфи: красный A1–A2, синий B1–B2, зелёный C1.
+ * Картинка-ковёр: img/levels/<цвет>.jpg, для телефона — <цвет>-m.jpg (вырезанный центр).
+ * Картинки приходят уже затемнёнными; dim — добавить затемнение 20 %, если нет.
  */
-export const LEVEL_ART: Record<string, { color: string; img?: string; imgM?: string; dim?: boolean }> = {
-    A1: { color: '#e04c26', img: 'img/levels/a1.jpg', imgM: 'img/levels/a1-m.jpg' },
-    A2: { color: '#2f9e62' },
-    B1: { color: '#8a5cf0' },
-    B2: { color: '#3b6df0' },
-    C1: { color: '#2b2f3a' },
-};
+type Art = { color: string; img?: string; imgM?: string; dim?: boolean };
+const RED: Art = { color: '#c0390f', img: 'img/levels/red.jpg', imgM: 'img/levels/red-m.jpg' };
+const BLUE: Art = { color: '#174085', img: 'img/levels/blue.jpg', imgM: 'img/levels/blue-m.jpg' };
+const GREEN: Art = { color: '#1d302a', img: 'img/levels/green.jpg', imgM: 'img/levels/green-m.jpg' };
+export const LEVEL_ART: Record<string, Art> = { A1: RED, A2: RED, B1: BLUE, B2: BLUE, C1: GREEN };
 
 export function LessonHero() {
     const s = useProgress();
