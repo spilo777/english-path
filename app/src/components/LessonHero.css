@@ -144,13 +144,15 @@
     .lhero.has-img.dim::before {
         background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--lv-img-m);
     }
+    /* буквы уровня — в правом верхнем углу на уровне «Урок N», не заходят под текст:
+       line-height 0.7em = высота заглавных Montserrat, верх букв = top */
     .lhero-lv {
-        top: 50%;
-        right: -6px;
-        transform: translateY(-50%);
-        font-size: 230px;
-        line-height: 230px;
-        color: rgba(255, 255, 255, 0.3);
+        top: 28px;
+        right: 20px;
+        font-size: 72px;
+        line-height: 0.7em;
+        letter-spacing: -0.04em;
+        color: rgba(255, 255, 255, 0.5);
     }
     .lhero-body {
         padding: 24px 20px 20px;

@@ -1,6 +1,6 @@
-/* Дизайн-токены: цвета, радиусы, тени, отступы. Тёмная тема — через prefers-color-scheme. */
+/* Дизайн-токены: цвета, радиусы, тени, отступы. Только светлая тема (тёмная пока отключена). */
 :root {
-    --bg: #fbf7f3;
+    --bg: #fdfdfd;
     --surface: #ffffff;
     --surface-2: #f5f0ea;
     --surface-3: #ece5dd;
@@ -68,50 +68,6 @@
     --step-off: #cdcdcd;
     --step-water-bg: #fbcbb4;
     color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #121214;
-        --surface: #1c1c21;
-        --surface-2: #24242a;
-        --surface-3: #2e2e35;
-        --line: rgba(255, 255, 255, 0.07);
-        --line-strong: rgba(255, 255, 255, 0.13);
-        --text: #f2f2f7;
-        --text-2: #c9c9d4;
-        --muted: #8d8d9b;
-        --accent: #7088ff;
-        --accent-soft: #1f2647;
-        --accent-text: #a3b3ff;
-        --ok: #3fd18e;
-        --ok-soft: #10281e;
-        --bad: #ff6b61;
-        --bad-soft: #321614;
-        --warn: #f0b457;
-        --warn-soft: #2e2413;
-        --pastel-0: #1f2647;
-        --pastel-1: #16302a;
-        --pastel-2: #33291a;
-        --pastel-3: #3a2029;
-        --pastel-4: #2a2144;
-        --pastel-5: #172e38;
-        --r1: #7088ff;
-        --r2: #ff9a55;
-        --r3: #3fd18e;
-        --ink: #f2f2f7;
-        --ink-muted: #8d8d9b;
-        --brand: #7d93ff;
-        --brand-line: rgba(125, 147, 255, 0.3);
-        --nav-bg: #24242a;
-        --nav-active-bg: rgba(255, 89, 0, 0.22);
-        --nav-active: #ff7a45;
-        --step-off: #3a3a42;
-        --step-water-bg: #5a3326;
-        --shadow-sm: none;
-        --shadow: 0 0 0 1px rgba(255, 255, 255, 0.02), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
-        --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.8);
-        color-scheme: dark;
-    }
 }
 @media (max-width: 760px) {
     :root {

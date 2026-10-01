@@ -11,20 +11,6 @@
     --pastel-5: #dff2fa;
     --flame: #ff7a2f;
 }
-@media (prefers-color-scheme: dark) {
-    :root {
-        --r1: #7088ff;
-        --r2: #ff9a55;
-        --r3: #3fd18e;
-        --pastel-0: #1f2647;
-        --pastel-1: #16302a;
-        --pastel-2: #33291a;
-        --pastel-3: #3a2029;
-        --pastel-4: #2a2144;
-        --pastel-5: #172e38;
-    }
-}
-
 /* навигация */
 
 /* шапка раздела (макет «Грамматика»): заголовок слева, серия/кнопки/аватар справа */
@@ -606,11 +592,6 @@ a.task .pill-btn {
 .t-green > i {
     color: #1fa865;
 }
-@media (prefers-color-scheme: dark) {
-    .t-orange {
-        background: #3a2518;
-    }
-}
 .coll-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -677,11 +658,6 @@ a.task .pill-btn {
 }
 .sig i.on {
     background: var(--accent);
-}
-@media (prefers-color-scheme: dark) {
-    .sig i {
-        background: rgba(255, 255, 255, 0.18);
-    }
 }
 .coll-bar {
     display: flex;
@@ -1286,11 +1262,6 @@ a.tile:hover {
     place-items: center;
     font-size: 26px;
     opacity: 1;
-}
-@media (prefers-color-scheme: dark) {
-    .coll-ill {
-        background: rgba(255, 255, 255, 0.08);
-    }
 }
 .coll-tile > b,
 .coll-top {
@@ -1901,11 +1872,6 @@ a.tile:hover {
     background: rgba(255, 255, 255, 0.7);
     color: var(--text-2);
 }
-@media (prefers-color-scheme: dark) {
-    .tt-top .pill {
-        background: rgba(255, 255, 255, 0.1);
-    }
-}
 .tt-score {
     display: inline-flex;
     align-items: center;
@@ -2374,20 +2340,6 @@ a.bm-row[href]:hover {
     --tb: #e9e7e4;
     --tf: #8a8680;
     --tt: #3e3b37;
-}
-@media (prefers-color-scheme: dark) {
-    .tone-blue,
-    .tone-violet,
-    .tone-pink,
-    .tone-green,
-    .tone-sand,
-    .tone-orange,
-    .tone-teal,
-    .tone-yellow,
-    .tone-gray {
-        --tb: color-mix(in srgb, var(--tf) 18%, #1c1c21);
-        --tt: #f0f0f4;
-    }
 }
 .topic-row {
     grid-auto-columns: 168px;
