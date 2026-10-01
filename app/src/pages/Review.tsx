@@ -194,10 +194,10 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
         setTurn((t) => t + 1);
     };
 
-    const side: Side = useMemo(() => {
-        const mode = getState().settings.cardMode;
-        return mode === 'mix' ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en') : mode;
-    }, [turn]);
+    const side: Side =
+        s.settings.cardMode === 'mix'
+            ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en')
+            : s.settings.cardMode;
 
     let body;
     if (!x) body = <Loading />;
@@ -247,8 +247,8 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
                     {tc
                         ? `«${tc.title}»: повторено ${x.done}. Эти слова теперь будут приходить в обычные карточки по расписанию.`
                         : extra
-                          ? `Пройдено карточек: ${x.done}. Знакомые слова, отмеченные «Уже знаю», больше не придут.`
-                          : `Повторено карточек: ${x.done}. Возвращайтесь завтра — слова придут сами.`}
+                            ? `Пройдено карточек: ${x.done}. Знакомые слова, отмеченные «Уже знаю», больше не придут.`
+                            : `Повторено карточек: ${x.done}. Возвращайтесь завтра — слова придут сами.`}
                 </p>
                 <div className="row rv-end">
                     {tc ? (

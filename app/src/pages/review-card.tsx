@@ -65,6 +65,12 @@ export function FlashCard({ c, pos, side: m, onGrade, onKnown, early }: Props) {
     const id = c.id;
     const [shown, setShown] = useState(false);
     const graded = useRef(false);
+
+    useEffect(() => {
+        setShown(false);
+        graded.current = false;
+    }, [m]);
+
     // null — места под картинку нет; '' — ищем картинку; строка — адрес
     const [img, setImg] = useState<string | null>(() => c.img || (wantsImg(c, pos) ? '' : null));
     const [loaded, setLoaded] = useState(false);
