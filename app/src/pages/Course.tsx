@@ -1,6 +1,7 @@
-// Раздел «Грамматика» → «Уроки» (открывается первым): карточка этапа, уровни A1…C1 (сворачиваются), уроки с прогрессом и замками, готовящиеся уроки, игровой трек
-import { useRef, useState } from 'react';
-import { lsJSON, lsSetJSON } from '@utils/storage';
+// Раздел «Грамматика» (открывается первым, макет «Грамматика»): баннер текущего урока, степпер уровней A1…C1
+// с заливкой по пройденным урокам, уроки выбранного уровня (прогресс, замки, готовящиеся, игровой трек)
+import { useState } from 'react';
+import { lsGet, lsSet } from '@utils/storage';
 import type { PageProps } from '../app/App';
 import { useMainCourse } from '../catalog/hooks';
 import { useSource } from '../content/base/hooks';
@@ -12,14 +13,13 @@ import { useProgress } from '@core/progress/hooks';
 import { Icon, LoadError, Loading, Page } from '../components/ui';
 import { CourseHead } from './course-head';
 import { PlacementHint } from '../components/PlacementHint';
-import { StageCard } from '../components/StageCard';
+import { LessonHero } from '../components/LessonHero';
+import { LevelStepper, type StepLevel } from '../components/LevelStepper';
 import { plural } from '@utils/plural';
 import './Course.css';
 
-const OPEN_KEY = 'ep.courseOpen';
-type OpenMap = Record<string, boolean>;
-const readOpen = (): OpenMap | null => lsJSON<OpenMap>(OPEN_KEY);
-const saveOpen = (m: OpenMap) => lsSetJSON(OPEN_KEY, m);
+// выбранный в степпере уровень (пока не выбран — уровень текущего урока)
+const LVL_KEY = 'ep.courseLvl';
 
 /** Строка урока: номер/галочка/замок, описание, прогресс, лучший результат теста */
 function UnitRow({ u, s, course, def }: { u: UnitMeta; s: Progress; course: CourseIndex; def: CourseDef }) {
@@ -62,29 +62,30 @@ function UnitRow({ u, s, course, def }: { u: UnitMeta; s: Progress; course: Cour
 
 type LevelInfo = CourseIndex['levels'][number];
 
-function Level({
+/** Уроки уровня: готовые и готовящиеся (из программы), пройдено */
+function levelData(l: LevelInfo, course: CourseIndex, syl: Syllabus, s: Progress) {
+    const us = mainUnits(course).filter((u) => u.level === l.id);
+    const games = course.units.filter((u) => u.track === 'games' && u.level === l.id);
+    const planned = syl.lessons.filter((x) => x.level === l.id && !course.units.some((u) => u.id === x.id));
+    const done = us.filter((u) => passed(s, u.id)).length;
+    return { us, games, planned, done, total: us.length + planned.length };
+}
+
+/** Уроки выбранного уровня */
+function LevelLessons({
     l,
     course,
     def,
     syl,
     s,
-    open,
-    onToggle,
 }: {
     l: LevelInfo;
     course: CourseIndex;
     def: CourseDef;
     syl: Syllabus;
     s: Progress;
-    open: boolean;
-    onToggle: (el: HTMLElement, id: string, on: boolean) => void;
 }) {
-    const ref = useRef<HTMLElement>(null);
-    const us = mainUnits(course).filter((u) => u.level === l.id);
-    const games = course.units.filter((u) => u.track === 'games' && u.level === l.id);
-    const planned = syl.lessons.filter((x) => x.level === l.id && !course.units.some((u) => u.id === x.id));
-    const total = us.length + planned.length;
-    const done = us.filter((u) => passed(s, u.id)).length;
+    const { us, games, planned, done, total } = levelData(l, course, syl, s);
     const nextU = us.find((u) => def.isUnlocked(s, u, course) && !passed(s, u.id));
     const state = !us.length
         ? 'Готовится'
@@ -96,60 +97,45 @@ function Level({
               ? `Дальше: урок ${nextU.num}`
               : 'Закрыт';
     return (
-        <section ref={ref} className={'lvl' + (open ? ' open' : '')} data-lvl={l.id}>
-            <button
-                type="button"
-                className="lvl-head"
-                aria-expanded={open}
-                onClick={() => {
-                    if (ref.current) onToggle(ref.current, l.id, !open);
-                }}
-            >
-                <span className={'lvl-badge lv-' + l.id}>{l.id}</span>
-                <span className="lvl-info">
-                    <b>{l.title.split('— ')[1] || l.title}</b>
-                    <span className="small muted">
-                        {done}/{total} {plural(total, 'урок', 'урока', 'уроков')} · {state}
-                    </span>
-                    <span className="lvl-bar">
-                        <i style={{ width: (total ? (done / total) * 100 : 0) + '%' }} />
-                    </span>
+        <section className="lvl-lessons" data-lvl={l.id} aria-label={'Уроки ' + l.id}>
+            <div className="ll-head">
+                <h2 className="ll-title">
+                    {l.id} · {l.title.split('— ')[1] || l.title}
+                </h2>
+                <span className="small muted">
+                    {done}/{total} {plural(total, 'урок', 'урока', 'уроков')} · {state}
                 </span>
-                <Icon name="caret-down" className="lvl-caret" />
-            </button>
-            {open ? (
-                <div className="lvl-body">
-                    <p className="muted small lvl-goal">{l.goal}</p>
-                    {us.map((u) => (
+            </div>
+            <p className="muted small ll-goal">{l.goal}</p>
+            {us.map((u) => (
+                <UnitRow key={u.id} u={u} s={s} course={course} def={def} />
+            ))}
+            {planned.map((x) => (
+                <div key={x.id} className="unit-row locked planned">
+                    <div className="unit-num">
+                        <Icon name="hourglass-medium" />
+                    </div>
+                    <div className="body">
+                        <div className="title">{x.title}</div>
+                        <div className="muted small">
+                            Готовится ·{' '}
+                            {BOOK_KEYS.filter((k) => x[k] && x[k].length)
+                                .map((k) => syl.books[k].short + ' ' + rangeTxt(x[k]))
+                                .join(' · ')}
+                        </div>
+                    </div>
+                </div>
+            ))}
+            {!us.length && !planned.length ? <p className="empty">Уроки этого уровня готовятся.</p> : null}
+            {games.length ? (
+                <>
+                    <div className="eyebrow lvl-sub">
+                        <Icon name="game-controller" /> Игровой трек
+                    </div>
+                    {games.map((u) => (
                         <UnitRow key={u.id} u={u} s={s} course={course} def={def} />
                     ))}
-                    {planned.map((x) => (
-                        <div key={x.id} className="unit-row locked planned">
-                            <div className="unit-num">
-                                <Icon name="hourglass-medium" />
-                            </div>
-                            <div className="body">
-                                <div className="title">{x.title}</div>
-                                <div className="muted small">
-                                    Готовится ·{' '}
-                                    {BOOK_KEYS.filter((k) => x[k] && x[k].length)
-                                        .map((k) => syl.books[k].short + ' ' + rangeTxt(x[k]))
-                                        .join(' · ')}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                    {games.length ? (
-                        <>
-                            <div className="eyebrow lvl-sub">
-                                <Icon name="game-controller" /> Игровой трек
-                            </div>
-                            {games.map((u) => (
-                                <UnitRow key={u.id} u={u} s={s} course={course} def={def} />
-                            ))}
-                        </>
-                    ) : null}
-                </div>
+                </>
             ) : null}
         </section>
     );
@@ -163,9 +149,9 @@ export default function Course(_props: PageProps) {
     const { def, index } = useMainCourse();
     const { data: course, error } = index;
     const { data: syl, error: e2 } = useSource(syllabus);
-    const [openMap, setOpenMap] = useState<OpenMap | null>(readOpen);
+    const [pick, setPick] = useState<string>(() => lsGet(LVL_KEY, ''));
     const err = error || e2;
-    const head = <CourseHead tab="lessons" sub={SUB} />;
+    const head = <CourseHead sub={SUB} />;
     if (err)
         return (
             <Page>
@@ -181,39 +167,23 @@ export default function Course(_props: PageProps) {
             </Page>
         );
     const cur = def.current(s, course);
-    // по умолчанию открыт уровень текущего урока
-    const opened: OpenMap = openMap || { [cur ? cur.level : 'A1']: true };
-    const toggle = (el: HTMLElement, id: string, on: boolean) => {
-        const next = { ...opened, [id]: on };
-        saveOpen(next);
-        setOpenMap(next);
-        // открытый уровень — прокрутить к нему, если он ушёл за край экрана
-        if (on)
-            setTimeout(() => {
-                const r = el.getBoundingClientRect();
-                if (r.top < 0 || r.top > window.innerHeight * 0.6)
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 60);
+    const levels: StepLevel[] = course.levels.map((l) => {
+        const d = levelData(l, course, syl, s);
+        return { id: l.id, done: d.done, total: d.total, current: cur?.level === l.id, soon: !d.us.length };
+    });
+    const selId = course.levels.some((l) => l.id === pick) ? pick : cur ? cur.level : course.levels[0].id;
+    const sel = course.levels.find((l) => l.id === selId) || course.levels[0];
+    const select = (id: string) => {
+        lsSet(LVL_KEY, id);
+        setPick(id);
     };
     return (
-        <Page>
+        <Page className="gram">
             {head}
-            <StageCard />
+            <LessonHero />
+            <LevelStepper levels={levels} selected={sel.id} onSelect={select} />
             <PlacementHint s={s} />
-            <div className="lvl-list">
-                {course.levels.map((l) => (
-                    <Level
-                        key={l.id}
-                        l={l}
-                        course={course}
-                        def={def}
-                        syl={syl}
-                        s={s}
-                        open={!!opened[l.id]}
-                        onToggle={toggle}
-                    />
-                ))}
-            </div>
+            <LevelLessons key={sel.id} l={sel} course={course} def={def} syl={syl} s={s} />
         </Page>
     );
 }

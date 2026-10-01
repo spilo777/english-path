@@ -2,6 +2,7 @@
 import { useSyncExternalStore, type ReactNode } from 'react';
 import { clamp } from '@utils/math';
 import { onToast, toastMessage, toastVersion } from '../core/notifications/notify';
+import { useCloud } from '@core/cloud/hooks';
 import { streak } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { today } from '@utils/date';
@@ -16,38 +17,54 @@ export const Page = ({ children, className }: { children: ReactNode; className?:
     <div className={'page' + (className ? ' ' + className : '')}>{children}</div>
 );
 
-/** Огонёк серии дней + кнопки справа, затем крупный заголовок */
+/** Аватар в шапке: вход в профиль (первая буква почты; гостю — значок) */
+function AccountBtn() {
+    const st = useCloud();
+    const email = st.user?.email || '';
+    return (
+        <a className="tb-avatar" href="#/profile" title="Профиль" aria-label="Профиль">
+            {email ? email[0].toUpperCase() : <Icon name="user" />}
+        </a>
+    );
+}
+
+/** Шапка раздела: крупный заголовок и пояснение слева; серия дней, кнопки и аватар профиля справа */
 export function TopBar({
     title,
     sub,
     right,
     left,
+    avatar = true,
 }: {
     title: ReactNode;
     sub?: ReactNode;
     right?: ReactNode;
-    /** что показать слева вместо огонька серии */
+    /** что показать вместо огонька серии */
     left?: ReactNode;
+    /** аватар-вход в профиль (на самом профиле не нужен) */
+    avatar?: boolean;
 }) {
     const s = useProgress();
     const on = !!s.activity[today()];
     return (
-        <>
-            <div className="topbar">
+        <header className="topbar">
+            <div className="tb-head">
+                <h1 className="page-title">{title}</h1>
+                {sub ? <p className="page-sub">{sub}</p> : null}
+            </div>
+            <div className="tb-side">
                 {left !== undefined ? (
                     left
                 ) : (
-                    <a className={'streak-pill' + (on ? ' on' : '')} href="#/profile" title="Дней подряд">
+                    <a className={'streak-pill' + (on ? ' on' : '')} href="#/stats" title="Дней подряд">
                         <Icon name="flame" fill />
                         <b>{streak(s)}</b>
                     </a>
                 )}
-                <span className="spacer" />
                 {right}
+                {avatar ? <AccountBtn /> : null}
             </div>
-            <h1 className="page-title">{title}</h1>
-            {sub ? <p className="page-sub">{sub}</p> : null}
-        </>
+        </header>
     );
 }
 

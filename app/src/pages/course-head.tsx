@@ -1,19 +1,17 @@
-// Шапка раздела «Грамматика»: вкладки Уроки / Времена
-import { Tabs, TopBar } from '../components/ui';
+// Шапки раздела «Грамматика»: главный экран курса и отдельная страница «Времена» (ссылка из уроков)
+import { BackLink, TopBar } from '../components/ui';
 
-export type CourseTab = 'lessons' | 'tenses';
-const TABS: { key: CourseTab; href: string; icon: string; label: string }[] = [
-    { key: 'lessons', href: '#/', icon: 'book-open', label: 'Уроки' },
-    { key: 'tenses', href: '#/tenses', icon: 'clock-countdown', label: 'Времена' },
-];
+/** Главный экран: «Грамматика» + пояснение; серия дней и аватар профиля — справа */
+export function CourseHead({ sub }: { sub?: string }) {
+    return <TopBar title="Грамматика" sub={sub} />;
+}
 
-/** Верх раздела «Грамматика»: заголовок + переключатель подразделов + пояснение */
-export function CourseHead({ tab, sub }: { tab: CourseTab; sub?: string }) {
+/** Страница «Времена»: назад к курсу */
+export function TensesHead({ sub }: { sub?: string }) {
     return (
         <>
-            <TopBar title="Грамматика" />
-            <Tabs items={TABS} active={tab} />
-            {sub ? <p className="page-sub">{sub}</p> : null}
+            <BackLink href="#/" label="К курсу" />
+            <TopBar title="Времена" sub={sub} />
         </>
     );
 }

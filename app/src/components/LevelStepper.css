@@ -1,0 +1,146 @@
+/* Степпер уровней: подпись 28 px над кружком 50 px, тонкая линия до следующего уровня */
+.lsteps {
+    display: flex;
+    align-items: flex-start;
+}
+.lstep {
+    display: flex;
+    align-items: flex-start;
+    flex: 1 1 0;
+    min-width: 0;
+}
+.lstep:last-child {
+    flex: 0 0 auto;
+}
+.lstep-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 50px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+.lstep-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 32px;
+    color: var(--step-off);
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+.lstep.on .lstep-label {
+    color: var(--brand);
+}
+.lstep-dot {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition:
+        box-shadow 0.2s,
+        transform 0.15s;
+}
+.lstep-btn:hover .lstep-dot {
+    transform: scale(1.06);
+}
+.lstep.sel .lstep-dot {
+    box-shadow:
+        0 0 0 3px var(--bg),
+        0 0 0 5px var(--brand);
+}
+.lstep-btn:focus-visible {
+    outline: none;
+}
+.lstep-btn:focus-visible .lstep-dot {
+    box-shadow:
+        0 0 0 3px var(--bg),
+        0 0 0 5px var(--nav-active);
+}
+.lstep-water {
+    position: absolute;
+    inset: 0;
+    width: 50px;
+    height: 50px;
+}
+.lstep-water .w-bg {
+    fill: var(--step-off);
+}
+.lstep-water .w-bg.on {
+    fill: var(--step-water-bg);
+}
+.lstep-water .w-wave {
+    fill: var(--brand);
+    animation: lstep-wave 3.2s linear infinite;
+}
+@keyframes lstep-wave {
+    to {
+        transform: translateX(-50px);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lstep-water .w-wave {
+        animation: none;
+    }
+}
+.lstep-dot i {
+    position: relative;
+    color: #fff;
+    font-size: 24px;
+}
+.lstep-count {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+/* линия на уровне центра кружка: подпись 32 + отступ 8 + радиус 25 */
+.lstep-line {
+    flex: 1;
+    height: 1px;
+    margin: 64.5px 4px 0;
+    background: var(--brand-line);
+    position: relative;
+    min-width: 24px;
+}
+.lstep-line i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--brand);
+    transition: width 0.4s;
+}
+
+/* телефон: уровни прокручиваются вбок */
+@media (max-width: 760px) {
+    .lsteps {
+        overflow-x: auto;
+        margin: 0 -16px;
+        padding: 4px 16px 6px;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+    }
+    .lsteps::-webkit-scrollbar {
+        display: none;
+    }
+    .lstep {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+    .lstep-line {
+        flex: 0 0 56px;
+    }
+    .lstep-label {
+        font-size: 24px;
+        line-height: 32px;
+    }
+}

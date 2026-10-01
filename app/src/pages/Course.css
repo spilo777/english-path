@@ -101,3 +101,51 @@
     padding-top: 12px;
     padding-bottom: 12px;
 }
+
+/* главный экран: баннер → степпер → уроки уровня (ритм 56 px, как в макете) */
+.page.gram > .lhero {
+    margin-top: var(--s-6);
+}
+.page.gram > .lsteps {
+    margin-top: 56px;
+}
+.page.gram > .place-note,
+.page.gram > .place-card {
+    margin-top: var(--s-6);
+}
+.lvl-lessons {
+    margin-top: 40px;
+}
+.ll-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+}
+.ll-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 34px;
+    color: var(--ink);
+}
+.ll-goal {
+    margin: 6px 0 18px;
+    max-width: 760px;
+}
+@media (max-width: 760px) {
+    .page.gram > .lhero {
+        margin-top: var(--s-5);
+    }
+    .page.gram > .lsteps {
+        margin-top: 32px;
+    }
+    .lvl-lessons {
+        margin-top: 28px;
+    }
+    .ll-title {
+        font-size: 22px;
+        line-height: 28px;
+    }
+}

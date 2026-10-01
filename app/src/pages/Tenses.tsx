@@ -21,7 +21,7 @@ import { type Progress, recordAnswer, update } from '@core/progress';
 import { useProgress } from '@core/progress/hooks';
 import { Html, TrBox, trSentence, useLessonEnhance } from '../components/Enhance';
 import { BackLink, Icon, LoadError, Loading, Page } from '../components/ui';
-import { CourseHead } from './course-head';
+import { TensesHead } from './course-head';
 import { plural } from '@utils/plural';
 import { shuffle } from '@utils/random';
 import { esc } from '@utils/text';
@@ -145,8 +145,7 @@ function TenseMap({ list, s }: { list: Tense[]; s: Progress }) {
     const done = list.filter((t) => tenseMastered(s, t.id)).length;
     return (
         <Page>
-            <CourseHead
-                tab="tenses"
+            <TensesHead
                 sub={`Все ${list.length} времён английского: когда какое нужно, как строится, чем отличается от соседнего. Освоено ${done} из ${list.length}.`}
             />
             <a className="continue-card" href="#/tenses/train">
@@ -571,14 +570,14 @@ export default function Tenses({ params }: PageProps) {
     if (error)
         return (
             <Page>
-                <CourseHead tab="tenses" />
+                <TensesHead />
                 <LoadError error={error} />
             </Page>
         );
     if (!list)
         return (
             <Page>
-                <CourseHead tab="tenses" />
+                <TensesHead />
                 <Loading />
             </Page>
         );

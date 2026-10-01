@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-// Главная, курс, карта книг, времена: состояние с пройденными уроками A1, ключевые клики, нет ошибок консоли
+// Главная (баннер урока, степпер уровней), курс, времена: состояние с пройденными уроками A1, ключевые клики, нет ошибок консоли
 const day = () => {
     const d = new Date();
     return (
@@ -42,39 +42,47 @@ test.beforeEach(async ({ page }) => {
     await page.evaluate((s) => localStorage.setItem('englishpath.v1', s), JSON.stringify(state()));
 });
 
-test('грамматика открывается первой: карточка этапа курса', async ({ page }) => {
+test('грамматика открывается первой: баннер текущего урока', async ({ page }) => {
     const errors = watch(page);
     await page.goto('#/');
     await page.reload();
     await expect(page.locator('main .page-title')).toHaveText('Грамматика');
-    await expect(page.locator('.continue-card')).toContainText('урок 4');
-    await page.locator('.continue-card').click();
+    await expect(page.locator('.lhero-title')).toHaveText('Урок 4');
+    await expect(page.locator('.lhero-btn')).toContainText('Продолжить: Чтение');
+    await page.locator('.lhero-btn').click();
     await expect(page).toHaveURL(/#\/unit\/a1-4\/reading/);
     expect(errors).toEqual([]);
 });
 
-test('курс: уровни сворачиваются, пройденные и закрытые уроки', async ({ page }) => {
+test('курс: степпер уровней заполняется, по нажатию — уроки уровня', async ({ page }) => {
     const errors = watch(page);
     await page.goto('#/course');
     await page.reload();
-    const a1 = page.locator('.lvl[data-lvl=A1]');
-    await expect(a1).toHaveClass(/open/);
-    await expect(a1.locator('.unit-row.passed')).toHaveCount(4);
-    await expect(a1.locator('.lvl-head')).toContainText('Дальше: урок 4');
-    await page.locator('.lvl[data-lvl=A2] .lvl-head').click();
-    await expect(page.locator('.lvl[data-lvl=A2]')).toHaveClass(/open/);
-    await a1.locator('.lvl-head').click();
-    await expect(a1).not.toHaveClass(/open/);
+    const a1 = page.locator('.lstep').first();
+    await expect(a1).toHaveClass(/sel/);
+    await expect(a1).toHaveClass(/on/);
+    await expect(a1.locator('.lstep-count')).toHaveText('4/19');
+    await expect(page.locator('.lstep')).toHaveCount(5);
+    await expect(page.locator('.lstep').last().locator('.lstep-count')).toHaveText('скоро');
+    const list = page.locator('.lvl-lessons[data-lvl=A1]');
+    await expect(list.locator('.unit-row.passed')).toHaveCount(4);
+    await expect(list.locator('.ll-head')).toContainText('Дальше: урок 4');
+    await page.locator('.lstep-btn', { hasText: 'A2' }).click();
+    await expect(page.locator('.lvl-lessons[data-lvl=A2]')).toBeVisible();
+    await expect(page.locator('.lvl-lessons[data-lvl=A2] .unit-row.locked').first()).toBeVisible();
+    // выбор уровня запоминается
+    await page.reload();
+    await expect(page.locator('.lvl-lessons[data-lvl=A2]')).toBeVisible();
     expect(errors).toEqual([]);
 });
 
-test('«По учебнику» объединён с «Уроками»: старая ссылка ведёт в курс', async ({ page }) => {
+test('«По учебнику» объединён с курсом: старая ссылка ведёт на главный экран', async ({ page }) => {
     const errors = watch(page);
     await page.goto('#/books/red');
     await page.reload();
     await expect(page.locator('main .page-title')).toHaveText('Грамматика');
-    await expect(page.locator('.tabs a')).toHaveCount(2);
-    await expect(page.locator('.tabs a').first()).toContainText('Уроки');
+    await expect(page.locator('.lsteps')).toBeVisible();
+    await expect(page.locator('.tb-avatar')).toHaveAttribute('href', '#/profile');
     expect(errors).toEqual([]);
 });
 

@@ -2,7 +2,7 @@
 .ach-pop {
     position: fixed;
     right: 22px;
-    bottom: 22px;
+    bottom: 120px; /* выше плавающего меню */
     z-index: 70;
     display: flex;
     gap: 13px;
@@ -54,11 +54,17 @@
 .ach-pop-label {
     opacity: 0.7;
 }
+/* телефон: сверху — внизу кнопки оценок и меню, всплывашка не должна их закрывать */
 @media (max-width: 760px) {
     .ach-pop {
         left: 12px;
         right: 12px;
-        bottom: calc(96px + env(safe-area-inset-bottom));
+        top: calc(12px + env(safe-area-inset-top));
+        bottom: auto;
         max-width: none;
+        transform: translateY(-150%);
+    }
+    .ach-pop.in {
+        transform: translateY(0);
     }
 }

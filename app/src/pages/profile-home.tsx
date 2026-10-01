@@ -237,6 +237,7 @@ export function ProfileHome() {
     return (
         <Page className="profile">
             <TopBar
+                avatar={false}
                 title="Профиль"
                 left={sync}
                 right={<RoundBtn href="#/settings" icon="gear-six" title="Настройки" />}
