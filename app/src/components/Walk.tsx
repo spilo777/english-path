@@ -13,15 +13,20 @@ import './Walk.css';
 
 type WalkPos = NonNullable<UnitProgress['walk']>;
 
-function nextLabel(parts: WalkPart[], pi: number, si: number, plain: string): string {
-    if (si + 1 < parts[pi].steps.length) return plain;
-    return pi + 1 >= parts.length ? 'Готово' : 'Дальше: ' + parts[pi + 1].title;
+/** Подпись кнопки: коротко; при переходе к следующей части её название — мелко вторым рядом (длинные не обрезаются) */
+interface NextLabel {
+    main: string;
+    sub?: string;
+}
+function nextLabel(parts: WalkPart[], pi: number, si: number, plain: string): NextLabel {
+    if (si + 1 < parts[pi].steps.length) return { main: plain };
+    return pi + 1 >= parts.length ? { main: 'Готово' } : { main: 'Следующая часть', sub: parts[pi + 1].title };
 }
 
 interface StepProps {
     st: WalkStep;
     active: boolean;
-    label: string;
+    label: NextLabel;
     onNext: () => void;
     answer: number | undefined;
     onAnswer: (i: number) => void;
@@ -35,8 +40,17 @@ function Step({ st, active, label, onNext, answer, onAnswer }: StepProps) {
     }, [active, answered, st.t]);
     const actions = active ? (
         <div className="wk-actions">
-            <button ref={btn} type="button" className="btn primary" onClick={onNext}>
-                {label} <Icon name="arrow-right" />
+            <button
+                ref={btn}
+                type="button"
+                className={'btn primary' + (label.sub ? ' wk-next' : '')}
+                onClick={onNext}
+                aria-label={label.sub ? `${label.main}: ${label.sub}` : undefined}
+            >
+                <span className="wk-next-main">
+                    {label.main} <Icon name="arrow-right" />
+                </span>
+                {label.sub ? <span className="wk-next-sub">{label.sub}</span> : null}
             </button>
         </div>
     ) : null;

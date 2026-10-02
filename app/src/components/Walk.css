@@ -172,6 +172,32 @@
     display: flex;
     justify-content: flex-end;
 }
+/* «Следующая часть» + название части мелко: кнопка короткая, длинное название переносится */
+.btn.wk-next {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    white-space: normal;
+    text-align: center;
+    max-width: 420px;
+}
+.wk-next-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.wk-next-sub {
+    font-size: 12.5px;
+    line-height: 1.3;
+    font-weight: 500;
+    opacity: 0.85;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 .wk-step.past .wk-actions {
     display: none;
 }

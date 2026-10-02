@@ -116,6 +116,14 @@ p {
         background 0.2s,
         filter 0.2s;
     white-space: nowrap;
+    max-width: 100%;
+}
+/* телефон: длинная подпись переносится, а не вылезает за края кнопки */
+@media (max-width: 760px) {
+    .btn {
+        white-space: normal;
+        text-align: center;
+    }
 }
 .btn:hover {
     background: var(--surface-2);
