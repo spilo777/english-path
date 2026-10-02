@@ -194,10 +194,13 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
         setTurn((t) => t + 1);
     };
 
-    const side: Side =
-        s.settings.cardMode === 'mix'
-            ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en')
-            : s.settings.cardMode;
+    // сторона карточки: смена режима в настройках применяется сразу; «вперемешку» — жребий один раз на карточку
+    // (без useMemo жребий бросался бы при каждой перерисовке и карточка переворачивалась бы по «Показать ответ»)
+    const mode = s.settings.cardMode;
+    const side: Side = useMemo(
+        () => (mode === 'mix' ? (Math.random() < 0.5 ? 'en-ru' : 'ru-en') : mode),
+        [mode, turn], // turn: новая карточка — новый жребий
+    );
 
     let body;
     if (!x) body = <Loading />;
@@ -247,8 +250,8 @@ function Session({ deck, tc, extra }: { deck: DeckWord[]; tc?: TopicCol; extra?:
                     {tc
                         ? `«${tc.title}»: повторено ${x.done}. Эти слова теперь будут приходить в обычные карточки по расписанию.`
                         : extra
-                            ? `Пройдено карточек: ${x.done}. Знакомые слова, отмеченные «Уже знаю», больше не придут.`
-                            : `Повторено карточек: ${x.done}. Возвращайтесь завтра — слова придут сами.`}
+                          ? `Пройдено карточек: ${x.done}. Знакомые слова, отмеченные «Уже знаю», больше не придут.`
+                          : `Повторено карточек: ${x.done}. Возвращайтесь завтра — слова придут сами.`}
                 </p>
                 <div className="row rv-end">
                     {tc ? (
