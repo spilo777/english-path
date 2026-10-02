@@ -1,4 +1,4 @@
-// Каркас: плавающая таблетка-меню внизу по центру (на всех экранах); профиль — аватар в шапке страниц
+// Каркас: плавающая таблетка-меню внизу по центру (на всех экранах): Грамматика, Словарь, Библиотека, Профиль
 import type { MouseEvent, ReactNode } from 'react';
 import './Layout.css';
 
@@ -8,6 +8,7 @@ const ITEMS: { key: NavKey; href: string; icon: string; label: string }[] = [
     { key: 'grammar', href: '#/', icon: 'graduation-cap', label: 'Грамматика' },
     { key: 'words', href: '#/cards', icon: 'cards', label: 'Словарь' },
     { key: 'library', href: '#/library', icon: 'books', label: 'Библиотека' },
+    { key: 'profile', href: '#/profile', icon: 'user-circle', label: 'Профиль' },
 ];
 
 /** Повторное нажатие на открытый раздел — плавно наверх (как в мобильных приложениях) */
