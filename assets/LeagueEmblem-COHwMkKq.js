@@ -1,2 +1,0 @@
-import{av as r,j as a}from"./index-Bl6nti6v.js";const c=[64,128,256],n=s=>c.find(e=>e>=s)??c[c.length-1];function o({league:s,size:e=64}){const t=`img/leagues/${r(s).img}`,i=m=>`${t}-${n(e)}.${m} 1x, ${t}-${n(e*2)}.${m} 2x`;return a.jsxs("picture",{className:"league-emblem",children:[a.jsx("source",{type:"image/avif",srcSet:i("avif")}),a.jsx("img",{src:`${t}-${n(e)}.webp`,srcSet:i("webp"),width:e,height:e,alt:"",decoding:"async"})]})}export{o as L};
-//# sourceMappingURL=LeagueEmblem-COHwMkKq.js.map
