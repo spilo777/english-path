@@ -1,0 +1,131 @@
+
+Running 68 tests using 2 workers
+
+  ✓   2 [mobile] › e2e/course.spec.ts:45:1 › грамматика открывается первой: баннер текущего урока (1.3s)
+  ✓   1 [mobile] › e2e/cards.spec.ts:74:1 › словарь: счётчики, колода, «Знаю», списки (1.6s)
+  ✓   3 [mobile] › e2e/course.spec.ts:57:1 › курс: степпер уровней заполняется, по нажатию — уроки уровня (1.6s)
+  ✓   4 [mobile] › e2e/cards.spec.ts:91:1 › повторение: несколько карточек и итог (2.0s)
+  ✓   5 [mobile] › e2e/course.spec.ts:79:1 › «По учебнику» объединён с курсом: старая ссылка ведёт на главный экран (1.0s)
+  ✓   6 [mobile] › e2e/cards.spec.ts:112:1 › «Уже знаю это слово» на любой карточке: в выученные, дальше следующее (1.3s)
+  ✓   7 [mobile] › e2e/course.spec.ts:89:1 › времена: упражнения до результата и сохранение (10.6s)
+  ✓   9 [mobile] › e2e/library.spec.ts:15:1 › витрина, все статьи с фильтрами и поиском, книги (1.6s)
+  ✘  10 [mobile] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано (1.2s)
+  ✓   8 [mobile] › e2e/cards.spec.ts:129:1 › занятие вне очереди: знакомая карточка не меняет расписание, есть «Уже знаю» (14.0s)
+  ✓  11 [mobile] › e2e/library.spec.ts:49:1 › свой текст: добавить, открыть, удалить (3.7s)
+  ✓  13 [mobile] › e2e/library.spec.ts:64:1 › книга: главы, чтение главы, прогресс (1.1s)
+  ✓  14 [mobile] › e2e/library.spec.ts:76:1 › слушать: вкладка библиотеки, каналы по уровням (933ms)
+  ✓  15 [mobile] › e2e/library.spec.ts:90:1 › библиотека: новая полка «Диалоги из фильмов и сериалов» и книги B2 (898ms)
+  ✓  16 [mobile] › e2e/profile.spec.ts:81:1 › профиль → награды → статистика (5.9s)
+  ✓  12 [mobile] › e2e/placement.spec.ts:4:1 › тест на уровень: результат и открытие уроков (13.1s)
+  ✓  17 [mobile] › e2e/profile.spec.ts:120:1 › настройки: лимит, переключатели, сброс с подтверждением (1.7s)
+  ✓  19 [mobile] › e2e/profile.spec.ts:144:1 › аккаунт: форма проверяется без отправки на сервер (1.3s)
+  ✓  18 [mobile] › e2e/smoke.spec.ts:7:5 › экран /home (2.2s)
+  ✓  20 [mobile] › e2e/profile.spec.ts:171:1 › лига и друзья: страница открывается из профиля (1.1s)
+  ✓  22 [mobile] › e2e/profile.spec.ts:182:1 › чужой профиль: гостю предлагают войти (554ms)
+  ✓  21 [mobile] › e2e/smoke.spec.ts:7:5 › экран /course (2.1s)
+  ✓  24 [mobile] › e2e/smoke.spec.ts:7:5 › экран /unit/a1-0 (1.7s)
+  ✓  23 [mobile] › e2e/unit.spec.ts:44:1 › урок a1-0: слова, грамматика, тест, сброс (3.2s)
+  ✓  26 [mobile] › e2e/unit.spec.ts:98:5 › урок a1-3: грамматика и чтение (1.3s)
+  ✓  25 [mobile] › e2e/smoke.spec.ts:7:5 › экран /library (2.6s)
+  ✓  27 [mobile] › e2e/unit.spec.ts:98:5 › урок a2-4: грамматика и чтение (1.4s)
+  ✓  28 [mobile] › e2e/smoke.spec.ts:7:5 › экран /cards (1.6s)
+  ✓  29 [mobile] › e2e/unit.spec.ts:98:5 › урок b1-4: грамматика и чтение (1.4s)
+  ✓  30 [mobile] › e2e/smoke.spec.ts:7:5 › экран /profile (1.5s)
+  ✓  31 [mobile] › e2e/unit.spec.ts:115:1 › чтение в уроке: внизу — следующий текст и переход к практике (1.9s)
+  ✓  33 [mobile] › e2e/unit.spec.ts:136:1 › закрытый и готовящийся урок (597ms)
+  ✓  32 [mobile] › e2e/smoke.spec.ts:7:5 › экран /tenses (1.7s)
+  ✓  35 [desktop] › e2e/cards.spec.ts:74:1 › словарь: счётчики, колода, «Знаю», списки (1.1s)
+  ✓  34 [mobile] › e2e/smoke.spec.ts:7:5 › экран /settings (1.7s)
+  ✓  36 [desktop] › e2e/cards.spec.ts:91:1 › повторение: несколько карточек и итог (1.9s)
+  ✓  37 [desktop] › e2e/course.spec.ts:45:1 › грамматика открывается первой: баннер текущего урока (1.0s)
+  ✓  38 [desktop] › e2e/cards.spec.ts:112:1 › «Уже знаю это слово» на любой карточке: в выученные, дальше следующее (1.1s)
+  ✓  39 [desktop] › e2e/course.spec.ts:57:1 › курс: степпер уровней заполняется, по нажатию — уроки уровня (1.5s)
+  ✓  41 [desktop] › e2e/course.spec.ts:79:1 › «По учебнику» объединён с курсом: старая ссылка ведёт на главный экран (922ms)
+  ✓  40 [desktop] › e2e/cards.spec.ts:129:1 › занятие вне очереди: знакомая карточка не меняет расписание, есть «Уже знаю» (1.7s)
+  ✓  43 [desktop] › e2e/library.spec.ts:15:1 › витрина, все статьи с фильтрами и поиском, книги (2.3s)
+  ✘  44 [desktop] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано (1.2s)
+  ✓  42 [desktop] › e2e/course.spec.ts:89:1 › времена: упражнения до результата и сохранение (5.2s)
+  ✓  45 [desktop] › e2e/library.spec.ts:49:1 › свой текст: добавить, открыть, удалить (2.0s)
+  ✓  47 [desktop] › e2e/library.spec.ts:64:1 › книга: главы, чтение главы, прогресс (892ms)
+  ✓  48 [desktop] › e2e/library.spec.ts:76:1 › слушать: вкладка библиотеки, каналы по уровням (805ms)
+  ✓  49 [desktop] › e2e/library.spec.ts:90:1 › библиотека: новая полка «Диалоги из фильмов и сериалов» и книги B2 (731ms)
+  ✓  50 [desktop] › e2e/profile.spec.ts:81:1 › профиль → награды → статистика (1.6s)
+  ✓  51 [desktop] › e2e/profile.spec.ts:120:1 › настройки: лимит, переключатели, сброс с подтверждением (1.0s)
+  ✓  52 [desktop] › e2e/profile.spec.ts:144:1 › аккаунт: форма проверяется без отправки на сервер (973ms)
+  ✓  53 [desktop] › e2e/profile.spec.ts:171:1 › лига и друзья: страница открывается из профиля (1.5s)
+  ✓  54 [desktop] › e2e/profile.spec.ts:182:1 › чужой профиль: гостю предлагают войти (407ms)
+  ✓  55 [desktop] › e2e/smoke.spec.ts:7:5 › экран /home (1.3s)
+  ✓  56 [desktop] › e2e/smoke.spec.ts:7:5 › экран /course (1.3s)
+  ✓  46 [desktop] › e2e/placement.spec.ts:4:1 › тест на уровень: результат и открытие уроков (12.4s)
+  ✓  57 [desktop] › e2e/smoke.spec.ts:7:5 › экран /unit/a1-0 (1.3s)
+  ✓  59 [desktop] › e2e/smoke.spec.ts:7:5 › экран /library (1.9s)
+  ✓  58 [desktop] › e2e/unit.spec.ts:44:1 › урок a1-0: слова, грамматика, тест, сброс (3.2s)
+  ✓  60 [desktop] › e2e/smoke.spec.ts:7:5 › экран /cards (1.3s)
+  ✓  61 [desktop] › e2e/unit.spec.ts:98:5 › урок a1-3: грамматика и чтение (1.1s)
+  ✓  62 [desktop] › e2e/smoke.spec.ts:7:5 › экран /profile (1.2s)
+  ✓  63 [desktop] › e2e/unit.spec.ts:98:5 › урок a2-4: грамматика и чтение (1.0s)
+  ✓  64 [desktop] › e2e/smoke.spec.ts:7:5 › экран /tenses (1.2s)
+  ✓  65 [desktop] › e2e/unit.spec.ts:98:5 › урок b1-4: грамматика и чтение (1.1s)
+  ✓  66 [desktop] › e2e/smoke.spec.ts:7:5 › экран /settings (1.2s)
+  ✓  67 [desktop] › e2e/unit.spec.ts:115:1 › чтение в уроке: внизу — следующий текст и переход к практике (1.7s)
+  ✓  68 [desktop] › e2e/unit.spec.ts:136:1 › закрытый и готовящийся урок (432ms)
+
+
+  1) [mobile] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано ──
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "Access to fetch at 'https://api.dictionaryapi.dev/api/v2/entries/en/ogre' from origin 'http://127.0.0.1:4173' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    + ]
+
+      44 |     await expect(page.locator('.qz-res')).toBeVisible();
+      45 |     await expect(page.locator('.reader-bar')).toContainText('Прочитано');
+    > 46 |     expect(errors).toEqual([]);
+         |                    ^
+      47 | });
+      48 |
+      49 | test('свой текст: добавить, открыть, удалить', async ({ page }) => {
+        at /home/runner/work/english-path/english-path/app/e2e/library.spec.ts:46:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/library-чтение-перевод-слова-предложение-вопросы-прочитано-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/library-чтение-перевод-слова-предложение-вопросы-прочитано-mobile/error-context.md
+
+  2) [desktop] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано ─
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "Access to fetch at 'https://api.dictionaryapi.dev/api/v2/entries/en/ogre' from origin 'http://127.0.0.1:4173' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    + ]
+
+      44 |     await expect(page.locator('.qz-res')).toBeVisible();
+      45 |     await expect(page.locator('.reader-bar')).toContainText('Прочитано');
+    > 46 |     expect(errors).toEqual([]);
+         |                    ^
+      47 | });
+      48 |
+      49 | test('свой текст: добавить, открыть, удалить', async ({ page }) => {
+        at /home/runner/work/english-path/english-path/app/e2e/library.spec.ts:46:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/library-чтение-перевод-слова-предложение-вопросы-прочитано-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/library-чтение-перевод-слова-предложение-вопросы-прочитано-desktop/error-context.md
+
+  2 failed
+    [mobile] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано ───
+    [desktop] › e2e/library.spec.ts:33:1 › чтение: перевод слова, предложение, вопросы, прочитано ──
+  66 passed (1.4m)
